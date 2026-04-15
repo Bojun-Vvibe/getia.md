@@ -173,7 +173,7 @@ function renderList() {
 
   let html = '';
   filtered.forEach((b, i) => {
-    html += `<a href="https://github.com/anthropics/getia.md/blob/main/catalog/${b.slug}/IA.md" target="_blank" rel="noopener" class="catalog-row" title="View ${b.name} IA.md">
+    html += `<a href="https://github.com/getia-md/getia-md.github.io/blob/main/catalog/${b.slug}/IA.md" target="_blank" rel="noopener" class="catalog-row" title="View ${b.name} IA.md">
       <span class="row-index">${i + 1}</span>
       <div class="row-brand">
         <div class="brand-icon">
