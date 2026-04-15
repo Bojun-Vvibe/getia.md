@@ -427,8 +427,6 @@ body.menu-open .mobile-nav {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  max-width: 600px;
-  margin: 0 auto;
 }
 
 .code-header {
