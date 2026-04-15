@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>getIA.md — Information Architecture patterns for AI coding agents</title>
+  <meta name="description" content="Curated Information Architecture patterns for 80+ products. Drop an IA.md into your project and let AI agents scaffold with proven structure.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏗️</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="/" class="logo">
+        <span class="logo-icon">🏗️</span>
+        <span class="logo-text">getIA.md</span>
+      </a>
+      <nav class="nav">
+        <a href="#catalog" class="nav-link">Catalog</a>
+        <a href="#what-is" class="nav-link">What is IA.md?</a>
+        <a href="https://github.com/anthropics/getia.md" class="nav-link github-link" target="_blank" rel="noopener">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          <span>Star on GitHub</span>
+        </a>
+      </nav>
+      <button class="mobile-menu-btn" onclick="document.body.classList.toggle('menu-open')" aria-label="Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Nav -->
+  <div class="mobile-nav">
+    <a href="#catalog" class="nav-link" onclick="document.body.classList.remove('menu-open')">Catalog</a>
+    <a href="#what-is" class="nav-link" onclick="document.body.classList.remove('menu-open')">What is IA.md?</a>
+    <a href="https://github.com/anthropics/getia.md" class="nav-link" target="_blank" rel="noopener">GitHub</a>
+  </div>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-content">
+        <h1 class="hero-title">INFORMATION<br>ARCHITECTURE<br>FOR AI AGENTS</h1>
+        <p class="hero-desc">Curated IA.md files for <span class="accent">80+ products</span>. Drop one into your project and let AI coding agents scaffold with proven navigation, page hierarchy, content models, and user flows.</p>
+        <div class="hero-actions">
+          <a href="#catalog" class="btn btn-primary">Browse Catalog</a>
+          <a href="#what-is" class="btn btn-secondary">Learn More</a>
+        </div>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-card">
+          <div class="stat-number" id="brand-count">80</div>
+          <div class="stat-label">Brand IAs</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">12</div>
+          <div class="stat-label">Categories</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">9</div>
+          <div class="stat-label">Sections Each</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Marquee -->
+  <div class="marquee-container">
+    <div class="marquee">
+      <div class="marquee-track">
+        <!-- Will be populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- What is IA.md -->
+  <section class="section" id="what-is">
+    <div class="section-inner">
+      <h2 class="section-title">What is IA.md?</h2>
+      <p class="section-desc">Like <a href="https://getdesign.md" target="_blank" rel="noopener" class="link">getdesign.md</a> provides design system files, <strong>getIA.md</strong> provides information architecture files. Each IA.md describes a real product's complete structure — so AI agents can build apps that feel right from day one.</p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🗺️</div>
+          <h3>Site Map</h3>
+          <p>Complete page hierarchy with navigation depth</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🧭</div>
+          <h3>Navigation Model</h3>
+          <p>Global nav, local nav, contextual patterns</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📦</div>
+          <h3>Content Model</h3>
+          <p>Entities, attributes, and relationships</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔀</div>
+          <h3>User Flows</h3>
+          <p>Key task flows with step-by-step paths</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔗</div>
+          <h3>URL Structure</h3>
+          <p>RESTful route patterns for every page</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔐</div>
+          <h3>Access Control</h3>
+          <p>Role-based page and feature visibility</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Start -->
+  <section class="section section-dark">
+    <div class="section-inner">
+      <h2 class="section-title">Quick Start</h2>
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-dot red"></span>
+          <span class="code-dot yellow"></span>
+          <span class="code-dot green"></span>
+          <span class="code-filename">terminal</span>
+        </div>
+        <pre class="code-content"><code><span class="code-comment"># 1. Pick a brand IA from the catalog</span>
+<span class="code-prompt">$</span> curl -o IA.md https://getia.md/catalog/notion/IA.md
+
+<span class="code-comment"># 2. Drop it in your project root</span>
+<span class="code-prompt">$</span> mv IA.md ./my-project/IA.md
+
+<span class="code-comment"># 3. Let your AI agent use it</span>
+<span class="code-prompt">$</span> claude "Build this app following the IA.md structure"</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- Catalog -->
+  <section class="section" id="catalog">
+    <div class="catalog-layout">
+      <!-- Sidebar -->
+      <aside class="catalog-sidebar">
+        <div class="sidebar-header">
+          <h3>Categories</h3>
+        </div>
+        <nav class="sidebar-nav" id="category-nav">
+          <!-- Populated by JS -->
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <div class="catalog-main">
+        <div class="catalog-header">
+          <h2 class="section-title">Find Architecture</h2>
+          <div class="search-bar">
+            <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="search-input" placeholder="Search all architectures..." class="search-input">
+          </div>
+        </div>
+
+        <!-- Table Header -->
+        <div class="catalog-table-header">
+          <span class="col-index">#</span>
+          <span class="col-brand">Architecture</span>
+          <span class="col-category">Category</span>
+        </div>
+
+        <!-- Table Body -->
+        <div class="catalog-list" id="catalog-list">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-logo">
+        <span class="logo-icon">🏗️</span>
+        <span class="logo-text">getIA.md</span>
+      </div>
+      <p class="footer-tagline">Drop an IA.md. Ship with structure.</p>
+      <div class="footer-links">
+        <a href="https://github.com/anthropics/getia.md" target="_blank" rel="noopener">GitHub</a>
+        <a href="#catalog">Catalog</a>
+        <a href="#what-is">About</a>
+      </div>
+      <p class="footer-copy">&copy; 2026 getIA.md — MIT License</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
