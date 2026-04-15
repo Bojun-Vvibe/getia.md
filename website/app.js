@@ -4,7 +4,7 @@
 
 // Helper: get favicon URL from website domain
 function favicon(domain) {
-  return `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
+  return `https://icon.horse/icon/${domain}`;
 }
 
 // Brand catalog with icons (using Google Favicon API for reliable real icons)

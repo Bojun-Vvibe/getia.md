@@ -18,7 +18,7 @@ marked.setOptions({
 // Brand data (mirrored from app.js)
 // ============================================
 function favicon(domain) {
-  return `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
+  return `https://icon.horse/icon/${domain}`;
 }
 
 const brands = [
