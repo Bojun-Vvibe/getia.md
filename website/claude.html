@@ -122,9 +122,9 @@
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Structure</th>
-<th>Ownership</th>
+<th>Entity</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -158,36 +158,32 @@
 <td>User-owned</td>
 </tr>
 </tbody></table>
+<p>| Notification | type, message, read, created_at, action_url | belongs to User |
+| Integration | name, type, status, credentials, last_synced | belongs to Workspace |
+| Webhook | url, events[], secret, active, last_triggered | belongs to Organization |
+| APIToken | name, key_hash, permissions[], created_at, last_used | belongs to User |</p>
+<h3>Entity Lifecycle</h3>
+<pre><code>created → active → updated → archived
+                  ↘ suspended → reactivated → active
+created → deleted (soft delete with recovery period)
+</code></pre>
 <h2>User Flows</h2>
 <h3>Starting a Conversation</h3>
-<ol>
-<li>User lands on <code>/</code> → empty chat with prompt input and model selector</li>
-<li>Types message → response streams in real-time</li>
-<li>Conversation auto-titled and saved to Recents in sidebar</li>
-<li>User can star, rename, or delete the conversation</li>
-</ol>
+<pre><code>User lands on `/` → empty chat with prompt input and model selector → Types message → response streams in real-time → Conversation auto-titled and saved to Recents in sidebar → User can star, rename, or delete the conversation
+</code></pre>
 <h3>Working with Artifacts</h3>
-<ol>
-<li>Claude generates code, a document, or diagram in response</li>
-<li>Artifact chip appears in chat → click to expand Artifact panel</li>
-<li>Artifact renders live (React components run in sandboxed iframe)</li>
-<li>User can copy, download, or remix (&quot;make it darker&quot;, &quot;add animations&quot;)</li>
-<li>Multiple artifacts in one conversation are navigable via artifact tabs</li>
-</ol>
+<pre><code>Claude generates code, a document, or diagram in response → Artifact chip appears in chat → click to expand Artifact panel → Artifact renders live (React components run in sandboxed iframe) → User can copy, download, or remix (&quot;make it darker&quot;, &quot;add animations&quot;) → Multiple artifacts in one conversation are navigable via artifact tabs
+</code></pre>
 <h3>Using Projects</h3>
-<ol>
-<li>User creates a project with a name and custom instructions</li>
-<li>Uploads knowledge files (codebase, docs, specs)</li>
-<li>All conversations within the project inherit the knowledge + instructions</li>
-<li>Enables domain-specific expertise without re-uploading context each time</li>
-</ol>
+<pre><code>User creates a project with a name and custom instructions → Uploads knowledge files (codebase, docs, specs) → All conversations within the project inherit the knowledge + instructions → Enables domain-specific expertise without re-uploading context each time
+</code></pre>
 <h3>Extended Thinking</h3>
-<ol>
-<li>User enables extended thinking or asks a complex reasoning question</li>
-<li>Claude shows a &quot;Thinking...&quot; block with collapsible thought process</li>
-<li>Thought tokens are visible but clearly separated from the final response</li>
-<li>Enables chain-of-thought reasoning for math, coding, analysis tasks</li>
-</ol>
+<pre><code>User enables extended thinking or asks a complex reasoning question → Claude shows a &quot;Thinking...&quot; block with collapsible thought process → Thought tokens are visible but clearly separated from the final response → Enables chain-of-thought reasoning for math, coding, analysis tasks
+</code></pre>
+<h3>New User Onboarding</h3>
+<pre><code>Visit Claude → Sign Up (email/Google/SSO) → Complete profile → Guided setup wizard → Configure preferences → Explore key features → Start using the product
+                                                                                                                         ↘ Skip wizard → Land on dashboard
+</code></pre>
 <h2>URL / Route Structure</h2>
 <table>
 <thead>
@@ -226,13 +222,52 @@
 </tr>
 </tbody></table>
 <p>Client-side SPA routing. UUIDs for conversations and projects. No public sharing URLs by default — conversations are private.</p>
+<h3>Additional Routes</h3>
+<pre><code>account  → Account settings
+account/security  → Security settings
+billing  → Billing &amp; subscription
+notifications  → Notification preferences
+help  → Help center
+help/{topic}  → Help article
+api  → API documentation
+search?q={query}  → Search results
+integrations  → Integrations
+admin  → Admin console
+admin/members  → Member management
+import  → Import data
+export  → Export data
+/chat/{uuid}                      → Individual conversation
+/project/{uuid}                   → Project overview
+/project/{uuid}/chat/{uuid}       → Project conversation
+/project/{uuid}/knowledge         → Project files
+/artifacts                        → Recent artifacts
+/recents                          → Recent conversations
+/starred                          → Starred conversations
+/settings/profile                 → Profile settings
+/settings/appearance              → Appearance settings
+/settings/privacy                 → Privacy settings
+/settings/subscription            → Subscription management
+/login                            → Authentication
+/team/settings                    → Team settings (Team plan)
+</code></pre>
 <h2>Search &amp; Filter</h2>
 <ul>
-<li><strong>Conversation search</strong>: Text search across conversation titles in sidebar</li>
-<li><strong>No full-text message search</strong>: Search is limited to titles, not message content</li>
-<li><strong>Project filtering</strong>: Conversations can be filtered by project membership</li>
-<li><strong>Artifact browsing</strong>: Recent artifacts are browsable in a gallery view but not searchable</li>
-<li><strong>No tag system</strong>: Conversations rely on starring and recency for organization</li>
+<li><p><strong>Conversation search</strong>: Text search across conversation titles in sidebar</p>
+</li>
+<li><p><strong>No full-text message search</strong>: Search is limited to titles, not message content</p>
+</li>
+<li><p><strong>Project filtering</strong>: Conversations can be filtered by project membership</p>
+</li>
+<li><p><strong>Artifact browsing</strong>: Recent artifacts are browsable in a gallery view but not searchable</p>
+</li>
+<li><p><strong>No tag system</strong>: Conversations rely on starring and recency for organization</p>
+</li>
+<li><p><strong>Sort options</strong>: By relevance, date created, date modified, alphabetical, popularity</p>
+</li>
+<li><p><strong>Autocomplete</strong>: Type-ahead suggestions with recent searches and popular results</p>
+</li>
+<li><p><strong>Advanced search</strong>: Boolean operators (AND, OR, NOT), field-specific filters, date ranges</p>
+</li>
 </ul>
 <h2>Responsive Behavior</h2>
 <table>
@@ -260,6 +295,61 @@
 <li>Input area has adaptive height with attachment button</li>
 <li>Model selector is a compact pill on mobile</li>
 <li>Touch: swipe to open sidebar drawer</li>
+</ul>
+<h3>Claude-Specific UX Patterns</h3>
+<ul>
+<li><strong>Progressive disclosure</strong>: Complex features hidden behind expandable sections</li>
+<li><strong>Contextual actions</strong>: Right-click menus and hover-revealed action buttons</li>
+<li><strong>Inline editing</strong>: Click-to-edit fields without navigating to a separate page</li>
+<li><strong>Batch operations</strong>: Multi-select with bulk actions (delete, move, archive, tag)</li>
+<li><strong>Undo support</strong>: Non-destructive actions with undo toast notifications</li>
+<li><strong>Loading states</strong>: Skeleton screens and progress indicators during async operations</li>
+<li><strong>Empty states</strong>: Helpful illustrations and CTAs when sections have no content</li>
+<li><strong>Onboarding tooltips</strong>: First-time user guidance highlighting key features</li>
+</ul>
+<h3>Accessibility</h3>
+<ul>
+<li>WCAG 2.1 AA compliance across all interactive elements</li>
+<li>Semantic HTML with proper ARIA labels and landmarks</li>
+<li>Keyboard navigation support for all core workflows</li>
+<li>Screen reader compatibility tested with VoiceOver, NVDA, and JAWS</li>
+<li>Color contrast ratios meeting minimum 4.5:1 for body text</li>
+<li>Focus indicators visible on all interactive elements</li>
+<li>Reduced motion option respecting <code>prefers-reduced-motion</code></li>
+<li>Resizable text up to 200% without content loss</li>
+</ul>
+<h3>API &amp; Integration Patterns</h3>
+<ul>
+<li>RESTful API with JSON request/response format</li>
+<li>Webhook support for real-time event notifications</li>
+<li>OAuth 2.0 for third-party application authorization</li>
+<li>Rate limiting with clear headers (X-RateLimit-Remaining)</li>
+<li>Pagination via cursor-based or offset-based parameters</li>
+<li>Versioned API endpoints for backward compatibility</li>
+<li>Comprehensive API documentation with interactive examples</li>
+<li>SDKs available for popular languages (JavaScript, Python, Ruby, Go)</li>
+</ul>
+<h3>Multi-Modal Input</h3>
+<pre><code>User attaches image/PDF/file to message → Claude analyzes visual content alongside text → Response references specific elements from the attachment → Multiple files can be attached in a single message
+                                                                                                                                                        ↘ Unsupported format → Error message with supported format list
+</code></pre>
+<h3>Team Workspace</h3>
+<pre><code>Admin creates Team workspace → Invites members via email → Creates shared Projects with team-wide instructions and knowledge files → Team members access shared context → Admin manages billing and data controls → Conversations are private to individual users within shared projects
+</code></pre>
+<h3>Artifact Iteration</h3>
+<pre><code>Claude generates initial artifact (code/document/diagram) → User requests changes (&quot;make it responsive&quot;, &quot;add error handling&quot;) → Claude updates artifact in-place → Previous versions accessible via version history → User can fork artifact for parallel iterations
+                                                                                                                                                                       ↘ Download artifact → Use in external project
+</code></pre>
+<h3>Conversation Management</h3>
+<pre><code>Sidebar → Right-click conversation → Rename / Star / Move to Project / Delete → Starred conversations pinned at top → Search conversations by title → Bulk select for deletion
+</code></pre>
+<ul>
+<li>Claude supports LaTeX rendering for mathematical notation within conversations</li>
+<li>Artifacts render interactive React components in a sandboxed iframe environment</li>
+<li>Project knowledge files persist across all conversations within the same project context</li>
+<li>Team workspace enables shared Projects with centralized billing and admin controls</li>
+<li>API access for Pro users enables programmatic interaction alongside the web interface</li>
+<li>MCP (Model Context Protocol) enables Claude to connect to external tools and data sources</li>
 </ul>
 <h2>Access Control</h2>
 <table>

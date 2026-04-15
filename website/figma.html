@@ -310,6 +310,16 @@ min/max width/height
 /community/file/:id        → Community file
 /community/plugin/:id      → Plugin detail
 /settings                  → Account settings
+/files/deleted                # Trash / deleted files
+/board/:boardId               # FigJam whiteboard
+/file/:fileId/branch/:branchId # Branch editor
+/community/search?q=:query    # Community search
+/community/widget/:id         # Widget detail
+/community/template/:id       # Template detail
+/settings/profile             # Profile settings
+/settings/notifications       # Notification settings
+/settings/billing             # Billing (org)
+/admin/:orgId/members         # Org member management
 </code></pre>
 <h2>Search &amp; Filter</h2>
 <table>
@@ -352,6 +362,11 @@ min/max width/height
 <td>Popular, Recent</td>
 </tr>
 </tbody></table>
+<ul>
+<li><strong>Version History</strong>: Browse/search file version history by date</li>
+<li><strong>Plugin Manager</strong>: Search installed and available plugins</li>
+<li><strong>Variable Search</strong>: Search design variables by name or collection</li>
+</ul>
 <h2>Responsive Behavior</h2>
 <p>Figma is desktop-first:</p>
 <table>

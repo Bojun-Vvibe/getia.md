@@ -58,8 +58,8 @@ runwayml.com
 
 ## Content Model
 
-| Content Type | Structure | Ownership |
-|---|---|---|
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
 | Generation | Video/image output + input prompt/image + parameters + seed | User-owned |
 | Project | Named folder containing generations, assets, and settings | User/Team-owned |
 | Asset | Uploaded image, video, or audio file for use in tools | User-owned |
@@ -70,26 +70,19 @@ runwayml.com
 ## User Flows
 
 ### Gen-3 Alpha Video Generation
-1. User navigates to Generate → Video
-2. Chooses mode: Text-to-Video, Image-to-Video, or Video-to-Video
-3. Enters text prompt and/or uploads reference image
-4. Adjusts parameters: duration (5s/10s), aspect ratio, motion intensity, camera movement
-5. Clicks Generate → video renders (1-5 minutes depending on duration)
-6. Preview plays in-browser → download, extend, or iterate with variations
+```
+Navigates to Generate → Video → Chooses mode: Text-to-Video, Image-to-Video, or Video-to-Video → Enters text prompt and/or uploads reference image → Adjusts parameters: duration (5s/10s), aspect ratio, motion intensity, camera movement → Clicks Generate → video renders (1-5 minutes depending on duration) → Preview plays in-browser → download, extend, or iterate with variations
+```
 
 ### Motion Brush Workflow
-1. User uploads or selects a still image
-2. Opens Motion Brush tool → paints brush strokes on areas to animate
-3. Direction and intensity of strokes define the motion vector
-4. Generates short video clip with localized motion
-5. Can combine with camera motion controls for cinematic effect
+```
+Uploads or selects a still image → Opens Motion Brush tool → paints brush strokes on areas to animate → Direction and intensity of strokes define the motion vector → Generates short video clip with localized motion → Can combine with camera motion controls for cinematic effect
+```
 
 ### Project-Based Workflow
-1. User creates a Project (e.g., "Music Video Concept")
-2. Generates multiple video clips using various tools
-3. All outputs automatically organized in the Project
-4. Team members invited to collaborate — can view, generate, download
-5. Assets (reference images, style guides) uploaded to Project asset library
+```
+Creates a Project (e.g., "Music Video Concept") → Generates multiple video clips using various tools → All outputs automatically organized in the Project → Team members invited to collaborate — can view, generate, download → Assets (reference images, style guides) uploaded to Project asset library
+```
 
 ## URL / Route Structure
 
@@ -147,3 +140,87 @@ All app routes are behind `/app` prefix. UUIDs for projects and generations. Too
 - API: Separate API access for programmatic generation (Enterprise/custom plans)
 - Outputs: Users own generated content; commercial use allowed on paid plans
 - Watermark: Free tier adds Runway watermark to all outputs
+
+## AI Tools
+
+| Tool | Input | Output | Description |
+|------|-------|--------|-------------|
+| Gen-3 Alpha | Text prompt | Video (10s) | State-of-the-art text-to-video generation |
+| Gen-2 | Text or image | Video (4s) | Previous gen text/image-to-video |
+| Text to Image | Text prompt | Image | High-quality image generation |
+| Image to Image | Image + prompt | Image | Style transfer and modification |
+| Inpainting | Image + mask | Image | Remove or replace objects |
+| Expand Image | Image | Larger image | Extend canvas with AI-generated content |
+| Remove Background | Image | Image (no BG) | Automatic background removal |
+| Motion Brush | Video + brush | Video | Apply motion to specific regions |
+| Lip Sync | Video + audio | Video | Sync lip movement to audio |
+| Super Resolution | Low-res media | High-res media | Upscale images and video |
+| Green Screen | Video | Video (no BG) | AI-powered chroma keying |
+| Depth Map | Image | Depth map | Extract depth information |
+| Scene Detection | Video | Timestamps | Detect scene transitions |
+| Transcription | Audio/video | Text | Speech-to-text transcription |
+
+## Video Generation Parameters
+
+| Parameter | Options |
+|-----------|---------|
+| Duration | 4s, 10s, 16s (Gen-3 Alpha) |
+| Aspect ratio | 16:9, 9:16, 1:1 |
+| Motion amount | Low, Medium, High |
+| Camera movement | Pan, Zoom, Orbit, Dolly (text-described) |
+| Seed | Reproducible results |
+| Resolution | 720p, 1080p (Gen-3 Alpha) |
+
+## Pricing
+
+| Plan | Credits/mo | Price | Features |
+|------|-----------|-------|----------|
+| Free | 125 | $0 | 3 projects, Gen-2 access |
+| Standard | 625 | $12/mo | Unlimited projects, Gen-3 Alpha |
+| Pro | 2250 | $28/mo | Higher resolution, priority queue |
+| Unlimited | Unlimited | $76/mo | No credit limits, all features |
+| Enterprise | Custom | Custom | API access, dedicated support |
+
+## Asset Management
+
+- **Projects:** Organize generations into project folders
+- **Favorites:** Star best outputs for quick access
+- **History:** Full generation history with prompts and parameters
+- **Download:** Export in MP4 (video), PNG/JPG (image)
+- **Sharing:** Public link sharing for generated content
+- **Team workspace:** Shared asset library for team collaboration
+
+## Creative Workflows
+
+### Text-to-Video Pipeline
+```
+Write Prompt → Select Duration (4s/10s) → Choose Aspect Ratio → Set Motion Amount → Generate → Review → Extend (add more seconds) → Download MP4
+```
+
+### Image-to-Video
+```
+Upload Reference Image → Write Motion Prompt → Select Camera Movement → Generate Video from Still → Apply Motion Brush for Selective Animation → Export
+```
+
+### Multi-Tool Composition
+```
+Generate Image (Text-to-Image) → Edit with Inpainting → Remove Background → Animate with Image-to-Video → Add Motion Brush Effects → Composite in Video Editor
+```
+
+## Industry Applications
+
+| Industry | Use Case |
+|----------|----------|
+| Film/TV | Pre-visualization, concept art, VFX prototyping |
+| Advertising | Rapid ad creative generation and iteration |
+| Social Media | Short-form video content creation |
+| Gaming | Concept art, texture generation, cutscene prototyping |
+| E-commerce | Product video generation from still photos |
+| Education | Visual content for courses and presentations |
+
+## Gen-3 Alpha Capabilities
+
+- **Temporal coherence:** Consistent characters and objects across video frames
+- **Camera control:** Pan, tilt, zoom, dolly, orbit via text description
+- **Motion quality:** Realistic physics simulation for movement
+- **Style consistency:** Maintains visual style throughout generated clip

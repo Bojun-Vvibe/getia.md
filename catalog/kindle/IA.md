@@ -312,6 +312,8 @@ kindle://book?asin=:asin               → Open Book in Kindle App
 kindle://home                           → Kindle Home
 kindle://library                        → Kindle Library
 kindle://store                          → Kindle Store
+read.amazon.com/notebook                    # All notes & highlights
+read.amazon.com/kp/notebook?asin={asin}     # Book-specific notebook
 ```
 
 ## Search & Filter

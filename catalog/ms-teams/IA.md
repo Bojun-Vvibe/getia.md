@@ -7,11 +7,11 @@ website: https://teams.microsoft.com
 
 # Information Architecture — Microsoft Teams
 
-## 1. Overview
+## Overview
 
 Microsoft Teams is a collaboration platform integrating persistent chat, video meetings, file sharing, and third-party app integration within the Microsoft 365 ecosystem. The IA is organized around Teams (groups) and Channels (topic-based threads within teams), with a left rail providing access to chat, calendar, calls, and apps. Teams serves as the central nervous system for enterprise communication, deeply integrated with SharePoint, OneDrive, Outlook, and the broader M365 suite.
 
-## 2. Site Map
+## Site Map
 
 ```
 Microsoft Teams
@@ -99,7 +99,7 @@ Microsoft Teams
     └── Analytics & Reports
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 - **Type**: Left rail (persistent vertical sidebar)
 - **Left Rail**: Activity, Chat, Teams, Calendar, Calls, Files, Apps (pinned), ... (more apps)
@@ -109,10 +109,10 @@ Microsoft Teams
 - **Mobile**: Bottom tab bar — Activity, Chat, Teams, Calendar, Calls
 - **Floating Action**: "New" button for new chat, meeting, channel post
 
-## 4. Content Model
+## Content Model
 
-| Content Type | Attributes | Relationships |
-|---|---|---|
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
 | Team | name, description, privacy (public/private/org-wide), members, channels, settings | → Channels, → Members, → SharePoint site |
 | Channel | name, description, type (standard/private/shared), posts, tabs, files | → Team, → SharePoint folder |
 | Message (Post) | body (rich text), sender, timestamp, reactions, replies (threaded), mentions, attachments, priority | → Channel / Chat |
@@ -123,29 +123,24 @@ Microsoft Teams
 | Recording | video, transcript, chapters, Copilot recap, sharing settings | → Meeting, → Stream |
 | Wiki / Loop Component | collaborative content, editors, version history | → Channel / Chat |
 
-## 5. User Flows
+## User Flows
 
 ### Starting a Team Conversation
-1. Left rail → Teams → Select Team → Select Channel
-2. Click "New conversation" in Posts tab
-3. Compose message → @mention people, attach files, add formatting
-4. Post → Thread appears; members receive notification based on mention/follow settings
-5. Others reply within thread (keeping conversations organized)
+```
+Left rail → Teams → Select Team → Select Channel → Click "New conversation" in Posts tab → Compose message → @mention people, attach files, add formatting → Post → Thread appears; members receive notification based on mention/follow settings → Others reply within thread (keeping conversations organized)
+```
 
 ### Joining a Meeting
-1. Calendar → See scheduled meetings → Click "Join"
-2. Pre-join screen: camera, mic, background, audio device selection
-3. Join → Gallery view with participants
-4. Use toolbar: Share screen, raise hand, reactions, chat, Copilot
-5. Post-meeting: Recording + transcript available; Copilot generates recap
+```
+Calendar → See scheduled meetings → Click "Join" → Pre-join screen: camera, mic, background, audio device selection → Join → Gallery view with participants → Use toolbar: Share screen, raise hand, reactions, chat, Copilot → Post-meeting: Recording + transcript available; Copilot generates recap
+```
 
 ### Using Copilot in Teams
-1. During meeting: Copilot captures notes, action items, key decisions
-2. Ask Copilot questions: "What did I miss?" / "Summarize the discussion"
-3. In Chat: Copilot can summarize long threads, draft replies
-4. Meeting Recap: AI-generated summary with chapters and follow-ups
+```
+During meeting: Copilot captures notes, action items, key decisions → Ask Copilot questions: "What did I miss?" / "Summarize the discussion" → In Chat: Copilot can summarize long threads, draft replies → Meeting Recap: AI-generated summary with chapters and follow-ups
+```
 
-## 6. URL / Route Structure
+## URL / Route Structure
 
 ```
 teams.microsoft.com/                        # Teams web app
@@ -157,9 +152,15 @@ teams.microsoft.com/l/message/{messageId}   # Message deeplink
 admin.teams.microsoft.com/                  # Teams Admin Center
 apps.teams.microsoft.com/                   # App catalog
 learn.microsoft.com/en-us/microsoftteams/   # Documentation
+teams.microsoft.com/l/team/{teamId}              # Team deeplink
+teams.microsoft.com/l/file/{fileId}              # File deeplink
+teams.microsoft.com/calendar                     # Calendar view
+teams.microsoft.com/calls                        # Calls
+teams.microsoft.com/files                        # Files hub
+teams.microsoft.com/apps                         # Apps
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 - **Universal Search Bar**: Messages, people, files, channels, teams, apps — all from one search box
 - **Message Search**: Full-text with filters by sender, date range, channel, team, file type, keyword
@@ -170,7 +171,7 @@ learn.microsoft.com/en-us/microsoftteams/   # Documentation
 - **Chat Filter**: Unread, muted, meetings, recent
 - **Copilot Search**: Ask Copilot natural language questions about past conversations and meetings
 
-## 8. Responsive Behavior
+## Responsive Behavior
 
 | Breakpoint | Behavior |
 |---|---|
@@ -180,7 +181,7 @@ learn.microsoft.com/en-us/microsoftteams/   # Documentation
 | Mobile (< 768px) | Bottom tab bar; single-pane with drill-down navigation; compact meeting view; push notifications |
 | Meeting View | Responsive gallery: 2x2 on mobile → 7x7 (49 tiles) on desktop; Together Mode; Dynamic View auto-adjusts |
 
-## 9. Access Control
+## Access Control
 
 | Role | Capabilities |
 |---|---|
@@ -195,3 +196,37 @@ learn.microsoft.com/en-us/microsoftteams/   # Documentation
 | Compliance Admin | eDiscovery, DLP policies, retention, audit logs, communication compliance |
 | External User (Federation) | Chat and call across tenants; limited to 1:1 or group chat |
 | Copilot Licensed User | AI-powered meeting recaps, chat summaries, thread summaries, content generation |
+
+## Meeting Features Matrix
+
+| Feature | Free | Business Basic | Business Standard | E3/E5 |
+|---------|------|---------------|-------------------|-------|
+| Max meeting duration | 60 min | 30 hrs | 30 hrs | 30 hrs |
+| Max participants | 100 | 300 | 300 | 1,000 |
+| Recording | — | ✅ | ✅ | ✅ |
+| Transcription | — | — | ✅ | ✅ |
+| Breakout rooms | — | ✅ | ✅ | ✅ |
+| Webinars | — | — | ✅ | ✅ |
+| Town halls | — | — | — | ✅ |
+| Copilot | — | — | — | Add-on |
+
+## Integration with M365
+
+| Service | Integration |
+|---------|-------------|
+| SharePoint | Channel files backed by SharePoint document libraries |
+| OneDrive | Personal files shared via chat; co-authoring |
+| Outlook | Calendar sync; schedule from Outlook; Teams status in Outlook |
+| OneNote | Shared notebooks per channel; meeting notes |
+| Planner | Task management tab in channels; assigned tasks in To Do |
+| Power Platform | Power Automate flows; Power BI dashboards; Power Apps tabs |
+| Loop | Loop components in chat and channels; live collaborative blocks |
+| Viva | Employee experience; Viva Topics, Insights, Learning |
+
+## Channel Types
+
+| Type | Visibility | Members | Use Case |
+|------|-----------|---------|----------|
+| Standard | All team members | Automatic (all team members) | General topics, open discussions |
+| Private | Invited members only | Explicitly added | Sensitive projects, leadership discussions |
+| Shared | Cross-organization | From multiple tenants | Partner collaboration, cross-company projects |

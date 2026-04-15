@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Signal</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Signal is a privacy-first encrypted messaging platform built on the open-source Signal Protocol. The IA prioritizes simplicity, minimal data collection, and direct access to conversations. Unlike mainstream messengers, Signal deliberately omits engagement-driven features (stories algorithms, ads, suggested contacts) to keep the focus on secure, distraction-free communication.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>Signal
 ├── Home (Download CTA)
 ├── Features
@@ -125,7 +125,7 @@
     ├── Privacy Policy
     └── Open Source Licenses
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <ul>
 <li><strong>Type</strong>: Minimal top bar with logo + text links</li>
 <li><strong>Primary Nav</strong>: Features, Support, Blog, Donate, Download (CTA button)</li>
@@ -133,12 +133,12 @@
 <li><strong>In-App Nav (mobile)</strong>: Bottom tab bar — Chats, Calls, Stories, Settings</li>
 <li><strong>In-App Nav (desktop)</strong>: Left sidebar — conversation list, top toolbar for search and compose</li>
 </ul>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Attributes</th>
+<th>Entity</th>
+<th>Key Attributes</th>
 <th>Relationships</th>
 </tr>
 </thead>
@@ -178,28 +178,17 @@
 <td>standalone</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
+<h2>User Flows</h2>
 <h3>Registration</h3>
-<ol>
-<li>Download app → Enter phone number → Receive SMS verification</li>
-<li>Create PIN (for Signal registration lock) → Set profile name / avatar</li>
-<li>Optionally set a username → Grant contacts permission or skip</li>
-<li>Land on empty conversation list</li>
-</ol>
+<pre><code>Download app → Enter phone number → Receive SMS verification → Create PIN (for Signal registration lock) → Set profile name / avatar → Optionally set a username → Grant contacts permission or skip → Land on empty conversation list
+</code></pre>
 <h3>Sending a Disappearing Message</h3>
-<ol>
-<li>Open conversation → Tap timer icon in header</li>
-<li>Select duration (30s → 4 weeks) → Confirm</li>
-<li>All subsequent messages in thread auto-delete after the set interval</li>
-<li>Timer badge appears on conversation header</li>
-</ol>
+<pre><code>Open conversation → Tap timer icon in header → Select duration (30s → 4 weeks) → Confirm → All subsequent messages in thread auto-delete after the set interval → Timer badge appears on conversation header
+</code></pre>
 <h3>Verifying Safety Numbers</h3>
-<ol>
-<li>Open conversation → Tap contact name → &quot;View Safety Number&quot;</li>
-<li>Compare 60-digit number or scan QR code in person</li>
-<li>Mark as &quot;Verified&quot; → Verified badge appears on conversation</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<pre><code>Open conversation → Tap contact name → &quot;View Safety Number&quot; → Compare 60-digit number or scan QR code in person → Mark as &quot;Verified&quot; → Verified badge appears on conversation
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code>signal.org/                          # Landing / download CTA
 signal.org/download/                 # Platform-specific download links
 signal.org/features/                 # Feature overview
@@ -209,15 +198,26 @@ signal.org/donate/                   # Donation page
 signal.org/docs/                     # Technical documentation
 support.signal.org/                  # Help center (subdomain)
 support.signal.org/hc/en/articles/{id}  # Help article detail
+signal.org/android/                         # Android download
+signal.org/ios/                             # iOS download
+signal.org/desktop/                         # Desktop download (all platforms)
+signal.org/signal-server/                   # Open source server
+signal.org/docs/specifications/             # Protocol specifications
+signal.org/docs/specifications/xeddsa/      # XEdDSA spec
+signal.org/docs/specifications/x3dh/        # X3DH key exchange spec
+signal.org/docs/specifications/doubleratchet/ # Double Ratchet spec
+signal.org/docs/specifications/sesame/      # Sesame session management
+signal.org/workspaces/                      # Signal for organizations
+support.signal.org/hc/en/categories/        # Help categories
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <ul>
 <li><strong>In-App Message Search</strong>: Full-text search across all conversations (decrypted locally on device)</li>
 <li><strong>Conversation Filter</strong>: All / Unread toggle in chat list</li>
 <li><strong>Help Center</strong>: Keyword search across support articles</li>
 <li><strong>No server-side indexing</strong>: All search is performed client-side due to end-to-end encryption; Signal servers cannot read message content</li>
 </ul>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -242,7 +242,7 @@ support.signal.org/hc/en/articles/{id}  # Help article detail
 <td>Simple single-column layout; download CTA hero scales down; hamburger nav on mobile</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>
@@ -275,6 +275,276 @@ support.signal.org/hc/en/articles/{id}  # Help article detail
 <td>Access synced messages; can be revoked from primary device at any time</td>
 </tr>
 </tbody></table>
+<h2>Encryption Architecture</h2>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Protocol</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Key Exchange</td>
+<td>X3DH (Extended Triple Diffie-Hellman)</td>
+<td>Initial session key establishment</td>
+</tr>
+<tr>
+<td>Message Encryption</td>
+<td>Double Ratchet</td>
+<td>Forward secrecy and break-in recovery</td>
+</tr>
+<tr>
+<td>Group Messaging</td>
+<td>Sender Keys</td>
+<td>Efficient encrypted group message distribution</td>
+</tr>
+<tr>
+<td>Sealed Sender</td>
+<td>Certificate-based</td>
+<td>Hide sender identity from Signal servers</td>
+</tr>
+<tr>
+<td>Key Verification</td>
+<td>Safety Numbers</td>
+<td>Out-of-band identity verification (QR/60 digits)</td>
+</tr>
+</tbody></table>
+<h2>Message Types</h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Features</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Text</td>
+<td>Encrypted text, emoji, mentions (@user)</td>
+</tr>
+<tr>
+<td>Media</td>
+<td>Encrypted photos, videos, GIFs, voice notes, stickers</td>
+</tr>
+<tr>
+<td>File</td>
+<td>Encrypted file attachments (any type)</td>
+</tr>
+<tr>
+<td>Voice Call</td>
+<td>End-to-end encrypted 1:1 and group voice calls</td>
+</tr>
+<tr>
+<td>Video Call</td>
+<td>End-to-end encrypted 1:1 and group video calls</td>
+</tr>
+<tr>
+<td>Story</td>
+<td>24-hour ephemeral photos/videos (like Instagram Stories)</td>
+</tr>
+<tr>
+<td>Note to Self</td>
+<td>Messages to yourself (synced across devices)</td>
+</tr>
+</tbody></table>
+<h2>Privacy Features</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Disappearing messages</td>
+<td>Auto-delete after configurable timer (5s to 4 weeks)</td>
+</tr>
+<tr>
+<td>View-once media</td>
+<td>Photo/video that disappears after first view</td>
+</tr>
+<tr>
+<td>Screen security</td>
+<td>Prevent screenshots in app (Android)</td>
+</tr>
+<tr>
+<td>Registration lock</td>
+<td>PIN required to re-register phone number</td>
+</tr>
+<tr>
+<td>Relay calls</td>
+<td>Route calls through Signal servers to hide IP address</td>
+</tr>
+<tr>
+<td>Sealed Sender</td>
+<td>Sender identity hidden from Signal servers</td>
+</tr>
+<tr>
+<td>No metadata</td>
+<td>Signal stores minimal metadata (registration date, last connection)</td>
+</tr>
+<tr>
+<td>Username</td>
+<td>Share username instead of phone number (privacy-preserving)</td>
+</tr>
+<tr>
+<td>Phone number privacy</td>
+<td>Hide phone number from non-contacts</td>
+</tr>
+</tbody></table>
+<h2>Signal vs Other Messengers</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Signal</th>
+<th>WhatsApp</th>
+<th>Telegram</th>
+<th>iMessage</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>E2E encryption (default)</td>
+<td>✅ All</td>
+<td>✅ All</td>
+<td>❌ Opt-in (Secret Chats)</td>
+<td>✅ iMessage only</td>
+</tr>
+<tr>
+<td>Open source (client + server)</td>
+<td>✅ Both</td>
+<td>❌</td>
+<td>Client only</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>Metadata collection</td>
+<td>Minimal</td>
+<td>Extensive</td>
+<td>Moderate</td>
+<td>Moderate</td>
+</tr>
+<tr>
+<td>Group E2E encryption</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌ (regular groups)</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Self-destructing messages</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>Independent funding</td>
+<td>✅ (nonprofit)</td>
+<td>❌ (Meta)</td>
+<td>❌ (VC/ads)</td>
+<td>❌ (Apple)</td>
+</tr>
+<tr>
+<td>Phone number required</td>
+<td>✅ (username optional)</td>
+<td>✅</td>
+<td>✅</td>
+<td>Apple ID</td>
+</tr>
+</tbody></table>
+<h2>Platform Support</h2>
+<table>
+<thead>
+<tr>
+<th>Platform</th>
+<th>Features</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Android</td>
+<td>Full features, SMS fallback option, system share integration</td>
+</tr>
+<tr>
+<td>iOS</td>
+<td>Full features, CallKit integration, Share extension</td>
+</tr>
+<tr>
+<td>Desktop (macOS)</td>
+<td>Synced messages, calls, linked device</td>
+</tr>
+<tr>
+<td>Desktop (Windows)</td>
+<td>Synced messages, calls, linked device</td>
+</tr>
+<tr>
+<td>Desktop (Linux)</td>
+<td>Synced messages, calls, linked device</td>
+</tr>
+<tr>
+<td>iPad</td>
+<td>iOS app (not optimized but functional)</td>
+</tr>
+<tr>
+<td>Web</td>
+<td>No web client (by design — security)</td>
+</tr>
+</tbody></table>
+<h2>Group Features</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Group size</td>
+<td>Up to 1,000 members</td>
+</tr>
+<tr>
+<td>Group admin</td>
+<td>Multiple admins; manage members, permissions</td>
+</tr>
+<tr>
+<td>Group link</td>
+<td>Invite link with optional admin approval</td>
+</tr>
+<tr>
+<td>Group call</td>
+<td>Voice and video calls with all members</td>
+</tr>
+<tr>
+<td>Disappearing messages</td>
+<td>Per-group timer setting</td>
+</tr>
+<tr>
+<td>Mentions</td>
+<td>@name mentions with notification</td>
+</tr>
+<tr>
+<td>Reply</td>
+<td>Quote-reply to specific messages in thread</td>
+</tr>
+<tr>
+<td>Admin permissions</td>
+<td>Send messages, add members, edit info (configurable)</td>
+</tr>
+</tbody></table>
+<h2>Note to Self</h2>
+<ul>
+<li><strong>Personal storage:</strong> Messages, photos, files synced across your devices</li>
+<li><strong>Use cases:</strong> Bookmarks, reminders, quick notes, file transfer between devices</li>
+<li><strong>Same encryption:</strong> E2E encrypted like all other Signal messages</li>
+</ul>
+<h2>Recent Features</h2>
+<ul>
+<li><strong>Usernames:</strong> Share a username instead of phone number</li>
+<li><strong>Phone number privacy:</strong> Hide number from non-contacts</li>
+<li><strong>Stories:</strong> 24-hour ephemeral photo/video sharing with privacy controls</li>
+<li><strong>Call links:</strong> Shareable links for group calls (no account required to join)</li>
+<li><strong>Editable messages:</strong> Edit sent messages within a time window</li>
+</ul>
 
     </div>
   </article>

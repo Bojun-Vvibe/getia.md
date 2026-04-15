@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Ghost</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Ghost is an open-source publishing platform focused on professional content creators who want to build a membership-based business around their writing. The IA supports the full creator economy stack: <strong>publishing</strong> (posts, pages, newsletters), <strong>memberships</strong> (free and paid tiers), <strong>newsletters</strong> (built-in email), and <strong>monetization</strong> (Stripe integration for subscriptions). Ghost positions itself as the independent, open-source alternative to Substack and WordPress, with a focus on speed, clean design, and owning your audience.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>ghost.org (Marketing &amp; Docs)
 ├── Home
 ├── Features
@@ -209,7 +209,7 @@ Ghost Admin (CMS)
     ├── Email analytics
     └── Revenue
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <table>
 <thead>
 <tr>
@@ -240,80 +240,82 @@ Ghost Admin (CMS)
 </tr>
 </tbody></table>
 <p><strong>Key pattern</strong>: Ghost Admin is intentionally minimal — the left sidebar has fewer than 10 items. The editor is distraction-free, with settings tucked behind a side panel. The focus is on writing.</p>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
 <th>Entity</th>
-<th>Attributes</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>Post</td>
 <td>title, slug, body (Mobiledoc/Lexical), feature image, excerpt, tags, authors, published date, visibility (public/members/paid), newsletter flag, email status</td>
+<td>→ Author, → Tags, → Newsletter</td>
 </tr>
 <tr>
 <td>Page</td>
 <td>title, slug, body, feature image, template</td>
+<td>belongs to Site, has Components</td>
 </tr>
 <tr>
 <td>Tag</td>
 <td>name, slug, description, feature image, meta (SEO)</td>
+<td>has Posts, belongs to Blog</td>
 </tr>
 <tr>
 <td>Author</td>
 <td>name, slug, bio, avatar, location, social links</td>
+<td>has Posts, belongs to Blog</td>
 </tr>
 <tr>
 <td>Member</td>
 <td>email, name, status (free/paid/complimentary), subscription tier, created date, labels, email preferences, Stripe customer ID</td>
+<td>→ Subscription Tier, belongs to Blog</td>
 </tr>
 <tr>
 <td>Tier</td>
 <td>name, description, monthly price, yearly price, benefits, visibility</td>
+<td>has Members, belongs to Blog</td>
 </tr>
 <tr>
 <td>Newsletter</td>
 <td>name, sender, design settings, status, post association</td>
+<td>→ Folder, belongs to User</td>
 </tr>
 <tr>
 <td>Offer</td>
 <td>name, code, discount (% or amount), tier, duration, redemptions</td>
+<td>→ Tier, belongs to Blog</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
+<h2>User Flows</h2>
 <h3>5a. Publish a post</h3>
-<ol>
-<li>Ghost Admin → New Post → editor opens</li>
-<li>Write content with cards (image, gallery, embed, bookmark, code, callout, etc.)</li>
-<li>Open settings panel → tags, excerpt, feature image, visibility (public/members/paid)</li>
-<li>Toggle &quot;Email newsletter&quot; → send as email to members</li>
-<li>Publish → post live on site + email sent (if enabled)</li>
-</ol>
+<pre><code>Ghost Admin → New Post → editor opens →
+  Write content with cards (image, gallery, embed, bookmark, code, callout, etc.) →
+  Open settings panel → tags, excerpt, feature image, visibility... →
+  Toggle &quot;Email newsletter&quot; → send as email to members →
+  Publish → post live on site + email sent (if enabled)
+</code></pre>
 <h3>5b. Build membership business</h3>
-<ol>
-<li>Settings → Membership → define tiers (Free, Paid Monthly, Paid Yearly)</li>
-<li>Connect Stripe → set prices</li>
-<li>Create subscriber-only content (set visibility to &quot;Members&quot; or &quot;Paid members&quot;)</li>
-<li>Readers visit site → hit paywall → sign up (free) or subscribe (paid)</li>
-<li>Dashboard shows MRR, member growth, churn, revenue</li>
-</ol>
+<pre><code>Settings → Membership → define tiers (Free, Paid Monthly, Paid Yearly) → Connect Stripe → set prices →
+  Create subscriber-only content (set visibility to &quot;Members&quot; or &quot;Paid members&quot;) →
+  Readers visit site → hit paywall → sign up (free) or subscribe (paid) →
+  Dashboard shows MRR, member growth, churn, revenue
+</code></pre>
 <h3>5c. Reader — Subscribe and read</h3>
-<ol>
-<li>Visit publication → browse free posts</li>
-<li>Hit members-only post → &quot;Subscribe&quot; CTA</li>
-<li>Enter email (free) or select paid plan (Stripe checkout)</li>
-<li>Receive welcome email → full access to content</li>
-<li>Manage subscription via account page (cancel, update payment, email prefs)</li>
-</ol>
+<pre><code>Visit publication → browse free posts → Hit members-only post → &quot;Subscribe&quot; CTA →
+  Enter email (free) or select paid plan (Stripe checkout) →
+  Receive welcome email → full access to content →
+  Manage subscription via account page (cancel, update payment, email prefs)
+</code></pre>
 <h3>5d. Newsletter workflow</h3>
-<ol>
-<li>Write post → toggle &quot;Send as newsletter&quot;</li>
-<li>Select newsletter (can have multiple) → preview email</li>
-<li>Publish → post goes live on site + email delivered to segment</li>
-<li>View email analytics (opens, clicks, unsubscribes)</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<pre><code>Write post → toggle &quot;Send as newsletter&quot; → Select newsletter (can have multiple) → preview email →
+  Publish → post goes live on site + email delivered to segment →
+  View email analytics (opens, clicks, unsubscribes)
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code># ghost.org
 /                               → Home
 /features/                      → Features
@@ -344,7 +346,7 @@ Ghost Admin (CMS)
 /ghost/#/members/               → Members
 /ghost/#/settings/              → Settings
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <table>
 <thead>
 <tr>
@@ -377,7 +379,7 @@ Ghost Admin (CMS)
 <td>Built-in content filtering by author</td>
 </tr>
 </tbody></table>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -406,7 +408,7 @@ Ghost Admin (CMS)
 <td>Responsive email template, optimized for all email clients</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>

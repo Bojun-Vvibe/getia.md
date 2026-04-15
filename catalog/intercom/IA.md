@@ -102,6 +102,25 @@ intercom.com
 ### 4. Create a Help Article
 `Help Center → + New Article → Write content (rich text, video, code) → Assign to Collection/Section → Translate → Publish`
 
+
+### Product Tour Creation
+
+```
+Outbound → Product Tours → Create → Select trigger (page visit, event, manual) → Build steps (tooltips, modals, video) → Set audience (segment) → Preview → Activate → Monitor completion rates
+```
+
+### Conversation Triage with Fin AI
+
+```
+Customer sends message → Fin AI analyzes intent → Searches help articles and custom answers → Provides instant response → Customer satisfied → Resolved automatically → OR → Fin lacks confidence → Escalates to human agent → Agent sees AI-suggested context
+```
+
+### Segment-Based Outbound Campaign
+
+```
+Contacts → Create Segment (e.g., 'trial users, signed up > 3 days, not activated') → Outbound → New In-App Message → Target segment → Design content → Set display rules → Go Live → Track impressions and clicks
+```
+
 ## URL / Route Structure
 
 ```
@@ -112,6 +131,26 @@ app.intercom.com/a/apps/{workspace_id}/outbound         # Outbound messages
 app.intercom.com/a/apps/{workspace_id}/users            # Contacts
 app.intercom.com/a/apps/{workspace_id}/reports          # Reports
 {company}.intercom-help.com/                            # Published Help Center
+app.intercom.com/a/inbox/{workspace_id}/inbox/all            # All conversations
+app.intercom.com/a/inbox/{workspace_id}/inbox/mentions        # Mentions
+app.intercom.com/a/inbox/{workspace_id}/inbox/unassigned      # Unassigned
+app.intercom.com/a/apps/{workspace_id}/articles/{id}          # Individual article
+app.intercom.com/a/apps/{workspace_id}/articles/new            # New article editor
+app.intercom.com/a/apps/{workspace_id}/outbound/messages       # All outbound messages
+app.intercom.com/a/apps/{workspace_id}/outbound/tours          # Product tours
+app.intercom.com/a/apps/{workspace_id}/outbound/checklists     # Checklists
+app.intercom.com/a/apps/{workspace_id}/outbound/banners        # Banners
+app.intercom.com/a/apps/{workspace_id}/users/{id}              # Contact detail
+app.intercom.com/a/apps/{workspace_id}/companies               # Companies list
+app.intercom.com/a/apps/{workspace_id}/companies/{id}          # Company detail
+app.intercom.com/a/apps/{workspace_id}/segments                # Segments
+app.intercom.com/a/apps/{workspace_id}/reports/conversations    # Conversation reports
+app.intercom.com/a/apps/{workspace_id}/reports/fin              # Fin AI reports
+app.intercom.com/a/apps/{workspace_id}/reports/team             # Team performance
+app.intercom.com/a/apps/{workspace_id}/settings/messenger       # Messenger settings
+app.intercom.com/a/apps/{workspace_id}/settings/channels        # Channel config
+app.intercom.com/a/apps/{workspace_id}/settings/integrations    # Integrations
+app.intercom.com/a/apps/{workspace_id}/settings/billing         # Billing
 ```
 
 ## Search & Filter
@@ -122,6 +161,9 @@ app.intercom.com/a/apps/{workspace_id}/reports          # Reports
 - **Help Center search:** Full-text article search (also powers the Messenger's self-serve)
 - **Reports filters:** Date range, team, channel, tag
 
+- **Company search**: Search companies by name, domain, plan, or custom attributes
+- **Outbound message search**: Filter messages by type, status (live/paused/draft), audience, date
+- **Article analytics search**: Filter article performance by views, helpfulness rating, date range
 ## Responsive Behavior
 
 | Breakpoint | Behavior |
@@ -130,6 +172,48 @@ app.intercom.com/a/apps/{workspace_id}/reports          # Reports
 | Tablet | Two-column inbox; profile panel as overlay |
 | Mobile (admin) | Mobile app for responding to conversations; limited admin features |
 | Messenger (customer) | Responsive widget — adapts to mobile browsers; native SDKs for iOS/Android |
+
+
+### Platform-Specific UX
+- Three-column inbox layout (list → thread → customer profile) enables rapid triage
+- Fin AI agent autonomously handles initial customer inquiries using help articles and custom answers
+- Macros (saved replies) with dynamic variables speed up agent responses
+- Customer profile sidebar shows all attributes, events, and conversation history for context
+- Conversation assignment supports round-robin, load-balancing, and skill-based routing
+- SLA timers with visual indicators show time remaining for first response and resolution
+- Product Tours guide users through features with step-by-step tooltips and modals
+- Checklists provide onboarding task lists that users can complete at their own pace
+- Custom bots (workflow builder) create automated conversation flows with branching logic
+- Messenger home screen can display custom cards, articles, and conversation starters
+- Conversation tags enable categorization for reporting and routing purposes
+- CSAT surveys trigger automatically after conversation resolution
+
+### Integration Points
+- Slack integration enables responding to conversations from Slack channels
+- Salesforce and HubSpot CRM integrations sync contact and company data bidirectionally
+- Jira integration creates tickets from conversations and tracks status
+- Webhooks enable real-time event notifications to external systems
+- REST API provides full programmatic access to conversations, contacts, and articles
+- JavaScript SDK and mobile SDKs (iOS, Android, React Native) for Messenger embedding
+
+
+### Conversation Routing Flow
+```
+Customer message → Fin AI attempts resolution → Confident? → Resolved automatically
+                                                → Not confident? → Route to team inbox
+                                                → Custom bot flow? → Follow branching logic
+                                                → Priority customer? → Route to VIP queue
+```
+
+### Messenger Components
+```
+Home Screen:        Customizable cards, conversation starters, search
+Conversation:       Chat thread with agent/bot responses
+Article Viewer:     In-widget help article display
+Product Tour:       Step-by-step guided feature walkthrough
+Checklist:          Task list for onboarding completion
+Survey:            In-messenger survey for feedback collection
+```
 
 ## Access Control
 

@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — BigCommerce</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>BigCommerce is an enterprise-grade SaaS e-commerce platform offering hosted storefronts, headless commerce via API, multi-storefront capabilities, and an extensive app marketplace. The IA serves three audiences: <strong>merchants</strong> evaluating the platform, <strong>developers</strong> building integrations, and <strong>partners/agencies</strong> reselling or implementing BigCommerce. Unlike self-hosted WooCommerce, BigCommerce is fully managed — hosting, security, and updates are handled by the platform.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>bigcommerce.com
 ├── Home
 ├── Product
@@ -162,7 +162,7 @@
     ├── Log in
     └── Start free trial
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <table>
 <thead>
 <tr>
@@ -203,37 +203,44 @@
 </tr>
 </tbody></table>
 <p><strong>Key pattern</strong>: The marketing site is comparison-oriented (vs. Shopify, vs. WooCommerce), with ROI calculators and migration guides. The developer docs are a separate subdomain with their own IA.</p>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
 <th>Entity</th>
-<th>Attributes</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>Product (Platform Feature)</td>
 <td>name, description, benefits, screenshots, related features</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>App (Marketplace)</td>
 <td>name, developer, description, price, rating, reviews, category, compatibility</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Case Study</td>
 <td>merchant, industry, challenge, solution, results, quote, URL</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Plan</td>
 <td>name (Standard/Plus/Pro/Enterprise), price, features, limits</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Blog Post</td>
 <td>title, author, date, category, body, CTA</td>
+<td>belongs to User, has many Comments</td>
 </tr>
 <tr>
 <td>API Endpoint</td>
 <td>resource, methods, parameters, examples, versioning</td>
+<td>belongs to parent entity</td>
 </tr>
 </tbody></table>
 <h3>Merchant Store Content Model</h3>
@@ -241,62 +248,53 @@
 <thead>
 <tr>
 <th>Entity</th>
-<th>Attributes</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>Product</td>
 <td>name, SKU, price, variants (size/color), images, description, categories, brand, custom fields, inventory</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Category</td>
 <td>name, description, image, parent, sort order</td>
+<td>has many Items</td>
 </tr>
 <tr>
 <td>Order</td>
 <td>number, customer, items, total, status, payment, shipping, channel</td>
+<td>belongs to User, has many Items</td>
 </tr>
 <tr>
 <td>Customer</td>
 <td>name, email, addresses, groups, order history, account</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Storefront</td>
 <td>name, domain, channel, locale, currency</td>
+<td>belongs to parent entity</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
-<h3>5a. Merchant — Evaluate &amp; sign up</h3>
-<ol>
-<li>Land on home → explore Product features or Solutions by industry</li>
-<li>View pricing → compare plans → start free trial</li>
-<li>Onboarding wizard → store name, industry, products</li>
-<li>Add products, configure payments, choose theme</li>
-<li>Customize with Page Builder → launch store</li>
-</ol>
-<h3>5b. Merchant — Multi-storefront</h3>
-<ol>
-<li>Create primary store → go to Channel Manager</li>
-<li>Add new storefront → assign domain, locale, currency</li>
-<li>Share product catalog or create storefront-specific products</li>
-<li>Unique themes per storefront → launch multiple brands from one dashboard</li>
-</ol>
-<h3>5c. Developer — Headless build</h3>
-<ol>
-<li>Visit developer docs → Storefront API / GraphQL reference</li>
-<li>Choose frontend framework (Next.js, Gatsby, etc.)</li>
-<li>Use BigCommerce as backend (products, cart, checkout API)</li>
-<li>Build custom frontend → connect via API keys</li>
-<li>Deploy independently → BigCommerce handles commerce logic</li>
-</ol>
-<h3>5d. Partner — Agency implementation</h3>
-<ol>
-<li>Join Partner Program → access resources, training</li>
-<li>Client engagement → migrate or build store on BigCommerce</li>
-<li>Use Stencil CLI for theme development, API for custom integrations</li>
-<li>Launch client store → ongoing management via Control Panel</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<h2>User Flows</h2>
+<h3>Merchant — Evaluate &amp; sign up</h3>
+<pre><code>Land on home → explore Product features or Solutions by industry → View pricing → compare plans → start free trial → Onboarding wizard → store name, industry, products → Add products, configure payments, choose theme → Customize with Page Builder → launch store
+</code></pre>
+<h3>Merchant — Multi-storefront</h3>
+<pre><code>Create primary store → go to Channel Manager → Add new storefront → assign domain, locale, currency → Share product catalog or create storefront-specific products → Unique themes per storefront → launch multiple brands from one dashboard
+</code></pre>
+<h3>Developer — Headless build</h3>
+<pre><code>Visit developer docs → Storefront API / GraphQL reference → Choose frontend framework (Next.js, Gatsby, etc.) → Use BigCommerce as backend (products, cart, checkout API) → Build custom frontend → connect via API keys → Deploy independently → BigCommerce handles commerce logic
+</code></pre>
+<h3>Partner — Agency implementation</h3>
+<pre><code>Join Partner Program → access resources, training → Client engagement → migrate or build store on BigCommerce → Use Stencil CLI for theme development, API for custom integrations → Launch client store → ongoing management via Control Panel
+</code></pre>
+<h3>Manage Notifications</h3>
+<pre><code>Settings → Notifications → Toggle email/push/in-app per category → Set frequency (instant/daily digest/weekly) → Save preferences
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code># Marketing site
 /                               → Home
 /product/                       → Platform overview
@@ -325,8 +323,16 @@
 /cart.php                       → Cart
 /checkout/                      → Checkout
 /account.php                    → Customer account
+/about/                        → Company info
+/careers/                       → Careers page
+/trust/                         → Trust &amp; security
+/resources/webinars/            → Webinars
+/resources/guides/              → Guides &amp; reports
+/community/                     → Community forum
+/university/                    → BigCommerce University
+/status/                        → System status page
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <table>
 <thead>
 <tr>
@@ -355,7 +361,12 @@
 <td>Product search, category facets, price/brand/attribute filters, sort options</td>
 </tr>
 </tbody></table>
-<h2>8. Responsive Behavior</h2>
+<ul>
+<li><strong>Autocomplete</strong>: Type-ahead suggestions with recent searches and popular results</li>
+<li><strong>Advanced search</strong>: Boolean operators (AND, OR, NOT), field-specific filters, date ranges</li>
+<li><strong>Recent searches</strong>: Quick access to previous search queries</li>
+</ul>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -384,7 +395,17 @@
 <td>Responsive themes (Cornerstone default is fully responsive)</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h3>Platform-Specific Patterns</h3>
+<ul>
+<li>Touch targets: minimum 44x44pt on mobile for accessibility</li>
+<li>Swipe gestures: swipe to delete, archive, or perform quick actions</li>
+<li>Pull-to-refresh: standard refresh pattern on feeds and lists</li>
+<li>Keyboard shortcuts: comprehensive shortcuts on desktop for power users</li>
+<li>Dark mode: system-preference detection with manual override</li>
+<li>Offline support: cached data available without network connectivity</li>
+<li>Progressive loading: skeleton screens while content loads</li>
+</ul>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>

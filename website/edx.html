@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — edX</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>edX is a university-level online learning platform offering MOOCs (Massive Open Online Courses), MicroMasters, Professional Certificates, and full online degrees from top universities (MIT, Harvard, Berkeley) and organizations. The IA is structured around academic rigor — courses follow semester-like schedules with deadlines, graded assignments, and verified certificates. Now owned by 2U, edX blends free audit access with paid verified tracks and degree programs.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>edX
 ├── Home
 │   ├── Featured Courses
@@ -183,7 +183,7 @@
     ├── Careers
     └── Blog
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <ul>
 <li><strong>Type</strong>: Top nav bar with search-centric design</li>
 <li><strong>Desktop Top Bar</strong>: edX logo, Search bar (prominent), Courses (dropdown), Programs, edX for Business | Dashboard, Profile, Cart</li>
@@ -193,7 +193,7 @@
 <li><strong>Breadcrumb</strong>: Institution &gt; Subject &gt; Course for orientation</li>
 <li><strong>Program Navigation</strong>: Program overview → Individual courses within program</li>
 </ul>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
@@ -253,35 +253,28 @@
 <td>→ Courses</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
+<h2>User Flows</h2>
 <h3>Enrolling in a Course</h3>
-<ol>
-<li>Browse catalog or search → Select course → View course detail</li>
-<li>Review syllabus, schedule, prerequisites, instructor bios</li>
-<li>Choose enrollment track:<ul>
-<li><strong>Audit</strong> (free): Access all content, no certificate, no graded assignments</li>
-<li><strong>Verified</strong> ($50-300): Full access + verified certificate + graded assignments</li>
-</ul>
-</li>
-<li>Enroll → Course appears on Dashboard → Access opens on start date (or immediately if self-paced)</li>
-</ol>
+<pre><code>Browse catalog or search → Select course → View course detail →
+  Review syllabus, schedule, prerequisites, instructor bios →
+  Choose enrollment track: (Audit (free): Access all content, no certificate, no... →
+  Enroll → Course appears on Dashboard → Access opens on start date (or...
+</code></pre>
 <h3>Completing a MicroMasters</h3>
-<ol>
-<li>Browse Programs → Select MicroMasters (e.g., &quot;Supply Chain Management&quot; by MIT)</li>
-<li>Enroll in first course of sequence → Complete with verified certificate</li>
-<li>Progress through 4-7 courses in program order</li>
-<li>Complete all courses → Earn MicroMasters credential</li>
-<li>Apply credential toward accelerated Master&#39;s degree at partner university</li>
-</ol>
+<pre><code>Browse Programs → Select MicroMasters (e.g., &quot;Supply Chain Management&quot; by MIT) →
+  Enroll in first course of sequence → Complete with verified certificate →
+  Progress through 4-7 courses in program order →
+  Complete all courses → Earn MicroMasters credential →
+  Apply credential toward accelerated Master&#39;s degree at partner university
+</code></pre>
 <h3>Learning in a Course</h3>
-<ol>
-<li>Dashboard → Select course → Course player opens</li>
-<li>Follow weekly structure: Watch lectures → Complete readings → Do practice exercises</li>
-<li>Submit graded assignments before deadlines → View grades</li>
-<li>Participate in discussion forums → Peer learning</li>
-<li>Take final exam → Pass → Certificate issued (if verified track)</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<pre><code>Dashboard → Select course → Course player opens →
+  Follow weekly structure: Watch lectures → Complete readings → Do practice... →
+  Submit graded assignments before deadlines → View grades →
+  Participate in discussion forums → Peer learning →
+  Take final exam → Pass → Certificate issued (if verified track)
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code>edx.org/                                    # Homepage
 edx.org/search?q={query}                    # Search results
 edx.org/learn/{subject}                     # Subject page
@@ -297,20 +290,40 @@ edx.org/dashboard                           # My Learning dashboard
 courses.edx.org/courses/{course-key}/       # Course player
 edx.org/certificates/{uuid}                 # Certificate verification
 edx.org/business                            # edX for Business
+edx.org/programs                         # Programs overview
+edx.org/executive-education               # Executive education
+edx.org/boot-camps                        # Boot camps
+edx.org/register                          # Registration page
+edx.org/login                             # Login page
+edx.org/account/settings                  # Account settings
+edx.org/u/{username}                      # User profile
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <ul>
-<li><strong>Global Search</strong>: Courses, programs, subjects, institutions by keyword</li>
-<li><strong>Subject Filter</strong>: 12+ subject categories with subcategories</li>
-<li><strong>Level Filter</strong>: Introductory, Intermediate, Advanced</li>
-<li><strong>Availability Filter</strong>: Current (enrollable now), Upcoming, Archived (self-paced)</li>
-<li><strong>Institution Filter</strong>: Select from 160+ partner universities and organizations</li>
-<li><strong>Program Type Filter</strong>: Courses, MicroMasters, Professional Certificate, XSeries, Degrees, Boot Camps</li>
-<li><strong>Language Filter</strong>: English, Spanish, French, Chinese, and 20+ languages</li>
-<li><strong>Price Filter</strong>: Free (audit), Paid (verified), Subscription</li>
-<li><strong>Sort</strong>: Relevance, Newest, Popularity</li>
+<li><p><strong>Global Search</strong>: Courses, programs, subjects, institutions by keyword</p>
+</li>
+<li><p><strong>Subject Filter</strong>: 12+ subject categories with subcategories</p>
+</li>
+<li><p><strong>Level Filter</strong>: Introductory, Intermediate, Advanced</p>
+</li>
+<li><p><strong>Availability Filter</strong>: Current (enrollable now), Upcoming, Archived (self-paced)</p>
+</li>
+<li><p><strong>Institution Filter</strong>: Select from 160+ partner universities and organizations</p>
+</li>
+<li><p><strong>Program Type Filter</strong>: Courses, MicroMasters, Professional Certificate, XSeries, Degrees, Boot Camps</p>
+</li>
+<li><p><strong>Language Filter</strong>: English, Spanish, French, Chinese, and 20+ languages</p>
+</li>
+<li><p><strong>Price Filter</strong>: Free (audit), Paid (verified), Subscription</p>
+</li>
+<li><p><strong>Sort</strong>: Relevance, Newest, Popularity</p>
+</li>
+<li><p><strong>Boot Camp Filter</strong>: Filter boot camps by subject (coding, data, cyber, UX)</p>
+</li>
+<li><p><strong>Duration Filter</strong>: Filter by course length (weeks, self-paced, semester-long)</p>
+</li>
 </ul>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -335,7 +348,7 @@ edx.org/business                            # edX for Business
 <td>Download videos and readings for offline study; progress syncs when reconnected</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>

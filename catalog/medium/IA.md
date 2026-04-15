@@ -178,6 +178,8 @@ View → Read (scrolled to end) → Clap (1-50) → Response (mini-article) → 
 
 ## User Flows
 
+
+
 ### Read and Discover
 ```
 Home → For You Feed → Scroll → Click Story → Read → Clap (1-50) → Respond → Related Stories
@@ -207,6 +209,7 @@ Read Article → Select Text → Highlight → Optional Note → Saved to Highli
 ```
 Read Free Story → Click Member-Only Story (★) → "Become a Member" modal → Subscribe ($5/month) → Unlimited Reading
 ```
+
 
 ## URL / Route Structure
 

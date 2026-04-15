@@ -70,8 +70,8 @@ Local Development (CLI/Studio)
 
 ## Content Model
 
-| Content Type | Structure | Ownership |
-|---|---|---|
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
 | Prisma Schema | `datasource`, `generator`, `model` blocks, relations, enums, in `.prisma` DSL | Project file |
 | Model | Table definition with fields, types, attributes (@id, @unique, @relation, @default) | Part of schema |
 | Migration | SQL migration file, timestamp, name, applied status | Part of project |
@@ -84,37 +84,24 @@ Local Development (CLI/Studio)
 ## User Flows
 
 ### Setting Up Prisma in a Project
-1. Developer runs `npm install prisma --save-dev` and `npx prisma init`
-2. Prisma creates `prisma/schema.prisma` with default config
-3. Developer configures database connection in schema (`datasource db`)
-4. Defines data models (e.g., `model User { id Int @id, name String, email String @unique }`)
-5. Runs `npx prisma migrate dev --name init` → creates SQL migration and applies it
-6. Runs `npx prisma generate` → generates Prisma Client
-7. Imports and uses type-safe client in application code
+```
+Developer runs `npm install prisma --save-dev` and `npx prisma init` → Prisma creates `prisma/schema.prisma` with default config → Developer configures database connection in schema (`datasource db`) → Defines data models (e.g., `model User { id Int @id, name String, email String @unique }`) → Runs `npx prisma migrate dev --name init` → creates SQL migration and applies it → Runs `npx prisma generate` → generates Prisma Client → Imports and uses type-safe client in application code
+```
 
 ### Schema Evolution (Migration)
-1. Developer modifies schema (adds field, new model, changes relation)
-2. Runs `npx prisma migrate dev --name add-posts`
-3. Prisma generates SQL migration file (viewable, editable)
-4. Migration applied to development database
-5. In production: `npx prisma migrate deploy` applies pending migrations
-6. Prisma Client regenerated with updated types
+```
+Developer modifies schema (adds field, new model, changes relation) → Runs `npx prisma migrate dev --name add-posts` → Prisma generates SQL migration file (viewable, editable) → Migration applied to development database → In production: `npx prisma migrate deploy` applies pending migrations → Prisma Client regenerated with updated types
+```
 
 ### Prisma Studio (Visual Database Browser)
-1. Developer runs `npx prisma studio` → opens browser at `localhost:5555`
-2. Left sidebar shows all models/tables from the schema
-3. Click a model → see data in a spreadsheet-like grid
-4. Add, edit, delete records visually
-5. Navigate relations — click related records to follow foreign keys
-6. Filter and sort data by column values
+```
+Developer runs `npx prisma studio` → opens browser at `localhost:5555` → Left sidebar shows all models/tables from the schema → Click a model → see data in a spreadsheet-like grid → Add, edit, delete records visually → Navigate relations — click related records to follow foreign keys → Filter and sort data by column values
+```
 
 ### Prisma Accelerate Setup
-1. Developer creates project on console.prisma.io
-2. Adds database connection string → creates environment
-3. Enables Accelerate → gets a Prisma Accelerate connection URL
-4. Replaces direct database URL with Accelerate URL in application
-5. Queries now go through Accelerate: connection pooling + global caching
-6. Monitors cache hit rates and query performance in Insights
+```
+Developer creates project on console.prisma.io → Adds database connection string → creates environment → Enables Accelerate → gets a Prisma Accelerate connection URL → Replaces direct database URL with Accelerate URL in application → Queries now go through Accelerate: connection pooling + global caching → Monitors cache hit rates and query performance in Insights
+```
 
 ## URL / Route Structure
 
@@ -174,3 +161,64 @@ Documentation uses hierarchical path structure. Console uses workspace/project/e
 - Accelerate: Uses API key for connection pooling/caching proxy
 - Prisma Studio: Only accessible on localhost — not exposed publicly
 - Schema security: Schema file should not be committed with production credentials (use env vars)
+
+## Prisma Stack
+
+| Component | Purpose | Type |
+|-----------|---------|------|
+| Prisma Schema | Define data model, relations, and database connection | `.prisma` file |
+| Prisma Client | Auto-generated, type-safe query builder | npm package |
+| Prisma Migrate | Database schema migrations from schema changes | CLI tool |
+| Prisma Studio | Visual database browser and editor | GUI app |
+| Prisma Accelerate | Global edge caching for database queries | Cloud service |
+| Prisma Pulse | Real-time database change events | Cloud service |
+| Prisma Optimize | AI-powered query optimization recommendations | Cloud service |
+
+## Schema Example
+
+```prisma
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  posts     Post[]
+  profile   Profile?
+  createdAt DateTime @default(now())
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String?
+  published Boolean  @default(false)
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  Int
+  tags      Tag[]
+}
+```
+
+## CLI Commands
+
+| Command | Description |
+|---------|-------------|
+| `prisma init` | Initialize Prisma in project |
+| `prisma generate` | Generate Prisma Client from schema |
+| `prisma db push` | Push schema to database (prototyping) |
+| `prisma migrate dev` | Create and apply migration |
+| `prisma migrate deploy` | Apply pending migrations (production) |
+| `prisma studio` | Open visual database browser |
+| `prisma format` | Format schema file |
+| `prisma validate` | Validate schema syntax |
+| `prisma db pull` | Introspect existing database into schema |
+
+## Database Support
+
+| Database | Status | Unique Features |
+|----------|--------|----------------|
+| PostgreSQL | Full support | JSON, arrays, full-text search |
+| MySQL | Full support | Standard support |
+| SQLite | Full support | Embedded, serverless |
+| SQL Server | Full support | Windows/Azure ecosystem |
+| MongoDB | Full support | Document model, embedded documents |
+| CockroachDB | Full support | Distributed SQL |
+| PlanetScale | Full support (via MySQL) | Branching, serverless |

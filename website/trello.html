@@ -92,55 +92,88 @@
     <div class="detail-content-inner">
       <h1>Information Architecture — Trello</h1>
 <h2>Overview</h2>
-<p>Trello pioneered the digital Kanban board, and its IA reflects that simplicity: Workspaces contain Boards, Boards contain Lists, and Lists contain Cards. This flat, visual hierarchy makes Trello immediately intuitive. Power-Ups extend functionality, and Butler provides no-code automation — but the core mental model remains a board of cards you drag between columns.</p>
+<p>Trello pioneered the digital Kanban board, and its IA reflects that simplicity: Workspaces contain Boards, Boards contain Lists, and Lists contain Cards. This flat, visual hierarchy makes Trello immediately intuitive. Power-Ups extend functionality, and Butler provides no-code automation — but the core mental model remains a board of cards you drag between columns. Trello&#39;s strength is its flexibility: the same Board → List → Card hierarchy works for software development, event planning, content calendars, CRM pipelines, and personal task management.</p>
 <h2>Site Map</h2>
 <pre><code>trello.com
 ├── Home
-│   ├── Boards (recently viewed)
-│   ├── Starred Boards
-│   └── Templates
+│   ├── Boards (recently viewed, grid layout)
+│   ├── Starred Boards (pinned favorites)
+│   ├── Templates (quick start)
+│   └── Create board CTA
 ├── Workspaces
 │   └── [Workspace]
-│       ├── Boards
-│       ├── Members
-│       ├── Settings
-│       └── Views
-│           ├── Table View
-│           ├── Calendar View
-│           └── Timeline View (Premium)
+│       ├── Boards (workspace board list)
+│       ├── Members (invite, manage roles)
+│       ├── Settings (visibility, permissions, description)
+│       └── Views (Premium/Enterprise)
+│           ├── Table View (spreadsheet-like across boards)
+│           ├── Calendar View (cards with due dates)
+│           ├── Timeline View (Gantt-like, Premium)
+│           ├── Dashboard View (charts and stats, Premium)
+│           └── Map View (location-based, Premium)
 ├── Board
-│   ├── Lists → Cards
-│   ├── Board Menu
-│   │   ├── Filters
-│   │   ├── Power-Ups
+│   ├── Lists (horizontal columns)
+│   │   └── Cards (draggable items)
+│   ├── Board Header
+│   │   ├── Board name (editable)
+│   │   ├── Star / Favorite toggle
+│   │   ├── Visibility (workspace/private/public)
+│   │   ├── Filter button
+│   │   ├── Power-Ups button
 │   │   ├── Butler (Automation)
-│   │   ├── Labels
-│   │   ├── Archived Items
-│   │   └── Settings
-│   └── Card Detail
-│       ├── Description
-│       ├── Checklists
-│       ├── Attachments
-│       ├── Comments / Activity
-│       ├── Due Date
-│       ├── Members
-│       ├── Labels
-│       └── Custom Fields
+│   │   └── Share / Invite
+│   ├── Board Menu (slide-in right panel)
+│   │   ├── About This Board
+│   │   ├── Activity (board log)
+│   │   ├── Archived Items (cards and lists)
+│   │   ├── Change Background (photos, colors, patterns)
+│   │   ├── Labels (manage board labels)
+│   │   ├── Custom Fields
+│   │   ├── Power-Ups (installed + directory)
+│   │   ├── Butler (Automation rules, buttons, schedules)
+│   │   ├── Stickers
+│   │   ├── Copy Board
+│   │   ├── Print &amp; Export
+│   │   └── Close Board
+│   └── Card Detail (modal overlay)
+│       ├── Title (editable)
+│       ├── Description (Markdown editor)
+│       ├── Members (assigned users, avatars)
+│       ├── Labels (color-coded tags)
+│       ├── Checklists (multiple, with progress bar)
+│       ├── Due Date / Start Date
+│       ├── Attachments (files, links, Google Drive, Dropbox)
+│       ├── Cover Image (color or photo)
+│       ├── Custom Fields (text, number, date, dropdown, checkbox)
+│       ├── Comments / Activity log
+│       ├── Move / Copy card
+│       ├── Watch (subscribe to notifications)
+│       ├── Archive / Delete
+│       └── Power-Up fields
 ├── Search
+│   ├── Global search bar
+│   ├── Search operators
+│   └── Recent searches
 ├── Templates Gallery
+│   ├── By category (Project Management, Marketing, Sales, Design, etc.)
+│   ├── By creator (Trello, community)
+│   └── Template detail + Use Template
 └── Marketing Site
     ├── Features
-    ├── Solutions
-    ├── Plans
-    └── Resources
+    ├── Solutions (by team, by use case)
+    ├── Plans (Free, Standard, Premium, Enterprise)
+    ├── Pricing
+    ├── Resources (blog, guides, webinars)
+    └── Developers (API, Power-Up development)
 </code></pre>
 <h2>Navigation Model</h2>
 <ul>
-<li><strong>Top bar (persistent):</strong> Trello logo (→ Home), Workspaces dropdown, Recent, Starred, Templates, Create, Search, Notifications bell, User menu</li>
-<li><strong>Home page:</strong> Board grid organized by workspace and starred status</li>
-<li><strong>Board view:</strong> Horizontal scroll of lists; board menu slides in from the right</li>
-<li><strong>Card detail:</strong> Modal overlay on top of board — no page navigation required</li>
-<li><strong>Workspace sidebar:</strong> Boards list, Members, Settings, Views (table/calendar/timeline)</li>
+<li><strong>Top bar (persistent):</strong> Trello logo (→ Home), Workspaces dropdown, Recent boards, Starred boards, Templates, Create (+), Search bar, Notifications bell, User menu</li>
+<li><strong>Home page:</strong> Board grid organized by workspace and starred status; recent boards prominent</li>
+<li><strong>Board view:</strong> Horizontal scroll of lists; each list scrolls vertically for long card sets; board menu slides in from the right</li>
+<li><strong>Card detail:</strong> Modal overlay on top of board — no page navigation required; click outside or X to close</li>
+<li><strong>Workspace sidebar:</strong> Boards list, Members, Settings, Views (table/calendar/timeline/dashboard/map)</li>
+<li><strong>Mobile:</strong> Bottom tabs (Boards, Search, Notifications, Account); horizontal swipe between lists; card detail as full screen</li>
 </ul>
 <h2>Content Model</h2>
 <table>
@@ -153,68 +186,115 @@
 </thead>
 <tbody><tr>
 <td>Workspace</td>
-<td>name, type (team/education/etc.), logo</td>
-<td>→ Boards, Members</td>
+<td>name, type (team/education/business/other), logo, visibility, description</td>
+<td>→ Boards, Members, Settings</td>
 </tr>
 <tr>
 <td>Board</td>
-<td>name, background, visibility, Power-Ups</td>
-<td>→ Lists, Labels, Custom Fields</td>
+<td>name, background (color/photo), visibility (private/workspace/public), starred, Power-Ups[], closed</td>
+<td>→ Lists, Labels, Custom Fields, Members</td>
 </tr>
 <tr>
 <td>List</td>
-<td>name, position</td>
+<td>name, position, archived</td>
 <td>→ Cards</td>
 </tr>
 <tr>
 <td>Card</td>
-<td>title, description, due date, members, labels, position</td>
-<td>→ Checklists, Comments, Attachments</td>
+<td>title, description (Markdown), due_date, start_date, members[], labels[], position, cover, archived, subscribed</td>
+<td>→ Checklists, Comments, Attachments, Custom Fields</td>
 </tr>
 <tr>
 <td>Checklist</td>
-<td>title</td>
-<td>→ Checklist Items (text, complete/incomplete)</td>
+<td>title, position</td>
+<td>→ Checklist Items (text, complete/incomplete, member, due_date)</td>
 </tr>
 <tr>
 <td>Label</td>
-<td>name, color</td>
+<td>name, color (10 colors), board-scoped</td>
 <td>→ Cards (many-to-many)</td>
 </tr>
 <tr>
+<td>Custom Field</td>
+<td>name, type (text/number/date/dropdown/checkbox), options</td>
+<td>→ Board, Cards</td>
+</tr>
+<tr>
 <td>Power-Up</td>
-<td>name, type (integration/utility)</td>
+<td>name, type (integration/utility/board tool), icon, enabled</td>
 <td>→ Board</td>
 </tr>
 <tr>
 <td>Butler Rule</td>
-<td>trigger, action(s)</td>
+<td>name, trigger (card move, due date, schedule), action(s), enabled</td>
 <td>→ Board</td>
+</tr>
+<tr>
+<td>Attachment</td>
+<td>filename, url, type (file/link), thumbnail, date</td>
+<td>→ Card</td>
+</tr>
+<tr>
+<td>Comment</td>
+<td>text, author, timestamp, reactions</td>
+<td>→ Card</td>
+</tr>
+<tr>
+<td>Activity</td>
+<td>action, member, timestamp, target</td>
+<td>→ Board or Card</td>
 </tr>
 </tbody></table>
 <h2>User Flows</h2>
-<h3>1. Create a Board and Add Cards</h3>
-<p><code>+ Create → Board → Name, background, workspace → Add Lists (e.g., To Do, Doing, Done) → + Add Card to each list</code></p>
-<h3>2. Move Work Forward (Core Loop)</h3>
-<p><code>Board → Drag card from &quot;To Do&quot; to &quot;Doing&quot; → Open card → Update checklist progress → Drag to &quot;Done&quot;</code></p>
-<h3>3. Set Up Butler Automation</h3>
-<p><code>Board Menu → Butler → + Create Rule → When [trigger], do [action(s)] → e.g., &quot;When card moved to Done, check all items and remove members&quot;</code></p>
-<h3>4. Use a Template</h3>
-<p><code>Templates Gallery → Browse by category → Use Template → Customize board name and workspace</code></p>
+<h3>Create a Board and Add Cards</h3>
+<pre><code>+ Create → Board → Name + background + workspace → Add Lists (e.g., To Do, Doing, Done) → + Add Card to each list → Invite team members
+</code></pre>
+<h3>Move Work Forward (Core Loop)</h3>
+<pre><code>Board → Drag card from &quot;To Do&quot; to &quot;Doing&quot; → Open card → Update checklist progress → Add comment → Drag to &quot;Done&quot; → Notifications sent
+</code></pre>
+<h3>Set Up Butler Automation</h3>
+<pre><code>Board Menu → Butler → + Create Rule → When [card moved to Done] → Do [check all items, remove members, add label] → Save → Automation runs automatically
+</code></pre>
+<h3>Use a Template</h3>
+<pre><code>Templates Gallery → Browse by category → Preview template → Use Template → Set board name + workspace → Board created with pre-built lists and cards
+</code></pre>
+<h3>Card Collaboration</h3>
+<pre><code>Open card → Assign members → Add due date → Create checklist with items → Attach files → Add comments → @mention teammate → Watch for updates
+</code></pre>
 <h2>URL / Route Structure</h2>
-<pre><code>trello.com/u/{username}/boards           # User&#39;s boards
-trello.com/w/{workspace}/home            # Workspace home
-trello.com/b/{board_id}/{board_slug}     # Board view
-trello.com/c/{card_id}/{card_slug}       # Card detail (also opens as modal on board)
-trello.com/templates                     # Template gallery
-trello.com/search?q=...                  # Search results
+<pre><code>trello.com/                                     # Marketing homepage
+trello.com/signup                               # Sign up
+trello.com/login                                # Log in
+trello.com/u/{username}/boards                  # User&#39;s boards
+trello.com/u/{username}/activity                # User activity
+trello.com/w/{workspace_slug}/home              # Workspace home
+trello.com/w/{workspace_slug}/members           # Workspace members
+trello.com/w/{workspace_slug}/account           # Workspace settings
+trello.com/w/{workspace_slug}/views/table       # Workspace table view
+trello.com/w/{workspace_slug}/views/calendar    # Workspace calendar view
+trello.com/w/{workspace_slug}/views/timeline    # Workspace timeline view
+trello.com/b/{board_id}/{board_slug}            # Board view
+trello.com/b/{board_id}/{board_slug}/butler     # Board Butler automation
+trello.com/b/{board_id}/{board_slug}/power-ups  # Board Power-Ups
+trello.com/c/{card_id}/{card_slug}              # Card detail (also opens as modal)
+trello.com/templates                            # Template gallery
+trello.com/templates/{category}                 # Templates by category
+trello.com/search?q={query}                     # Search results
+trello.com/pricing                              # Pricing
+trello.com/platforms                            # Platform downloads
+trello.com/guide                                # Getting started guide
+trello.com/power-ups                            # Power-Up directory
+trello.com/power-ups/{power-up-slug}            # Power-Up detail
+trello.com/developer                            # Developer API docs
 </code></pre>
 <h2>Search &amp; Filter</h2>
 <ul>
-<li><strong>Global search:</strong> Full-text across board names, card titles, descriptions, comments; search operators (<code>@me</code>, <code>#label</code>, <code>has:attachments</code>, <code>is:open</code>, <code>board:name</code>)</li>
-<li><strong>Board filter (menu → Filter):</strong> By member, label, due date (overdue/next day/next week), keyword</li>
-<li><strong>Card filter bar:</strong> Quick filter chips visible on board for active filters</li>
+<li><strong>Global search:</strong> Full-text across board names, card titles, descriptions, comments, checklists; search operators (<code>@me</code>, <code>@username</code>, <code>#label</code>, <code>has:attachments</code>, <code>has:description</code>, <code>is:open</code>, <code>is:archived</code>, <code>board:name</code>, <code>list:name</code>, <code>due:day</code>, <code>due:week</code>, <code>due:month</code>, <code>due:overdue</code>)</li>
+<li><strong>Board filter (menu → Filter):</strong> By member, label, due date (overdue/no date/next day/next week/next month), keyword; filters combine with AND</li>
+<li><strong>Card filter bar:</strong> Quick filter chips visible on board header when active filters applied</li>
 <li><strong>Saved searches:</strong> Not native; achieved via bookmarked search URLs</li>
+<li><strong>Template search:</strong> Search by keyword, browse by category</li>
+<li><strong>Power-Up search:</strong> Search the Power-Up directory by name or category</li>
 </ul>
 <h2>Responsive Behavior</h2>
 <table>
@@ -226,15 +306,23 @@ trello.com/search?q=...                  # Search results
 </thead>
 <tbody><tr>
 <td>Desktop (1024px+)</td>
-<td>Horizontal scrolling lists, full card detail modal, board menu sidebar</td>
+<td>Horizontal scrolling lists, full card detail modal, board menu sidebar, keyboard shortcuts</td>
 </tr>
 <tr>
 <td>Tablet (768–1023px)</td>
-<td>Same layout, touch-optimized drag and drop</td>
+<td>Same layout, touch-optimized drag and drop, slightly larger touch targets</td>
 </tr>
 <tr>
-<td>Mobile app</td>
-<td>Vertical stack of lists, swipe between lists, card detail as full screen, bottom tabs (Boards, Search, Notifications, Account)</td>
+<td>Mobile app (iOS/Android)</td>
+<td>Vertical stack of lists (swipe between), card detail as full screen, bottom tabs (Boards, Search, Notifications, Account), offline support</td>
+</tr>
+<tr>
+<td>Apple Watch</td>
+<td>View board notifications, quick card actions</td>
+</tr>
+<tr>
+<td>Widgets</td>
+<td>iOS/Android home screen widgets for board overview</td>
 </tr>
 </tbody></table>
 <h2>Access Control</h2>
@@ -247,27 +335,43 @@ trello.com/search?q=...                  # Search results
 </thead>
 <tbody><tr>
 <td>Workspace Admin</td>
-<td>Manage workspace settings, billing, members, all boards</td>
+<td>Manage workspace settings, billing, members, all boards, Power-Ups</td>
 </tr>
 <tr>
 <td>Board Admin</td>
-<td>Configure board settings, Power-Ups, manage members</td>
+<td>Configure board settings, Power-Ups, manage board members, close/delete board</td>
 </tr>
 <tr>
 <td>Board Member</td>
-<td>Create/edit/move/archive cards, add comments</td>
+<td>Create/edit/move/archive cards, add comments, manage own checklists</td>
 </tr>
 <tr>
 <td>Board Observer</td>
-<td>View board only, cannot edit (Enterprise feature)</td>
+<td>View board only, cannot edit (Enterprise/Premium feature)</td>
 </tr>
 <tr>
 <td>Guest (multi-board)</td>
-<td>Access specific boards within a workspace</td>
+<td>Access specific boards within a workspace, limited workspace visibility</td>
 </tr>
 <tr>
 <td>Public Board</td>
-<td>Anyone with link can view (no editing)</td>
+<td>Anyone with link can view (no editing); search-engine indexable</td>
+</tr>
+<tr>
+<td>Free tier</td>
+<td>Unlimited boards, 10 boards per workspace, limited Power-Ups (1 per board), 10MB attachment limit</td>
+</tr>
+<tr>
+<td>Standard tier</td>
+<td>Unlimited boards, unlimited Power-Ups, 250MB attachments, advanced checklists, custom fields</td>
+</tr>
+<tr>
+<td>Premium tier</td>
+<td>All Standard + workspace views (Timeline, Dashboard, Map, Calendar, Table), admin controls, priority support</td>
+</tr>
+<tr>
+<td>Enterprise tier</td>
+<td>Organization-wide permissions, SSO/SAML, attachment restrictions, Power-Up admin, unlimited workspaces</td>
 </tr>
 </tbody></table>
 

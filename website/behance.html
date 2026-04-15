@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Behance</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Behance is Adobe&#39;s creative portfolio platform for showcasing and discovering professional design, illustration, photography, and other creative work. The IA is organized around Projects (multi-image case studies), Moodboards, and Live Streams, with deep integration into the Adobe Creative Cloud ecosystem. The platform serves as both a public portfolio and a professional discovery tool for recruiters and art directors.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>Behance
 ├── Home / Discover
 │   ├── For You (personalized)
@@ -154,7 +154,7 @@
     ├── Privacy
     └── Connected Apps
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <ul>
 <li><strong>Type</strong>: Top nav bar (desktop), bottom tab bar (mobile app)</li>
 <li><strong>Desktop Top Bar</strong>: Behance logo (home), Explore, Live, Jobs, Hire Freelancers | Search, Notifications, Upload, Profile</li>
@@ -163,12 +163,12 @@
 <li><strong>Project Viewing</strong>: Long vertical scroll through project images (case study format)</li>
 <li><strong>Adobe Ecosystem Links</strong>: Deep links to Creative Cloud, Adobe Portfolio, Adobe Stock</li>
 </ul>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Attributes</th>
+<th>Entity</th>
+<th>Key Attributes</th>
 <th>Relationships</th>
 </tr>
 </thead>
@@ -213,31 +213,30 @@
 <td>→ Projects, → Job Listings</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
+<h3>Content Lifecycle</h3>
+<pre><code>created → published → visible → archived
+                     ↘ reported → under_review → restored / removed
+created → draft (saved but not published)
+published → edited (version history maintained)
+</code></pre>
+<h2>User Flows</h2>
 <h3>Publishing a Project</h3>
-<ol>
-<li>Click &quot;Create a Project&quot; → Upload images/videos in sequence</li>
-<li>Arrange order → Add captions, descriptions for each module</li>
-<li>Set cover image → Add title, creative fields, tags, tools used</li>
-<li>Set visibility (public, private, draft) → Publish</li>
-<li>Project appears in followers&#39; feeds, field galleries, and search</li>
-</ol>
+<pre><code>Click &quot;Create a Project&quot; → Upload images/videos in sequence → Arrange order → Add captions, descriptions for each module → Set cover image → Add title, creative fields, tags, tools used → Set visibility (public, private, draft) → Publish → Project appears in followers&#39; feeds, field galleries, and search
+</code></pre>
 <h3>Discovering Work</h3>
-<ol>
-<li>Visit Explore → Browse by creative field or &quot;For You&quot; recommendations</li>
-<li>Scroll project grid → Click to open full case study (long vertical scroll)</li>
-<li>Appreciate (like) → Save to Moodboard for reference</li>
-<li>Follow creator for future projects</li>
-</ol>
+<pre><code>Visit Explore → Browse by creative field or &quot;For You&quot; recommendations → Scroll project grid → Click to open full case study (long vertical scroll) → Appreciate (like) → Save to Moodboard for reference → Follow creator for future projects
+</code></pre>
 <h3>Building a Portfolio</h3>
-<ol>
-<li>Upload multiple projects showcasing different skills</li>
-<li>Set profile bio, work experience, tools/skills</li>
-<li>Enable &quot;Available for Freelance&quot; badge</li>
-<li>Optionally connect Adobe Portfolio for a custom domain portfolio site</li>
-<li>Projects auto-sync from Behance to Adobe Portfolio</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<pre><code>Upload multiple projects showcasing different skills → Set profile bio, work experience, tools/skills → Enable &quot;Available for Freelance&quot; badge → Optionally connect Adobe Portfolio for a custom domain portfolio site → Projects auto-sync from Behance to Adobe Portfolio
+</code></pre>
+<h3>New User Onboarding</h3>
+<pre><code>Visit Behance → Sign Up (email/Google/SSO) → Complete profile → Guided setup wizard → Configure preferences → Explore key features → Start using the product
+                                                                                                                         ↘ Skip wizard → Land on dashboard
+</code></pre>
+<h3>Manage Notifications</h3>
+<pre><code>Settings → Notifications → Toggle email/push/in-app per category → Set frequency (instant/daily digest/weekly) → Save preferences
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code>behance.net/                                # Home / discover
 behance.net/gallery/{id}/{slug}             # Project detail
 behance.net/search/projects?field={field}   # Browse by creative field
@@ -251,19 +250,38 @@ behance.net/joblist                         # Job board
 behance.net/joblist/{id}                    # Job detail
 behance.net/hire                            # Hire freelancers
 myportfolio.com/ (or custom domain)         # Adobe Portfolio (connected)
+myportfolio.com/settings  # Settings
+myportfolio.com/billing  # Billing &amp; subscription
+myportfolio.com/notifications  # Notification preferences
+myportfolio.com/help  # Help center
+myportfolio.com/help/{topic}  # Help article
+myportfolio.com/api  # API documentation
+myportfolio.com/integrations  # Integrations
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <ul>
-<li><strong>Global Search</strong>: Projects, people, moodboards, assets, live streams</li>
-<li><strong>Creative Field Filter</strong>: 20+ fields (Graphic Design, Photography, Motion, etc.)</li>
-<li><strong>Tool Filter</strong>: Filter by software used (Photoshop, Figma, Blender, etc.)</li>
-<li><strong>Color Filter</strong>: Search by dominant color in projects</li>
-<li><strong>Sort</strong>: Recommended, Most Appreciated, Most Viewed, Most Discussed, Most Recent</li>
-<li><strong>Location Filter</strong>: Find creators by city/country</li>
-<li><strong>Availability Filter</strong>: Show only &quot;Available for Freelance&quot; profiles</li>
-<li><strong>Adobe Stock Integration</strong>: Search stock assets alongside community projects</li>
+<li><p><strong>Global Search</strong>: Projects, people, moodboards, assets, live streams</p>
+</li>
+<li><p><strong>Creative Field Filter</strong>: 20+ fields (Graphic Design, Photography, Motion, etc.)</p>
+</li>
+<li><p><strong>Tool Filter</strong>: Filter by software used (Photoshop, Figma, Blender, etc.)</p>
+</li>
+<li><p><strong>Color Filter</strong>: Search by dominant color in projects</p>
+</li>
+<li><p><strong>Sort</strong>: Recommended, Most Appreciated, Most Viewed, Most Discussed, Most Recent</p>
+</li>
+<li><p><strong>Location Filter</strong>: Find creators by city/country</p>
+</li>
+<li><p><strong>Availability Filter</strong>: Show only &quot;Available for Freelance&quot; profiles</p>
+</li>
+<li><p><strong>Adobe Stock Integration</strong>: Search stock assets alongside community projects</p>
+</li>
+<li><p><strong>Autocomplete</strong>: Type-ahead suggestions with recent searches and popular results</p>
+</li>
+<li><p><strong>Advanced search</strong>: Boolean operators (AND, OR, NOT), field-specific filters, date ranges</p>
+</li>
 </ul>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -292,7 +310,39 @@ myportfolio.com/ (or custom domain)         # Adobe Portfolio (connected)
 <td>5+ column grid; wider project detail; expanded sidebar (tools, tags, related)</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h3>Platform-Specific Patterns</h3>
+<ul>
+<li>Touch targets: minimum 44x44pt on mobile for accessibility</li>
+<li>Swipe gestures: swipe to delete, archive, or perform quick actions</li>
+<li>Pull-to-refresh: standard refresh pattern on feeds and lists</li>
+<li>Keyboard shortcuts: comprehensive shortcuts on desktop for power users</li>
+<li>Dark mode: system-preference detection with manual override</li>
+<li>Offline support: cached data available without network connectivity</li>
+<li>Progressive loading: skeleton screens while content loads</li>
+</ul>
+<h3>Behance-Specific UX Patterns</h3>
+<ul>
+<li><strong>Progressive disclosure</strong>: Complex features hidden behind expandable sections</li>
+<li><strong>Contextual actions</strong>: Right-click menus and hover-revealed action buttons</li>
+<li><strong>Inline editing</strong>: Click-to-edit fields without navigating to a separate page</li>
+<li><strong>Batch operations</strong>: Multi-select with bulk actions (delete, move, archive, tag)</li>
+<li><strong>Undo support</strong>: Non-destructive actions with undo toast notifications</li>
+<li><strong>Loading states</strong>: Skeleton screens and progress indicators during async operations</li>
+<li><strong>Empty states</strong>: Helpful illustrations and CTAs when sections have no content</li>
+<li><strong>Onboarding tooltips</strong>: First-time user guidance highlighting key features</li>
+</ul>
+<h3>Accessibility</h3>
+<ul>
+<li>WCAG 2.1 AA compliance across all interactive elements</li>
+<li>Semantic HTML with proper ARIA labels and landmarks</li>
+<li>Keyboard navigation support for all core workflows</li>
+<li>Screen reader compatibility tested with VoiceOver, NVDA, and JAWS</li>
+<li>Color contrast ratios meeting minimum 4.5:1 for body text</li>
+<li>Focus indicators visible on all interactive elements</li>
+<li>Reduced motion option respecting <code>prefers-reduced-motion</code></li>
+<li>Resizable text up to 200% without content loss</li>
+</ul>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>

@@ -59,8 +59,8 @@ app.descript.com (Web app) / Desktop app
 
 ## Content Model
 
-| Content Type | Structure | Ownership |
-|---|---|---|
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
 | Project | Container for all media, transcript, compositions, scenes | User/Team-owned |
 | Composition | A single video/audio output with its own transcript, scenes, and timeline | Part of project |
 | Transcript | Auto-generated text with word-level timestamps, speaker labels, editable | Part of composition |
@@ -70,38 +70,39 @@ app.descript.com (Web app) / Desktop app
 | Template | Pre-designed scene layouts and project structures | Descript-curated or user-created |
 | Comment | Timestamped comment on transcript for collaboration | Team collaboration |
 
+
+### Entity Lifecycle
+```
+created → active → updated → archived
+                  ↘ suspended → reactivated → active
+created → deleted (soft delete with recovery period)
+```
 ## User Flows
 
 ### Podcast Editing (Transcript-First)
-1. User creates new project → uploads audio file(s)
-2. Descript transcribes automatically (speaker detection for multi-person)
-3. User reads transcript → selects and deletes filler words ("um", "uh") or entire sentences
-4. Corresponding audio segments are removed — no waveform editing needed
-5. Applies Studio Sound (AI noise removal, loudness normalization)
-6. Exports as MP3/WAV with chapter markers
+```
+User creates new project → uploads audio file(s) → Descript transcribes automatically (speaker detection for multi-person) → User reads transcript → selects and deletes filler words ("um", "uh") or entire sentences → Corresponding audio segments are removed — no waveform editing needed → Applies Studio Sound (AI noise removal, loudness normalization) → Exports as MP3/WAV with chapter markers
+```
 
 ### Video Editing
-1. User imports video or records screen/webcam via built-in recorder
-2. Transcript generated → user edits text to trim video
-3. Switches to Canvas mode → applies Scene templates (lower thirds, titles, B-roll inserts)
-4. Applies AI features: Eye Contact correction, Green Screen background removal
-5. Adds transitions between scenes
-6. Exports as MP4 or publishes directly to YouTube/social
+```
+User imports video or records screen/webcam via built-in recorder → Transcript generated → user edits text to trim video → Switches to Canvas mode → applies Scene templates (lower thirds, titles, B-roll inserts) → Applies AI features: Eye Contact correction, Green Screen background removal → Adds transitions between scenes → Exports as MP4 or publishes directly to YouTube/social
+```
 
 ### AI Overdubbing
-1. User trains an AI Voice clone (reads a script for ~10 minutes)
-2. Types new text in transcript where they want to add/change words
-3. AI Voice generates speech matching the user's voice
-4. Seamlessly inserted into the audio/video — sounds like the original speaker
-5. Used for correcting mistakes, adding new sections, or translating
+```
+User trains an AI Voice clone (reads a script for ~10 minutes) → Types new text in transcript where they want to add/change words → AI Voice generates speech matching the user's voice → Seamlessly inserted into the audio/video — sounds like the original speaker → Used for correcting mistakes, adding new sections, or translating
+```
 
 ### Team Collaboration
-1. Project owner shares project with team members
-2. Team members can add timestamped comments on the transcript
-3. Assigned reviewers can suggest edits (tracked changes style)
-4. Owner accepts/rejects changes
-5. Version history allows rollback to any previous state
+```
+Project owner shares project with team members → Team members can add timestamped comments on the transcript → Assigned reviewers can suggest edits (tracked changes style) → Owner accepts/rejects changes → Version history allows rollback to any previous state
+```
 
+### Manage Notifications
+```
+Settings → Notifications → Toggle email/push/in-app per category → Set frequency (instant/daily digest/weekly) → Save preferences
+```
 ## URL / Route Structure
 
 | Pattern | Description |
@@ -118,6 +119,22 @@ app.descript.com (Web app) / Desktop app
 
 Desktop app is the primary editing surface (Electron). Web app provides cloud project management and lighter editing. UUIDs for projects.
 
+### Additional Routes
+
+```
+descript.com/billing  → Billing & subscription
+descript.com/notifications  → Notification preferences
+descript.com/help  → Help center
+descript.com/help/{topic}  → Help article
+descript.com/api  → API documentation
+descript.com/search?q={query}  → Search results
+descript.com/integrations  → Integrations
+descript.com/admin  → Admin console
+descript.com/admin/members  → Member management
+descript.com/import  → Import data
+descript.com/export  → Export data
+```
+
 ## Search & Filter
 
 - **Project search**: Search projects by name in Drive
@@ -127,6 +144,10 @@ Desktop app is the primary editing surface (Electron). Web app provides cloud pr
 - **No cross-project search**: Cannot search transcript content across all projects
 - **Speaker filter**: Filter transcript by speaker (useful for multi-person recordings)
 
+- **Sort options**: By relevance, date created, date modified, alphabetical, popularity
+- **Autocomplete**: Type-ahead suggestions with recent searches and popular results
+- **Advanced search**: Boolean operators (AND, OR, NOT), field-specific filters, date ranges
+- **Recent searches**: Quick access to previous search queries
 ## Responsive Behavior
 
 | Surface | Behavior |
@@ -140,6 +161,55 @@ Desktop app is the primary editing surface (Electron). Web app provides cloud pr
 - Canvas preview scales to available width while maintaining aspect ratio
 - Transcript editor has a max-width container for readability
 - Marketing site adapts fully from desktop to mobile
+
+
+### Descript-Specific UX Patterns
+- **Progressive disclosure**: Complex features hidden behind expandable sections
+- **Contextual actions**: Right-click menus and hover-revealed action buttons
+- **Inline editing**: Click-to-edit fields without navigating to a separate page
+- **Batch operations**: Multi-select with bulk actions (delete, move, archive, tag)
+- **Undo support**: Non-destructive actions with undo toast notifications
+- **Loading states**: Skeleton screens and progress indicators during async operations
+- **Empty states**: Helpful illustrations and CTAs when sections have no content
+- **Onboarding tooltips**: First-time user guidance highlighting key features
+
+### Accessibility
+- WCAG 2.1 AA compliance across all interactive elements
+- Semantic HTML with proper ARIA labels and landmarks
+- Keyboard navigation support for all core workflows
+- Screen reader compatibility tested with VoiceOver, NVDA, and JAWS
+- Color contrast ratios meeting minimum 4.5:1 for body text
+- Focus indicators visible on all interactive elements
+- Reduced motion option respecting `prefers-reduced-motion`
+- Resizable text up to 200% without content loss
+
+
+### API & Integration Patterns
+- RESTful API with JSON request/response format
+- Webhook support for real-time event notifications
+- OAuth 2.0 for third-party application authorization
+- Rate limiting with clear headers (X-RateLimit-Remaining)
+- Pagination via cursor-based or offset-based parameters
+- Versioned API endpoints for backward compatibility
+- Comprehensive API documentation with interactive examples
+- SDKs available for popular languages (JavaScript, Python, Ruby, Go)
+
+
+### AI-Powered Editing
+```
+Import audio/video → Descript auto-transcribes → Edit transcript text → Audio/video updates to match → Delete filler words (um, uh) with one click → AI Eye Contact corrects gaze → Green Screen removes background → Export polished video
+                                                                                                                                                                                        ↘ Overdub: type new words → AI clones your voice → Audio generated
+```
+
+### Podcast Production
+```
+Record multitrack in Descript → Each speaker on separate track → Transcription per speaker → Edit by editing text → Add Studio Sound (AI noise reduction + leveling) → Insert chapter markers → Export MP3 + show notes → Publish to hosting platform
+```
+
+### Screen Recording
+```
+New recording → Select screen/window/camera → Record with teleprompter script → Stop → Auto-transcribed → Edit mistakes by editing text → Remove pauses → Add titles and transitions → Export as MP4 or GIF
+```
 
 ## Access Control
 

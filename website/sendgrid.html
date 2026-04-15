@@ -244,14 +244,18 @@
 </tr>
 </tbody></table>
 <h2>User Flows</h2>
-<h3>1. Set Up Transactional Email</h3>
-<p><code>Email API → Integration Guide → Choose method (Web API / SMTP) → Generate API key → Install SDK → Authenticate domain (DNS records) → Send test email → Go live</code></p>
-<h3>2. Build and Send a Campaign</h3>
-<p><code>Marketing → Single Sends → + Create → Select contacts list/segment → Design email (drag-and-drop) → Preview → Schedule or Send Now → Monitor stats</code></p>
-<h3>3. Create a Dynamic Template</h3>
-<p><code>Email API → Dynamic Templates → + Create → Code or design editor → Add Handlebars variables ({{name}}) → Set test data → Save version → Use template_id in API calls</code></p>
-<h3>4. Investigate Delivery Issues</h3>
-<p><code>Activity → Search by recipient email → View event timeline (processed → delivered or bounced) → Check bounce reason → Suppressions → Remove from bounce list if resolved</code></p>
+<h3>Integrate Email API</h3>
+<pre><code>Email API → Integration Guide → Choose method (Web API / SMTP) → Generate API key → Install SDK → Authenticate domain (DNS records) → Send test email → Go live
+</code></pre>
+<h3>Send a Marketing Campaign</h3>
+<pre><code>Marketing → Single Sends → + Create → Select contacts list/segment → Design email (drag-and-drop) → Preview → Schedule or Send Now → Monitor stats
+</code></pre>
+<h3>Create Dynamic Template</h3>
+<pre><code>Email API → Dynamic Templates → + Create → Code or design editor → Add Handlebars variables ({{name}}) → Set test data → Save version → Use template_id in API calls
+</code></pre>
+<h3>Debug Delivery Issue</h3>
+<pre><code>Activity → Search by recipient email → View event timeline (processed → delivered or bounced) → Check bounce reason → Suppressions → Remove from bounce list if resolved
+</code></pre>
 <h2>URL / Route Structure</h2>
 <pre><code>app.sendgrid.com/                                    # Dashboard
 app.sendgrid.com/email_activity                      # Email Activity
@@ -264,6 +268,17 @@ app.sendgrid.com/marketing/automations               # Automations
 app.sendgrid.com/suppressions/bounces                # Bounces
 app.sendgrid.com/settings/sender_auth                # Domain authentication
 app.sendgrid.com/settings/api_keys                   # API Keys
+app.sendgrid.com/suppressions/blocks                        # Blocked emails
+app.sendgrid.com/suppressions/spam_reports                  # Spam reports
+app.sendgrid.com/suppressions/unsubscribes                  # Global unsubscribes
+app.sendgrid.com/marketing/segments                         # Segments
+app.sendgrid.com/marketing/automations/{id}                 # Automation detail
+app.sendgrid.com/settings/mail_settings                     # Mail settings
+app.sendgrid.com/settings/tracking                          # Tracking settings
+app.sendgrid.com/settings/subusers                          # Subusers
+sendgrid.com/docs                                            # Documentation
+sendgrid.com/pricing                                         # Pricing
+sendgrid.com/blog                                            # Blog
 </code></pre>
 <h2>Search &amp; Filter</h2>
 <ul>
@@ -331,6 +346,101 @@ app.sendgrid.com/settings/api_keys                   # API Keys
 <td>Scoped to specific API endpoints (e.g., Mail Send only)</td>
 </tr>
 </tbody></table>
+<h2>Email API vs Marketing Campaigns</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Email API</th>
+<th>Marketing Campaigns</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Use case</td>
+<td>Transactional + app-generated email</td>
+<td>Newsletters, promotions, drip campaigns</td>
+</tr>
+<tr>
+<td>Sending method</td>
+<td>REST API or SMTP</td>
+<td>Web UI or API</td>
+</tr>
+<tr>
+<td>Personalization</td>
+<td>Dynamic templates with Handlebars</td>
+<td>Drag-and-drop editor with merge tags</td>
+</tr>
+<tr>
+<td>Recipients</td>
+<td>Single or batch (up to 1000/request)</td>
+<td>Contact lists and segments</td>
+</tr>
+<tr>
+<td>Tracking</td>
+<td>Per-message event webhook</td>
+<td>Campaign-level analytics dashboard</td>
+</tr>
+<tr>
+<td>Pricing</td>
+<td>Per email sent</td>
+<td>Included with Marketing plan</td>
+</tr>
+</tbody></table>
+<h2>Event Webhook</h2>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Processed</td>
+<td>Email accepted by SendGrid for delivery</td>
+</tr>
+<tr>
+<td>Dropped</td>
+<td>Email dropped (suppression list, invalid)</td>
+</tr>
+<tr>
+<td>Delivered</td>
+<td>Email accepted by recipient server</td>
+</tr>
+<tr>
+<td>Deferred</td>
+<td>Temporary delivery failure; will retry</td>
+</tr>
+<tr>
+<td>Bounce</td>
+<td>Permanent delivery failure</td>
+</tr>
+<tr>
+<td>Open</td>
+<td>Recipient opened email (pixel tracking)</td>
+</tr>
+<tr>
+<td>Click</td>
+<td>Recipient clicked a link</td>
+</tr>
+<tr>
+<td>Spam Report</td>
+<td>Recipient marked as spam</td>
+</tr>
+<tr>
+<td>Unsubscribe</td>
+<td>Recipient clicked unsubscribe link</td>
+</tr>
+</tbody></table>
+<h2>Deliverability Tools</h2>
+<ul>
+<li><strong>Domain authentication:</strong> SPF, DKIM, DMARC setup wizard</li>
+<li><strong>IP warmup:</strong> Gradual sending volume increase for new IPs</li>
+<li><strong>Dedicated IPs:</strong> Isolated sending reputation (Pro+)</li>
+<li><strong>Suppression management:</strong> Automatic bounce, spam report, and unsubscribe handling</li>
+<li><strong>Email validation API:</strong> Verify email addresses before sending</li>
+<li><strong>Sender verification:</strong> Single sender or domain-level verification</li>
+<li><strong>Email testing:</strong> Preview rendering across 90+ email clients</li>
+</ul>
 
     </div>
   </article>

@@ -248,14 +248,22 @@
 </tr>
 </tbody></table>
 <h2>User Flows</h2>
-<h3>1. Launch a Push Campaign</h3>
-<p><code>Campaigns → + Create → Push Notification → Compose (title, body, image, deep link) → Target segment → Set delivery (scheduled or action-based) → Set conversion event → Launch</code></p>
-<h3>2. Build a Multi-Step Canvas</h3>
-<p><code>Canvas → + Create → Set entry audience + schedule → Add Message step (welcome email) → Add Delay (2 days) → Add Decision Split (opened email?) → Branch A: Send push → Branch B: Send reminder email → Launch</code></p>
-<h3>3. Analyze Cross-Channel Performance</h3>
-<p><code>Analytics → Report Builder → Select campaigns/canvases → Compare metrics (sends, opens, clicks, conversions, revenue) → Export report</code></p>
-<h3>4. Search and Inspect a User</h3>
-<p><code>Audience → User Search → Enter email/external_id → View profile → Check attribute values → Review event history → See which campaigns/canvases they received → Debug delivery issues</code></p>
+<h3>Launch a Push Campaign</h3>
+<pre><code>Campaigns → + Create → Push Notification → Compose (title, body, image, deep link) → Target segment → Set delivery (scheduled or action-based) → Set conversion event → Launch
+</code></pre>
+<h3>Build a Multi-Step Canvas</h3>
+<pre><code>Canvas → + Create → Set entry audience + schedule → Add Message step (welcome email) → Add Delay (2 days) → Add Decision Split (opened email?) → Branch A: Send push → Branch B: Send reminder email → Launch
+</code></pre>
+<h3>Analyze Cross-Channel Performance</h3>
+<pre><code>Analytics → Report Builder → Select campaigns/canvases → Compare metrics (sends, opens, clicks, conversions, revenue) → Export report
+</code></pre>
+<h3>Search and Inspect a User</h3>
+<pre><code>Audience → User Search → Enter email/external_id → View profile → Check attribute values → Review event history → See which campaigns/canvases they received → Debug delivery issues
+</code></pre>
+<h3>New User Onboarding</h3>
+<pre><code>Visit Braze → Sign Up (email/Google/SSO) → Complete profile → Guided setup wizard → Configure preferences → Explore key features → Start using the product
+                                                                                                                         ↘ Skip wizard → Land on dashboard
+</code></pre>
 <h2>URL / Route Structure</h2>
 <pre><code>dashboard.braze.com/{app_group}/                           # Dashboard
 dashboard.braze.com/{app_group}/engagement/campaigns        # Campaigns
@@ -267,14 +275,37 @@ dashboard.braze.com/{app_group}/users/user_search           # User search
 dashboard.braze.com/{app_group}/data/custom_events          # Custom events
 dashboard.braze.com/{app_group}/data/currents               # Currents
 dashboard.braze.com/{app_group}/reports/                    # Analytics
+dashboard.braze.com/settings  # Settings
+dashboard.braze.com/account  # Account settings
+dashboard.braze.com/account/security  # Security settings
+dashboard.braze.com/billing  # Billing &amp; subscription
+dashboard.braze.com/notifications  # Notification preferences
+dashboard.braze.com/help  # Help center
+dashboard.braze.com/help/{topic}  # Help article
+dashboard.braze.com/api  # API documentation
+dashboard.braze.com/integrations  # Integrations
+dashboard.braze.com/admin  # Admin console
 </code></pre>
 <h2>Search &amp; Filter</h2>
 <ul>
-<li><strong>User search:</strong> By email, external_id, phone, Braze user_id, alias</li>
-<li><strong>Segment builder:</strong> Multi-condition filter with AND/OR logic across attributes, events (count/time/property), purchases, devices, campaign/canvas retargeting</li>
-<li><strong>Campaign/Canvas list:</strong> Search by name, filter by channel, status (active/draft/stopped), tags</li>
-<li><strong>Event/Attribute search (Data):</strong> Search custom events and attributes by name, view volume</li>
-<li><strong>Analytics filters:</strong> Date range, channel, campaign/canvas comparison</li>
+<li><p><strong>User search:</strong> By email, external_id, phone, Braze user_id, alias</p>
+</li>
+<li><p><strong>Segment builder:</strong> Multi-condition filter with AND/OR logic across attributes, events (count/time/property), purchases, devices, campaign/canvas retargeting</p>
+</li>
+<li><p><strong>Campaign/Canvas list:</strong> Search by name, filter by channel, status (active/draft/stopped), tags</p>
+</li>
+<li><p><strong>Event/Attribute search (Data):</strong> Search custom events and attributes by name, view volume</p>
+</li>
+<li><p><strong>Analytics filters:</strong> Date range, channel, campaign/canvas comparison</p>
+</li>
+<li><p><strong>Sort options</strong>: By relevance, date created, date modified, alphabetical, popularity</p>
+</li>
+<li><p><strong>Autocomplete</strong>: Type-ahead suggestions with recent searches and popular results</p>
+</li>
+<li><p><strong>Advanced search</strong>: Boolean operators (AND, OR, NOT), field-specific filters, date ranges</p>
+</li>
+<li><p><strong>Recent searches</strong>: Quick access to previous search queries</p>
+</li>
 </ul>
 <h2>Responsive Behavior</h2>
 <table>
@@ -301,6 +332,27 @@ dashboard.braze.com/{app_group}/reports/                    # Analytics
 <td>Push, in-app messages, Content Cards, and email are all mobile-responsive by design</td>
 </tr>
 </tbody></table>
+<h3>Platform-Specific Patterns</h3>
+<ul>
+<li>Touch targets: minimum 44x44pt on mobile for accessibility</li>
+<li>Swipe gestures: swipe to delete, archive, or perform quick actions</li>
+<li>Pull-to-refresh: standard refresh pattern on feeds and lists</li>
+<li>Keyboard shortcuts: comprehensive shortcuts on desktop for power users</li>
+<li>Dark mode: system-preference detection with manual override</li>
+<li>Offline support: cached data available without network connectivity</li>
+<li>Progressive loading: skeleton screens while content loads</li>
+</ul>
+<h3>Accessibility</h3>
+<ul>
+<li>WCAG 2.1 AA compliance across all interactive elements</li>
+<li>Semantic HTML with proper ARIA labels and landmarks</li>
+<li>Keyboard navigation support for all core workflows</li>
+<li>Screen reader compatibility tested with VoiceOver, NVDA, and JAWS</li>
+<li>Color contrast ratios meeting minimum 4.5:1 for body text</li>
+<li>Focus indicators visible on all interactive elements</li>
+<li>Reduced motion option respecting <code>prefers-reduced-motion</code></li>
+<li>Resizable text up to 200% without content loss</li>
+</ul>
 <h2>Access Control</h2>
 <table>
 <thead>

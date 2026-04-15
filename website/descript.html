@@ -140,9 +140,9 @@ app.descript.com (Web app) / Desktop app
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Structure</th>
-<th>Ownership</th>
+<th>Entity</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -186,41 +186,27 @@ app.descript.com (Web app) / Desktop app
 <td>Team collaboration</td>
 </tr>
 </tbody></table>
+<h3>Entity Lifecycle</h3>
+<pre><code>created → active → updated → archived
+                  ↘ suspended → reactivated → active
+created → deleted (soft delete with recovery period)
+</code></pre>
 <h2>User Flows</h2>
 <h3>Podcast Editing (Transcript-First)</h3>
-<ol>
-<li>User creates new project → uploads audio file(s)</li>
-<li>Descript transcribes automatically (speaker detection for multi-person)</li>
-<li>User reads transcript → selects and deletes filler words (&quot;um&quot;, &quot;uh&quot;) or entire sentences</li>
-<li>Corresponding audio segments are removed — no waveform editing needed</li>
-<li>Applies Studio Sound (AI noise removal, loudness normalization)</li>
-<li>Exports as MP3/WAV with chapter markers</li>
-</ol>
+<pre><code>User creates new project → uploads audio file(s) → Descript transcribes automatically (speaker detection for multi-person) → User reads transcript → selects and deletes filler words (&quot;um&quot;, &quot;uh&quot;) or entire sentences → Corresponding audio segments are removed — no waveform editing needed → Applies Studio Sound (AI noise removal, loudness normalization) → Exports as MP3/WAV with chapter markers
+</code></pre>
 <h3>Video Editing</h3>
-<ol>
-<li>User imports video or records screen/webcam via built-in recorder</li>
-<li>Transcript generated → user edits text to trim video</li>
-<li>Switches to Canvas mode → applies Scene templates (lower thirds, titles, B-roll inserts)</li>
-<li>Applies AI features: Eye Contact correction, Green Screen background removal</li>
-<li>Adds transitions between scenes</li>
-<li>Exports as MP4 or publishes directly to YouTube/social</li>
-</ol>
+<pre><code>User imports video or records screen/webcam via built-in recorder → Transcript generated → user edits text to trim video → Switches to Canvas mode → applies Scene templates (lower thirds, titles, B-roll inserts) → Applies AI features: Eye Contact correction, Green Screen background removal → Adds transitions between scenes → Exports as MP4 or publishes directly to YouTube/social
+</code></pre>
 <h3>AI Overdubbing</h3>
-<ol>
-<li>User trains an AI Voice clone (reads a script for ~10 minutes)</li>
-<li>Types new text in transcript where they want to add/change words</li>
-<li>AI Voice generates speech matching the user&#39;s voice</li>
-<li>Seamlessly inserted into the audio/video — sounds like the original speaker</li>
-<li>Used for correcting mistakes, adding new sections, or translating</li>
-</ol>
+<pre><code>User trains an AI Voice clone (reads a script for ~10 minutes) → Types new text in transcript where they want to add/change words → AI Voice generates speech matching the user&#39;s voice → Seamlessly inserted into the audio/video — sounds like the original speaker → Used for correcting mistakes, adding new sections, or translating
+</code></pre>
 <h3>Team Collaboration</h3>
-<ol>
-<li>Project owner shares project with team members</li>
-<li>Team members can add timestamped comments on the transcript</li>
-<li>Assigned reviewers can suggest edits (tracked changes style)</li>
-<li>Owner accepts/rejects changes</li>
-<li>Version history allows rollback to any previous state</li>
-</ol>
+<pre><code>Project owner shares project with team members → Team members can add timestamped comments on the transcript → Assigned reviewers can suggest edits (tracked changes style) → Owner accepts/rejects changes → Version history allows rollback to any previous state
+</code></pre>
+<h3>Manage Notifications</h3>
+<pre><code>Settings → Notifications → Toggle email/push/in-app per category → Set frequency (instant/daily digest/weekly) → Save preferences
+</code></pre>
 <h2>URL / Route Structure</h2>
 <table>
 <thead>
@@ -267,14 +253,41 @@ app.descript.com (Web app) / Desktop app
 </tr>
 </tbody></table>
 <p>Desktop app is the primary editing surface (Electron). Web app provides cloud project management and lighter editing. UUIDs for projects.</p>
+<h3>Additional Routes</h3>
+<pre><code>descript.com/billing  → Billing &amp; subscription
+descript.com/notifications  → Notification preferences
+descript.com/help  → Help center
+descript.com/help/{topic}  → Help article
+descript.com/api  → API documentation
+descript.com/search?q={query}  → Search results
+descript.com/integrations  → Integrations
+descript.com/admin  → Admin console
+descript.com/admin/members  → Member management
+descript.com/import  → Import data
+descript.com/export  → Export data
+</code></pre>
 <h2>Search &amp; Filter</h2>
 <ul>
-<li><strong>Project search</strong>: Search projects by name in Drive</li>
-<li><strong>Transcript search</strong>: Cmd+F within a project searches transcript text (finds specific words/phrases in the recording)</li>
-<li><strong>Template search</strong>: Search templates by category (Social, Podcast, Education, Business)</li>
-<li><strong>Media search</strong>: Search imported media files within a project by filename</li>
-<li><strong>No cross-project search</strong>: Cannot search transcript content across all projects</li>
-<li><strong>Speaker filter</strong>: Filter transcript by speaker (useful for multi-person recordings)</li>
+<li><p><strong>Project search</strong>: Search projects by name in Drive</p>
+</li>
+<li><p><strong>Transcript search</strong>: Cmd+F within a project searches transcript text (finds specific words/phrases in the recording)</p>
+</li>
+<li><p><strong>Template search</strong>: Search templates by category (Social, Podcast, Education, Business)</p>
+</li>
+<li><p><strong>Media search</strong>: Search imported media files within a project by filename</p>
+</li>
+<li><p><strong>No cross-project search</strong>: Cannot search transcript content across all projects</p>
+</li>
+<li><p><strong>Speaker filter</strong>: Filter transcript by speaker (useful for multi-person recordings)</p>
+</li>
+<li><p><strong>Sort options</strong>: By relevance, date created, date modified, alphabetical, popularity</p>
+</li>
+<li><p><strong>Autocomplete</strong>: Type-ahead suggestions with recent searches and popular results</p>
+</li>
+<li><p><strong>Advanced search</strong>: Boolean operators (AND, OR, NOT), field-specific filters, date ranges</p>
+</li>
+<li><p><strong>Recent searches</strong>: Quick access to previous search queries</p>
+</li>
 </ul>
 <h2>Responsive Behavior</h2>
 <table>
@@ -304,6 +317,49 @@ app.descript.com (Web app) / Desktop app
 <li>Transcript editor has a max-width container for readability</li>
 <li>Marketing site adapts fully from desktop to mobile</li>
 </ul>
+<h3>Descript-Specific UX Patterns</h3>
+<ul>
+<li><strong>Progressive disclosure</strong>: Complex features hidden behind expandable sections</li>
+<li><strong>Contextual actions</strong>: Right-click menus and hover-revealed action buttons</li>
+<li><strong>Inline editing</strong>: Click-to-edit fields without navigating to a separate page</li>
+<li><strong>Batch operations</strong>: Multi-select with bulk actions (delete, move, archive, tag)</li>
+<li><strong>Undo support</strong>: Non-destructive actions with undo toast notifications</li>
+<li><strong>Loading states</strong>: Skeleton screens and progress indicators during async operations</li>
+<li><strong>Empty states</strong>: Helpful illustrations and CTAs when sections have no content</li>
+<li><strong>Onboarding tooltips</strong>: First-time user guidance highlighting key features</li>
+</ul>
+<h3>Accessibility</h3>
+<ul>
+<li>WCAG 2.1 AA compliance across all interactive elements</li>
+<li>Semantic HTML with proper ARIA labels and landmarks</li>
+<li>Keyboard navigation support for all core workflows</li>
+<li>Screen reader compatibility tested with VoiceOver, NVDA, and JAWS</li>
+<li>Color contrast ratios meeting minimum 4.5:1 for body text</li>
+<li>Focus indicators visible on all interactive elements</li>
+<li>Reduced motion option respecting <code>prefers-reduced-motion</code></li>
+<li>Resizable text up to 200% without content loss</li>
+</ul>
+<h3>API &amp; Integration Patterns</h3>
+<ul>
+<li>RESTful API with JSON request/response format</li>
+<li>Webhook support for real-time event notifications</li>
+<li>OAuth 2.0 for third-party application authorization</li>
+<li>Rate limiting with clear headers (X-RateLimit-Remaining)</li>
+<li>Pagination via cursor-based or offset-based parameters</li>
+<li>Versioned API endpoints for backward compatibility</li>
+<li>Comprehensive API documentation with interactive examples</li>
+<li>SDKs available for popular languages (JavaScript, Python, Ruby, Go)</li>
+</ul>
+<h3>AI-Powered Editing</h3>
+<pre><code>Import audio/video → Descript auto-transcribes → Edit transcript text → Audio/video updates to match → Delete filler words (um, uh) with one click → AI Eye Contact corrects gaze → Green Screen removes background → Export polished video
+                                                                                                                                                                                        ↘ Overdub: type new words → AI clones your voice → Audio generated
+</code></pre>
+<h3>Podcast Production</h3>
+<pre><code>Record multitrack in Descript → Each speaker on separate track → Transcription per speaker → Edit by editing text → Add Studio Sound (AI noise reduction + leveling) → Insert chapter markers → Export MP3 + show notes → Publish to hosting platform
+</code></pre>
+<h3>Screen Recording</h3>
+<pre><code>New recording → Select screen/window/camera → Record with teleprompter script → Stop → Auto-transcribed → Edit mistakes by editing text → Remove pauses → Add titles and transitions → Export as MP4 or GIF
+</code></pre>
 <h2>Access Control</h2>
 <table>
 <thead>

@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Affirm</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Affirm provides transparent buy-now-pay-later financing with no late fees, no hidden charges, and no compounding interest. The IA is bifurcated between <strong>consumers</strong> (flexible payment plans, Affirm Card, savings) and <strong>merchants</strong> (checkout integration, analytics). Affirm&#39;s differentiator is radical transparency — every payment schedule is shown upfront with the total cost clearly stated.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>affirm.com
 ├── Home
 ├── How it works
@@ -137,8 +137,12 @@
 └── Auth
     ├── Log in
     └── Sign up
+├── Investor Relations
+│   ├── SEC Filings
+│   ├── Quarterly Earnings
+│   └── Stock Information
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <table>
 <thead>
 <tr>
@@ -173,65 +177,79 @@
 <td>Collapsible sections for consumer/business</td>
 </tr>
 </tbody></table>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
 <th>Entity</th>
-<th>Attributes</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>Payment Plan</td>
 <td>type (Pay-in-4 / Monthly), APR, term length, total cost, eligibility</td>
+<td>belongs to User/Order</td>
 </tr>
 <tr>
 <td>Merchant</td>
 <td>name, logo, categories, Affirm options offered, URL</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Deal</td>
 <td>merchant, discount/offer, validity, featured flag</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Help Article</td>
 <td>title, body, category, tags, related articles</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Affirm Card</td>
 <td>status, credit limit, active loans, payment schedule</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Savings Account</td>
 <td>balance, APY, transactions</td>
+<td>belongs to parent entity</td>
+</tr>
+<tr>
+<td>Transaction</td>
+<td>amount, merchant, date, status, payment_method</td>
+<td>belongs to User and PaymentPlan</td>
+</tr>
+<tr>
+<td>Refund</td>
+<td>amount, reason, status, original_transaction</td>
+<td>belongs to Transaction</td>
+</tr>
+<tr>
+<td>Referral</td>
+<td>referrer, referee, status, reward_amount</td>
+<td>belongs to User</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
-<h3>5a. Consumer — Pay in 4</h3>
-<ol>
-<li>Shop at partner store → select Affirm at checkout</li>
-<li>Enter phone number → verify via SMS</li>
-<li>View transparent payment schedule (4 biweekly, 0% APR)</li>
-<li>Approve → purchase confirmed</li>
-<li>Autopay or manual payments via Affirm app/website</li>
-</ol>
-<h3>5b. Consumer — Affirm Card</h3>
-<ol>
-<li>Apply for Affirm Card → credit check</li>
-<li>Receive virtual card instantly, physical card by mail</li>
-<li>Use card anywhere Visa is accepted</li>
-<li>Choose payment plan per purchase in the app</li>
-<li>Track all loans and payments in dashboard</li>
-</ol>
-<h3>5c. Merchant — Setup</h3>
-<ol>
-<li>Visit Business page → explore solutions</li>
-<li>Select platform (Shopify, BigCommerce, custom API)</li>
-<li>Sign agreement → receive API credentials</li>
-<li>Integrate checkout widget → test in sandbox</li>
-<li>Launch → access merchant dashboard for analytics</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<h2>User Flows</h2>
+<h3>Consumer — Pay in 4</h3>
+<pre><code>Shop at partner store → select Affirm at checkout → Enter phone number → verify via SMS → View transparent payment schedule (4 biweekly, 0% APR) → Approve → purchase confirmed → Autopay or manual payments via Affirm app/website
+</code></pre>
+<h3>Consumer — Affirm Card</h3>
+<pre><code>Apply for Affirm Card → credit check → Receive virtual card instantly, physical card by mail → Use card anywhere Visa is accepted → Choose payment plan per purchase in the app → Track all loans and payments in dashboard
+</code></pre>
+<h3>Merchant — Setup</h3>
+<pre><code>Visit Business page → explore solutions → Select platform (Shopify, BigCommerce, custom API) → Sign agreement → receive API credentials → Integrate checkout widget → test in sandbox → Launch → access merchant dashboard for analytics
+</code></pre>
+<h3>Return &amp; Refund</h3>
+<pre><code>Consumer dashboard → Active payment plan → Merchant issues refund → Affirm adjusts remaining payments → Refund reflected in plan
+                                                                                                                          ↘ Full refund → Plan closed → Payments refunded
+</code></pre>
+<h3>Affirm Card Anywhere Purchase</h3>
+<pre><code>Tap Affirm Card at any Visa terminal → Transaction appears in app → Choose: Pay in Full or Split into payments → Select term (4 biweekly / 6-36 months) → Payment schedule created → Auto-pay enabled
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code>/                           → Home
 /how-it-works/              → Consumer overview
 /pay-in-4/                  → Biweekly plan details
@@ -247,8 +265,25 @@
 /help/                      → Help center
 /help/{topic}/              → Help article
 /about/                     → Company
+/app/dashboard/               → Consumer dashboard (auth)
+/app/payments/                → Active payment plans
+/app/payments/:id/            → Payment plan detail
+/app/transactions/            → Transaction history
+/app/card/                    → Affirm Card management
+/app/card/virtual/            → Virtual card numbers
+/app/settings/                → Account settings
+/app/settings/payment-methods/ → Payment methods
+/app/settings/notifications/  → Notification preferences
+/app/referrals/               → Referral program
+/business/integrations/       → Platform integrations
+/business/docs/               → API documentation
+/business/docs/api/           → API reference
+/business/dashboard/          → Merchant dashboard
+/legal/licenses/              → State licenses
+/careers/                     → Careers page
+/press/                       → Press &amp; media
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <table>
 <thead>
 <tr>
@@ -276,8 +311,16 @@
 <td>Loan lookup</td>
 <td>Search by order or merchant within user dashboard</td>
 </tr>
+<tr>
+<td>Merchant dashboard</td>
+<td>Filter by date range, transaction status, settlement period</td>
+</tr>
+<tr>
+<td>Payment plans</td>
+<td>Filter by status (active, completed, past due)</td>
+</tr>
 </tbody></table>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -302,7 +345,39 @@
 <td>Tab bar (Home, Card, Shop, Payments, Profile), swipe for plan details</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h3>Platform-Specific Patterns</h3>
+<ul>
+<li>Touch targets: minimum 44x44pt on mobile for accessibility</li>
+<li>Swipe gestures: swipe to delete, archive, or perform quick actions</li>
+<li>Pull-to-refresh: standard refresh pattern on feeds and lists</li>
+<li>Keyboard shortcuts: comprehensive shortcuts on desktop for power users</li>
+<li>Dark mode: system-preference detection with manual override</li>
+<li>Offline support: cached data available without network connectivity</li>
+<li>Progressive loading: skeleton screens while content loads</li>
+</ul>
+<h3>Affirm-Specific UX Patterns</h3>
+<ul>
+<li><strong>Progressive disclosure</strong>: Complex features hidden behind expandable sections</li>
+<li><strong>Contextual actions</strong>: Right-click menus and hover-revealed action buttons</li>
+<li><strong>Inline editing</strong>: Click-to-edit fields without navigating to a separate page</li>
+<li><strong>Batch operations</strong>: Multi-select with bulk actions (delete, move, archive, tag)</li>
+<li><strong>Undo support</strong>: Non-destructive actions with undo toast notifications</li>
+<li><strong>Loading states</strong>: Skeleton screens and progress indicators during async operations</li>
+<li><strong>Empty states</strong>: Helpful illustrations and CTAs when sections have no content</li>
+<li><strong>Onboarding tooltips</strong>: First-time user guidance highlighting key features</li>
+</ul>
+<h3>Accessibility</h3>
+<ul>
+<li>WCAG 2.1 AA compliance across all interactive elements</li>
+<li>Semantic HTML with proper ARIA labels and landmarks</li>
+<li>Keyboard navigation support for all core workflows</li>
+<li>Screen reader compatibility tested with VoiceOver, NVDA, and JAWS</li>
+<li>Color contrast ratios meeting minimum 4.5:1 for body text</li>
+<li>Focus indicators visible on all interactive elements</li>
+<li>Reduced motion option respecting <code>prefers-reduced-motion</code></li>
+<li>Resizable text up to 200% without content loss</li>
+</ul>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>
@@ -335,6 +410,16 @@
 <td>Risk assessment tools, compliance, user management</td>
 </tr>
 </tbody></table>
+<h3>Security Features</h3>
+<ul>
+<li>Single Sign-On (SSO) support via SAML 2.0 and OIDC (Team/Enterprise)</li>
+<li>Two-factor authentication (TOTP, SMS, hardware keys)</li>
+<li>API token management with scoped permissions</li>
+<li>Session management: configurable timeout, forced logout</li>
+<li>Audit logging for security-sensitive actions</li>
+<li>Data encryption at rest (AES-256) and in transit (TLS 1.3)</li>
+<li>SOC 2 Type II compliance</li>
+</ul>
 
     </div>
   </article>

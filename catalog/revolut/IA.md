@@ -152,7 +152,9 @@ Revolut is a financial super-app that started as an international spending card 
 
 ## User Flows
 
-### Send Money Internationally
+
+
+### International Transfer
 ```
 Payments → Send → International → Enter Recipient (name, IBAN) → Amount → See FX Rate & Fee → Review → Biometric → Sent → Track Status
 ```
@@ -167,10 +169,11 @@ Exchange → GBP to EUR → Enter Amount → See Interbank Rate → Exchange →
 Pockets → [+] → Name ("Holiday Fund") → Target (£2000) → Add Auto-Save (round-ups + £50/month) → Create → Watch Progress
 ```
 
-### Freeze Stolen Card
+### Freeze and Replace Card
 ```
 Cards → Select Card → [Freeze] → Instant → Order Replacement → Virtual Card Generated Immediately
 ```
+
 
 ## URL / Route Structure
 

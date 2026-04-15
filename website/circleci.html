@@ -139,9 +139,9 @@
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Structure</th>
-<th>Ownership</th>
+<th>Entity</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -195,42 +195,29 @@
 <td>Analytics</td>
 </tr>
 </tbody></table>
+<h3>Build/Pipeline Lifecycle</h3>
+<pre><code>triggered → queued → running → success → deployed
+                              ↘ failed → retried → success
+triggered → cancelled (by user or timeout)
+running → timed_out → failed
+</code></pre>
 <h2>User Flows</h2>
 <h3>Pipeline Triggered by Code Push</h3>
-<ol>
-<li>Developer pushes code to GitHub/GitLab/Bitbucket</li>
-<li>CircleCI triggers Pipeline → reads <code>.circleci/config.yml</code></li>
-<li>Workflow(s) start → jobs execute in defined order/parallelism</li>
-<li>Dashboard updates in real-time — job status badges (running, success, failed)</li>
-<li>Workflow graph shows DAG with colored nodes</li>
-<li>Click a job → see step-by-step output, test results, artifacts</li>
-</ol>
+<pre><code>Developer pushes code to GitHub/GitLab/Bitbucket → CircleCI triggers Pipeline → reads `.circleci/config.yml` → Workflow(s) start → jobs execute in defined order/parallelism → Dashboard updates in real-time — job status badges (running, success, failed) → Workflow graph shows DAG with colored nodes → Click a job → see step-by-step output, test results, artifacts
+</code></pre>
 <h3>Investigating a Failed Build</h3>
-<ol>
-<li>Developer sees red pipeline on dashboard</li>
-<li>Clicks Pipeline → Workflow graph shows which job(s) failed</li>
-<li>Clicks failed job → scrolls to the failing step</li>
-<li>Reads error output → identifies issue (test failure, build error, timeout)</li>
-<li>Can SSH into the executor for interactive debugging (if enabled)</li>
-<li>Fixes code → pushes → new pipeline runs</li>
-</ol>
+<pre><code>Developer sees red pipeline on dashboard → Clicks Pipeline → Workflow graph shows which job(s) failed → Clicks failed job → scrolls to the failing step → Reads error output → identifies issue (test failure, build error, timeout) → Can SSH into the executor for interactive debugging (if enabled) → Fixes code → pushes → new pipeline runs
+</code></pre>
 <h3>Insights &amp; Optimization</h3>
-<ol>
-<li>Team lead navigates to Insights → selects project</li>
-<li>Views workflow metrics: success rate trend, duration trend (p50, p95), throughput</li>
-<li>Identifies slowest workflows and most common failure points</li>
-<li>Drills into test metrics → sees flaky tests (tests that intermittently fail)</li>
-<li>Optimizes config: adds caching, parallelism, or resource class upgrades</li>
-<li>Measures improvement in next sprint&#39;s metrics</li>
-</ol>
+<pre><code>Team lead navigates to Insights → selects project → Views workflow metrics: success rate trend, duration trend (p50, p95), throughput → Identifies slowest workflows and most common failure points → Drills into test metrics → sees flaky tests (tests that intermittently fail) → Optimizes config: adds caching, parallelism, or resource class upgrades → Measures improvement in next sprint&#39;s metrics
+</code></pre>
 <h3>Using an Orb</h3>
-<ol>
-<li>Developer browses Orb Registry → finds relevant orb (e.g., <code>circleci/slack</code>)</li>
-<li>Reads orb documentation: available commands, jobs, and parameters</li>
-<li>Adds orb reference to config: <code>orbs: slack: circleci/slack@4.12.0</code></li>
-<li>Uses orb commands in workflow: <code>slack/notify</code> job after deployment</li>
-<li>Orb auto-updates with version pinning</li>
-</ol>
+<pre><code>Developer browses Orb Registry → finds relevant orb (e.g., `circleci/slack`) → Reads orb documentation: available commands, jobs, and parameters → Adds orb reference to config: `orbs: slack: circleci/slack@4.12.0` → Uses orb commands in workflow: `slack/notify` job after deployment → Orb auto-updates with version pinning
+</code></pre>
+<h3>New User Onboarding</h3>
+<pre><code>Visit CircleCI → Sign Up (email/Google/SSO) → Complete profile → Guided setup wizard → Configure preferences → Explore key features → Start using the product
+                                                                                                                         ↘ Skip wizard → Land on dashboard
+</code></pre>
 <h2>URL / Route Structure</h2>
 <table>
 <thead>
@@ -277,15 +264,52 @@
 </tr>
 </tbody></table>
 <p>Deep hierarchical URLs reflecting Pipeline → Workflow → Job hierarchy. VCS type (github, bitbucket) in path.</p>
+<h3>Additional Routes</h3>
+<pre><code>app.circleci.com/account  → Account settings
+app.circleci.com/account/security  → Security settings
+app.circleci.com/billing  → Billing &amp; subscription
+app.circleci.com/notifications  → Notification preferences
+app.circleci.com/help  → Help center
+app.circleci.com/help/{topic}  → Help article
+app.circleci.com/api  → API documentation
+app.circleci.com/search?q={query}  → Search results
+app.circleci.com/integrations  → Integrations
+app.circleci.com/admin  → Admin console
+app.circleci.com/projects                                           # All projects
+app.circleci.com/organization/{id}/settings                          # Org settings
+app.circleci.com/organization/{id}/runners                           # Self-hosted runners
+app.circleci.com/organization/{id}/usage                             # Usage &amp; billing
+app.circleci.com/account/personal                                   # Personal settings
+app.circleci.com/account/tokens                                     # API tokens
+app.circleci.com/account/notifications                              # Notification prefs
+app.circleci.com/insights/{vcs}/{org}/{project}/tests               # Test metrics
+app.circleci.com/project/{vcs}/{org}/{project}/settings/env-vars     # Environment variables
+app.circleci.com/project/{vcs}/{org}/{project}/settings/ssh-keys     # SSH keys
+</code></pre>
 <h2>Search &amp; Filter</h2>
 <ul>
-<li><strong>Pipeline filtering</strong>: Filter by branch (critical), status (success, failed, running), trigger type</li>
-<li><strong>Project search</strong>: Search projects by name</li>
-<li><strong>Orb Registry search</strong>: Full-text search across orb names, descriptions, categories</li>
-<li><strong>Job output search</strong>: Search within step output logs (in-job)</li>
-<li><strong>Insights filtering</strong>: Time range (7d, 30d, 90d), workflow name, branch</li>
-<li><strong>Test search</strong>: Search test results by test name, filter by status (failed, flaky)</li>
-<li><strong>No cross-project pipeline search</strong>: Each project&#39;s pipelines are independent</li>
+<li><p><strong>Pipeline filtering</strong>: Filter by branch (critical), status (success, failed, running), trigger type</p>
+</li>
+<li><p><strong>Project search</strong>: Search projects by name</p>
+</li>
+<li><p><strong>Orb Registry search</strong>: Full-text search across orb names, descriptions, categories</p>
+</li>
+<li><p><strong>Job output search</strong>: Search within step output logs (in-job)</p>
+</li>
+<li><p><strong>Insights filtering</strong>: Time range (7d, 30d, 90d), workflow name, branch</p>
+</li>
+<li><p><strong>Test search</strong>: Search test results by test name, filter by status (failed, flaky)</p>
+</li>
+<li><p><strong>No cross-project pipeline search</strong>: Each project&#39;s pipelines are independent</p>
+</li>
+<li><p><strong>Sort options</strong>: By relevance, date created, date modified, alphabetical, popularity</p>
+</li>
+<li><p><strong>Autocomplete</strong>: Type-ahead suggestions with recent searches and popular results</p>
+</li>
+<li><p><strong>Advanced search</strong>: Boolean operators (AND, OR, NOT), field-specific filters, date ranges</p>
+</li>
+<li><p><strong>Recent searches</strong>: Quick access to previous search queries</p>
+</li>
 </ul>
 <h2>Responsive Behavior</h2>
 <table>
@@ -318,6 +342,51 @@
 <li>Job output logs are monospace with horizontal scroll</li>
 <li>Insights charts resize and may reduce data density on mobile</li>
 <li>Orb registry cards reflow from grid to single-column</li>
+</ul>
+<h3>CircleCI-Specific UX Patterns</h3>
+<ul>
+<li><strong>Progressive disclosure</strong>: Complex features hidden behind expandable sections</li>
+<li><strong>Contextual actions</strong>: Right-click menus and hover-revealed action buttons</li>
+<li><strong>Inline editing</strong>: Click-to-edit fields without navigating to a separate page</li>
+<li><strong>Batch operations</strong>: Multi-select with bulk actions (delete, move, archive, tag)</li>
+<li><strong>Undo support</strong>: Non-destructive actions with undo toast notifications</li>
+<li><strong>Loading states</strong>: Skeleton screens and progress indicators during async operations</li>
+<li><strong>Empty states</strong>: Helpful illustrations and CTAs when sections have no content</li>
+<li><strong>Onboarding tooltips</strong>: First-time user guidance highlighting key features</li>
+</ul>
+<h3>Accessibility</h3>
+<ul>
+<li>WCAG 2.1 AA compliance across all interactive elements</li>
+<li>Semantic HTML with proper ARIA labels and landmarks</li>
+<li>Keyboard navigation support for all core workflows</li>
+<li>Screen reader compatibility tested with VoiceOver, NVDA, and JAWS</li>
+<li>Color contrast ratios meeting minimum 4.5:1 for body text</li>
+<li>Focus indicators visible on all interactive elements</li>
+<li>Reduced motion option respecting <code>prefers-reduced-motion</code></li>
+<li>Resizable text up to 200% without content loss</li>
+</ul>
+<h3>API &amp; Integration Patterns</h3>
+<ul>
+<li><p>RESTful API with JSON request/response format</p>
+</li>
+<li><p>Webhook support for real-time event notifications</p>
+</li>
+<li><p>OAuth 2.0 for third-party application authorization</p>
+</li>
+<li><p>Rate limiting with clear headers (X-RateLimit-Remaining)</p>
+</li>
+<li><p>Pagination via cursor-based or offset-based parameters</p>
+</li>
+<li><p>Versioned API endpoints for backward compatibility</p>
+</li>
+<li><p>Comprehensive API documentation with interactive examples</p>
+</li>
+<li><p>SDKs available for popular languages (JavaScript, Python, Ruby, Go)</p>
+</li>
+<li><p>Docker layer caching significantly reduces build times for container-based workflows</p>
+</li>
+<li><p>Test splitting distributes tests across parallel containers for faster feedback</p>
+</li>
 </ul>
 <h2>Access Control</h2>
 <table>

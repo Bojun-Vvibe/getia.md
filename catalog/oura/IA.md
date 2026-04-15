@@ -7,11 +7,11 @@ website: https://ouraring.com
 
 # Information Architecture — Oura
 
-## 1. Overview
+## Overview
 
 Oura is a health tracking platform centered on the Oura Ring — a wearable that continuously monitors sleep, activity, heart rate, temperature, and blood oxygen. The IA is organized around three daily scores — Sleep, Readiness, and Activity — that distill complex biometric data into actionable guidance. The app surfaces trends over time and provides personalized insights, bridging the gap between raw sensor data and practical health decisions.
 
-## 2. Site Map
+## Site Map
 
 ```
 Oura
@@ -104,7 +104,7 @@ Oura
     └── Business (Oura for Business)
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 - **Type**: Bottom tab bar (mobile)
 - **Bottom Tabs**: Home, Sleep, Readiness, Activity (or combined "Scores"), Explore
@@ -114,10 +114,10 @@ Oura
 - **Insights Panel**: Cards on Home with contextual tips based on data
 - **Ring Icon**: Battery status and ring connection indicator in top bar
 
-## 4. Content Model
+## Content Model
 
-| Content Type | Attributes | Relationships |
-|---|---|---|
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
 | Sleep Score | score (0-100), breakdown components, sleep stages, biometrics, date | → Night's Sleep Data |
 | Readiness Score | score (0-100), breakdown components, recovery metrics, date | → Sleep Score, → Activity |
 | Activity Score | score (0-100), steps, calories, training, inactivity, date | → Workouts |
@@ -130,29 +130,24 @@ Oura
 | Cycle Data | cycle day, temperature deviation, period dates, prediction | → Profile |
 | Trend | metric, timeframe (30/90/180 days), data points, direction | → Scores |
 
-## 5. User Flows
+## User Flows
 
 ### Morning Check-In
-1. Wake up → Open app → Ring syncs overnight data automatically
-2. Home shows three scores: Sleep (82), Readiness (71), Activity (yesterday's 95)
-3. Tap Sleep → View hypnogram, time in each stage, HRV, resting HR
-4. Read insight: "Your deep sleep was 15% below your baseline. Consider avoiding caffeine after 2 PM."
-5. Add Tag: "Late coffee" to track correlation over time
+```
+Wake up → Open app → Ring syncs overnight data automatically → Home shows three scores: Sleep (82), Readiness (71), Activity (yesterday's 95) → Tap Sleep → View hypnogram, time in each stage, HRV, resting HR → Read insight: "Your deep sleep was 15% below your baseline. Consider avoiding caffeine after 2 PM." → Add Tag: "Late coffee" to track correlation over time
+```
 
 ### Understanding Readiness
-1. Tap Readiness score → See component breakdown
-2. Temperature +0.3°C above baseline → Body may be fighting something
-3. HRV below personal average → Recovery is low
-4. Insight suggests: "Take it easy today. Opt for light activity."
-5. Check trend → See readiness dip pattern correlated with "Poor sleep" tag
+```
+Tap Readiness score → See component breakdown → Temperature +0.3°C above baseline → Body may be fighting something → HRV below personal average → Recovery is low → Insight suggests: "Take it easy today. Opt for light activity." → Check trend → See readiness dip pattern correlated with "Poor sleep" tag
+```
 
 ### Tracking Cycle
-1. Enable Cycle Tracking in settings → Log period start
-2. Oura tracks basal body temperature deviations nightly
-3. Algorithm predicts cycle phases and next period
-4. View Cycle Calendar → See temperature curve overlaid with cycle days
+```
+Enable Cycle Tracking in settings → Log period start → Oura tracks basal body temperature deviations nightly → Algorithm predicts cycle phases and next period → View Cycle Calendar → See temperature curve overlaid with cycle days
+```
 
-## 6. URL / Route Structure
+## URL / Route Structure
 
 ```
 ouraring.com/                               # Marketing homepage
@@ -167,9 +162,17 @@ ouraring.com/business                       # Oura for Business
 cloud.ouraring.com/                         # Web dashboard (limited)
 cloud.ouraring.com/dashboard                # Data overview
 api.ouraring.com/                           # Developer API
+ouraring.com/product/accessories             # Ring accessories
+ouraring.com/oura-for-business               # Enterprise offering
+cloud.ouraring.com/trends                    # Trends dashboard
+cloud.ouraring.com/sleep                     # Sleep details
+cloud.ouraring.com/activity                  # Activity details
+cloud.ouraring.com/readiness                 # Readiness details
+api.ouraring.com/v2/usercollection/daily_sleep  # Sleep API endpoint
+api.ouraring.com/v2/usercollection/daily_activity # Activity API endpoint
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 - **Tag Search**: Browse and create custom tags for lifestyle factors
 - **Trend Filters**: View trends by 7, 30, 90, or 180 days
@@ -179,7 +182,7 @@ api.ouraring.com/                           # Developer API
 - **No Social Search**: Oura is a personal health tool with no social features
 - **Data Export**: Full data export to CSV for external analysis
 
-## 8. Responsive Behavior
+## Responsive Behavior
 
 | Breakpoint | Behavior |
 |---|---|
@@ -189,7 +192,7 @@ api.ouraring.com/                           # Developer API
 | Oura Ring (hardware) | No screen; LED pulse for alignment/charging; all data viewed in app |
 | Apple Watch / Widget | Score summary widget; quick glance at today's scores |
 
-## 9. Access Control
+## Access Control
 
 | Role | Capabilities |
 |---|---|
@@ -199,3 +202,26 @@ api.ouraring.com/                           # Developer API
 | API Developer | Access personal data via OAuth API; rate-limited reads of sleep, activity, readiness |
 | Oura for Business User | Ring provided by employer; aggregated (anonymized) insights shared with organization |
 | Guest (no ring) | Browse website, blog, research; cannot access app features |
+
+## Sensor Technology
+
+| Sensor | Measurement | Sampling Rate |
+|--------|------------|---------------|
+| Infrared PPG | Heart rate, HRV, SpO2 | Every 5 seconds (sleep) |
+| NTC Temperature | Skin temperature deviation | Continuous overnight |
+| 3D Accelerometer | Movement, steps, activity type | Continuous |
+| Gyroscope | Orientation, gesture detection | Continuous |
+
+## Score Calculation
+
+- **Sleep Score (0-100):** Weighted average of total sleep, efficiency, restfulness, REM sleep, deep sleep, latency, timing
+- **Readiness Score (0-100):** Weighted average of resting HR, HRV balance, body temperature, recovery index, sleep balance, activity balance
+- **Activity Score (0-100):** Weighted average of steps, active calories, training frequency, training volume, inactivity time
+
+## Data Export & API
+
+- **CSV export:** Download all historical data from the app
+- **REST API:** OAuth2 access to sleep, activity, readiness, heart rate data
+- **Webhook support:** Real-time notifications when new data is available
+- **Apple Health / Google Health Connect:** Bidirectional sync of sleep, activity, heart rate
+- **Third-party integrations:** Strava, Natural Cycles, Zero (fasting), IFTTT

@@ -84,20 +84,39 @@ calendly.com
 | Routing Form | questions, routing rules | → Event Types |
 | Availability | schedule (weekly hours), date overrides, buffer, limits | → Event Type |
 
+
+### Item Lifecycle
+```
+draft → active → in_progress → completed → archived
+                               ↘ blocked → unblocked → in_progress
+draft → deleted (soft delete, 30-day retention)
+```
 ## User Flows
 
-### 1. Set Up and Share
-`Event Types → + New → Name, duration, location → Set availability → Add questions → Copy link → Share`
+### Set Up and Share
+```
+Event Types → + New → Name, duration, location → Set availability → Add questions → Copy link → Share
+```
 
-### 2. Invitee Books a Meeting
-`Open booking link → Select event type → Choose date/time from available slots → Fill form → Confirm → Calendar invite sent`
+### Invitee Books a Meeting
+```
+Open booking link → Select event type → Choose date/time from available slots → Fill form → Confirm → Calendar invite sent
+```
 
-### 3. Round Robin Scheduling
-`Admin creates Round Robin event type → Add team members → Set distribution (optimize for availability or equal) → Invitee books → Auto-assigned`
+### Round Robin Scheduling
+```
+Admin creates Round Robin event type → Add team members → Set distribution (optimize for availability or equal) → Invitee books → Auto-assigned
+```
 
-### 4. Automate Follow-ups
-`Workflows → + New → Trigger: After event ends → Action: Send follow-up email → Apply to event types → Activate`
+### Automate Follow-ups
+```
+Workflows → + New → Trigger: After event ends → Action: Send follow-up email → Apply to event types → Activate
+```
 
+### Manage Notifications
+```
+Settings → Notifications → Toggle email/push/in-app per category → Set frequency (instant/daily digest/weekly) → Save preferences
+```
 ## URL / Route Structure
 
 ```
@@ -109,6 +128,18 @@ calendly.com/{username}/{event-slug}              # Specific event type booking
 calendly.com/{username}/{event-slug}/{date}       # Date-specific slots
 calendly.com/d/{invitee-uuid}                     # Invitee confirmation/reschedule
 calendly.com/routing/{form_id}                    # Routing form
+calendly.com/settings  # Settings
+calendly.com/account  # Account settings
+calendly.com/account/security  # Security settings
+calendly.com/billing  # Billing & subscription
+calendly.com/notifications  # Notification preferences
+calendly.com/help  # Help center
+calendly.com/help/{topic}  # Help article
+calendly.com/api  # API documentation
+calendly.com/search?q={query}  # Search results
+calendly.com/integrations  # Integrations
+calendly.com/admin  # Admin console
+calendly.com/admin/members  # Member management
 ```
 
 ## Search & Filter
@@ -118,6 +149,10 @@ calendly.com/routing/{form_id}                    # Routing form
 - **Analytics filters:** Date range, event type, team member
 - **Booking page:** Availability auto-filtered by invitee's timezone and host's connected calendars
 
+- **Sort options**: By relevance, date created, date modified, alphabetical, popularity
+- **Autocomplete**: Type-ahead suggestions with recent searches and popular results
+- **Advanced search**: Boolean operators (AND, OR, NOT), field-specific filters, date ranges
+- **Recent searches**: Quick access to previous search queries
 ## Responsive Behavior
 
 | Breakpoint | Behavior |
@@ -125,6 +160,47 @@ calendly.com/routing/{form_id}                    # Routing form
 | Desktop (1024px+) | Full admin dashboard with sidebar navigation; booking page as centered card |
 | Tablet (768–1023px) | Responsive admin layout, booking page adapts naturally |
 | Mobile | Fully responsive booking page (critical for invitees); admin app with simplified navigation |
+
+
+### Platform-Specific Patterns
+- Touch targets: minimum 44x44pt on mobile for accessibility
+- Swipe gestures: swipe to delete, archive, or perform quick actions
+- Pull-to-refresh: standard refresh pattern on feeds and lists
+- Keyboard shortcuts: comprehensive shortcuts on desktop for power users
+- Dark mode: system-preference detection with manual override
+- Offline support: cached data available without network connectivity
+- Progressive loading: skeleton screens while content loads
+
+### Calendly-Specific UX Patterns
+- **Progressive disclosure**: Complex features hidden behind expandable sections
+- **Contextual actions**: Right-click menus and hover-revealed action buttons
+- **Inline editing**: Click-to-edit fields without navigating to a separate page
+- **Batch operations**: Multi-select with bulk actions (delete, move, archive, tag)
+- **Undo support**: Non-destructive actions with undo toast notifications
+- **Loading states**: Skeleton screens and progress indicators during async operations
+- **Empty states**: Helpful illustrations and CTAs when sections have no content
+- **Onboarding tooltips**: First-time user guidance highlighting key features
+
+### Accessibility
+- WCAG 2.1 AA compliance across all interactive elements
+- Semantic HTML with proper ARIA labels and landmarks
+- Keyboard navigation support for all core workflows
+- Screen reader compatibility tested with VoiceOver, NVDA, and JAWS
+- Color contrast ratios meeting minimum 4.5:1 for body text
+- Focus indicators visible on all interactive elements
+- Reduced motion option respecting `prefers-reduced-motion`
+- Resizable text up to 200% without content loss
+
+
+### API & Integration Patterns
+- RESTful API with JSON request/response format
+- Webhook support for real-time event notifications
+- OAuth 2.0 for third-party application authorization
+- Rate limiting with clear headers (X-RateLimit-Remaining)
+- Pagination via cursor-based or offset-based parameters
+- Versioned API endpoints for backward compatibility
+- Comprehensive API documentation with interactive examples
+- SDKs available for popular languages (JavaScript, Python, Ruby, Go)
 
 ## Access Control
 
@@ -135,3 +211,13 @@ calendly.com/routing/{form_id}                    # Routing form
 | Team Manager | Manage team event types, view team analytics |
 | Team Member | Own event types, view personal scheduled events |
 | Invitee (external) | Book, reschedule, cancel own appointments via link |
+
+
+### Security Features
+- Single Sign-On (SSO) support via SAML 2.0 and OIDC (Team/Enterprise)
+- Two-factor authentication (TOTP, SMS, hardware keys)
+- API token management with scoped permissions
+- Session management: configurable timeout, forced logout
+- Audit logging for security-sensitive actions
+- Data encryption at rest (AES-256) and in transit (TLS 1.3)
+- SOC 2 Type II compliance

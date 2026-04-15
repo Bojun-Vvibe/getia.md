@@ -106,6 +106,19 @@ application/vnd.google-apps.drawing     → Google Drawings
 Search bar → Type query → Filter by type/date/owner → Click result → Preview or Open
 ```
 
+
+### Share and Collaborate
+
+```
+Right-click file → Share → Add people or groups → Set permission (Viewer/Commenter/Editor) → Send notification → Collaborators access file → Real-time co-editing
+```
+
+### Offline Access Setup
+
+```
+Settings → Offline → Enable offline access → Select files to make available offline → Files sync locally → Edit offline → Changes sync when back online
+```
+
 ## URL / Route Structure
 
 ```
@@ -122,6 +135,26 @@ Search bar → Type query → Filter by type/date/owner → Click result → Pre
 /file/d/:fileId/view       → File preview
 /file/d/:fileId/edit       → Open in editor
 /drive/settings            → Settings
+/drive/my-drive                # My Drive root
+/drive/folders/{id}            # Folder view
+/drive/shared-drives           # Shared Drives list
+/drive/shared-drives/{id}      # Specific Shared Drive
+/drive/shared-with-me          # Shared with Me
+/drive/recent                  # Recent files
+/drive/starred                 # Starred files
+/drive/trash                   # Trash
+/drive/spam                    # Spam
+/drive/search?q={query}        # Search results
+/drive/quota                   # Storage usage
+/drive/settings                # Settings
+/drive/priority                # Priority/Home page
+/drive/computers               # Synced computers
+/drive/workspaces              # Workspaces
+/file/d/{fileId}/view          # File preview
+/file/d/{fileId}/edit          # Open in editor
+/file/d/{fileId}/revisions     # Version history
+/file/d/{fileId}/sharing       # Sharing settings
+/drive/u/{n}/                  # Multi-account switch
 ```
 
 ## Search & Filter
@@ -136,6 +169,9 @@ Search bar → Type query → Filter by type/date/owner → Click result → Pre
 - OCR search (text in images)
 - Natural language ("my presentations from last week")
 
+- **Natural Language Search**: Google Drive supports queries like 'my presentations from last week'
+- **Content Search**: Full-text search inside documents, spreadsheets, and PDFs
+- **Image OCR Search**: Text recognition within images for search indexing
 ## Responsive Behavior
 
 | Breakpoint | Layout |
@@ -143,6 +179,36 @@ Search bar → Type query → Filter by type/date/owner → Click result → Pre
 | Desktop | Sidebar + file grid/list + right detail panel |
 | Tablet | Collapsed sidebar, file grid |
 | Mobile (app) | Bottom tabs (Home, Starred, Shared, Files), list view |
+
+
+### Platform-Specific UX
+- Google-format files (Docs, Sheets, Slides, Forms) count zero storage against quota
+- Priority/Home page uses AI to surface files you're likely to need based on activity patterns
+- Shortcuts (symlinks) allow files to appear in multiple folders without duplication
+- Version history with named versions enables tracking changes over time
+- Shared Drives (team-owned) persist files even when members leave the organization
+- OCR search finds text within images and scanned documents automatically
+- Activity panel shows file activity history — edits, shares, views, and downloads
+- Right-click context menu provides quick access to sharing, moving, and file management
+- Storage breakdown shows usage across Drive, Gmail, and Google Photos
+- Drive Desktop app offers both streaming (on-demand) and mirroring (full sync) modes
+- Clean-up suggestions identify large files and orphaned content to free storage
+- Multi-account support (personal + workspace) with easy switching via account avatar
+
+
+### File Actions (Context Menu)
+```
+Share              → Set permissions and send notification
+Get Link           → Copy shareable link with access level
+Move to            → Relocate to different folder
+Add Shortcut       → Create shortcut in another folder
+Make a Copy        → Duplicate file
+Download           → Export file to local storage
+Rename             → Change file name
+Make Available Offline → Enable offline access
+Version History    → View and restore previous versions
+Open With          → Launch in connected apps
+```
 
 ## Access Control
 

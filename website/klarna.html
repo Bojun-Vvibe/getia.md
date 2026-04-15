@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Klarna</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Klarna is a global buy-now-pay-later (BNPL) platform that lets shoppers split purchases into 4 interest-free installments, pay in 30 days, or finance over time. The IA centers on a dual audience: <strong>consumers</strong> seeking flexible checkout and a shopping discovery experience, and <strong>merchants</strong> looking to integrate Klarna&#39;s payment solutions. The Klarna app extends the experience with a full shopping hub, price-drop alerts, and a one-time card for in-store use.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>klarna.com
 ├── Home
 ├── Shopping (Consumer)
@@ -137,7 +137,7 @@
     ├── Log in (consumer / merchant)
     └── Sign up
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <table>
 <thead>
 <tr>
@@ -173,64 +173,71 @@
 </tr>
 </tbody></table>
 <p><strong>Key pattern</strong>: Audience split at the top level — consumer vs. business — with a sticky &quot;Get the app&quot; CTA on mobile viewports.</p>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
 <th>Entity</th>
-<th>Attributes</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>Payment Product</td>
 <td>name, description, eligibility, how-it-works steps, merchant availability</td>
+<td>has Variants, has Reviews, belongs to Creator</td>
 </tr>
 <tr>
 <td>Store</td>
 <td>name, logo, categories, Klarna products accepted, URL, offers</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Deal / Offer</td>
 <td>store, discount %, expiry, terms, featured flag</td>
+<td>→ Tier, belongs to Blog</td>
 </tr>
 <tr>
 <td>Help Article</td>
 <td>title, body, category, audience (consumer/merchant), related articles</td>
+<td>→ Feed, → Board, → Source</td>
 </tr>
 <tr>
 <td>Press Release</td>
 <td>date, title, body, region, media assets</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Developer Doc</td>
 <td>title, endpoint, code samples, SDK, version</td>
+<td>belongs to parent entity</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
+<h2>User Flows</h2>
 <h3>5a. Consumer — Pay in 4 checkout</h3>
-<ol>
-<li>Browse store directory or shop externally → choose Klarna at checkout</li>
-<li>Log in / sign up (email + phone verification)</li>
-<li>Instant soft-credit approval → see 4-payment schedule</li>
-<li>Confirm → order placed, 1st payment charged</li>
-<li>Remaining 3 auto-charged biweekly → tracked in app/dashboard</li>
-</ol>
+<pre><code>Browse store directory or shop externally → choose Klarna at checkout →
+  Log in / sign up (email + phone verification) →
+  Instant soft-credit approval → see 4-payment schedule →
+  Confirm → order placed, 1st payment charged →
+  Remaining 3 auto-charged biweekly → tracked in app/dashboard
+</code></pre>
 <h3>5b. Merchant — Integration</h3>
-<ol>
-<li>Land on Business page → select platform (Shopify, WooCommerce, custom)</li>
-<li>Review pricing &amp; terms → Sign up</li>
-<li>Access Merchant Portal → install plugin / API keys</li>
-<li>Configure checkout options → test in sandbox</li>
-<li>Go live → monitor via Merchant Dashboard</li>
-</ol>
+<pre><code>Land on Business page → select platform (Shopify, WooCommerce, custom) →
+  Review pricing &amp; terms → Sign up → Access Merchant Portal → install plugin / API keys →
+  Configure checkout options → test in sandbox → Go live → monitor via Merchant Dashboard
+</code></pre>
 <h3>5c. Shopping discovery (app)</h3>
-<ol>
-<li>Open Klarna app → browsing feed of curated deals</li>
-<li>Search or browse by category → view store/product</li>
-<li>Add to wish list → receive price-drop notification</li>
-<li>Tap &quot;Buy&quot; → checkout with Klarna, choose payment plan</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<pre><code>Open Klarna app → browsing feed of curated deals → Search or browse by category → view store/product →
+  Add to wish list → receive price-drop notification →
+  Tap &quot;Buy&quot; → checkout with Klarna, choose payment plan
+</code></pre>
+<h3>One-Time Card Payment</h3>
+<pre><code>Open Klarna app → Generate one-time virtual Visa card → Get card number, expiry, CVV → Use at any online or in-store checkout → Pay in 4 installments → Card expires after single use
+</code></pre>
+<h3>Merchant Dashboard Analytics</h3>
+<pre><code>Log in to Merchant Portal → View sales dashboard → Filter by period, product, region → Analyze conversion rates → Review settlement reports → Download transaction data
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code>/                           → Home
 /shopping/                  → Consumer landing
 /pay-in-4/                  → Pay in 4 product
@@ -245,8 +252,22 @@
 /about/                     → Company info
 /customer-service/          → Help center
 /customer-service/{topic}/  → Help article
+/one-time-card/               # One-time virtual card
+/app/                          # Klarna app landing
+/app/shopping-feed/            # Shopping feed
+/app/wish-lists/               # Wish lists
+/app/purchases/                # Purchase history
+/app/settings/                 # App settings
+/business/platforms/           # Platform integrations
+/business/docs/api/            # API documentation
+/business/docs/api/{endpoint}/ # API endpoint detail
+/business/signup/              # Merchant signup
+/business/dashboard/           # Merchant dashboard
+/careers/                      # Careers page
+/sustainability/               # Sustainability page
+/press/                         # Press releases
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <table>
 <thead>
 <tr>
@@ -275,7 +296,12 @@
 <td>Changes store availability, currency, legal terms</td>
 </tr>
 </tbody></table>
-<h2>8. Responsive Behavior</h2>
+<ul>
+<li><strong>Purchase history search</strong>: Search past purchases by store name, date, amount</li>
+<li><strong>Wish list management</strong>: Search and organize items across wish lists</li>
+<li><strong>Merchant dashboard search</strong>: Filter transactions by date, status, amount, customer</li>
+</ul>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -300,7 +326,42 @@
 <td>Native bottom tabs (Home, Search, Purchases, Profile), pull-to-refresh feed</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h3>Platform-Specific UX</h3>
+<ul>
+<li>Pay in 4 splits any purchase into 4 interest-free payments charged every 2 weeks</li>
+<li>Soft credit check at checkout provides instant approval without affecting credit score</li>
+<li>Klarna app shopping feed surfaces curated deals and price-drop notifications</li>
+<li>One-time virtual card allows using Klarna at any retailer, not just Klarna partners</li>
+<li>Wish list with price tracking alerts users when saved items drop in price</li>
+<li>Smooth checkout experience minimizes friction — returning users only need to confirm</li>
+<li>Purchase history in the app provides a complete record of all Klarna transactions</li>
+<li>In-store payments via one-time card extend BNPL to physical retail</li>
+<li>Merchant on-site messaging shows &quot;4 payments of $X&quot; on product pages</li>
+<li>Payment schedule visualization clearly shows upcoming payment dates and amounts</li>
+</ul>
+<h3>Merchant Integration</h3>
+<ul>
+<li>Plugin integrations for Shopify, WooCommerce, Magento, BigCommerce, and others</li>
+<li>Checkout API for custom integrations with full documentation</li>
+<li>Merchant portal provides settlement reports, analytics, and transaction management</li>
+<li>On-site messaging SDK displays Klarna payment options dynamically on product pages</li>
+<li>Sandbox environment enables testing before going live</li>
+</ul>
+<h3>Payment Product Comparison</h3>
+<pre><code>Pay in 4:          4 interest-free installments, every 2 weeks, instant approval
+Pay in 30:         Full payment due in 30 days, no interest
+Monthly Financing: 6-36 month plans, interest may apply based on credit
+Klarna Card:       Reusable physical/virtual card, Pay in 4 on every purchase
+One-Time Card:     Single-use virtual Visa, expires after one transaction
+</code></pre>
+<h3>Consumer Dashboard</h3>
+<pre><code>Purchases:     All orders with payment schedules and status
+Payments:      Upcoming and past payment dates with amounts
+Returns:       Initiate and track return-related payment pauses
+Settings:      Payment methods, autopay, notification preferences
+Help:          In-app support for payment issues
+</code></pre>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>

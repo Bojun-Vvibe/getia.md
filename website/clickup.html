@@ -193,15 +193,27 @@
 <td>→ Workspace</td>
 </tr>
 </tbody></table>
+<h3>Item Lifecycle</h3>
+<pre><code>draft → active → in_progress → completed → archived
+                               ↘ blocked → unblocked → in_progress
+draft → deleted (soft delete, 30-day retention)
+</code></pre>
 <h2>User Flows</h2>
-<h3>1. Set Up a New Space</h3>
-<p><code>Sidebar → + Create Space → Name, color, icon → Enable features (Statuses, Time Tracking, Custom Fields, etc.) → Create default lists</code></p>
-<h3>2. Create a Task with Dependencies</h3>
-<p><code>List → + New Task → Title, assignee, priority → Open detail → Add dependency (waiting on / blocking) → Set due dates</code></p>
-<h3>3. Build a Dashboard</h3>
-<p><code>Dashboards → + New → Add widgets (Sprint Velocity, Workload, Time Tracking, Custom Charts) → Select data sources → Arrange</code></p>
-<h3>4. Set and Track Goals</h3>
-<p><code>Goals → + New Goal → Define target type → Add key results → Link tasks → Monitor completion percentage</code></p>
+<h3>Set Up a New Space</h3>
+<pre><code>Sidebar → + Create Space → Name, color, icon → Enable features (Statuses, Time Tracking, Custom Fields, etc.) → Create default lists
+</code></pre>
+<h3>Create a Task with Dependencies</h3>
+<pre><code>List → + New Task → Title, assignee, priority → Open detail → Add dependency (waiting on / blocking) → Set due dates
+</code></pre>
+<h3>Build a Dashboard</h3>
+<pre><code>Dashboards → + New → Add widgets (Sprint Velocity, Workload, Time Tracking, Custom Charts) → Select data sources → Arrange
+</code></pre>
+<h3>Set and Track Goals</h3>
+<pre><code>Goals → + New Goal → Define target type → Add key results → Link tasks → Monitor completion percentage
+</code></pre>
+<h3>Manage Notifications</h3>
+<pre><code>Settings → Notifications → Toggle email/push/in-app per category → Set frequency (instant/daily digest/weekly) → Save preferences
+</code></pre>
 <h2>URL / Route Structure</h2>
 <pre><code>app.clickup.com/{workspace_id}/home                    # Home dashboard
 app.clickup.com/{workspace_id}/v/l/{list_id}           # List view
@@ -212,14 +224,34 @@ app.clickup.com/t/{task_id}                            # Task detail
 app.clickup.com/{workspace_id}/docs/{doc_id}           # Document
 app.clickup.com/{workspace_id}/dashboards/{id}         # Dashboard
 app.clickup.com/{workspace_id}/goals                   # Goals
+app.clickup.com/settings  # Settings
+app.clickup.com/account  # Account settings
+app.clickup.com/account/security  # Security settings
+app.clickup.com/billing  # Billing &amp; subscription
+app.clickup.com/notifications  # Notification preferences
+app.clickup.com/help  # Help center
+app.clickup.com/help/{topic}  # Help article
+app.clickup.com/api  # API documentation
+app.clickup.com/search?q={query}  # Search results
+app.clickup.com/integrations  # Integrations
+app.clickup.com/admin  # Admin console
 </code></pre>
 <h2>Search &amp; Filter</h2>
 <ul>
-<li><strong>Global search (⌘K):</strong> Full-text across tasks, docs, comments, people; recent searches, saved searches</li>
-<li><strong>List/Folder filters:</strong> Multi-field filter builder (status, assignee, priority, tags, custom fields, dates) with AND/OR/NOT logic</li>
-<li><strong>Group by &amp; Sort:</strong> Group by any field; multi-level sort</li>
-<li><strong>Me Mode:</strong> Quick toggle to filter any view to only the current user&#39;s tasks</li>
-<li><strong>Saved filters:</strong> Persist as reusable filter sets applicable across views</li>
+<li><p><strong>Global search (⌘K):</strong> Full-text across tasks, docs, comments, people; recent searches, saved searches</p>
+</li>
+<li><p><strong>List/Folder filters:</strong> Multi-field filter builder (status, assignee, priority, tags, custom fields, dates) with AND/OR/NOT logic</p>
+</li>
+<li><p><strong>Group by &amp; Sort:</strong> Group by any field; multi-level sort</p>
+</li>
+<li><p><strong>Me Mode:</strong> Quick toggle to filter any view to only the current user&#39;s tasks</p>
+</li>
+<li><p><strong>Saved filters:</strong> Persist as reusable filter sets applicable across views</p>
+</li>
+<li><p><strong>Autocomplete</strong>: Type-ahead suggestions with recent searches and popular results</p>
+</li>
+<li><p><strong>Advanced search</strong>: Boolean operators (AND, OR, NOT), field-specific filters, date ranges</p>
+</li>
 </ul>
 <h2>Responsive Behavior</h2>
 <table>
@@ -242,6 +274,60 @@ app.clickup.com/{workspace_id}/goals                   # Goals
 <td>Bottom nav (Home, Notifications, Add, Search, Menu), card-based task views</td>
 </tr>
 </tbody></table>
+<h3>Platform-Specific Patterns</h3>
+<ul>
+<li>Touch targets: minimum 44x44pt on mobile for accessibility</li>
+<li>Swipe gestures: swipe to delete, archive, or perform quick actions</li>
+<li>Pull-to-refresh: standard refresh pattern on feeds and lists</li>
+<li>Keyboard shortcuts: comprehensive shortcuts on desktop for power users</li>
+<li>Dark mode: system-preference detection with manual override</li>
+<li>Offline support: cached data available without network connectivity</li>
+<li>Progressive loading: skeleton screens while content loads</li>
+</ul>
+<h3>ClickUp-Specific UX Patterns</h3>
+<ul>
+<li><strong>Progressive disclosure</strong>: Complex features hidden behind expandable sections</li>
+<li><strong>Contextual actions</strong>: Right-click menus and hover-revealed action buttons</li>
+<li><strong>Inline editing</strong>: Click-to-edit fields without navigating to a separate page</li>
+<li><strong>Batch operations</strong>: Multi-select with bulk actions (delete, move, archive, tag)</li>
+<li><strong>Undo support</strong>: Non-destructive actions with undo toast notifications</li>
+<li><strong>Loading states</strong>: Skeleton screens and progress indicators during async operations</li>
+<li><strong>Empty states</strong>: Helpful illustrations and CTAs when sections have no content</li>
+<li><strong>Onboarding tooltips</strong>: First-time user guidance highlighting key features</li>
+</ul>
+<h3>Accessibility</h3>
+<ul>
+<li>WCAG 2.1 AA compliance across all interactive elements</li>
+<li>Semantic HTML with proper ARIA labels and landmarks</li>
+<li>Keyboard navigation support for all core workflows</li>
+<li>Screen reader compatibility tested with VoiceOver, NVDA, and JAWS</li>
+<li>Color contrast ratios meeting minimum 4.5:1 for body text</li>
+<li>Focus indicators visible on all interactive elements</li>
+<li>Reduced motion option respecting <code>prefers-reduced-motion</code></li>
+<li>Resizable text up to 200% without content loss</li>
+</ul>
+<h3>API &amp; Integration Patterns</h3>
+<ul>
+<li>RESTful API with JSON request/response format</li>
+<li>Webhook support for real-time event notifications</li>
+<li>OAuth 2.0 for third-party application authorization</li>
+<li>Rate limiting with clear headers (X-RateLimit-Remaining)</li>
+<li>Pagination via cursor-based or offset-based parameters</li>
+<li>Versioned API endpoints for backward compatibility</li>
+<li>Comprehensive API documentation with interactive examples</li>
+<li>SDKs available for popular languages (JavaScript, Python, Ruby, Go)</li>
+</ul>
+<h3>Automation Rules</h3>
+<pre><code>List → Automations → + New Rule → When: status changes to &quot;Done&quot; → Then: assign to reviewer, move to Review list, post Slack notification → Test rule → Enable
+                                                                  ↘ Add condition: only if priority is &quot;High&quot;
+</code></pre>
+<h3>ClickUp AI</h3>
+<pre><code>Task → AI button → Summarize comments → Generate subtasks from description → Translate content → Improve writing → AI-generated status updates from task activity
+</code></pre>
+<h3>Time Tracking</h3>
+<pre><code>Open task → Start timer → Work on task → Stop timer → Time logged automatically → View time reports by person, project, or date range → Export for billing
+                                                         ↘ Manual entry → Add time retroactively with notes
+</code></pre>
 <h2>Access Control</h2>
 <table>
 <thead>
@@ -275,6 +361,16 @@ app.clickup.com/{workspace_id}/goals                   # Goals
 <td>Configurable permissions per feature (Enterprise plan)</td>
 </tr>
 </tbody></table>
+<h3>Security Features</h3>
+<ul>
+<li>Single Sign-On (SSO) support via SAML 2.0 and OIDC (Team/Enterprise)</li>
+<li>Two-factor authentication (TOTP, SMS, hardware keys)</li>
+<li>API token management with scoped permissions</li>
+<li>Session management: configurable timeout, forced logout</li>
+<li>Audit logging for security-sensitive actions</li>
+<li>Data encryption at rest (AES-256) and in transit (TLS 1.3)</li>
+<li>SOC 2 Type II compliance</li>
+</ul>
 
     </div>
   </article>

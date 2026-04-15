@@ -127,9 +127,9 @@
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Structure</th>
-<th>Ownership</th>
+<th>Entity</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -170,29 +170,14 @@
 </tbody></table>
 <h2>User Flows</h2>
 <h3>Basic Image Generation</h3>
-<ol>
-<li>User navigates to Create → focus on prompt bar at bottom</li>
-<li>Types descriptive prompt (e.g., &quot;a cyberpunk cat in neon rain, cinematic lighting&quot;)</li>
-<li>Adjusts parameters: aspect ratio, model version (v6, niji), stylize, chaos</li>
-<li>Submits → 4-image grid generates (30-60 seconds)</li>
-<li>User selects favorite → Upscale (U1-U4) or Vary (V1-V4, Subtle/Strong)</li>
-<li>Final image saved to Archive</li>
-</ol>
+<pre><code>Navigates to Create → focus on prompt bar at bottom → Types descriptive prompt (e.g., &quot;a cyberpunk cat in neon rain, cinematic lighting&quot;) → Adjusts parameters: aspect ratio, model version (v6, niji), stylize, chaos → Submits → 4-image grid generates (30-60 seconds) → Selects favorite → Upscale (U1-U4) or Vary (V1-V4, Subtle/Strong) → Final image saved to Archive
+</code></pre>
 <h3>Image Editing (Inpaint/Outpaint)</h3>
-<ol>
-<li>User selects an image → clicks Edit</li>
-<li>Editor opens with brush tools for masking regions</li>
-<li>User masks area to change → types replacement prompt</li>
-<li>Midjourney regenerates masked area while preserving the rest</li>
-<li>Can also extend canvas (outpaint) in any direction</li>
-</ol>
+<pre><code>Selects an image → clicks Edit → Editor opens with brush tools for masking regions → Masks area to change → types replacement prompt → Midjourney regenerates masked area while preserving the rest → Can also extend canvas (outpaint) in any direction
+</code></pre>
 <h3>Style/Character References</h3>
-<ol>
-<li>User attaches an image URL as <code>--sref</code> (style reference) or <code>--cref</code> (character reference)</li>
-<li>Midjourney extracts visual style or character features</li>
-<li>New generation applies the referenced style/character to the new prompt</li>
-<li>Enables consistent character design across multiple images</li>
-</ol>
+<pre><code>Attaches an image URL as `--sref` (style reference) or `--cref` (character reference) → Midjourney extracts visual style or character features → New generation applies the referenced style/character to the new prompt → Enables consistent character design across multiple images
+</code></pre>
 <h2>URL / Route Structure</h2>
 <table>
 <thead>
@@ -323,6 +308,245 @@
 <li>Content moderation: NSFW content blocked; prompts filtered by content policy</li>
 <li>Discord integration: All web generations also appear in Discord DMs (if linked)</li>
 </ul>
+<h2>Prompt Parameters</h2>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Syntax</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Aspect Ratio</td>
+<td><code>--ar 16:9</code></td>
+<td>Output dimensions (1:1, 4:3, 16:9, 9:16, etc.)</td>
+</tr>
+<tr>
+<td>Model Version</td>
+<td><code>--v 6</code></td>
+<td>Generation model (v5, v5.2, v6, niji 6)</td>
+</tr>
+<tr>
+<td>Stylize</td>
+<td><code>--s 250</code></td>
+<td>How strongly Midjourney applies its aesthetic (0-1000)</td>
+</tr>
+<tr>
+<td>Chaos</td>
+<td><code>--c 50</code></td>
+<td>Variation in initial grid results (0-100)</td>
+</tr>
+<tr>
+<td>Weird</td>
+<td><code>--w 500</code></td>
+<td>Experimental/unconventional aesthetics (0-3000)</td>
+</tr>
+<tr>
+<td>Quality</td>
+<td><code>--q 1</code></td>
+<td>Rendering time vs quality tradeoff (0.25, 0.5, 1, 2)</td>
+</tr>
+<tr>
+<td>Tile</td>
+<td><code>--tile</code></td>
+<td>Generate seamless repeating patterns</td>
+</tr>
+<tr>
+<td>No</td>
+<td><code>--no trees</code></td>
+<td>Negative prompt — exclude elements</td>
+</tr>
+<tr>
+<td>Style Reference</td>
+<td><code>--sref URL</code></td>
+<td>Apply visual style from reference image</td>
+</tr>
+<tr>
+<td>Character Reference</td>
+<td><code>--cref URL</code></td>
+<td>Maintain character consistency across images</td>
+</tr>
+<tr>
+<td>Seed</td>
+<td><code>--seed 12345</code></td>
+<td>Reproduce similar results with same seed</td>
+</tr>
+<tr>
+<td>Stop</td>
+<td><code>--stop 80</code></td>
+<td>Stop generation partway for abstract/incomplete look</td>
+</tr>
+</tbody></table>
+<h2>Generation Pipeline</h2>
+<pre><code>Prompt Input → Text Encoding → Diffusion Model Processing → 4-Image Grid Output → Select Image → Upscale (2x/4x) or Vary (Subtle/Strong) → Final High-Res Image → Save to Archive
+</code></pre>
+<h2>Image Actions</h2>
+<ul>
+<li><strong>Upscale:</strong> Increase resolution (Subtle: preserve detail, Creative: add detail)</li>
+<li><strong>Vary (Subtle):</strong> Minor variations keeping core composition</li>
+<li><strong>Vary (Strong):</strong> Significant reinterpretation of the image</li>
+<li><strong>Vary (Region):</strong> Inpaint — regenerate a selected area with new prompt</li>
+<li><strong>Zoom Out:</strong> Extend canvas outward with AI-generated surroundings</li>
+<li><strong>Pan:</strong> Extend canvas in a specific direction (left/right/up/down)</li>
+<li><strong>Remix:</strong> Re-run with a modified prompt while keeping composition</li>
+</ul>
+<h2>Model Comparison</h2>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Strengths</th>
+<th>Release</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>v5</td>
+<td>Photorealism, hands, text accuracy</td>
+<td>Mar 2023</td>
+</tr>
+<tr>
+<td>v5.2</td>
+<td>Better aesthetics, higher variation</td>
+<td>Jun 2023</td>
+</tr>
+<tr>
+<td>v6</td>
+<td>Improved prompt understanding, text in images, coherent scenes</td>
+<td>Dec 2023</td>
+</tr>
+<tr>
+<td>Niji 6</td>
+<td>Anime/manga style, character consistency</td>
+<td>Dec 2023</td>
+</tr>
+</tbody></table>
+<h2>Discord Integration</h2>
+<ul>
+<li><strong><code>/imagine</code></strong> — Generate from prompt in any channel or DM</li>
+<li><strong><code>/describe</code></strong> — Upload image, get prompt suggestions</li>
+<li><strong><code>/blend</code></strong> — Combine 2-5 images into one</li>
+<li><strong><code>/shorten</code></strong> — Analyze prompt and suggest shorter version</li>
+<li><strong><code>/settings</code></strong> — Configure default model, quality, style</li>
+<li><strong>Reactions:</strong> Click U1-U4 to upscale, V1-V4 to vary (on grid images)</li>
+<li><strong>Direct Messages:</strong> Private generation (all plans)</li>
+<li><strong>Community channels:</strong> See others&#39; generations in real-time for inspiration</li>
+</ul>
+<h2>Community &amp; Discovery</h2>
+<ul>
+<li><strong>Explore feed:</strong> Curated community gallery sorted by hot/top/new</li>
+<li><strong>Profile pages:</strong> Public gallery of user&#39;s generations (unless Stealth mode)</li>
+<li><strong>Trending styles:</strong> Discover popular aesthetic movements and techniques</li>
+<li><strong>Image details:</strong> Click any public image to see its prompt and parameters</li>
+<li><strong>Reuse prompt:</strong> Copy another user&#39;s prompt as starting point</li>
+<li><strong>Rate images:</strong> Star system for personal organization and style training</li>
+<li><strong>Daily theme:</strong> Community prompt challenges</li>
+</ul>
+<h2>Content Policy</h2>
+<ul>
+<li><strong>Banned content:</strong> Gore, NSFW, hateful imagery, real person deepfakes</li>
+<li><strong>Prompt filtering:</strong> Automated word/phrase blocking with manual review</li>
+<li><strong>Content moderation:</strong> Community reporting + automated detection</li>
+<li><strong>Terms of Service:</strong> All paid users get commercial license for generated images</li>
+<li><strong>Stealth mode:</strong> Pro+ users can make generations private (not on Explore feed)</li>
+</ul>
+<h2>Pricing Deep Dive</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Basic $10</th>
+<th>Standard $30</th>
+<th>Pro $60</th>
+<th>Mega $120</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Fast GPU min/mo</td>
+<td>3.3 hrs</td>
+<td>15 hrs</td>
+<td>30 hrs</td>
+<td>60 hrs</td>
+</tr>
+<tr>
+<td>Relaxed mode</td>
+<td>—</td>
+<td>Unlimited</td>
+<td>Unlimited</td>
+<td>Unlimited</td>
+</tr>
+<tr>
+<td>Concurrent jobs</td>
+<td>3</td>
+<td>3</td>
+<td>12</td>
+<td>12</td>
+</tr>
+<tr>
+<td>Stealth mode</td>
+<td>—</td>
+<td>—</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Max upscale</td>
+<td>2x</td>
+<td>2x</td>
+<td>4x</td>
+<td>4x</td>
+</tr>
+</tbody></table>
+<h2>Web vs Discord</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Web App</th>
+<th>Discord</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Image generation</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Image editing</td>
+<td>✅</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Archive management</td>
+<td>✅</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Folders</td>
+<td>✅</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Style reference</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Describe</td>
+<td>—</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Blend</td>
+<td>—</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Community gallery</td>
+<td>✅</td>
+<td>—</td>
+</tr>
+</tbody></table>
 
     </div>
   </article>

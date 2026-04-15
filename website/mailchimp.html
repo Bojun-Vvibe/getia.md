@@ -220,14 +220,18 @@
 </tr>
 </tbody></table>
 <h2>User Flows</h2>
-<h3>1. Send an Email Campaign</h3>
-<p><code>Campaigns → + Create → Email → Select Audience/Segment → Design email (drag-and-drop) → Add subject &amp; preview text → Test send → Schedule or Send Now</code></p>
-<h3>2. Build a Customer Journey</h3>
-<p><code>Automations → + Create Journey → Choose starting point (e.g., &quot;Signed up&quot;) → Add delay → Add email → Add if/else condition → Add another email → Activate</code></p>
-<h3>3. Grow Audience</h3>
-<p><code>Audience → Signup Forms → Customize embedded form or pop-up → Copy embed code → Place on website → New signups flow into audience → Auto-tagged</code></p>
-<h3>4. Analyze Campaign Performance</h3>
-<p><code>Analytics → Select campaign → View opens, clicks, click map (heatmap on email), revenue → Compare against industry benchmarks → Export report</code></p>
+<h3>Send an Email Campaign</h3>
+<pre><code>Campaigns → + Create → Email → Select Audience/Segment → Design email (drag-and-drop) → Add subject &amp; preview text → Test send → Schedule or Send Now
+</code></pre>
+<h3>Build a Customer Journey</h3>
+<pre><code>Automations → + Create Journey → Choose starting point (e.g., &quot;Signed up&quot;) → Add delay → Add email → Add if/else condition → Add another email → Activate
+</code></pre>
+<h3>Grow Audience</h3>
+<pre><code>Audience → Signup Forms → Customize embedded form or pop-up → Copy embed code → Place on website → New signups flow into audience → Auto-tagged
+</code></pre>
+<h3>Analyze Campaign Performance</h3>
+<pre><code>Analytics → Select campaign → View opens, clicks, click map (heatmap on email), revenue → Compare against industry benchmarks → Export report
+</code></pre>
 <h2>URL / Route Structure</h2>
 <pre><code>us{dc}.admin.mailchimp.com/                              # Dashboard
 us{dc}.admin.mailchimp.com/campaigns/                     # All campaigns
@@ -238,6 +242,17 @@ us{dc}.admin.mailchimp.com/lists/segments?id={audience_id} # Segments
 us{dc}.admin.mailchimp.com/reports/                       # Reports
 us{dc}.admin.mailchimp.com/landing-pages/                 # Landing pages
 {audience_slug}.mailchimpsites.com/                       # Published landing page
+us{dc}.admin.mailchimp.com/account/                       # Account settings
+us{dc}.admin.mailchimp.com/account/billing/                # Billing
+us{dc}.admin.mailchimp.com/account/users/                  # Users management
+us{dc}.admin.mailchimp.com/audience/                       # Audience dashboard
+us{dc}.admin.mailchimp.com/audience/contacts/              # All contacts
+us{dc}.admin.mailchimp.com/lists/signup-forms/             # Signup forms
+us{dc}.admin.mailchimp.com/content/                        # Content studio
+us{dc}.admin.mailchimp.com/integrations/                   # Integrations
+us{dc}.admin.mailchimp.com/website/                        # Website builder
+us{dc}.admin.mailchimp.com/automations/                    # Automations
+mailchimp.com/pricing/                                     # Pricing page
 </code></pre>
 <h2>Search &amp; Filter</h2>
 <ul>
@@ -303,6 +318,129 @@ us{dc}.admin.mailchimp.com/landing-pages/                 # Landing pages
 <tr>
 <td>API Key</td>
 <td>Programmatic access with full or limited scope</td>
+</tr>
+</tbody></table>
+<h2>Automation Triggers</h2>
+<table>
+<thead>
+<tr>
+<th>Trigger</th>
+<th>Example Use Case</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Signup</td>
+<td>Welcome email series for new subscribers</td>
+</tr>
+<tr>
+<td>Purchase</td>
+<td>Post-purchase follow-up and cross-sell</td>
+</tr>
+<tr>
+<td>Abandoned cart</td>
+<td>Remind shoppers to complete checkout</td>
+</tr>
+<tr>
+<td>Date-based</td>
+<td>Birthday or anniversary campaigns</td>
+</tr>
+<tr>
+<td>Tag applied</td>
+<td>Segment-specific drip sequences</td>
+</tr>
+<tr>
+<td>API event</td>
+<td>Custom triggers from application events</td>
+</tr>
+</tbody></table>
+<h2>Email Builder Components</h2>
+<ul>
+<li><strong>Content blocks:</strong> Text, image, button, divider, social links, video, product</li>
+<li><strong>Layout blocks:</strong> 1-column, 2-column, 3-column, full-width</li>
+<li><strong>Dynamic content:</strong> Show/hide blocks based on audience segment or merge tag</li>
+<li><strong>Code editor:</strong> Direct HTML/CSS editing for custom designs</li>
+<li><strong>Template library:</strong> 100+ pre-designed templates by category</li>
+<li><strong>A/B testing:</strong> Subject line, sender name, content, send time variants</li>
+<li><strong>Preview:</strong> Desktop, mobile, and dark mode previews; inbox rendering test</li>
+</ul>
+<h2>Deliverability &amp; Compliance</h2>
+<ul>
+<li><strong>SPF/DKIM/DMARC:</strong> Domain authentication required for sending</li>
+<li><strong>Engagement tracking:</strong> Opens, clicks, bounces, unsubscribes per campaign</li>
+<li><strong>List hygiene:</strong> Automatic cleaning of hard bounces and repeated soft bounces</li>
+<li><strong>CAN-SPAM compliance:</strong> Unsubscribe link mandatory in all campaigns</li>
+<li><strong>GDPR tools:</strong> Consent tracking, data export, right to deletion</li>
+<li><strong>Abuse prevention:</strong> Send rate limits, content scanning, account review for high complaint rates</li>
+<li><strong>Deliverability score:</strong> Inbox placement prediction before sending</li>
+</ul>
+<h2>Key Metrics Dashboard</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Open Rate</td>
+<td>% of delivered emails opened (affected by Apple MPP)</td>
+</tr>
+<tr>
+<td>Click Rate</td>
+<td>% of delivered emails with at least one click</td>
+</tr>
+<tr>
+<td>Bounce Rate</td>
+<td>% hard + soft bounces relative to sends</td>
+</tr>
+<tr>
+<td>Unsubscribe Rate</td>
+<td>% unsubscribes per campaign</td>
+</tr>
+<tr>
+<td>Revenue Attribution</td>
+<td>Revenue tracked via e-commerce integration</td>
+</tr>
+<tr>
+<td>List Growth Rate</td>
+<td>New subscribers minus unsubscribes over time</td>
+</tr>
+</tbody></table>
+<h2>Integration Ecosystem</h2>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Integrations</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>E-commerce</td>
+<td>Shopify, WooCommerce, Magento, BigCommerce, Squarespace</td>
+</tr>
+<tr>
+<td>CRM</td>
+<td>Salesforce, HubSpot, Zoho, Pipedrive</td>
+</tr>
+<tr>
+<td>Social</td>
+<td>Facebook, Instagram, Twitter, LinkedIn</td>
+</tr>
+<tr>
+<td>Analytics</td>
+<td>Google Analytics, Facebook Pixel</td>
+</tr>
+<tr>
+<td>Forms</td>
+<td>Typeform, Gravity Forms, WordPress</td>
+</tr>
+<tr>
+<td>Productivity</td>
+<td>Zapier, Make, Slack, Microsoft 365</td>
+</tr>
+<tr>
+<td>Development</td>
+<td>REST API, Webhooks, OAuth 2.0</td>
 </tr>
 </tbody></table>
 

@@ -107,16 +107,16 @@ Tableau (Desktop + Server/Cloud)
 
 ## User Flows
 
-### 1. Build a Visualization (Desktop)
+### Build a Visualization (Desktop)
 `Connect to data → Drag dimension to Columns → Drag measure to Rows → Show Me suggests chart → Refine with Marks card (color, size) → Add filters → Format → Publish to Server`
 
-### 2. Create an Interactive Dashboard
+### Create an Interactive Dashboard
 `New Dashboard → Drag sheets onto canvas → Add filter controls → Configure Actions (click sheet A filters sheet B) → Add device layouts (tablet, phone) → Test interactivity → Publish`
 
-### 3. Tell a Data Story
+### Tell a Data Story
 `New Story → Add story point → Select dashboard/sheet → Add caption → Navigate audience through data narrative → Publish`
 
-### 4. Explore on Server/Cloud
+### Explore on Server/Cloud
 `Home → Explore → Browse projects → Open workbook → Interact with dashboard (filter, drill) → Subscribe for email updates → Download data if permitted`
 
 ## URL / Route Structure

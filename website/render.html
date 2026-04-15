@@ -151,9 +151,9 @@ render.com (marketing)
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Structure</th>
-<th>Ownership</th>
+<th>Entity</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -209,39 +209,17 @@ render.com (marketing)
 </tbody></table>
 <h2>User Flows</h2>
 <h3>Deploying a Web Service</h3>
-<ol>
-<li>User clicks &quot;New +&quot; → &quot;Web Service&quot;</li>
-<li>Connects GitHub/GitLab → selects repository</li>
-<li>Render auto-detects runtime (Node.js, Python, Go, Rust, Docker, etc.)</li>
-<li>Configures: name, region, instance type, build command, start command</li>
-<li>Sets environment variables (or links Env Group)</li>
-<li>Clicks &quot;Create Web Service&quot; → build and deploy starts</li>
-<li>Service live at <code>{name}.onrender.com</code> → configure custom domain</li>
-</ol>
+<pre><code>Clicks &quot;New +&quot; → &quot;Web Service&quot; → Connects GitHub/GitLab → selects repository → Render auto-detects runtime (Node.js, Python, Go, Rust, Docker, etc.) → Configures: name, region, instance type, build command, start command → Sets environment variables (or links Env Group) → Clicks &quot;Create Web Service&quot; → build and deploy starts → Service live at `{name}.onrender.com` → configure custom domain
+</code></pre>
 <h3>Blueprint Deployment (Infrastructure as Code)</h3>
-<ol>
-<li>User creates <code>render.yaml</code> in repo defining all services, databases, env groups</li>
-<li>Connects repo as Blueprint → Render parses the file</li>
-<li>All defined resources created automatically</li>
-<li>Git push updates to <code>render.yaml</code> trigger infra sync</li>
-<li>Enables reproducible, version-controlled infrastructure</li>
-</ol>
+<pre><code>Creates `render.yaml` in repo defining all services, databases, env groups → Connects repo as Blueprint → Render parses the file → All defined resources created automatically → Git push updates to `render.yaml` trigger infra sync → Enables reproducible, version-controlled infrastructure
+</code></pre>
 <h3>Preview Environments</h3>
-<ol>
-<li>User enables &quot;Pull Request Previews&quot; in service settings</li>
-<li>Every PR creates a temporary preview environment with unique URL</li>
-<li>Preview has its own environment variables (can override for testing)</li>
-<li>Preview URL posted as PR comment</li>
-<li>PR closed → preview environment auto-deleted</li>
-</ol>
+<pre><code>Enables &quot;Pull Request Previews&quot; in service settings → Every PR creates a temporary preview environment with unique URL → Preview has its own environment variables (can override for testing) → Preview URL posted as PR comment → PR closed → preview environment auto-deleted
+</code></pre>
 <h3>Database Management</h3>
-<ol>
-<li>User creates PostgreSQL database → selects plan and region</li>
-<li>Connection details (internal URL, external URL, psql command) provided</li>
-<li>Automatic daily backups with configurable retention</li>
-<li>Metrics dashboard shows connections, query performance, storage</li>
-<li>One-click fork for creating test copies</li>
-</ol>
+<pre><code>Creates PostgreSQL database → selects plan and region → Connection details (internal URL, external URL, psql command) provided → Automatic daily backups with configurable retention → Metrics dashboard shows connections, query performance, storage → One-click fork for creating test copies
+</code></pre>
 <h2>URL / Route Structure</h2>
 <table>
 <thead>
@@ -379,6 +357,147 @@ render.com (marketing)
 <li>Notification preferences: Email, Slack (via webhook) for deploy events</li>
 <li>IP allowlisting: Available on Team/Enterprise plans</li>
 </ul>
+<h2>Service Types</h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Use Case</th>
+<th>Auto-deploy</th>
+<th>Custom Domain</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Web Service</td>
+<td>HTTP servers (API, frontend)</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Private Service</td>
+<td>Internal APIs (no public URL)</td>
+<td>✅</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Background Worker</td>
+<td>Queue consumers, async tasks</td>
+<td>✅</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Static Site</td>
+<td>HTML/CSS/JS hosting</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Cron Job</td>
+<td>Scheduled tasks</td>
+<td>✅</td>
+<td>—</td>
+</tr>
+<tr>
+<td>PostgreSQL</td>
+<td>Managed database</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Redis</td>
+<td>Managed cache/queue</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody></table>
+<h2>Blueprint (Infrastructure as Code)</h2>
+<pre><code class="language-yaml">services:
+  - type: web
+    name: my-api
+    runtime: node
+    buildCommand: npm install &amp;&amp; npm run build
+    startCommand: npm start
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: my-db
+          property: connectionString
+
+databases:
+  - name: my-db
+    plan: starter
+</code></pre>
+<h2>Build &amp; Deploy</h2>
+<ul>
+<li><strong>Auto-deploy:</strong> Push to connected branch triggers automatic build and deploy</li>
+<li><strong>Build cache:</strong> Cached dependencies and build outputs for faster builds</li>
+<li><strong>Docker support:</strong> Custom Dockerfile or Render&#39;s native runtimes</li>
+<li><strong>Native runtimes:</strong> Node, Python, Go, Rust, Ruby, Elixir, Docker</li>
+<li><strong>Preview environments:</strong> Automatic per-PR deploy with unique URL</li>
+<li><strong>Zero-downtime deploys:</strong> New instances start before old ones stop</li>
+<li><strong>Rollback:</strong> One-click rollback to any previous deploy</li>
+</ul>
+<h2>Comparison with Alternatives</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Render</th>
+<th>Heroku</th>
+<th>Railway</th>
+<th>Fly.io</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Free tier</td>
+<td>Static sites only</td>
+<td>Eco ($5)</td>
+<td>$5 credit</td>
+<td>$5 credit</td>
+</tr>
+<tr>
+<td>Auto-deploy</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Docker</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Managed DB</td>
+<td>PostgreSQL, Redis</td>
+<td>PostgreSQL, Redis</td>
+<td>PostgreSQL, Redis, MySQL</td>
+<td>PostgreSQL</td>
+</tr>
+<tr>
+<td>Blueprints (IaC)</td>
+<td>✅</td>
+<td>app.json</td>
+<td>—</td>
+<td>fly.toml</td>
+</tr>
+<tr>
+<td>Preview envs</td>
+<td>✅</td>
+<td>Review apps</td>
+<td>✅</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Edge regions</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>✅</td>
+</tr>
+</tbody></table>
 
     </div>
   </article>

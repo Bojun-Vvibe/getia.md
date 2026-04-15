@@ -70,8 +70,8 @@ render.com (marketing)
 
 ## Content Model
 
-| Content Type | Structure | Ownership |
-|---|---|---|
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
 | Web Service | Name, repo link, build command, start command, environment, instance type, auto-deploy config, custom domain | Team-owned |
 | Static Site | Name, repo link, build command, publish directory, custom domain, headers/redirects | Team-owned |
 | Private Service | Internal-only service (no public URL), same config as web service | Team-owned |
@@ -86,34 +86,24 @@ render.com (marketing)
 ## User Flows
 
 ### Deploying a Web Service
-1. User clicks "New +" → "Web Service"
-2. Connects GitHub/GitLab → selects repository
-3. Render auto-detects runtime (Node.js, Python, Go, Rust, Docker, etc.)
-4. Configures: name, region, instance type, build command, start command
-5. Sets environment variables (or links Env Group)
-6. Clicks "Create Web Service" → build and deploy starts
-7. Service live at `{name}.onrender.com` → configure custom domain
+```
+Clicks "New +" → "Web Service" → Connects GitHub/GitLab → selects repository → Render auto-detects runtime (Node.js, Python, Go, Rust, Docker, etc.) → Configures: name, region, instance type, build command, start command → Sets environment variables (or links Env Group) → Clicks "Create Web Service" → build and deploy starts → Service live at `{name}.onrender.com` → configure custom domain
+```
 
 ### Blueprint Deployment (Infrastructure as Code)
-1. User creates `render.yaml` in repo defining all services, databases, env groups
-2. Connects repo as Blueprint → Render parses the file
-3. All defined resources created automatically
-4. Git push updates to `render.yaml` trigger infra sync
-5. Enables reproducible, version-controlled infrastructure
+```
+Creates `render.yaml` in repo defining all services, databases, env groups → Connects repo as Blueprint → Render parses the file → All defined resources created automatically → Git push updates to `render.yaml` trigger infra sync → Enables reproducible, version-controlled infrastructure
+```
 
 ### Preview Environments
-1. User enables "Pull Request Previews" in service settings
-2. Every PR creates a temporary preview environment with unique URL
-3. Preview has its own environment variables (can override for testing)
-4. Preview URL posted as PR comment
-5. PR closed → preview environment auto-deleted
+```
+Enables "Pull Request Previews" in service settings → Every PR creates a temporary preview environment with unique URL → Preview has its own environment variables (can override for testing) → Preview URL posted as PR comment → PR closed → preview environment auto-deleted
+```
 
 ### Database Management
-1. User creates PostgreSQL database → selects plan and region
-2. Connection details (internal URL, external URL, psql command) provided
-3. Automatic daily backups with configurable retention
-4. Metrics dashboard shows connections, query performance, storage
-5. One-click fork for creating test copies
+```
+Creates PostgreSQL database → selects plan and region → Connection details (internal URL, external URL, psql command) provided → Automatic daily backups with configurable retention → Metrics dashboard shows connections, query performance, storage → One-click fork for creating test copies
+```
 
 ## URL / Route Structure
 
@@ -175,3 +165,57 @@ Service type prefixes in URL: `/web/`, `/pserv/`, `/worker/`, `/cron/`, `/static
 - Auto-deploy: Can be toggled per service; manual deploy option available
 - Notification preferences: Email, Slack (via webhook) for deploy events
 - IP allowlisting: Available on Team/Enterprise plans
+
+## Service Types
+
+| Type | Use Case | Auto-deploy | Custom Domain |
+|------|----------|-------------|---------------|
+| Web Service | HTTP servers (API, frontend) | ✅ | ✅ |
+| Private Service | Internal APIs (no public URL) | ✅ | — |
+| Background Worker | Queue consumers, async tasks | ✅ | — |
+| Static Site | HTML/CSS/JS hosting | ✅ | ✅ |
+| Cron Job | Scheduled tasks | ✅ | — |
+| PostgreSQL | Managed database | — | — |
+| Redis | Managed cache/queue | — | — |
+
+## Blueprint (Infrastructure as Code)
+
+```yaml
+services:
+  - type: web
+    name: my-api
+    runtime: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: my-db
+          property: connectionString
+
+databases:
+  - name: my-db
+    plan: starter
+```
+
+## Build & Deploy
+
+- **Auto-deploy:** Push to connected branch triggers automatic build and deploy
+- **Build cache:** Cached dependencies and build outputs for faster builds
+- **Docker support:** Custom Dockerfile or Render's native runtimes
+- **Native runtimes:** Node, Python, Go, Rust, Ruby, Elixir, Docker
+- **Preview environments:** Automatic per-PR deploy with unique URL
+- **Zero-downtime deploys:** New instances start before old ones stop
+- **Rollback:** One-click rollback to any previous deploy
+
+## Comparison with Alternatives
+
+| Feature | Render | Heroku | Railway | Fly.io |
+|---------|--------|--------|---------|--------|
+| Free tier | Static sites only | Eco ($5) | $5 credit | $5 credit |
+| Auto-deploy | ✅ | ✅ | ✅ | ✅ |
+| Docker | ✅ | ✅ | ✅ | ✅ |
+| Managed DB | PostgreSQL, Redis | PostgreSQL, Redis | PostgreSQL, Redis, MySQL | PostgreSQL |
+| Blueprints (IaC) | ✅ | app.json | — | fly.toml |
+| Preview envs | ✅ | Review apps | ✅ | — |
+| Edge regions | — | — | — | ✅ |

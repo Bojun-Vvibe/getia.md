@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Noom</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Noom is a psychology-based weight management and health platform that combines food logging, daily educational articles, coaching, and behavioral change techniques to build sustainable habits. The IA is structured around a daily curriculum — articles, quizzes, food/weight logging — delivered in a conversational, chat-like interface. Unlike calorie-counting apps, Noom emphasizes the psychological &quot;why&quot; behind eating behaviors through its traffic-light food classification system and cognitive behavioral therapy (CBT) principles.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>Noom
 ├── Home (Today&#39;s Dashboard)
 │   ├── Daily Lessons (articles + quizzes)
@@ -167,7 +167,7 @@
     ├── Blog
     └── Science / Research
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <ul>
 <li><strong>Type</strong>: Bottom tab bar (mobile-first)</li>
 <li><strong>Bottom Tabs</strong>: Home, Logging, Lessons, Coach/Group, Profile</li>
@@ -176,12 +176,12 @@
 <li><strong>Food Logging</strong>: Tab within logging → Meal selector → Search/scan → Add food → See traffic light color</li>
 <li><strong>Coach Chat</strong>: Persistent chat thread; responds within business hours (async)</li>
 </ul>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Attributes</th>
+<th>Entity</th>
+<th>Key Attributes</th>
 <th>Relationships</th>
 </tr>
 </thead>
@@ -236,30 +236,17 @@
 <td>→ Profile</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
+<h2>User Flows</h2>
 <h3>Daily Routine</h3>
-<ol>
-<li>Morning: Open app → Log weight → View calorie budget for the day</li>
-<li>Log breakfast → Each food shows traffic light color → Budget adjusts</li>
-<li>Read daily lesson (5-10 min) → Complete quiz → Reflect</li>
-<li>Throughout day: Log meals and water → Step count auto-tracked</li>
-<li>Evening: Check remaining budget → Log dinner → Review daily summary</li>
-</ol>
+<pre><code>Morning: Open app → Log weight → View calorie budget for the day → Log breakfast → Each food shows traffic light color → Budget adjusts → Read daily lesson (5-10 min) → Complete quiz → Reflect → Throughout day: Log meals and water → Step count auto-tracked → Evening: Check remaining budget → Log dinner → Review daily summary
+</code></pre>
 <h3>Onboarding Quiz</h3>
-<ol>
-<li>Visit noom.com → Start quiz → Answer questions about goals, habits, lifestyle</li>
-<li>Quiz covers: current weight, goal weight, eating habits, exercise frequency, motivation</li>
-<li>Personalized plan generated: calorie budget, daily lessons pace, coaching level</li>
-<li>Select subscription plan → Create account → Begin Day 1 curriculum</li>
-</ol>
+<pre><code>Visit noom.com → Start quiz → Answer questions about goals, habits, lifestyle → Quiz covers: current weight, goal weight, eating habits, exercise frequency, motivation → Personalized plan generated: calorie budget, daily lessons pace, coaching level → Select subscription plan → Create account → Begin Day 1 curriculum
+</code></pre>
 <h3>Coach Interaction</h3>
-<ol>
-<li>Navigate to Coach tab → Type message about a struggle or question</li>
-<li>Coach responds (async, typically same day) with personalized guidance</li>
-<li>Coach reviews food logs, weight trends, lesson progress</li>
-<li>Weekly check-in: Coach asks about goals, adjusts plan if needed</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<pre><code>Navigate to Coach tab → Type message about a struggle or question → Coach responds (async, typically same day) with personalized guidance → Coach reviews food logs, weight trends, lesson progress → Weekly check-in: Coach asks about goals, adjusts plan if needed
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code>noom.com/                                   # Marketing homepage
 noom.com/quiz                               # Onboarding quiz
 noom.com/plans                              # Pricing / subscription plans
@@ -269,8 +256,20 @@ noom.com/recipes                            # Noom recipes
 noom.com/success-stories                    # Testimonials
 noom.com/science                            # Research / science page
 app.noom.com/                               # Web app (logged in)
+noom.com/programs                               # Programs overview
+noom.com/programs/weight-loss                   # Weight loss program
+noom.com/programs/diabetes                      # Diabetes prevention
+noom.com/programs/stress                        # Stress management
+noom.com/about                                  # About page
+noom.com/careers                                # Careers
+noom.com/privacy                                # Privacy policy
+noom.com/terms                                  # Terms of service
+app.noom.com/diary                              # Food diary
+app.noom.com/lessons                            # Lessons curriculum
+app.noom.com/coach                              # Coach chat
+app.noom.com/progress                           # Progress tracking
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <ul>
 <li><strong>Food Search</strong>: Extensive food database with keyword search; barcode scanner for packaged foods</li>
 <li><strong>Food Filter</strong>: By traffic light color (green/yellow/orange), by meal type</li>
@@ -279,7 +278,7 @@ app.noom.com/                               # Web app (logged in)
 <li><strong>Exercise Search</strong>: Activity type database (running, cycling, yoga, etc.) with calorie estimates</li>
 <li><strong>No Social Discovery</strong>: Noom is a personal health tool; no browsing other users&#39; content</li>
 </ul>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -308,7 +307,7 @@ app.noom.com/                               # Web app (logged in)
 <td>Syncs with Apple Health, Google Fit, Fitbit, Garmin for activity/weight data</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>
@@ -343,6 +342,95 @@ app.noom.com/                               # Web app (logged in)
 <tr>
 <td>Family (Noom for families)</td>
 <td>Shared household plan; individual profiles and progress</td>
+</tr>
+</tbody></table>
+<h2>Traffic Light Food System</h2>
+<table>
+<thead>
+<tr>
+<th>Color</th>
+<th>Calorie Density</th>
+<th>Examples</th>
+<th>Budget Allocation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Green</td>
+<td>Low (&lt; 1 cal/g)</td>
+<td>Fruits, vegetables, non-fat dairy, egg whites, broth-based soups</td>
+<td>~30% of daily calories</td>
+</tr>
+<tr>
+<td>Yellow</td>
+<td>Moderate (1-2.4 cal/g)</td>
+<td>Lean meats, grains, beans, avocado, hummus, low-fat cheese</td>
+<td>~45% of daily calories</td>
+</tr>
+<tr>
+<td>Orange/Red</td>
+<td>High (&gt; 2.4 cal/g)</td>
+<td>Nuts, butter, oils, full-fat cheese, bacon, candy, pizza</td>
+<td>~25% of daily calories</td>
+</tr>
+</tbody></table>
+<h2>Behavioral Psychology Techniques</h2>
+<ul>
+<li><strong>Cognitive Behavioral Therapy (CBT):</strong> Identify and change negative thought patterns around food</li>
+<li><strong>Motivational Interviewing:</strong> Coach uses reflective listening to build intrinsic motivation</li>
+<li><strong>Self-Monitoring:</strong> Daily logging creates awareness (food, weight, water, steps)</li>
+<li><strong>Goal Gradient:</strong> Progress bars and streaks leverage the endowed progress effect</li>
+<li><strong>Implementation Intentions:</strong> &quot;If-then&quot; planning for anticipated challenges</li>
+<li><strong>Social Accountability:</strong> Group support and coach check-ins maintain commitment</li>
+<li><strong>Gamification:</strong> Streaks, milestones, and curriculum progress badges</li>
+</ul>
+<h2>Curriculum Structure</h2>
+<ul>
+<li><strong>Phase 1 (Weeks 1-4):</strong> Foundation — calorie budgeting, traffic light system, portion control</li>
+<li><strong>Phase 2 (Weeks 5-8):</strong> Psychology — emotional eating, stress management, cognitive distortions</li>
+<li><strong>Phase 3 (Weeks 9-12):</strong> Sustainability — habit stacking, relapse prevention, social situations</li>
+<li><strong>Phase 4 (Weeks 13-16):</strong> Maintenance — long-term strategies, identity shift, independence</li>
+</ul>
+<h2>Coach Matching</h2>
+<ul>
+<li><strong>Specialization:</strong> Coaches matched by user goals (weight loss, diabetes, stress)</li>
+<li><strong>Communication style:</strong> Some coaches are motivational, others are data-driven</li>
+<li><strong>Availability:</strong> Async messaging (not real-time); typical response within same day</li>
+<li><strong>Reassignment:</strong> Users can request a different coach at any time</li>
+<li><strong>Group coach:</strong> Separate from 1:1 coach; facilitates group discussions</li>
+</ul>
+<h2>Pricing</h2>
+<table>
+<thead>
+<tr>
+<th>Plan</th>
+<th>Duration</th>
+<th>Price</th>
+<th>Features</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Monthly</td>
+<td>1 month</td>
+<td>~$70/mo</td>
+<td>Full access, 1:1 coach, group support</td>
+</tr>
+<tr>
+<td>4-month</td>
+<td>4 months</td>
+<td>~$50/mo</td>
+<td>Same features, discounted rate</td>
+</tr>
+<tr>
+<td>Annual</td>
+<td>12 months</td>
+<td>~$30/mo</td>
+<td>Same features, best value</td>
+</tr>
+<tr>
+<td>Add-ons</td>
+<td>—</td>
+<td>Varies</td>
+<td>Meal plans, workout programs, DNA testing</td>
 </tr>
 </tbody></table>
 

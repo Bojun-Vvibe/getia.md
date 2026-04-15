@@ -7,11 +7,11 @@ website: https://lyft.com
 
 # Information Architecture — Lyft
 
-## 1. Overview
+## Overview
 
 Lyft is a ride-hailing and micromobility platform connecting riders with drivers, bikes, and scooters. The IA is trip-centric — the home screen is a map with a destination input field, and the entire experience flows toward getting from A to B as quickly as possible. Secondary features include ride scheduling, shared rides, Lyft Pink membership, and a driver-side app with earnings tracking. The platform also operates bikeshare and scooter programs in select cities.
 
-## 2. Site Map
+## Site Map
 
 ```
 Lyft
@@ -98,7 +98,7 @@ Lyft
     └── Safety
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 - **Type**: Map-centric home + bottom sheet + hamburger menu
 - **Home Screen**: Full-screen map + "Where to?" input (bottom sheet)
@@ -107,10 +107,10 @@ Lyft
 - **In-Ride**: Full-screen map with persistent driver info bar and safety actions
 - **Driver App**: Bottom tab bar — Home (map), Earnings, Rewards, Account
 
-## 4. Content Model
+## Content Model
 
-| Content Type | Attributes | Relationships |
-|---|---|---|
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
 | Ride Request | pickup, destination, ride type, price estimate, ETA, surge multiplier | → Rider, → Driver |
 | Trip | route, distance, duration, fare, tip, driver, rider, rating, timestamp | → Receipt, → History |
 | Driver | name, photo, vehicle (make, model, color, plate), rating, ride count | → Trip |
@@ -122,31 +122,24 @@ Lyft
 | Bike/Scooter | type, ID, battery level (scooter), location (coordinates), pricing | → Map |
 | Lyft Pink Plan | tier, discount rates, perks, billing cycle | → Profile |
 
-## 5. User Flows
+## User Flows
 
 ### Requesting a Ride
-1. Open app → Map shows current location → Tap "Where to?"
-2. Enter destination (search, saved, recent) → Bottom sheet slides up
-3. View ride options: Lyft ($12, 5 min), XL ($18, 4 min), Shared ($8, 8 min)
-4. Select ride type → Confirm pickup location → "Request Lyft"
-5. Matched with driver → See driver name, photo, car, ETA
-6. Driver arrives → Get in → Live trip tracking → Arrive at destination
-7. Rate driver → Add tip → Receipt generated
+```
+Open app → Map shows current location → Tap "Where to?" → Enter destination (search, saved, recent) → Bottom sheet slides up → View ride options: Lyft ($12, 5 min), XL ($18, 4 min), Shared ($8, 8 min) → Select ride type → Confirm pickup location → "Request Lyft" → Matched with driver → See driver name, photo, car, ETA → Driver arrives → Get in → Live trip tracking → Arrive at destination → Rate driver → Add tip → Receipt generated
+```
 
 ### Scheduling a Ride
-1. Tap "Where to?" → Enter destination → Select ride type
-2. Tap clock icon → Choose date and time (up to 7 days ahead)
-3. Confirm → Receive confirmation notification
-4. 15 minutes before: reminder notification → Driver matched → Pickup at scheduled time
+```
+Tap "Where to?" → Enter destination → Select ride type → Tap clock icon → Choose date and time (up to 7 days ahead) → Confirm → Receive confirmation notification → 15 minutes before: reminder notification → Driver matched → Pickup at scheduled time
+```
 
 ### Using Bikes/Scooters
-1. Home map → Switch to Bikes/Scooters view
-2. See available vehicles nearby on map
-3. Walk to vehicle → Scan QR code to unlock
-4. Ride → Park in designated zone → End ride in app
-5. Charge calculated by time + distance → Receipt generated
+```
+Home map → Switch to Bikes/Scooters view → See available vehicles nearby on map → Walk to vehicle → Scan QR code to unlock → Ride → Park in designated zone → End ride in app → Charge calculated by time + distance → Receipt generated
+```
 
-## 6. URL / Route Structure
+## URL / Route Structure
 
 ```
 lyft.com/                                   # Marketing homepage
@@ -160,9 +153,18 @@ lyft.com/safety                             # Safety page
 lyft.com/rider/receipt?ride={rideId}        # Receipt (web)
 lyft.com/invite/{referralCode}              # Referral link
 lyft.com/help                               # Help center
+lyft.com/pricing                            # Price estimate tool
+lyft.com/rewards                            # Rewards program
+lyft.com/help                               # Help center
+lyft.com/help/{category}/{article}          # Help article
+lyft.com/careers                            # Careers page
+lyft.com/blog                               # Company blog
+lyft.com/cities                             # Available cities
+lyft.com/cities/{city}                      # City-specific page
+lyft.com/round-up-and-donate                # Round up donations
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 - **Destination Search**: Address autocomplete (powered by Google Maps/Mapbox), recent destinations, saved places
 - **Ride Type Filter**: After destination entry, filter by ride type (standard, XL, Lux, Shared, Wait & Save)
@@ -172,7 +174,7 @@ lyft.com/help                               # Help center
 - **Help Center Search**: Keyword search across FAQ and support articles
 - **No Route Search**: Single origin-destination model; no multi-stop browsing
 
-## 8. Responsive Behavior
+## Responsive Behavior
 
 | Breakpoint | Behavior |
 |---|---|
@@ -182,7 +184,7 @@ lyft.com/help                               # Help center
 | Apple Watch | Ride ETA, driver arrival notification, trip status; cannot request rides |
 | Desktop | No desktop ride app; web used for account management and Lyft Business admin |
 
-## 9. Access Control
+## Access Control
 
 | Role | Capabilities |
 |---|---|
@@ -194,3 +196,32 @@ lyft.com/help                               # Help center
 | Business Admin | Manage rider accounts, set ride policies, view spend reports, allocate budgets |
 | Minor (under 18) | Cannot ride alone; must be accompanied by account holder (per ToS) |
 | Banned Rider/Driver | Account deactivated; cannot request or accept rides |
+
+## Key Metrics & Signals
+
+- **Surge pricing indicator:** Color-coded map zones showing current demand levels
+- **ETA accuracy:** Predicted vs actual pickup time tracked per ride
+- **Driver rating threshold:** Drivers below 4.8 risk deactivation
+- **Ride completion rate:** Percentage of requested rides completed
+- **Wait & Save discount:** Dynamic pricing offering lower fares for flexible pickup times
+
+## Platform-Specific Features
+
+| Feature | Rider App | Driver App | Web |
+|---------|-----------|------------|-----|
+| Request ride | Yes | — | Price estimate only |
+| Schedule ride | Yes | — | — |
+| Earnings dashboard | — | Yes | — |
+| Ride history | Yes | Yes | Yes |
+| Payment management | Yes | — | Yes |
+| Business profile | Yes | — | Yes |
+| Bike/scooter unlock | Yes | — | — |
+
+## Ride Matching Algorithm
+
+- **Proximity:** Closest available driver weighted by ETA
+- **Direction:** Preference for drivers already heading toward pickup
+- **Shared rides:** Detour optimization for pooled passengers
+- **Surge zones:** Dynamic pricing based on real-time demand/supply ratio
+- **Driver preferences:** Vehicle type, language, accessibility needs
+- **Scheduled rides:** Pre-matched 15 minutes before scheduled time

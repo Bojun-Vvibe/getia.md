@@ -134,9 +134,9 @@
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Structure</th>
-<th>Ownership</th>
+<th>Entity</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -180,40 +180,28 @@
 <td>Part of repository</td>
 </tr>
 </tbody></table>
+<h3>Build/Pipeline Lifecycle</h3>
+<pre><code>triggered → queued → running → success → deployed
+                              ↘ failed → retried → success
+triggered → cancelled (by user or timeout)
+running → timed_out → failed
+</code></pre>
 <h2>User Flows</h2>
 <h3>Finding and Pulling an Image</h3>
-<ol>
-<li>User searches for an image (e.g., &quot;nginx&quot; or &quot;postgres&quot;)</li>
-<li>Results show Official Images first, then Verified Publishers, then community images</li>
-<li>Clicks image → reads Overview (README with usage instructions)</li>
-<li>Checks Tags tab → finds desired version and architecture</li>
-<li>Copies pull command: <code>docker pull nginx:1.25-alpine</code></li>
-<li>Runs in terminal → image downloaded from Docker Hub</li>
-</ol>
+<pre><code>User searches for an image (e.g., &quot;nginx&quot; or &quot;postgres&quot;) → Results show Official Images first, then Verified Publishers, then community images → Clicks image → reads Overview (README with usage instructions) → Checks Tags tab → finds desired version and architecture → Copies pull command: `docker pull nginx:1.25-alpine` → Runs in terminal → image downloaded from Docker Hub
+</code></pre>
 <h3>Publishing an Image</h3>
-<ol>
-<li>User creates repository on Docker Hub (name, description, visibility)</li>
-<li>Builds image locally: <code>docker build -t username/myapp:1.0 .</code></li>
-<li>Logs in: <code>docker login</code></li>
-<li>Pushes: <code>docker push username/myapp:1.0</code></li>
-<li>Image appears in repository → writes README with usage instructions</li>
-<li>Community can search, discover, and pull the image</li>
-</ol>
+<pre><code>User creates repository on Docker Hub (name, description, visibility) → Builds image locally: `docker build -t username/myapp:1.0 .` → Logs in: `docker login` → Pushes: `docker push username/myapp:1.0` → Image appears in repository → writes README with usage instructions → Community can search, discover, and pull the image
+</code></pre>
 <h3>Organization Management</h3>
-<ol>
-<li>Admin creates organization → invites members</li>
-<li>Creates teams with specific repository access (read, write, admin)</li>
-<li>Assigns repositories to teams</li>
-<li>Sets up automated scanning and vulnerability alerts</li>
-<li>Manages billing and seat count</li>
-</ol>
+<pre><code>Admin creates organization → invites members → Creates teams with specific repository access (read, write, admin) → Assigns repositories to teams → Sets up automated scanning and vulnerability alerts → Manages billing and seat count
+</code></pre>
 <h3>Image Vulnerability Scanning</h3>
-<ol>
-<li>Docker Scout scans images on push (or on-demand)</li>
-<li>Vulnerability report shows CVEs by severity (Critical, High, Medium, Low)</li>
-<li>Recommendations for base image updates to fix vulnerabilities</li>
-<li>Policy compliance tracking (no critical CVEs, etc.)</li>
-</ol>
+<pre><code>Docker Scout scans images on push (or on-demand) → Vulnerability report shows CVEs by severity (Critical, High, Medium, Low) → Recommendations for base image updates to fix vulnerabilities → Policy compliance tracking (no critical CVEs, etc.)
+</code></pre>
+<h3>Manage Notifications</h3>
+<pre><code>Settings → Notifications → Toggle email/push/in-app per category → Set frequency (instant/daily digest/weekly) → Save preferences
+</code></pre>
 <h2>URL / Route Structure</h2>
 <table>
 <thead>
@@ -272,14 +260,46 @@
 </tr>
 </tbody></table>
 <p>Notable: Official images use <code>/_/</code> prefix (no namespace). Community images use <code>/r/{namespace}/</code>. User profiles use <code>/u/</code>.</p>
+<h3>Additional Routes</h3>
+<pre><code>billing  → Billing &amp; subscription
+notifications  → Notification preferences
+help  → Help center
+help/{topic}  → Help article
+api  → API documentation
+integrations  → Integrations
+admin  → Admin console
+/r/{namespace}/{repo}                → Repository detail
+/r/{namespace}/{repo}/tags            → Image tags
+/r/{namespace}/{repo}/builds          → Automated builds
+/r/{namespace}/{repo}/collaborators   → Collaborators
+/r/{namespace}/{repo}/webhooks        → Webhooks
+/r/{namespace}/{repo}/scans           → Vulnerability scans
+/orgs/{org}                           → Organization
+/orgs/{org}/members                   → Organization members
+/orgs/{org}/teams                     → Teams
+/orgs/{org}/billing                   → Billing
+/settings                             → Account settings
+/settings/security                    → Security settings
+/explore                              → Explore images
+</code></pre>
 <h2>Search &amp; Filter</h2>
 <ul>
-<li><strong>Image search</strong>: Full-text search across image names, descriptions, README content</li>
-<li><strong>Search filters</strong>: Type (Official, Verified Publisher, Sponsored OSS, Community), Categories, Operating Systems, Architectures</li>
-<li><strong>Sort</strong>: Best Match, Most Popular (pulls), Recently Updated, Most Stars</li>
-<li><strong>Tag filtering</strong>: Within a repository — filter tags by OS/architecture (linux/amd64, windows/amd64, arm/v7, etc.)</li>
-<li><strong>Explore categories</strong>: Databases, Web Servers, Languages, DevOps, Security, etc.</li>
-<li><strong>Organization repo search</strong>: Search repositories within an organization by name</li>
+<li><p><strong>Image search</strong>: Full-text search across image names, descriptions, README content</p>
+</li>
+<li><p><strong>Search filters</strong>: Type (Official, Verified Publisher, Sponsored OSS, Community), Categories, Operating Systems, Architectures</p>
+</li>
+<li><p><strong>Sort</strong>: Best Match, Most Popular (pulls), Recently Updated, Most Stars</p>
+</li>
+<li><p><strong>Tag filtering</strong>: Within a repository — filter tags by OS/architecture (linux/amd64, windows/amd64, arm/v7, etc.)</p>
+</li>
+<li><p><strong>Explore categories</strong>: Databases, Web Servers, Languages, DevOps, Security, etc.</p>
+</li>
+<li><p><strong>Organization repo search</strong>: Search repositories within an organization by name</p>
+</li>
+<li><p><strong>Autocomplete</strong>: Type-ahead suggestions with recent searches and popular results</p>
+</li>
+<li><p><strong>Advanced search</strong>: Boolean operators (AND, OR, NOT), field-specific filters, date ranges</p>
+</li>
 </ul>
 <h2>Responsive Behavior</h2>
 <table>
@@ -309,6 +329,58 @@
 <li>README content uses responsive markdown rendering (images scale, code blocks scroll)</li>
 <li>Pull command copy button remains accessible</li>
 </ul>
+<h3>Docker Hub-Specific UX Patterns</h3>
+<ul>
+<li><strong>Progressive disclosure</strong>: Complex features hidden behind expandable sections</li>
+<li><strong>Contextual actions</strong>: Right-click menus and hover-revealed action buttons</li>
+<li><strong>Inline editing</strong>: Click-to-edit fields without navigating to a separate page</li>
+<li><strong>Batch operations</strong>: Multi-select with bulk actions (delete, move, archive, tag)</li>
+<li><strong>Undo support</strong>: Non-destructive actions with undo toast notifications</li>
+<li><strong>Loading states</strong>: Skeleton screens and progress indicators during async operations</li>
+<li><strong>Empty states</strong>: Helpful illustrations and CTAs when sections have no content</li>
+<li><strong>Onboarding tooltips</strong>: First-time user guidance highlighting key features</li>
+</ul>
+<h3>Accessibility</h3>
+<ul>
+<li>WCAG 2.1 AA compliance across all interactive elements</li>
+<li>Semantic HTML with proper ARIA labels and landmarks</li>
+<li>Keyboard navigation support for all core workflows</li>
+<li>Screen reader compatibility tested with VoiceOver, NVDA, and JAWS</li>
+<li>Color contrast ratios meeting minimum 4.5:1 for body text</li>
+<li>Focus indicators visible on all interactive elements</li>
+<li>Reduced motion option respecting <code>prefers-reduced-motion</code></li>
+<li>Resizable text up to 200% without content loss</li>
+</ul>
+<h3>API &amp; Integration Patterns</h3>
+<ul>
+<li>RESTful API with JSON request/response format</li>
+<li>Webhook support for real-time event notifications</li>
+<li>OAuth 2.0 for third-party application authorization</li>
+<li>Rate limiting with clear headers (X-RateLimit-Remaining)</li>
+<li>Pagination via cursor-based or offset-based parameters</li>
+<li>Versioned API endpoints for backward compatibility</li>
+<li>Comprehensive API documentation with interactive examples</li>
+<li>SDKs available for popular languages (JavaScript, Python, Ruby, Go)</li>
+</ul>
+<h3>Automated Build Pipeline</h3>
+<pre><code>Connect GitHub/GitLab repository → Configure automated builds → Set build rules (branch/tag patterns) → Push code → Docker Hub builds image automatically → Image tagged and pushed to repository → Webhook notifications sent
+                                                                                                                                                             ↘ Build fails → View build logs → Fix Dockerfile → Push again
+</code></pre>
+<h3>Vulnerability Scanning</h3>
+<pre><code>Push image to Docker Hub → Docker Scout automatically scans for vulnerabilities → View CVE report with severity ratings → Recommended base image updates → Apply fixes → Rebuild → Re-scan confirms remediation
+</code></pre>
+<h3>Organization Management</h3>
+<pre><code>Create organization → Invite team members → Create teams → Assign repository permissions per team → Set up SSO (Business plan) → Configure image access policies → Audit access logs
+</code></pre>
+<h3>Container Registry Workflow</h3>
+<pre><code>Developer runs `docker push` → Image layers uploaded → Manifest created → Available for `docker pull` worldwide → Rate limits applied per plan tier → Content trust (signing) optional for verified publishers
+</code></pre>
+<h3>Docker Scout Integration</h3>
+<pre><code>Enable Docker Scout → Continuous monitoring of all repository images → Policy evaluation against security baselines → Supply chain attestation tracking → SBOM generation → Compliance reporting
+</code></pre>
+<h3>Repository Webhook Configuration</h3>
+<pre><code>Repository → Webhooks → Add webhook URL → Select events (push, build, scan) → Test webhook → Receive POST payload on events → Integrate with CI/CD pipelines or Slack notifications
+</code></pre>
 <h2>Access Control</h2>
 <table>
 <thead>

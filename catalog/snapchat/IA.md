@@ -7,11 +7,11 @@ website: https://snapchat.com
 
 # Information Architecture — Snapchat
 
-## 1. Overview
+## Overview
 
 Snapchat is an ephemeral-first multimedia messaging platform centered on camera-driven communication, AR experiences, and short-form content. The IA revolves around the camera as the home screen, with horizontal swipe navigation to access conversations, stories, Snap Map, and Spotlight. Every surface is designed for speed — capture, augment, share, and move on.
 
-## 2. Site Map
+## Site Map
 
 ```
 Snapchat
@@ -62,7 +62,7 @@ Snapchat
     └── Careers
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 - **Type**: Camera-centric with tab bar + swipe gestures
 - **Bottom Tab Bar**: Snap Map, Chat, Camera (center), Stories, Spotlight
@@ -71,9 +71,9 @@ Snapchat
 - **Profile Access**: Top-left Bitmoji avatar → profile, settings, Snapchat+
 - **Search**: Top bar — universal search for friends, groups, Discover, Lenses, Places
 
-## 4. Content Model
+## Content Model
 
-| Content Type | Attributes | Relationships |
+| Entity | Key Attributes | Relationships |
 |---|---|---|
 | Snap | media (photo/video), duration, lens/filter, caption, stickers, send-to list, viewed flag | → Conversation, → Story, → Spotlight |
 | Story | snaps (ordered), owner, timestamp, expiry (24h), viewers list, screenshot count | → Profile, → Discover |
@@ -84,7 +84,7 @@ Snapchat
 | Place | name, address, coordinates, category, hours, Snaps from location | → Snap Map |
 | Snap Streak | participants (2), current count, expiry timer | → Chat |
 
-## 5. User Flows
+## User Flows
 
 ### Daily Story Posting
 1. Open app → lands on Camera → Select lens or filter
@@ -103,7 +103,7 @@ Snapchat
 2. Double-tap to like → Swipe up for next → Tap sound badge to see other videos using same audio
 3. Tap creator profile → Follow or subscribe
 
-## 6. URL / Route Structure
+## URL / Route Structure
 
 ```
 snapchat.com/                           # Marketing homepage
@@ -120,7 +120,7 @@ map.snapchat.com/                       # Snap Map web view
 newsroom.snap.com/                      # Press / Newsroom
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 - **Universal Search Bar**: Friends, groups, Discover publishers, Lenses, Places, sounds, Topics
 - **Chat Search**: Search within individual conversations
@@ -129,7 +129,7 @@ newsroom.snap.com/                      # Press / Newsroom
 - **Snap Map**: Search places by name, category, or address
 - **Discover**: Filtered by subscriptions and "For You" algorithmic recommendations
 
-## 8. Responsive Behavior
+## Responsive Behavior
 
 | Breakpoint | Behavior |
 |---|---|
@@ -139,7 +139,7 @@ newsroom.snap.com/                      # Press / Newsroom
 | Desktop (web.snapchat.com) | Limited chat + calling via web browser; no camera features |
 | Lens Studio (Desktop) | Full desktop AR creation tool; separate application |
 
-## 9. Access Control
+## Access Control
 
 | Role | Capabilities |
 |---|---|

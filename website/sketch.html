@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Sketch</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Sketch is a macOS-native vector design tool for UI/UX design, known for pioneering <strong>Symbols</strong> (reusable components), <strong>Libraries</strong> (shared design systems), and the artboard-based workflow that became the standard for digital design. The IA spans the <strong>Mac app</strong> (core design tool), <strong>Sketch Cloud</strong> (collaboration, prototyping, handoff), and the <strong>marketing website</strong>. Sketch differentiates from Figma by being Mac-native (faster performance) and offering a one-time license option alongside subscription.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>sketch.com
 ├── Home
 ├── Product
@@ -185,7 +185,7 @@ Sketch Cloud (Web)
     ├── Notifications
     └── Devices
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <table>
 <thead>
 <tr>
@@ -221,89 +221,80 @@ Sketch Cloud (Web)
 </tr>
 </tbody></table>
 <p><strong>Key pattern</strong>: Sketch&#39;s Mac app uses the classic &quot;layers panel + canvas + inspector&quot; three-pane layout that defined modern design tools. Sketch Cloud mirrors this layout for web-based viewing and handoff.</p>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
 <th>Entity</th>
-<th>Attributes</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>Document</td>
 <td>name, pages, artboards, Symbols, version history, shared flag, workspace</td>
+<td>—</td>
 </tr>
 <tr>
 <td>Page</td>
 <td>name, artboards, layers</td>
+<td>—</td>
 </tr>
 <tr>
 <td>Artboard</td>
 <td>name, size, layers, prototype links, export settings</td>
+<td>—</td>
 </tr>
 <tr>
 <td>Symbol</td>
 <td>name, overrides (text, image, nested), Smart Layout, library source</td>
+<td>—</td>
 </tr>
 <tr>
 <td>Library</td>
 <td>name, document source, Symbols, Color Variables, Text Styles, Layer Styles, consumers</td>
+<td>—</td>
 </tr>
 <tr>
 <td>Color Variable</td>
 <td>name, hex/RGBA, usage count</td>
+<td>—</td>
 </tr>
 <tr>
 <td>Text Style</td>
 <td>name, font, size, weight, line height, color</td>
+<td>—</td>
 </tr>
 <tr>
 <td>Comment</td>
 <td>author, artboard, position (x,y), text, resolved flag, timestamp</td>
+<td>—</td>
 </tr>
 <tr>
 <td>Prototype Link</td>
 <td>source artboard, target artboard, trigger (click/hover), animation</td>
+<td>—</td>
 </tr>
 <tr>
 <td>Plugin</td>
 <td>name, author, description, version, download URL</td>
+<td>—</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
-<h3>5a. Design a UI screen</h3>
-<ol>
-<li>Open Sketch → new document → create artboard (iPhone 16, Desktop, etc.)</li>
-<li>Draw shapes, add text, insert images</li>
-<li>Use Symbols for reusable components (buttons, cards, nav bars)</li>
-<li>Apply Smart Layout → components resize responsively</li>
-<li>Organize layers → name artboards → save to Cloud</li>
-</ol>
-<h3>5b. Collaborate &amp; review</h3>
-<ol>
-<li>Upload document to Sketch Cloud (auto-save or manual)</li>
-<li>Share link with stakeholders → they view in browser</li>
-<li>Stakeholders add comments on specific artboards/positions</li>
-<li>Designer addresses feedback → update document</li>
-<li>Version history tracks all changes</li>
-</ol>
-<h3>5c. Developer handoff</h3>
-<ol>
-<li>Developer opens shared document in Sketch Cloud</li>
-<li>Switch to Inspect mode → click any element</li>
-<li>View properties (dimensions, spacing, colors, typography)</li>
-<li>Copy code snippets (CSS, Swift, React Native)</li>
-<li>Download assets (PNG, SVG, PDF) at 1x/2x/3x</li>
-</ol>
-<h3>5d. Design system with Libraries</h3>
-<ol>
-<li>Create a Library document (Symbols, Colors, Text Styles)</li>
-<li>Share Library across workspace</li>
-<li>Team members use Library Symbols in their documents</li>
-<li>Update Symbol in Library → consumers see &quot;Library Update Available&quot;</li>
-<li>Accept updates → changes propagate across all documents</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<h2>User Flows</h2>
+<h3>Design a UI screen</h3>
+<pre><code>Open Sketch → new document → create artboard (iPhone 16, Desktop, etc.) → Draw shapes, add text, insert images → Use Symbols for reusable components (buttons, cards, nav bars) → Apply Smart Layout → components resize responsively → Organize layers → name artboards → save to Cloud
+</code></pre>
+<h3>Collaborate &amp; review</h3>
+<pre><code>Upload document to Sketch Cloud (auto-save or manual) → Share link with stakeholders → they view in browser → Stakeholders add comments on specific artboards/positions → Designer addresses feedback → update document → Version history tracks all changes
+</code></pre>
+<h3>Developer handoff</h3>
+<pre><code>Developer opens shared document in Sketch Cloud → Switch to Inspect mode → click any element → View properties (dimensions, spacing, colors, typography) → Copy code snippets (CSS, Swift, React Native) → Download assets (PNG, SVG, PDF) at 1x/2x/3x
+</code></pre>
+<h3>Design system with Libraries</h3>
+<pre><code>Create a Library document (Symbols, Colors, Text Styles) → Share Library across workspace → Team members use Library Symbols in their documents → Update Symbol in Library → consumers see &quot;Library Update Available&quot; → Accept updates → changes propagate across all documents
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code># sketch.com (marketing)
 /                               → Home
 /design/                        → Design features
@@ -326,7 +317,7 @@ Sketch Cloud (Web)
 /s/{share-id}/p/{page-id}       → Prototype preview
 /settings/                      → Workspace settings
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <table>
 <thead>
 <tr>
@@ -363,7 +354,7 @@ Sketch Cloud (Web)
 <td>By keyword, release version</td>
 </tr>
 </tbody></table>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -392,7 +383,7 @@ Sketch Cloud (Web)
 <td>Responsive viewer — adapts panel layout, but optimized for desktop</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>
@@ -435,6 +426,38 @@ Sketch Cloud (Web)
 <tr>
 <td>Internal</td>
 <td>Infrastructure, plugin review, community management</td>
+</tr>
+</tbody></table>
+<h2>Plugin Ecosystem</h2>
+<ul>
+<li><strong>1000+ plugins</strong> available via Sketch plugin directory</li>
+<li><strong>Popular plugins:</strong> Stark (accessibility), Anima (export to code), Content Generator, Craft</li>
+<li><strong>Plugin development:</strong> JavaScript/CocoaScript API</li>
+<li><strong>Plugin manager:</strong> Install, update, and manage from Sketch Preferences</li>
+</ul>
+<h2>Version History</h2>
+<table>
+<thead>
+<tr>
+<th>Version</th>
+<th>Key Feature</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Sketch 100 (2024)</td>
+<td>Variable fonts, enhanced prototyping</td>
+</tr>
+<tr>
+<td>Sketch 99</td>
+<td>AI-powered features, Smart Layout improvements</td>
+</tr>
+<tr>
+<td>Sketch 98</td>
+<td>Color variables, style overrides</td>
+</tr>
+<tr>
+<td>Sketch 97</td>
+<td>Real-time collaboration improvements</td>
 </tr>
 </tbody></table>
 

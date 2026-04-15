@@ -280,29 +280,28 @@ payment: pending → authorized → paid → partially_refunded → refunded
 
 ## User Flows
 
-### Customer: Browse to Purchase
+
+
+### Customer Purchase
 ```
 Home → Browse Collection → Filter (size, color) → Product Detail → Select Variant → Add to Cart → Cart Drawer → Checkout → Shop Pay (1-click) → Order Confirmation → Email Confirmation → Track Order
 ```
 
-### Merchant: Process Order
+### Fulfill an Order
 ```
 Orders (new order notification) → Order Detail → Review items → Create fulfillment → Add tracking number → Mark as fulfilled → Customer gets shipping email → Delivered
 ```
 
-### Merchant: Add Product
+### Add New Product
 ```
 Products → Add Product → Title, description → Upload images → Set price, compare-at → Create variants (S/M/L × Red/Blue) → Set inventory per location → SEO → Organize (collections, tags) → Active → Publish
 ```
 
-### Merchant: Customize Storefront
+### Customize Theme
 ```
 Online Store → Themes → Customize → Section-based editor → Drag sections (hero, featured collection, image with text) → Configure blocks within sections → Change colors/fonts → Preview on mobile → Publish
 ```
 
-## URL / Route Structure
-
-### Storefront
 ```
 /                              → Home
 /collections                   → All Collections
@@ -322,9 +321,11 @@ Online Store → Themes → Customize → Section-based editor → Drag sections
 /blogs/:blog/:article          → Blog Article
 /pages/:handle                 → Static Page
 /policies/:handle              → Policy Page
+
+## URL / Route Structure
+
 ```
 
-### Admin
 ```
 /admin                         → Home
 /admin/orders                  → Orders

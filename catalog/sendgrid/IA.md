@@ -113,17 +113,26 @@ sendgrid.com
 
 ## User Flows
 
-### 1. Set Up Transactional Email
-`Email API → Integration Guide → Choose method (Web API / SMTP) → Generate API key → Install SDK → Authenticate domain (DNS records) → Send test email → Go live`
 
-### 2. Build and Send a Campaign
-`Marketing → Single Sends → + Create → Select contacts list/segment → Design email (drag-and-drop) → Preview → Schedule or Send Now → Monitor stats`
+### Integrate Email API
+```
+Email API → Integration Guide → Choose method (Web API / SMTP) → Generate API key → Install SDK → Authenticate domain (DNS records) → Send test email → Go live
+```
 
-### 3. Create a Dynamic Template
-`Email API → Dynamic Templates → + Create → Code or design editor → Add Handlebars variables ({{name}}) → Set test data → Save version → Use template_id in API calls`
+### Send a Marketing Campaign
+```
+Marketing → Single Sends → + Create → Select contacts list/segment → Design email (drag-and-drop) → Preview → Schedule or Send Now → Monitor stats
+```
 
-### 4. Investigate Delivery Issues
-`Activity → Search by recipient email → View event timeline (processed → delivered or bounced) → Check bounce reason → Suppressions → Remove from bounce list if resolved`
+### Create Dynamic Template
+```
+Email API → Dynamic Templates → + Create → Code or design editor → Add Handlebars variables ({{name}}) → Set test data → Save version → Use template_id in API calls
+```
+
+### Debug Delivery Issue
+```
+Activity → Search by recipient email → View event timeline (processed → delivered or bounced) → Check bounce reason → Suppressions → Remove from bounce list if resolved
+```
 
 ## URL / Route Structure
 
@@ -139,6 +148,17 @@ app.sendgrid.com/marketing/automations               # Automations
 app.sendgrid.com/suppressions/bounces                # Bounces
 app.sendgrid.com/settings/sender_auth                # Domain authentication
 app.sendgrid.com/settings/api_keys                   # API Keys
+app.sendgrid.com/suppressions/blocks                        # Blocked emails
+app.sendgrid.com/suppressions/spam_reports                  # Spam reports
+app.sendgrid.com/suppressions/unsubscribes                  # Global unsubscribes
+app.sendgrid.com/marketing/segments                         # Segments
+app.sendgrid.com/marketing/automations/{id}                 # Automation detail
+app.sendgrid.com/settings/mail_settings                     # Mail settings
+app.sendgrid.com/settings/tracking                          # Tracking settings
+app.sendgrid.com/settings/subusers                          # Subusers
+sendgrid.com/docs                                            # Documentation
+sendgrid.com/pricing                                         # Pricing
+sendgrid.com/blog                                            # Blog
 ```
 
 ## Search & Filter
@@ -168,3 +188,38 @@ app.sendgrid.com/settings/api_keys                   # API Keys
 | Teammate (Custom) | Granular per-feature permissions (e.g., Marketing only) |
 | Subuser | Isolated sending environment with own stats, IPs, reputation |
 | API Key (restricted) | Scoped to specific API endpoints (e.g., Mail Send only) |
+
+## Email API vs Marketing Campaigns
+
+| Feature | Email API | Marketing Campaigns |
+|---------|----------|-------------------|
+| Use case | Transactional + app-generated email | Newsletters, promotions, drip campaigns |
+| Sending method | REST API or SMTP | Web UI or API |
+| Personalization | Dynamic templates with Handlebars | Drag-and-drop editor with merge tags |
+| Recipients | Single or batch (up to 1000/request) | Contact lists and segments |
+| Tracking | Per-message event webhook | Campaign-level analytics dashboard |
+| Pricing | Per email sent | Included with Marketing plan |
+
+## Event Webhook
+
+| Event | Description |
+|-------|-------------|
+| Processed | Email accepted by SendGrid for delivery |
+| Dropped | Email dropped (suppression list, invalid) |
+| Delivered | Email accepted by recipient server |
+| Deferred | Temporary delivery failure; will retry |
+| Bounce | Permanent delivery failure |
+| Open | Recipient opened email (pixel tracking) |
+| Click | Recipient clicked a link |
+| Spam Report | Recipient marked as spam |
+| Unsubscribe | Recipient clicked unsubscribe link |
+
+## Deliverability Tools
+
+- **Domain authentication:** SPF, DKIM, DMARC setup wizard
+- **IP warmup:** Gradual sending volume increase for new IPs
+- **Dedicated IPs:** Isolated sending reputation (Pro+)
+- **Suppression management:** Automatic bounce, spam report, and unsubscribe handling
+- **Email validation API:** Verify email addresses before sending
+- **Sender verification:** Single sender or domain-level verification
+- **Email testing:** Preview rendering across 90+ email clients

@@ -7,10 +7,10 @@ website: https://hashnode.com
 
 # Information Architecture — Hashnode
 
-## 1. Overview
+## Overview
 Hashnode is a developer blogging platform that uniquely allows bloggers to publish on their **own custom domain** while leveraging Hashnode's community, CDN, and SEO infrastructure. The IA supports both the community hub (hashnode.com feed, discussions, challenges) and individual blog instances (myblog.dev). Key features include Series (multi-part tutorials), Newsletter integration, GitHub-backed editing, and a built-in analytics dashboard.
 
-## 2. Site Map
+## Site Map
 
 ```
 hashnode.com (Community Hub)
@@ -88,7 +88,7 @@ Dashboard (Auth)
 └── Sponsors / Widgets
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 | Level | Type | Details |
 |-------|------|---------|
@@ -101,50 +101,61 @@ Dashboard (Auth)
 
 **Key pattern**: Dual identity — hashnode.com is the community (discovery + social), while each blog is a standalone site on the author's own domain. Content lives on the blog but is syndicated to the community feed.
 
-## 4. Content Model
+## Content Model
 
-| Entity | Attributes |
-|--------|-----------|
-| Post | title, slug, body (Markdown), cover image, tags, series, published date, canonical URL, SEO description, reactions, comments, read time |
-| Series | name, description, posts (ordered), cover image |
-| Blog | name, subdomain/custom domain, description, logo, favicon, theme, social links, newsletter enabled |
-| Tag | name, articles count, followers count, community-wide |
-| Comment | author, body (Markdown), parent comment, reactions, timestamp |
-| Newsletter Issue | subject, body, recipient list, sent date, stats (opens, clicks) |
-| Badge | name, icon, criteria (e.g., streak, milestone) |
-| User | username, name, bio, avatar, blog URL, social links, badges |
+| Entity | Key Attributes | Relationships |
+|---|---|---|
+| Post | title, slug, body (Markdown), cover image, tags, series, published date, canonical URL, SEO description, reactions, comments, read time | → Author, → Tags, → Newsletter |
+| Series | name, description, posts (ordered), cover image | has Posts, belongs to Blog |
+| Blog | name, subdomain/custom domain, description, logo, favicon, theme, social links, newsletter enabled | has Posts, has Series, belongs to User |
+| Tag | name, articles count, followers count, community-wide | has Posts, belongs to Blog |
+| Comment | author, body (Markdown), parent comment, reactions, timestamp | belongs to Post, → Author |
+| Newsletter Issue | subject, body, recipient list, sent date, stats (opens, clicks) | → Folder, belongs to User |
+| Badge | name, icon, criteria (e.g., streak, milestone) | belongs to User |
+| User | username, name, bio, avatar, blog URL, social links, badges | has Blogs, has Posts, has Badges |
 
-## 5. User Flows
+## User Flows
 
 ### 5a. Write & publish
-1. Click "Write" → Markdown editor (or use GitHub-backed source)
-2. Write article → add title, cover image, tags
-3. Assign to series (optional) → set SEO metadata
-4. Publish → article appears on personal blog AND community feed
-5. Optionally send as newsletter to subscribers
+
+```
+Click "Write" → Markdown editor (or use GitHub-backed source) →
+  Write article → add title, cover image, tags → Assign to series (optional) → set SEO metadata →
+  Publish → article appears on personal blog AND community feed →
+  Optionally send as newsletter to subscribers
+```
+
 
 ### 5b. Set up custom domain
-1. Dashboard → Settings → Domain
-2. Enter custom domain (e.g., blog.mydomain.dev)
-3. Add CNAME record at DNS provider → point to Hashnode
-4. Hashnode provisions SSL → blog live on custom domain
-5. All posts served from custom domain with Hashnode CDN
+
+```
+Dashboard → Settings → Domain → Enter custom domain (e.g., blog.mydomain.dev) →
+  Add CNAME record at DNS provider → point to Hashnode →
+  Hashnode provisions SSL → blog live on custom domain →
+  All posts served from custom domain with Hashnode CDN
+```
+
 
 ### 5c. Discover & engage (community)
-1. Visit hashnode.com → browse Featured/Recent/Best
-2. React to articles (like) → comment (threaded Markdown)
-3. Follow authors → their posts appear in Following tab
-4. Follow tags → see tagged content in feed
-5. Bookmark articles for later reading
+
+```
+Visit hashnode.com → browse Featured/Recent/Best →
+  React to articles (like) → comment (threaded Markdown) →
+  Follow authors → their posts appear in Following tab → Follow tags → see tagged content in feed →
+  Bookmark articles for later reading
+```
+
 
 ### 5d. Series creation
-1. Dashboard → New Series → title, description, cover
-2. Create posts → assign to series
-3. Series page auto-generates with ordered navigation
-4. Readers navigate prev/next within series
-5. Series appears as a cohesive learning path
 
-## 6. URL / Route Structure
+```
+Dashboard → New Series → title, description, cover → Create posts → assign to series →
+  Series page auto-generates with ordered navigation → Readers navigate prev/next within series →
+  Series appears as a cohesive learning path
+```
+
+
+## URL / Route Structure
 
 ```
 # Community (hashnode.com)
@@ -171,9 +182,14 @@ Dashboard (Auth)
 /dashboard/newsletter/          → Newsletter management
 /dashboard/analytics/           → Analytics
 /dashboard/settings/            → Blog settings
+/explore/tags/                     # Browse all tags
+/explore/blogs/                    # Top blogs directory
+/hackathons/                       # Hackathons & challenges
+/@{username}/followers/            # User's followers
+/@{username}/following/            # User's following
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 | Feature | Behavior |
 |---------|----------|
@@ -184,7 +200,9 @@ Dashboard (Auth)
 | Dashboard filter | Published, drafts, scheduled, by series |
 | Analytics filter | By post, date range, traffic source |
 
-## 8. Responsive Behavior
+- **Tag filtering**: Filter community feed by specific tags or combinations
+- **Blog-level analytics**: Filter analytics by post, traffic source, geography
+## Responsive Behavior
 
 | Breakpoint | Adaptation |
 |-----------|------------|
@@ -194,7 +212,7 @@ Dashboard (Auth)
 | Individual blog | Responsive by default (theme-dependent), mobile-optimized typography |
 | AMP | Optional AMP versions for Google discover/search |
 
-## 9. Access Control
+## Access Control
 
 | Role | Access |
 |------|--------|

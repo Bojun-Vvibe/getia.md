@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Oura</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Oura is a health tracking platform centered on the Oura Ring — a wearable that continuously monitors sleep, activity, heart rate, temperature, and blood oxygen. The IA is organized around three daily scores — Sleep, Readiness, and Activity — that distill complex biometric data into actionable guidance. The app surfaces trends over time and provides personalized insights, bridging the gap between raw sensor data and practical health decisions.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>Oura
 ├── Home (Today)
 │   ├── Sleep Score
@@ -183,7 +183,7 @@
     ├── Blog (The Pulse)
     └── Business (Oura for Business)
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <ul>
 <li><strong>Type</strong>: Bottom tab bar (mobile)</li>
 <li><strong>Bottom Tabs</strong>: Home, Sleep, Readiness, Activity (or combined &quot;Scores&quot;), Explore</li>
@@ -193,12 +193,12 @@
 <li><strong>Insights Panel</strong>: Cards on Home with contextual tips based on data</li>
 <li><strong>Ring Icon</strong>: Battery status and ring connection indicator in top bar</li>
 </ul>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Attributes</th>
+<th>Entity</th>
+<th>Key Attributes</th>
 <th>Relationships</th>
 </tr>
 </thead>
@@ -258,31 +258,17 @@
 <td>→ Scores</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
+<h2>User Flows</h2>
 <h3>Morning Check-In</h3>
-<ol>
-<li>Wake up → Open app → Ring syncs overnight data automatically</li>
-<li>Home shows three scores: Sleep (82), Readiness (71), Activity (yesterday&#39;s 95)</li>
-<li>Tap Sleep → View hypnogram, time in each stage, HRV, resting HR</li>
-<li>Read insight: &quot;Your deep sleep was 15% below your baseline. Consider avoiding caffeine after 2 PM.&quot;</li>
-<li>Add Tag: &quot;Late coffee&quot; to track correlation over time</li>
-</ol>
+<pre><code>Wake up → Open app → Ring syncs overnight data automatically → Home shows three scores: Sleep (82), Readiness (71), Activity (yesterday&#39;s 95) → Tap Sleep → View hypnogram, time in each stage, HRV, resting HR → Read insight: &quot;Your deep sleep was 15% below your baseline. Consider avoiding caffeine after 2 PM.&quot; → Add Tag: &quot;Late coffee&quot; to track correlation over time
+</code></pre>
 <h3>Understanding Readiness</h3>
-<ol>
-<li>Tap Readiness score → See component breakdown</li>
-<li>Temperature +0.3°C above baseline → Body may be fighting something</li>
-<li>HRV below personal average → Recovery is low</li>
-<li>Insight suggests: &quot;Take it easy today. Opt for light activity.&quot;</li>
-<li>Check trend → See readiness dip pattern correlated with &quot;Poor sleep&quot; tag</li>
-</ol>
+<pre><code>Tap Readiness score → See component breakdown → Temperature +0.3°C above baseline → Body may be fighting something → HRV below personal average → Recovery is low → Insight suggests: &quot;Take it easy today. Opt for light activity.&quot; → Check trend → See readiness dip pattern correlated with &quot;Poor sleep&quot; tag
+</code></pre>
 <h3>Tracking Cycle</h3>
-<ol>
-<li>Enable Cycle Tracking in settings → Log period start</li>
-<li>Oura tracks basal body temperature deviations nightly</li>
-<li>Algorithm predicts cycle phases and next period</li>
-<li>View Cycle Calendar → See temperature curve overlaid with cycle days</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<pre><code>Enable Cycle Tracking in settings → Log period start → Oura tracks basal body temperature deviations nightly → Algorithm predicts cycle phases and next period → View Cycle Calendar → See temperature curve overlaid with cycle days
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code>ouraring.com/                               # Marketing homepage
 ouraring.com/product                        # Ring product page
 ouraring.com/product/rings/{model}          # Specific ring model
@@ -295,8 +281,16 @@ ouraring.com/business                       # Oura for Business
 cloud.ouraring.com/                         # Web dashboard (limited)
 cloud.ouraring.com/dashboard                # Data overview
 api.ouraring.com/                           # Developer API
+ouraring.com/product/accessories             # Ring accessories
+ouraring.com/oura-for-business               # Enterprise offering
+cloud.ouraring.com/trends                    # Trends dashboard
+cloud.ouraring.com/sleep                     # Sleep details
+cloud.ouraring.com/activity                  # Activity details
+cloud.ouraring.com/readiness                 # Readiness details
+api.ouraring.com/v2/usercollection/daily_sleep  # Sleep API endpoint
+api.ouraring.com/v2/usercollection/daily_activity # Activity API endpoint
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <ul>
 <li><strong>Tag Search</strong>: Browse and create custom tags for lifestyle factors</li>
 <li><strong>Trend Filters</strong>: View trends by 7, 30, 90, or 180 days</li>
@@ -306,7 +300,7 @@ api.ouraring.com/                           # Developer API
 <li><strong>No Social Search</strong>: Oura is a personal health tool with no social features</li>
 <li><strong>Data Export</strong>: Full data export to CSV for external analysis</li>
 </ul>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -335,7 +329,7 @@ api.ouraring.com/                           # Developer API
 <td>Score summary widget; quick glance at today&#39;s scores</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>
@@ -368,6 +362,50 @@ api.ouraring.com/                           # Developer API
 <td>Browse website, blog, research; cannot access app features</td>
 </tr>
 </tbody></table>
+<h2>Sensor Technology</h2>
+<table>
+<thead>
+<tr>
+<th>Sensor</th>
+<th>Measurement</th>
+<th>Sampling Rate</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Infrared PPG</td>
+<td>Heart rate, HRV, SpO2</td>
+<td>Every 5 seconds (sleep)</td>
+</tr>
+<tr>
+<td>NTC Temperature</td>
+<td>Skin temperature deviation</td>
+<td>Continuous overnight</td>
+</tr>
+<tr>
+<td>3D Accelerometer</td>
+<td>Movement, steps, activity type</td>
+<td>Continuous</td>
+</tr>
+<tr>
+<td>Gyroscope</td>
+<td>Orientation, gesture detection</td>
+<td>Continuous</td>
+</tr>
+</tbody></table>
+<h2>Score Calculation</h2>
+<ul>
+<li><strong>Sleep Score (0-100):</strong> Weighted average of total sleep, efficiency, restfulness, REM sleep, deep sleep, latency, timing</li>
+<li><strong>Readiness Score (0-100):</strong> Weighted average of resting HR, HRV balance, body temperature, recovery index, sleep balance, activity balance</li>
+<li><strong>Activity Score (0-100):</strong> Weighted average of steps, active calories, training frequency, training volume, inactivity time</li>
+</ul>
+<h2>Data Export &amp; API</h2>
+<ul>
+<li><strong>CSV export:</strong> Download all historical data from the app</li>
+<li><strong>REST API:</strong> OAuth2 access to sleep, activity, readiness, heart rate data</li>
+<li><strong>Webhook support:</strong> Real-time notifications when new data is available</li>
+<li><strong>Apple Health / Google Health Connect:</strong> Bidirectional sync of sleep, activity, heart rate</li>
+<li><strong>Third-party integrations:</strong> Strava, Natural Cycles, Zero (fasting), IFTTT</li>
+</ul>
 
     </div>
   </article>

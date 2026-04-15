@@ -57,56 +57,103 @@ app.jasper.ai
 
 ## Content Model
 
-| Content Type | Structure | Ownership |
+| Entity | Key Attributes | Relationships |
 |---|---|---|
 | Document | Rich-text editor document with AI assistance, title, folder, tags | User/Team |
 | Campaign | Brief (goals, audience, channels) + linked content assets + analytics | Team-owned |
 | Brand Voice | Name, description, tone attributes, example content, rules | Org-level |
 | Knowledge Base Entry | Company facts, product specs, style rules — fed as context to all generations | Org-level |
 | Template | Predefined form with input fields → structured AI output (e.g., "Facebook Ad Copy") | Jasper-provided or custom |
-| Art Image | AI-generated image with prompt, style, mood, brand colors | User-owned |
+| Art Image | AI-generated image with prompt, style, mood, brand colors | belongs to User |
 | Workflow | Automated multi-step content pipeline (e.g., blog post → social snippets → email) | Org-level |
 
 ## User Flows
 
 ### Brand Voice-Powered Content Creation
-1. Admin configures Brand Voice: uploads style guide, sets tone (witty, professional, bold), adds example content
-2. Admin adds Knowledge Base entries: product names, FAQs, competitive positioning
-3. Content creator opens Document editor → Brand Voice auto-selected
-4. Types or uses `/` command to trigger AI generation with brand context
-5. AI generates content matching the brand's tone, using accurate product details
-6. Review → publish or export to CMS
+
+```
+Admin configures Brand Voice: uploads style guide, sets tone (witty,... →
+  Admin adds Knowledge Base entries: product names, FAQs, competitive positioning →
+  Content creator opens Document editor → Brand Voice auto-selected →
+  Types or uses `/` command to trigger AI generation with brand context →
+  AI generates content matching the brand's tone, using accurate product details →
+  Review → publish or export to CMS
+```
+
 
 ### Campaign Workflow
-1. Marketing lead creates Campaign → fills brief (objective, target audience, key messages, channels)
-2. Jasper suggests content plan based on brief: 3 blog posts, 10 social posts, 2 email sequences
-3. Team members generate individual assets using Templates or Document editor
-4. All assets linked to Campaign → visible in Campaign workspace
-5. Analytics track content performance across channels
+
+```
+Marketing lead creates Campaign → fills brief (objective, target audience, key... →
+  Jasper suggests content plan based on brief: 3 blog posts, 10 social posts, 2... →
+  Team members generate individual assets using Templates or Document editor →
+  All assets linked to Campaign → visible in Campaign workspace →
+  Analytics track content performance across channels
+```
+
 
 ### Template-Based Generation
-1. User browses Template gallery → selects "Google Ads Copy"
-2. Fills input fields: product name, target keyword, audience, CTA
-3. Brand Voice automatically applied → clicks Generate
-4. Jasper produces multiple variations → user picks best ones
-5. Copy to clipboard or export to Google Ads
+
+```
+User browses Template gallery → selects "Google Ads Copy" →
+  Fills input fields: product name, target keyword, audience, CTA →
+  Brand Voice automatically applied → clicks Generate →
+  Jasper produces multiple variations → user picks best ones →
+  Copy to clipboard or export to Google Ads
+```
+
+
+
+### AI Chat with Brand Context
+
+```
+Open Chat → Brand Voice auto-applied → Ask marketing question → Jasper responds with brand-aware suggestions → Request copy variations → Copy to document or campaign asset
+```
+
+### Workflow Automation
+
+```
+Create Workflow → Define trigger (e.g., 'new blog post published') → Add steps (generate social posts, create email snippet, produce ad copy) → Brand Voice applied at each step → Review generated assets → Approve and distribute
+```
 
 ## URL / Route Structure
 
-| Pattern | Description |
-|---|---|
-| `/` | Dashboard |
-| `/chat` | AI chat interface |
-| `/documents/{uuid}` | Document editor |
-| `/campaigns/{uuid}` | Campaign workspace |
-| `/campaigns/{uuid}/brief` | Campaign brief |
-| `/templates` | Template gallery |
-| `/templates/{slug}` | Template runner |
-| `/art` | Image generation |
-| `/brand-voice/{uuid}` | Brand voice config |
-| `/brand-voice/knowledge` | Knowledge base |
-| `/admin/*` | Admin panel |
-| `/settings` | User settings |
+
+```
+/                                             # Dashboard
+/chat                                         # AI chat interface
+/documents/{uuid}                             # Document editor
+/campaigns/{uuid}                             # Campaign workspace
+/campaigns/{uuid}/brief                       # Campaign brief
+/templates                                    # Template gallery
+/templates/{slug}                             # Template runner
+/art                                          # Image generation
+/brand-voice/{uuid}                           # Brand voice config
+/brand-voice/knowledge                        # Knowledge base
+/admin/*                                      # Admin panel
+/settings                                     # User settings
+/documents                                # Documents list
+/documents/new                            # New document
+/campaigns                                # Campaigns list
+/campaigns/new                            # New campaign
+/campaigns/{uuid}/content                 # Campaign content assets
+/campaigns/{uuid}/analytics               # Campaign analytics
+/templates/{slug}/run                     # Run template
+/art/new                                  # New art generation
+/art/gallery                              # Generated art gallery
+/brand-voice                              # Brand voice list
+/brand-voice/new                          # Create brand voice
+/brand-voice/knowledge                    # Knowledge base
+/brand-voice/knowledge/new                # Add knowledge entry
+/workflows                                # Workflow automations
+/workflows/new                            # New workflow
+/analytics                                # Content analytics
+/integrations                             # Connected integrations
+/admin/team                               # Team management
+/admin/billing                            # Billing
+/admin/security                           # Security settings
+/admin/usage                              # Usage analytics
+```
 
 UUIDs for user-generated content. Templates use slugs. Single-page application.
 
@@ -119,6 +166,9 @@ UUIDs for user-generated content. Templates use slugs. Single-page application.
 - **No public content**: All content is private to the organization
 - **Tag system**: Documents and assets can be tagged for organization
 
+- **Brand Voice search**: Search and compare brand voice profiles
+- **Knowledge Base search**: Full-text search within knowledge entries
+- **Art search**: Search generated images by prompt text or style
 ## Responsive Behavior
 
 | Breakpoint | Behavior |
@@ -132,6 +182,30 @@ UUIDs for user-generated content. Templates use slugs. Single-page application.
 - Template forms stack vertically on mobile
 - Campaign workspace shows card grid that reflows
 - AI art generation adapts image preview to viewport
+
+
+### Platform-Specific UX
+- Brand Voice is the core differentiator — all content generation is filtered through brand tone and style
+- Knowledge Base entries provide factual grounding to prevent AI hallucination about company details
+- Document editor supports AI commands via "/" shortcuts for inline content generation
+- Campaign workspace aggregates all related content assets for cross-channel consistency
+- Template gallery covers 50+ marketing content types (ads, blog, social, email, product descriptions)
+- Art generation creates brand-consistent images using company color palettes and style preferences
+- Workflow automation chains multiple generation steps (e.g., blog → social posts → email)
+- Usage analytics track word generation, team activity, and content performance metrics
+- Multi-language support enables content creation in 30+ languages with brand voice applied
+
+
+### Template Categories
+```
+Blog:          Blog post intro, outline, conclusion, full post
+Ads:           Facebook ads, Google ads, LinkedIn ads, headline variations
+Social:        Instagram caption, Twitter thread, LinkedIn post, TikTok script
+Email:         Subject lines, cold email, newsletter, follow-up
+SEO:           Meta descriptions, title tags, FAQ schema, content brief
+Product:       Product description, feature-benefit, comparison
+Framework:     AIDA, PAS, BAB, Before-After-Bridge
+```
 
 ## Access Control
 

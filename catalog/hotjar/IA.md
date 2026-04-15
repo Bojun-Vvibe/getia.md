@@ -114,6 +114,25 @@ hotjar.com
 ### 4. Investigate Funnel Drop-off
 `Funnels → + New → Define steps (e.g., "/products" → "/cart" → "/checkout" → "/confirmation") → View conversion rates → Click drop-off → Watch recordings of users who dropped`
 
+
+### Set Up Feedback Widget
+
+```
+Ask → Feedback → Configure widget → Set emoji scale → Choose placement (right/left/bottom) → Target specific pages → Enable → Incoming feedback appears in dashboard
+```
+
+### Recruit for User Interview
+
+```
+Engage → New Study → Define criteria → Set incentive → Create recruitment survey → Embed on site → Participants apply → Schedule interviews → Conduct via Hotjar or external tool
+```
+
+### Create Trend Analysis
+
+```
+Trends → Select metric (rage clicks, scroll depth, page views) → Set date range → View line chart over time → Compare pages → Identify regression → Link to recordings for investigation
+```
+
 ## URL / Route Structure
 
 ```
@@ -126,6 +145,20 @@ insights.hotjar.com/sites/{site_id}/surveys/{id}/responses  # Survey responses
 insights.hotjar.com/sites/{site_id}/feedback                # Feedback inbox
 insights.hotjar.com/sites/{site_id}/funnels/{id}            # Funnel
 insights.hotjar.com/sites/{site_id}/highlights              # Highlights
+insights.hotjar.com/sites/{site_id}/heatmaps/new       # Create heatmap
+insights.hotjar.com/sites/{site_id}/surveys/new         # Create survey
+insights.hotjar.com/sites/{site_id}/surveys/templates   # Survey templates
+insights.hotjar.com/sites/{site_id}/feedback/settings   # Feedback widget settings
+insights.hotjar.com/sites/{site_id}/trends              # Trends over time
+insights.hotjar.com/sites/{site_id}/engage              # User interviews
+insights.hotjar.com/sites/{site_id}/engage/recruit      # Recruit participants
+insights.hotjar.com/organizations/{id}/settings         # Org settings
+insights.hotjar.com/organizations/{id}/billing          # Billing
+insights.hotjar.com/organizations/{id}/team             # Team members
+insights.hotjar.com/organizations/{id}/sites            # Manage sites
+hotjar.com/pricing                                       # Pricing page
+hotjar.com/blog                                          # Blog
+hotjar.com/product                                       # Product overview
 ```
 
 ## Search & Filter
@@ -136,6 +169,9 @@ insights.hotjar.com/sites/{site_id}/highlights              # Highlights
 - **Feedback filters:** By rating (emoji), date, page URL, keyword in comment
 - **Funnel filters:** By user segment, device, date range
 
+- **Highlight search**: Search saved clips by note text or collection
+- **Trend analysis**: Filter trends by page, device, date range
+- **Engage participant search**: Filter interview candidates by criteria
 ## Responsive Behavior
 
 | Breakpoint | Behavior |
@@ -144,6 +180,38 @@ insights.hotjar.com/sites/{site_id}/highlights              # Highlights
 | Tablet | Dashboard and survey results viewable; recording player functional |
 | Mobile | Limited — dashboard metrics viewable; heatmap/recording analysis requires desktop |
 | Tracked site | Hotjar tracks behavior on all device sizes; heatmaps can be filtered by device |
+
+
+### Platform-Specific UX
+- Heatmaps overlay directly on a screenshot of the tracked page — showing click, move, and scroll patterns
+- Rage click detection identifies user frustration by detecting rapid repeated clicks
+- Session recordings include user journey (page sequence), events timeline, and console errors
+- Highlights allow saving clips from recordings with notes for team sharing
+- Survey targeting supports page-specific, behavior-based, and exit-intent triggering
+- Feedback widget uses emoji ratings (happy/neutral/sad) for quick sentiment collection
+- Funnels link directly to recordings of users who dropped off at specific steps
+- Privacy controls allow CSS selector-based suppression of sensitive content in recordings
+- Trends visualization shows metrics (rage clicks, scroll depth, etc.) over time for regression detection
+- Engage feature enables recruiting users for live interviews directly from the site
+- Data suppression ensures PII like passwords and credit card numbers are never recorded
+
+### Integration Points
+- Google Analytics integration links behavior data with analytics events
+- Segment integration enables centralized event tracking
+- Slack/Jira/Trello integrations allow sharing findings directly from the platform
+- Tag manager support (GTM, Segment) for easy installation without code changes
+
+
+### Recording Event Types
+```
+Click:         Standard user click on an element
+Rage Click:    3+ rapid clicks on the same element — indicates frustration
+U-Turn:        User navigates to a page and immediately returns
+Error:         JavaScript console error during the session
+Page Change:   Navigation between pages within the recorded session
+Scroll:        Scroll depth tracking with percentage indicators
+Form Input:    Text field interactions (content suppressed for privacy)
+```
 
 ## Access Control
 

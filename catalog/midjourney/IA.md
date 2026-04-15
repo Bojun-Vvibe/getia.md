@@ -46,8 +46,8 @@ midjourney.com
 
 ## Content Model
 
-| Content Type | Structure | Ownership |
-|---|---|---|
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
 | Image Generation (Job) | 4-image grid from a single prompt, with model version, parameters, seed | User-owned |
 | Individual Image | High-res image with metadata: prompt, params (--ar, --v, --s, --c), seed, model | Part of job |
 | Variation | New generation derived from a parent image with modified prompt/params | User-owned, linked to parent |
@@ -59,25 +59,19 @@ midjourney.com
 ## User Flows
 
 ### Basic Image Generation
-1. User navigates to Create → focus on prompt bar at bottom
-2. Types descriptive prompt (e.g., "a cyberpunk cat in neon rain, cinematic lighting")
-3. Adjusts parameters: aspect ratio, model version (v6, niji), stylize, chaos
-4. Submits → 4-image grid generates (30-60 seconds)
-5. User selects favorite → Upscale (U1-U4) or Vary (V1-V4, Subtle/Strong)
-6. Final image saved to Archive
+```
+Navigates to Create → focus on prompt bar at bottom → Types descriptive prompt (e.g., "a cyberpunk cat in neon rain, cinematic lighting") → Adjusts parameters: aspect ratio, model version (v6, niji), stylize, chaos → Submits → 4-image grid generates (30-60 seconds) → Selects favorite → Upscale (U1-U4) or Vary (V1-V4, Subtle/Strong) → Final image saved to Archive
+```
 
 ### Image Editing (Inpaint/Outpaint)
-1. User selects an image → clicks Edit
-2. Editor opens with brush tools for masking regions
-3. User masks area to change → types replacement prompt
-4. Midjourney regenerates masked area while preserving the rest
-5. Can also extend canvas (outpaint) in any direction
+```
+Selects an image → clicks Edit → Editor opens with brush tools for masking regions → Masks area to change → types replacement prompt → Midjourney regenerates masked area while preserving the rest → Can also extend canvas (outpaint) in any direction
+```
 
 ### Style/Character References
-1. User attaches an image URL as `--sref` (style reference) or `--cref` (character reference)
-2. Midjourney extracts visual style or character features
-3. New generation applies the referenced style/character to the new prompt
-4. Enables consistent character design across multiple images
+```
+Attaches an image URL as `--sref` (style reference) or `--cref` (character reference) → Midjourney extracts visual style or character features → New generation applies the referenced style/character to the new prompt → Enables consistent character design across multiple images
+```
 
 ## URL / Route Structure
 
@@ -135,3 +129,97 @@ Image IDs are UUIDs. Public profiles use usernames. No SEO slugs on images (visu
 - Commercial usage: All paid plans include commercial license
 - Content moderation: NSFW content blocked; prompts filtered by content policy
 - Discord integration: All web generations also appear in Discord DMs (if linked)
+
+## Prompt Parameters
+
+| Parameter | Syntax | Description |
+|-----------|--------|-------------|
+| Aspect Ratio | `--ar 16:9` | Output dimensions (1:1, 4:3, 16:9, 9:16, etc.) |
+| Model Version | `--v 6` | Generation model (v5, v5.2, v6, niji 6) |
+| Stylize | `--s 250` | How strongly Midjourney applies its aesthetic (0-1000) |
+| Chaos | `--c 50` | Variation in initial grid results (0-100) |
+| Weird | `--w 500` | Experimental/unconventional aesthetics (0-3000) |
+| Quality | `--q 1` | Rendering time vs quality tradeoff (0.25, 0.5, 1, 2) |
+| Tile | `--tile` | Generate seamless repeating patterns |
+| No | `--no trees` | Negative prompt — exclude elements |
+| Style Reference | `--sref URL` | Apply visual style from reference image |
+| Character Reference | `--cref URL` | Maintain character consistency across images |
+| Seed | `--seed 12345` | Reproduce similar results with same seed |
+| Stop | `--stop 80` | Stop generation partway for abstract/incomplete look |
+
+## Generation Pipeline
+
+```
+Prompt Input → Text Encoding → Diffusion Model Processing → 4-Image Grid Output → Select Image → Upscale (2x/4x) or Vary (Subtle/Strong) → Final High-Res Image → Save to Archive
+```
+
+## Image Actions
+
+- **Upscale:** Increase resolution (Subtle: preserve detail, Creative: add detail)
+- **Vary (Subtle):** Minor variations keeping core composition
+- **Vary (Strong):** Significant reinterpretation of the image
+- **Vary (Region):** Inpaint — regenerate a selected area with new prompt
+- **Zoom Out:** Extend canvas outward with AI-generated surroundings
+- **Pan:** Extend canvas in a specific direction (left/right/up/down)
+- **Remix:** Re-run with a modified prompt while keeping composition
+
+## Model Comparison
+
+| Model | Strengths | Release |
+|-------|-----------|---------|
+| v5 | Photorealism, hands, text accuracy | Mar 2023 |
+| v5.2 | Better aesthetics, higher variation | Jun 2023 |
+| v6 | Improved prompt understanding, text in images, coherent scenes | Dec 2023 |
+| Niji 6 | Anime/manga style, character consistency | Dec 2023 |
+
+## Discord Integration
+
+- **`/imagine`** — Generate from prompt in any channel or DM
+- **`/describe`** — Upload image, get prompt suggestions
+- **`/blend`** — Combine 2-5 images into one
+- **`/shorten`** — Analyze prompt and suggest shorter version
+- **`/settings`** — Configure default model, quality, style
+- **Reactions:** Click U1-U4 to upscale, V1-V4 to vary (on grid images)
+- **Direct Messages:** Private generation (all plans)
+- **Community channels:** See others' generations in real-time for inspiration
+
+## Community & Discovery
+
+- **Explore feed:** Curated community gallery sorted by hot/top/new
+- **Profile pages:** Public gallery of user's generations (unless Stealth mode)
+- **Trending styles:** Discover popular aesthetic movements and techniques
+- **Image details:** Click any public image to see its prompt and parameters
+- **Reuse prompt:** Copy another user's prompt as starting point
+- **Rate images:** Star system for personal organization and style training
+- **Daily theme:** Community prompt challenges
+
+## Content Policy
+
+- **Banned content:** Gore, NSFW, hateful imagery, real person deepfakes
+- **Prompt filtering:** Automated word/phrase blocking with manual review
+- **Content moderation:** Community reporting + automated detection
+- **Terms of Service:** All paid users get commercial license for generated images
+- **Stealth mode:** Pro+ users can make generations private (not on Explore feed)
+
+## Pricing Deep Dive
+
+| Feature | Basic $10 | Standard $30 | Pro $60 | Mega $120 |
+|---------|----------|-------------|--------|----------|
+| Fast GPU min/mo | 3.3 hrs | 15 hrs | 30 hrs | 60 hrs |
+| Relaxed mode | — | Unlimited | Unlimited | Unlimited |
+| Concurrent jobs | 3 | 3 | 12 | 12 |
+| Stealth mode | — | — | ✅ | ✅ |
+| Max upscale | 2x | 2x | 4x | 4x |
+
+## Web vs Discord
+
+| Feature | Web App | Discord |
+|---------|---------|--------|
+| Image generation | ✅ | ✅ |
+| Image editing | ✅ | — |
+| Archive management | ✅ | — |
+| Folders | ✅ | — |
+| Style reference | ✅ | ✅ |
+| Describe | — | ✅ |
+| Blend | — | ✅ |
+| Community gallery | ✅ | — |

@@ -143,7 +143,9 @@ Robinhood is a commission-free trading platform designed to democratize investin
 
 ## User Flows
 
-### First-Time Buy (Signature Flow)
+
+
+### Buy Stock (Dollar-Based)
 ```
 Search → Find AAPL → Asset Page → [Buy] → Dollars or Shares → Enter $50 → Review → Swipe Up → Confetti → Position Appears on Home
 ```
@@ -153,19 +155,18 @@ Search → Find AAPL → Asset Page → [Buy] → Dollars or Shares → Enter $5
 Asset Page → [...] → Set Alert → Above/Below → Enter Price → Save → Push Notification When Triggered
 ```
 
-### Dollar-Cost Average
+### Set Up Recurring Investment
 ```
 Asset Page → [...] → Recurring Investment → Amount ($10) → Frequency (Weekly) → Start → Auto-buys Every Week
 ```
 
-### Crypto Transfer
+### Send Crypto
 ```
 Crypto Asset → Send → Enter Address → Amount → Review → 2FA Confirm → Sent
 ```
 
-## URL / Route Structure
 
-> Note: Robinhood is primarily a native mobile app. Web routes mirror mobile screens.
+## URL / Route Structure
 
 ```
 /                              → Portfolio Home

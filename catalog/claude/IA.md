@@ -41,8 +41,8 @@ claude.ai
 
 ## Content Model
 
-| Content Type | Structure | Ownership |
-|---|---|---|
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
 | Conversation | Threaded message exchange with model tag, timestamps | User-owned |
 | Message | Markdown text, code blocks, LaTeX, inline citations | Part of conversation |
 | Artifact | Standalone rendered content — React component, HTML page, SVG, Markdown doc, Mermaid diagram, code file | Linked to conversation, downloadable |
@@ -50,33 +50,44 @@ claude.ai
 | Knowledge File | PDF, TXT, CSV, code files uploaded to a project as persistent context | Part of project |
 | Starred Conversation | Bookmarked conversation for quick access | User-owned |
 
+| Notification | type, message, read, created_at, action_url | belongs to User |
+| Integration | name, type, status, credentials, last_synced | belongs to Workspace |
+| Webhook | url, events[], secret, active, last_triggered | belongs to Organization |
+| APIToken | name, key_hash, permissions[], created_at, last_used | belongs to User |
+
+### Entity Lifecycle
+```
+created → active → updated → archived
+                  ↘ suspended → reactivated → active
+created → deleted (soft delete with recovery period)
+```
 ## User Flows
 
 ### Starting a Conversation
-1. User lands on `/` → empty chat with prompt input and model selector
-2. Types message → response streams in real-time
-3. Conversation auto-titled and saved to Recents in sidebar
-4. User can star, rename, or delete the conversation
+```
+User lands on `/` → empty chat with prompt input and model selector → Types message → response streams in real-time → Conversation auto-titled and saved to Recents in sidebar → User can star, rename, or delete the conversation
+```
 
 ### Working with Artifacts
-1. Claude generates code, a document, or diagram in response
-2. Artifact chip appears in chat → click to expand Artifact panel
-3. Artifact renders live (React components run in sandboxed iframe)
-4. User can copy, download, or remix ("make it darker", "add animations")
-5. Multiple artifacts in one conversation are navigable via artifact tabs
+```
+Claude generates code, a document, or diagram in response → Artifact chip appears in chat → click to expand Artifact panel → Artifact renders live (React components run in sandboxed iframe) → User can copy, download, or remix ("make it darker", "add animations") → Multiple artifacts in one conversation are navigable via artifact tabs
+```
 
 ### Using Projects
-1. User creates a project with a name and custom instructions
-2. Uploads knowledge files (codebase, docs, specs)
-3. All conversations within the project inherit the knowledge + instructions
-4. Enables domain-specific expertise without re-uploading context each time
+```
+User creates a project with a name and custom instructions → Uploads knowledge files (codebase, docs, specs) → All conversations within the project inherit the knowledge + instructions → Enables domain-specific expertise without re-uploading context each time
+```
 
 ### Extended Thinking
-1. User enables extended thinking or asks a complex reasoning question
-2. Claude shows a "Thinking..." block with collapsible thought process
-3. Thought tokens are visible but clearly separated from the final response
-4. Enables chain-of-thought reasoning for math, coding, analysis tasks
+```
+User enables extended thinking or asks a complex reasoning question → Claude shows a "Thinking..." block with collapsible thought process → Thought tokens are visible but clearly separated from the final response → Enables chain-of-thought reasoning for math, coding, analysis tasks
+```
 
+### New User Onboarding
+```
+Visit Claude → Sign Up (email/Google/SSO) → Complete profile → Guided setup wizard → Configure preferences → Explore key features → Start using the product
+                                                                                                                         ↘ Skip wizard → Land on dashboard
+```
 ## URL / Route Structure
 
 | Pattern | Description |
@@ -91,6 +102,37 @@ claude.ai
 
 Client-side SPA routing. UUIDs for conversations and projects. No public sharing URLs by default — conversations are private.
 
+### Additional Routes
+
+```
+account  → Account settings
+account/security  → Security settings
+billing  → Billing & subscription
+notifications  → Notification preferences
+help  → Help center
+help/{topic}  → Help article
+api  → API documentation
+search?q={query}  → Search results
+integrations  → Integrations
+admin  → Admin console
+admin/members  → Member management
+import  → Import data
+export  → Export data
+/chat/{uuid}                      → Individual conversation
+/project/{uuid}                   → Project overview
+/project/{uuid}/chat/{uuid}       → Project conversation
+/project/{uuid}/knowledge         → Project files
+/artifacts                        → Recent artifacts
+/recents                          → Recent conversations
+/starred                          → Starred conversations
+/settings/profile                 → Profile settings
+/settings/appearance              → Appearance settings
+/settings/privacy                 → Privacy settings
+/settings/subscription            → Subscription management
+/login                            → Authentication
+/team/settings                    → Team settings (Team plan)
+```
+
 ## Search & Filter
 
 - **Conversation search**: Text search across conversation titles in sidebar
@@ -99,6 +141,9 @@ Client-side SPA routing. UUIDs for conversations and projects. No public sharing
 - **Artifact browsing**: Recent artifacts are browsable in a gallery view but not searchable
 - **No tag system**: Conversations rely on starring and recency for organization
 
+- **Sort options**: By relevance, date created, date modified, alphabetical, popularity
+- **Autocomplete**: Type-ahead suggestions with recent searches and popular results
+- **Advanced search**: Boolean operators (AND, OR, NOT), field-specific filters, date ranges
 ## Responsive Behavior
 
 | Breakpoint | Behavior |
@@ -111,6 +156,68 @@ Client-side SPA routing. UUIDs for conversations and projects. No public sharing
 - Input area has adaptive height with attachment button
 - Model selector is a compact pill on mobile
 - Touch: swipe to open sidebar drawer
+
+
+### Claude-Specific UX Patterns
+- **Progressive disclosure**: Complex features hidden behind expandable sections
+- **Contextual actions**: Right-click menus and hover-revealed action buttons
+- **Inline editing**: Click-to-edit fields without navigating to a separate page
+- **Batch operations**: Multi-select with bulk actions (delete, move, archive, tag)
+- **Undo support**: Non-destructive actions with undo toast notifications
+- **Loading states**: Skeleton screens and progress indicators during async operations
+- **Empty states**: Helpful illustrations and CTAs when sections have no content
+- **Onboarding tooltips**: First-time user guidance highlighting key features
+
+### Accessibility
+- WCAG 2.1 AA compliance across all interactive elements
+- Semantic HTML with proper ARIA labels and landmarks
+- Keyboard navigation support for all core workflows
+- Screen reader compatibility tested with VoiceOver, NVDA, and JAWS
+- Color contrast ratios meeting minimum 4.5:1 for body text
+- Focus indicators visible on all interactive elements
+- Reduced motion option respecting `prefers-reduced-motion`
+- Resizable text up to 200% without content loss
+
+
+### API & Integration Patterns
+- RESTful API with JSON request/response format
+- Webhook support for real-time event notifications
+- OAuth 2.0 for third-party application authorization
+- Rate limiting with clear headers (X-RateLimit-Remaining)
+- Pagination via cursor-based or offset-based parameters
+- Versioned API endpoints for backward compatibility
+- Comprehensive API documentation with interactive examples
+- SDKs available for popular languages (JavaScript, Python, Ruby, Go)
+
+
+### Multi-Modal Input
+```
+User attaches image/PDF/file to message → Claude analyzes visual content alongside text → Response references specific elements from the attachment → Multiple files can be attached in a single message
+                                                                                                                                                        ↘ Unsupported format → Error message with supported format list
+```
+
+### Team Workspace
+```
+Admin creates Team workspace → Invites members via email → Creates shared Projects with team-wide instructions and knowledge files → Team members access shared context → Admin manages billing and data controls → Conversations are private to individual users within shared projects
+```
+
+### Artifact Iteration
+```
+Claude generates initial artifact (code/document/diagram) → User requests changes ("make it responsive", "add error handling") → Claude updates artifact in-place → Previous versions accessible via version history → User can fork artifact for parallel iterations
+                                                                                                                                                                       ↘ Download artifact → Use in external project
+```
+
+### Conversation Management
+```
+Sidebar → Right-click conversation → Rename / Star / Move to Project / Delete → Starred conversations pinned at top → Search conversations by title → Bulk select for deletion
+```
+
+- Claude supports LaTeX rendering for mathematical notation within conversations
+- Artifacts render interactive React components in a sandboxed iframe environment
+- Project knowledge files persist across all conversations within the same project context
+- Team workspace enables shared Projects with centralized billing and admin controls
+- API access for Pro users enables programmatic interaction alongside the web interface
+- MCP (Model Context Protocol) enables Claude to connect to external tools and data sources
 
 ## Access Control
 

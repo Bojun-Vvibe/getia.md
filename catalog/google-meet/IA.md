@@ -7,11 +7,11 @@ website: https://meet.google.com
 
 # Information Architecture — Google Meet
 
-## 1. Overview
+## Overview
 
 Google Meet is Google's video conferencing platform, tightly integrated with Google Workspace (Gmail, Calendar, Chat, Docs). The IA is intentionally streamlined — a single entry point for starting or joining meetings, with in-meeting controls prioritizing simplicity. Meet focuses on reliable video calls with AI-powered features like live captions, noise cancellation, and companion mode, rather than trying to be a full collaboration suite.
 
-## 2. Site Map
+## Site Map
 
 ```
 Google Meet
@@ -74,7 +74,7 @@ Google Meet
     └── Usage Reports
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 - **Type**: Minimal — meeting-centric with single entry point
 - **Landing Page**: Two actions — "New meeting" button + "Enter a code" input
@@ -83,7 +83,7 @@ Google Meet
 - **No Persistent Nav**: Meet has no sidebar or tab bar; it is a single-purpose meeting interface
 - **Companion Mode**: Secondary device joins same meeting for chat/controls while primary device handles audio/video
 
-## 4. Content Model
+## Content Model
 
 | Content Type | Attributes | Relationships |
 |---|---|---|
@@ -97,27 +97,52 @@ Google Meet
 | Breakout Room | name, assigned participants, timer | → Meeting |
 | Poll | question, options, responses, anonymous flag | → Meeting |
 
-## 5. User Flows
+## User Flows
 
 ### Starting an Instant Meeting
-1. Go to meet.google.com → Click "New meeting" → "Start an instant meeting"
-2. Pre-join screen: preview camera, select mic/speaker, choose background
-3. Click "Join now" → In meeting; share link with participants
-4. Participants click link → Pre-join screen → "Ask to join" (host admits)
+
+```
+Go to meet.google.com → Click "New meeting" → "Start an instant meeting" →
+  Pre-join screen: preview camera, select mic/speaker, choose background →
+  Click "Join now" → In meeting; share link with participants →
+  Participants click link → Pre-join screen → "Ask to join" (host admits)
+```
+
 
 ### Joining via Calendar
-1. Google Calendar event has "Join with Google Meet" button
-2. Click button 5 minutes before → Pre-join screen opens
-3. Join meeting → Calendar title becomes meeting title
-4. Calendar sends notification reminders to attendees
+
+```
+Google Calendar event has "Join with Google Meet" button →
+  Click button 5 minutes before → Pre-join screen opens →
+  Join meeting → Calendar title becomes meeting title →
+  Calendar sends notification reminders to attendees
+```
+
 
 ### Using Companion Mode
-1. Join meeting on primary device (laptop) with audio/video
-2. On secondary device (phone/tablet) → Join same meeting → Select "Companion Mode"
-3. Secondary device has: chat, raise hand, polls, Q&A, reactions — no audio/video (avoids echo)
-4. Useful in conference rooms: room system handles A/V, individual devices handle interaction
 
-## 6. URL / Route Structure
+```
+Join meeting on primary device (laptop) with audio/video →
+  On secondary device (phone/tablet) → Join same meeting → Select "Companion Mode" →
+  Secondary device has: chat, raise hand, polls, Q&A, reactions — no audio/video... →
+  Useful in conference rooms: room system handles A/V, individual devices handle...
+```
+
+
+
+### Recording and Transcript
+
+```
+Host starts recording → Meeting proceeds → Host stops recording or meeting ends → Recording saved to Google Drive → Transcript auto-generated in Google Docs → AI summary created by Gemini → Shared with participants
+```
+
+### Breakout Rooms
+
+```
+Host opens Activities → Breakout Rooms → Create rooms → Assign participants (auto or manual) → Set timer → Open rooms → Participants moved to rooms → Timer ends → All return to main meeting
+```
+
+## URL / Route Structure
 
 ```
 meet.google.com/                            # Landing page
@@ -128,9 +153,21 @@ calendar.google.com/                        # Google Calendar (meeting schedulin
 drive.google.com/file/d/{recordingId}       # Meeting recording
 admin.google.com/ac/appsettings/meet        # Admin console for Meet
 support.google.com/meet/                    # Help center
+meet.google.com/                            # Landing page
+meet.google.com/{meeting-code}              # Join meeting
+meet.google.com/new                         # Create instant meeting
+meet.google.com/lookup/{code}               # Meeting lookup
+meet.google.com/getalink                    # Get a meeting link
+calendar.google.com/calendar/event          # Schedule via Calendar
+drive.google.com/file/d/{recordingId}       # Meeting recording
+docs.google.com/document/d/{transcriptId}   # Meeting transcript
+admin.google.com/ac/appsettings/meet        # Admin console
+support.google.com/meet/                    # Help center
+support.google.com/meet/answer/{id}         # Specific help article
+workspace.google.com/products/meet/         # Product page
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 - **Meeting Search**: No built-in search; meetings found via Google Calendar search
 - **Participant Search**: Type-ahead search in "Add people" dialog during meeting
@@ -140,7 +177,10 @@ support.google.com/meet/                    # Help center
 - **Admin Reports**: Search meeting usage by date, user, duration in Admin Console
 - **Calendar Integration**: Primary discovery mechanism for past and future meetings
 
-## 8. Responsive Behavior
+- **Calendar-based Discovery**: All meetings discoverable via Google Calendar search by title, attendee, or date
+- **Transcript Full-Text Search**: Search within meeting transcripts for specific topics or keywords
+- **Drive Recording Search**: Recordings searchable by meeting title, date, or participants in Google Drive
+## Responsive Behavior
 
 | Breakpoint | Behavior |
 |---|---|
@@ -150,7 +190,21 @@ support.google.com/meet/                    # Help center
 | Companion Mode | Stripped-down UI: no video, chat + reactions + hand raise + polls only |
 | Nest Hub / Smart Display | Simplified meeting view for Google smart displays |
 
-## 9. Access Control
+
+### Platform-Specific UX
+- Pre-join "green room" shows camera preview and audio test before entering meeting
+- Companion Mode enables using a secondary device for chat and reactions while primary handles A/V
+- Live captions with real-time translation support multiple languages (Workspace feature)
+- Noise cancellation uses AI to filter background sounds (keyboard typing, construction, pets)
+- Gemini AI Notes automatically generates meeting summaries with key topics and action items
+- Tiled view supports up to 49 simultaneous video participants on desktop
+- Screen sharing supports full screen, window, or tab sharing with audio
+- Virtual backgrounds and visual effects are available in the pre-join screen and during meetings
+- Reactions (thumbs up, clap, heart, etc.) provide non-verbal feedback without interrupting
+- Raise hand queue management helps hosts track speaking order
+- Hand-off from Gmail/Calendar is seamless — one-click join from email or calendar event
+
+## Access Control
 
 | Role | Capabilities |
 |---|---|

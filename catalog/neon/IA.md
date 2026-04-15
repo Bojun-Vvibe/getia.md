@@ -51,8 +51,8 @@ console.neon.tech
 
 ## Content Model
 
-| Content Type | Structure | Ownership |
-|---|---|---|
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
 | Project | Name, region, Postgres version, branches, databases, roles, connection pooler config | User/Org-owned |
 | Branch | Name, parent branch, creation point (LSN/timestamp), compute endpoint, databases, schema | Part of project |
 | Compute Endpoint | vCPU size, autoscaling range (min/max CU), suspend timeout, status (active/idle) | Part of branch |
@@ -65,33 +65,24 @@ console.neon.tech
 ## User Flows
 
 ### Creating a Project
-1. User clicks "New Project" → enters name, selects region (AWS us-east-1, eu-west-1, ap-southeast-1)
-2. Selects Postgres version (14, 15, 16)
-3. Project created instantly (< 1 second) with default `main` branch
-4. Connection string displayed immediately — copy for application use
-5. Default database `neondb` and role created automatically
+```
+Clicks "New Project" → enters name, selects region (AWS us-east-1, eu-west-1, ap-southeast-1) → Selects Postgres version (14, 15, 16) → Project created instantly (< 1 second) with default `main` branch → Connection string displayed immediately — copy for application use → Default database `neondb` and role created automatically
+```
 
 ### Database Branching for Development
-1. Developer navigates to Branches → "Create Branch"
-2. Selects parent branch (`main`) and branching point (current or point-in-time)
-3. Branch created instantly (copy-on-write — no data duplication)
-4. Branch gets its own compute endpoint and connection string
-5. Developer tests schema changes on branch without affecting production
-6. When satisfied, applies migration to `main` via application migration tool
+```
+Developer navigates to Branches → "Create Branch" → Selects parent branch (`main`) and branching point (current or point-in-time) → Branch created instantly (copy-on-write — no data duplication) → Branch gets its own compute endpoint and connection string → Developer tests schema changes on branch without affecting production → When satisfied, applies migration to `main` via application migration tool
+```
 
 ### Vercel Integration (Preview Branches)
-1. User connects Neon project to Vercel project via Integration
-2. For each Vercel preview deployment (PR), Neon creates a database branch automatically
-3. Preview deployment connects to its own database branch
-4. PR merged → preview branch can be auto-deleted
-5. Enables full-stack preview environments with isolated data
+```
+Connects Neon project to Vercel project via Integration → For each Vercel preview deployment (PR), Neon creates a database branch automatically → Preview deployment connects to its own database branch → PR merged → preview branch can be auto-deleted → Enables full-stack preview environments with isolated data
+```
 
 ### Point-in-Time Restore
-1. User navigates to branch → History
-2. Selects a timestamp or LSN to restore to
-3. Creates a new branch from that point in history
-4. New branch has the exact data state at that moment
-5. Can be used for debugging, data recovery, or analysis
+```
+Navigates to branch → History → Selects a timestamp or LSN to restore to → Creates a new branch from that point in history → New branch has the exact data state at that moment → Can be used for debugging, data recovery, or analysis
+```
 
 ## URL / Route Structure
 
@@ -152,3 +143,81 @@ Project IDs are short alphanumeric strings. Branch IDs are also alphanumeric. Cl
 - Branch permissions: Branches inherit project permissions; no per-branch access control
 - IP allowlisting: Scale plan and above — restrict database connections to specific IPs
 - Data residency: Region selection at project creation; data stays in chosen AWS region
+
+## Architecture Concepts
+
+| Concept | Description |
+|---------|-------------|
+| Compute | Postgres server instance; scales 0.25 to 8 vCPU; autosuspends when idle |
+| Storage | Separated from compute; copy-on-write; shared across branches |
+| Branch | Copy-on-write snapshot of database; instant creation; no data duplication |
+| Endpoint | Network address for connecting to a branch's compute |
+| Connection Pooler | PgBouncer built-in; transaction mode by default |
+| Autoscaling | Compute scales up/down based on query load |
+| Scale to Zero | Compute suspends after idle timeout; resumes in ~0.5s on first query |
+| Point-in-Time Restore | Create branch from any point in history (up to retention window) |
+
+## Framework Connection Strings
+
+```
+# Prisma
+DATABASE_URL="postgresql://{user}:{password}@{host}/{dbname}?sslmode=require"
+
+# Django
+DATABASES = {'default': dj_database_url.parse(os.environ['DATABASE_URL'])}
+
+# Drizzle
+const db = drizzle(neon(process.env.DATABASE_URL))
+
+# Raw psql
+psql "postgresql://{user}:{password}@{host}/{dbname}?sslmode=require"
+```
+
+## Branching Strategies
+
+- **Preview branches:** One database branch per PR; auto-created via Vercel/GitHub integration
+- **Development branches:** Long-lived branch for development environment
+- **Staging branches:** Snapshot of production for testing migrations
+- **Point-in-time debug:** Branch from a specific timestamp to investigate data issues
+- **Schema migration testing:** Apply and validate DDL on branch before production
+
+## CLI Usage
+
+```
+# Create project
+neonctl projects create --name my-project --region aws-us-east-1
+
+# Create branch
+neonctl branches create --project-id {id} --name dev --parent main
+
+# Get connection string
+neonctl connection-string --project-id {id} --branch-name dev
+
+# List branches
+neonctl branches list --project-id {id}
+
+# Delete branch
+neonctl branches delete --project-id {id} --branch dev
+```
+
+## Comparison with Traditional Postgres
+
+| Feature | Neon | Traditional Postgres | RDS |
+|---------|------|---------------------|-----|
+| Provisioning | < 1 second | Minutes | Minutes |
+| Branching | Instant (copy-on-write) | Full copy required | Snapshot (minutes) |
+| Scale to zero | ✅ | — | — |
+| Autoscaling | ✅ (0.25-8 CU) | Manual | Limited |
+| Storage | Separated, bottomless | Attached disk | EBS volumes |
+| Point-in-time restore | Branch from any point | WAL replay | Automated backups |
+| Cost (idle) | $0 (free tier) | Always-on cost | Always-on cost |
+
+## Postgres Extensions
+
+- **pgvector:** Vector similarity search for AI/ML embeddings
+- **PostGIS:** Geospatial data types and queries
+- **pg_trgm:** Trigram-based text similarity and fuzzy search
+- **hstore:** Key-value store within Postgres
+- **uuid-ossp:** UUID generation functions
+- **citext:** Case-insensitive text type
+- **100+ extensions** available; enabled per-database

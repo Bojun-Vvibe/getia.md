@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — WooCommerce</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>WooCommerce is a free, open-source e-commerce plugin for WordPress that turns any WordPress site into an online store. The IA of woocommerce.com itself serves as a <strong>hub for the ecosystem</strong> — plugin downloads, extensions marketplace, documentation, and community. The actual store IA is infinitely customizable by each merchant. WooCommerce&#39;s architecture supports self-hosted stores, 800+ extensions, multiple payment gateways, and deep integration with the WordPress ecosystem.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>woocommerce.com
 ├── Home
 ├── Features
@@ -160,7 +160,7 @@
     ├── Log in (WordPress.com account)
     └── Get started
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <table>
 <thead>
 <tr>
@@ -196,39 +196,15 @@
 </tr>
 </tbody></table>
 <p><strong>Key pattern</strong>: The site is an ecosystem hub — not the product itself. Merchants interact with WooCommerce through their own WordPress admin. The website drives discovery (extensions, themes), education (docs), and community.</p>
-<h2>4. Content Model</h2>
-<table>
-<thead>
-<tr>
-<th>Entity</th>
-<th>Attributes</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Extension</td>
-<td>name, developer, description, price (free/paid), rating, reviews, version, compatibility, screenshots</td>
-</tr>
-<tr>
-<td>Theme</td>
-<td>name, developer, price, demo URL, features, compatibility</td>
-</tr>
-<tr>
-<td>Documentation Page</td>
-<td>title, body (markdown), category, breadcrumb path, last updated, related pages</td>
-</tr>
-<tr>
-<td>Blog Post</td>
-<td>title, author, date, category, body, featured image</td>
-</tr>
-<tr>
-<td>Success Story</td>
-<td>merchant name, industry, challenge, solution, results, URL</td>
-</tr>
-<tr>
-<td>API Endpoint</td>
-<td>resource, methods, parameters, request/response examples</td>
-</tr>
-</tbody></table>
+<h2>Content Model</h2>
+<p>| Entity | Key Attributes | Relationships |
+|--------|-----------|
+| Extension | name, developer, description, price (free/paid), rating, reviews, version, compatibility, screenshots |
+| Theme | name, developer, price, demo URL, features, compatibility |
+| Documentation Page | title, body (markdown), category, breadcrumb path, last updated, related pages |
+| Blog Post | title, author, date, category, body, featured image |
+| Success Story | merchant name, industry, challenge, solution, results, URL |
+| API Endpoint | resource, methods, parameters, request/response examples |</p>
 <h3>Merchant Store Content Model (customizable)</h3>
 <table>
 <thead>
@@ -258,8 +234,8 @@
 <td>name, slug, parent, description, image, display type</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
-<h3>5a. Merchant — Set up a store</h3>
+<h2>User Flows</h2>
+<h3>Merchant — Set up a store</h3>
 <ol>
 <li>Install WordPress → install WooCommerce plugin</li>
 <li>Run setup wizard (store details, industry, products, shipping, payments, tax)</li>
@@ -267,14 +243,14 @@
 <li>Configure payment gateway (WooPayments, Stripe, PayPal)</li>
 <li>Choose theme → customize appearance → launch store</li>
 </ol>
-<h3>5b. Merchant — Add extensions</h3>
+<h3>Merchant — Add extensions</h3>
 <ol>
 <li>Browse Extensions Store on woocommerce.com</li>
 <li>Find extension (e.g., Subscriptions, Bookings, Memberships)</li>
 <li>Purchase / download → install on WordPress site</li>
 <li>Configure extension settings in WP Admin → activate</li>
 </ol>
-<h3>5c. Customer — Purchase (on merchant&#39;s store)</h3>
+<h3>Customer — Purchase (on merchant&#39;s store)</h3>
 <ol>
 <li>Browse products → filter by category, price, attributes</li>
 <li>Add to cart → view cart</li>
@@ -282,14 +258,14 @@
 <li>Order confirmation → email receipt</li>
 <li>Track order → receive shipment</li>
 </ol>
-<h3>5d. Developer — Build extension</h3>
+<h3>Developer — Build extension</h3>
 <ol>
 <li>Visit Develop section → read extension development docs</li>
 <li>Use WooCommerce CLI + REST API for development</li>
 <li>Test with WooCommerce test suite</li>
 <li>Submit to Extensions Store (or distribute independently)</li>
 </ol>
-<h2>6. URL / Route Structure</h2>
+<h2>URL / Route Structure</h2>
 <pre><code># woocommerce.com
 /                               → Home
 /features/                      → Feature overview
@@ -316,7 +292,7 @@
 /my-account/                    → Customer account
 /my-account/orders/             → Order history
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <table>
 <thead>
 <tr>
@@ -345,7 +321,7 @@
 <td>Product search, category filter, price filter, attribute filter (size, color), sort (price, date, popularity, rating)</td>
 </tr>
 </tbody></table>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -374,7 +350,7 @@
 <td>Responsive behavior depends on chosen theme; Storefront (default) is fully responsive</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>

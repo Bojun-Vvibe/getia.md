@@ -126,9 +126,9 @@
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Structure</th>
-<th>Ownership</th>
+<th>Entity</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -169,30 +169,14 @@
 </tbody></table>
 <h2>User Flows</h2>
 <h3>Standard Search</h3>
-<ol>
-<li>User lands on <code>/</code> → types question in prominent search bar</li>
-<li>Selects Focus mode (optional): All, Academic, Writing, Wolfram|Alpha, YouTube, Reddit</li>
-<li>Perplexity searches web in real-time → shows &quot;Searching...&quot; with source URLs loading</li>
-<li>Answer streams in with inline citation numbers → source cards displayed in side panel</li>
-<li>Follow-up questions suggested below → user can continue the thread</li>
-<li>Thread auto-saved to Library</li>
-</ol>
+<pre><code>Lands on `/` → types question in prominent search bar → Selects Focus mode (optional): All, Academic, Writing, Wolfram|Alpha, YouTube, Reddit → Perplexity searches web in real-time → shows &quot;Searching...&quot; with source URLs loading → Answer streams in with inline citation numbers → source cards displayed in side panel → Follow-up questions suggested below → user can continue the thread → Thread auto-saved to Library
+</code></pre>
 <h3>Pro Search (Multi-Step)</h3>
-<ol>
-<li>User toggles &quot;Pro&quot; switch on search bar</li>
-<li>Perplexity may ask clarifying questions before searching</li>
-<li>Performs multi-step research: initial search → analysis → deeper searches → synthesis</li>
-<li>Shows reasoning steps and intermediate findings</li>
-<li>Final answer is more comprehensive with more sources</li>
-</ol>
+<pre><code>Toggles &quot;Pro&quot; switch on search bar → Perplexity may ask clarifying questions before searching → Performs multi-step research: initial search → analysis → deeper searches → synthesis → Shows reasoning steps and intermediate findings → Final answer is more comprehensive with more sources
+</code></pre>
 <h3>Collection Research</h3>
-<ol>
-<li>User creates a Collection with a topic name</li>
-<li>Runs multiple searches, adding relevant threads to the Collection</li>
-<li>Invites collaborators to the Collection</li>
-<li>Collection serves as a shared research knowledge base</li>
-<li>AI can reference previous threads in the Collection for context</li>
-</ol>
+<pre><code>Creates a Collection with a topic name → Runs multiple searches, adding relevant threads to the Collection → Invites collaborators to the Collection → Collection serves as a shared research knowledge base → AI can reference previous threads in the Collection for context
+</code></pre>
 <h2>URL / Route Structure</h2>
 <table>
 <thead>
@@ -306,6 +290,240 @@
 <li>API: Separate API key with usage-based billing</li>
 <li>Data: Free tier conversations may be used for improvement; Pro has opt-out</li>
 </ul>
+<h2>Focus Modes</h2>
+<table>
+<thead>
+<tr>
+<th>Mode</th>
+<th>Source Restriction</th>
+<th>Best For</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>All</td>
+<td>Full web search</td>
+<td>General questions, current events</td>
+</tr>
+<tr>
+<td>Academic</td>
+<td>Scholar, PubMed, arXiv, Semantic Scholar</td>
+<td>Research papers, scientific evidence</td>
+</tr>
+<tr>
+<td>Writing</td>
+<td>No search (pure LLM)</td>
+<td>Creative writing, drafting, brainstorming</td>
+</tr>
+<tr>
+<td>Wolfram Alpha</td>
+<td>Wolfram computational engine</td>
+<td>Math, data, computations, unit conversions</td>
+</tr>
+<tr>
+<td>YouTube</td>
+<td>YouTube transcripts and content</td>
+<td>Video content summary, tutorials</td>
+</tr>
+<tr>
+<td>Reddit</td>
+<td>Reddit posts and comments</td>
+<td>Community opinions, recommendations, experiences</td>
+</tr>
+</tbody></table>
+<h2>Answer Anatomy</h2>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Answer text</td>
+<td>Markdown-formatted response with inline citation numbers</td>
+</tr>
+<tr>
+<td>Source cards</td>
+<td>Clickable cards showing URL, title, and favicon of each cited source</td>
+</tr>
+<tr>
+<td>Quick facts</td>
+<td>Key data points extracted and highlighted (dates, numbers, definitions)</td>
+</tr>
+<tr>
+<td>Images</td>
+<td>Relevant images pulled from search results</td>
+</tr>
+<tr>
+<td>Follow-up questions</td>
+<td>AI-suggested related queries for deeper exploration</td>
+</tr>
+<tr>
+<td>Related searches</td>
+<td>Alternative phrasings and related topics</td>
+</tr>
+</tbody></table>
+<h2>Pro Search vs Standard</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Standard</th>
+<th>Pro Search</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Reasoning</td>
+<td>Single-step</td>
+<td>Multi-step with clarifying questions</td>
+</tr>
+<tr>
+<td>Sources</td>
+<td>5-10</td>
+<td>15-30+</td>
+</tr>
+<tr>
+<td>Model</td>
+<td>Default (fast)</td>
+<td>GPT-4o, Claude, or Sonar Large</td>
+</tr>
+<tr>
+<td>File upload</td>
+<td>—</td>
+<td>PDF, image, CSV analysis</td>
+</tr>
+<tr>
+<td>Depth</td>
+<td>Quick answer</td>
+<td>Comprehensive research report</td>
+</tr>
+<tr>
+<td>Daily limit (free)</td>
+<td>Unlimited</td>
+<td>5/day</td>
+</tr>
+<tr>
+<td>Daily limit (Pro)</td>
+<td>Unlimited</td>
+<td>Unlimited</td>
+</tr>
+</tbody></table>
+<h2>API</h2>
+<ul>
+<li><strong>Endpoint:</strong> <code>api.perplexity.ai/chat/completions</code></li>
+<li><strong>Models:</strong> <code>sonar-small</code>, <code>sonar-medium</code>, <code>sonar-pro</code></li>
+<li><strong>Format:</strong> OpenAI-compatible chat completions API</li>
+<li><strong>Features:</strong> Streaming, citations in response, search grounding</li>
+<li><strong>Pricing:</strong> Token-based; varies by model</li>
+<li><strong>Authentication:</strong> Bearer token (API key)</li>
+</ul>
+<h2>Privacy &amp; Data</h2>
+<ul>
+<li><strong>Free tier:</strong> Conversations may be used for model improvement</li>
+<li><strong>Pro tier:</strong> Opt-out available for training data usage</li>
+<li><strong>Enterprise:</strong> Full data privacy guarantees, no training</li>
+<li><strong>Thread sharing:</strong> Public links optional; private by default</li>
+<li><strong>Account deletion:</strong> Full data deletion on account removal</li>
+</ul>
+<h2>Thread Structure</h2>
+<pre><code>User Question 1 → Sources Loading → AI Answer (with [1][2][3] citations) → Related Questions
+     ↓
+User Follow-up 2 → More Sources → AI Answer (context-aware, builds on Q1) → Related Questions
+     ↓
+User Follow-up 3 → Additional Sources → AI Answer (full thread context) → Related Questions
+</code></pre>
+<h2>Model Selection (Pro)</h2>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Provider</th>
+<th>Strengths</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Sonar</td>
+<td>Perplexity</td>
+<td>Fastest, web-search optimized, always up-to-date</td>
+</tr>
+<tr>
+<td>GPT-4o</td>
+<td>OpenAI</td>
+<td>Strong reasoning, multimodal (image analysis)</td>
+</tr>
+<tr>
+<td>Claude 3.5</td>
+<td>Anthropic</td>
+<td>Long-form analysis, careful nuance</td>
+</tr>
+<tr>
+<td>Sonar Pro</td>
+<td>Perplexity</td>
+<td>Multi-step research, comprehensive sourcing</td>
+</tr>
+</tbody></table>
+<h2>Spaces (Collaborative Research)</h2>
+<ul>
+<li><strong>Custom instructions:</strong> Set AI behavior rules for the space (e.g., &quot;always cite peer-reviewed sources&quot;)</li>
+<li><strong>Shared threads:</strong> All members see and contribute to research threads</li>
+<li><strong>Knowledge base:</strong> Upload files (PDFs, docs) as context for AI answers</li>
+<li><strong>Team permissions:</strong> Admin, editor, viewer roles</li>
+<li><strong>Use cases:</strong> Team research, project knowledge bases, shared analysis</li>
+</ul>
+<h2>Browser Extension</h2>
+<ul>
+<li><strong>Quick search:</strong> Highlight text on any webpage → right-click → &quot;Ask Perplexity&quot;</li>
+<li><strong>Page summary:</strong> Summarize any webpage with one click</li>
+<li><strong>Side panel:</strong> Ask questions about the current page without leaving it</li>
+<li><strong>Keyboard shortcut:</strong> Trigger Perplexity search from any tab</li>
+</ul>
+<h2>Competitive Positioning</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Perplexity</th>
+<th>ChatGPT</th>
+<th>Google Search</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Real-time web search</td>
+<td>✅ (always)</td>
+<td>✅ (when enabled)</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Inline citations</td>
+<td>✅ (every answer)</td>
+<td>Sometimes</td>
+<td>Links in results</td>
+</tr>
+<tr>
+<td>Follow-up context</td>
+<td>✅ (thread)</td>
+<td>✅ (conversation)</td>
+<td>New search</td>
+</tr>
+<tr>
+<td>Focus modes</td>
+<td>✅ (6 modes)</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Ad-free</td>
+<td>✅ (Pro)</td>
+<td>✅</td>
+<td>Ads in results</td>
+</tr>
+<tr>
+<td>API</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+</tbody></table>
 
     </div>
   </article>

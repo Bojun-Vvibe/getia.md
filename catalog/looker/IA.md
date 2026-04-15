@@ -112,6 +112,19 @@ looker.com
 ### 4. Schedule a Report
 `Look or Dashboard → Schedule → Set recipients (email/Slack/S3) → Set frequency (daily/weekly/cron) → Set format (PDF/CSV/PNG) → Set filters → Save`
 
+
+### Drill-Down Investigation
+
+```
+Dashboard → Click data point on chart → Drill menu appears → Select dimension to drill into → New Explore opens with filters applied → Further refine → Save as Look or add back to dashboard
+```
+
+### Embed Analytics in Product
+
+```
+Admin → Embed → Configure SSO Embed → Set user attributes for row-level security → Generate embed URL → Embed in application iframe → Users see filtered data based on their permissions
+```
+
 ## URL / Route Structure
 
 ```
@@ -124,6 +137,22 @@ looker.com
 {instance}.looker.com/projects/{project}/files            # LookML IDE
 {instance}.looker.com/admin                               # Admin panel
 {instance}.looker.com/sql/{connection}                    # SQL Runner
+{instance}.looker.com/looks/new                        # Create new Look
+{instance}.looker.com/dashboards/new                   # Create new Dashboard
+{instance}.looker.com/dashboards/{id}/edit              # Edit Dashboard
+{instance}.looker.com/explore/{model}/{explore}?qid={id} # Explore with saved query
+{instance}.looker.com/sql/{connection}                  # SQL Runner
+{instance}.looker.com/admin/users                       # User management
+{instance}.looker.com/admin/groups                      # Group management
+{instance}.looker.com/admin/roles                       # Role management
+{instance}.looker.com/admin/connections                  # Database connections
+{instance}.looker.com/admin/connections/{name}/test      # Test connection
+{instance}.looker.com/projects/{project}/files/{path}   # LookML file editor
+{instance}.looker.com/projects/{project}/git             # Git integration
+{instance}.looker.com/admin/queries                     # Query performance
+{instance}.looker.com/admin/scheduler                   # Scheduler history
+{instance}.looker.com/embed/looks/{id}                  # Embedded Look
+{instance}.looker.com/embed/dashboards/{id}             # Embedded Dashboard
 ```
 
 ## Search & Filter
@@ -135,6 +164,9 @@ looker.com
 - **Content Validator:** Identify broken content (Looks/Dashboards referencing deleted LookML fields)
 - **SQL Runner:** Direct SQL query execution against connected databases
 
+- **LookML search**: Search model/view/field definitions within the IDE
+- **Query performance search**: Filter queries by runtime, user, explore, status
+- **Scheduler search**: Filter scheduled deliveries by recipient, frequency, status
 ## Responsive Behavior
 
 | Breakpoint | Behavior |
@@ -143,6 +175,46 @@ looker.com
 | Tablet | Dashboard viewing works; Explore and IDE require desktop |
 | Mobile | Dashboard and Look viewing via responsive layout; no editing; scheduled reports via email |
 | Embedded | Looker content embeds responsively in iframes; responsive SDK controls available |
+
+
+### Platform-Specific UX
+- LookML modeling layer creates a single source of truth — business users never write SQL
+- Explore interface uses a field picker with dimensions (left) and measures (calculated) for self-service analysis
+- Drill-down from any data point reveals underlying detail with pre-applied filters
+- Dashboard cross-filtering enables clicking one tile to filter all other tiles on the same dashboard
+- LookML IDE provides in-browser development with syntax highlighting, validation, and Git integration
+- Derived tables enable creating virtual tables from SQL or LookML for complex transformations
+- Data tests ensure LookML model integrity with automated validation queries
+- Content Validator identifies broken content when underlying LookML fields change
+- SQL Runner provides direct database access for ad-hoc queries outside the modeling layer
+- Board feature curates collections of Looks, Dashboards, and Explores for thematic organization
+- Scheduler supports delivery to email, S3, SFTP, Slack, and webhook destinations
+- Embed SDK enables white-labeled analytics embedded directly into SaaS products
+
+### Integration Points
+- Native BigQuery, Snowflake, Redshift, Postgres, MySQL, and 50+ database connections
+- Looker API provides full programmatic access to content, queries, and administration
+- Git integration for LookML version control with branching and deployment workflows
+- Action Hub enables sending data to external services (Slack, Twilio, Zapier) from query results
+
+
+### LookML Core Concepts
+```
+Model:         Defines which database connection and explores to use
+View:          Maps to a database table; contains dimensions and measures
+Explore:       Joins views together; the entry point for self-service analysis
+Dimension:     A column or derived column (e.g., order_date, customer_name)
+Measure:       An aggregate calculation (e.g., count, sum, average)
+Derived Table: A virtual table defined by SQL or LookML, materialized or not
+```
+
+### Dashboard Tile Types
+```
+Look Tile:     Linked to a saved Look; updates when the Look is modified
+Query Tile:    Standalone query created within the dashboard builder
+Text Tile:     Markdown-formatted text for annotations and context
+Filter:        Dashboard-level filter that propagates to linked tiles
+```
 
 ## Access Control
 

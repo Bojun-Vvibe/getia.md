@@ -93,17 +93,26 @@ salesforce.com
 
 ## User Flows
 
-### 1. Lead-to-Opportunity Conversion
-`Leads → Open Lead → Qualify → Convert → Creates Account + Contact + Opportunity → Opportunity enters pipeline → Manage through stages`
 
-### 2. Pipeline Review
-`Opportunities → Kanban (by stage) → Drag to next stage → Open opportunity → Log activity → Update close date/amount → Forecasting updates`
+### Lead to Opportunity
+```
+Leads → Open Lead → Qualify → Convert → Creates Account + Contact + Opportunity → Opportunity enters pipeline → Manage through stages
+```
 
-### 3. Case Resolution
-`Service Console → Open case from queue → Review customer history (related account/contact) → Search Knowledge Base → Reply → Resolve → Customer survey`
+### Pipeline Management
+```
+Opportunities → Kanban (by stage) → Drag to next stage → Open opportunity → Log activity → Update close date/amount → Forecasting updates
+```
 
-### 4. Admin: Build a Custom Object
-`Setup → Object Manager → + New Custom Object → Define fields → Create page layout → Add to Lightning App → Set permissions → Deploy`
+### Service Case Resolution
+```
+Service Console → Open case from queue → Review customer history (related account/contact) → Search Knowledge Base → Reply → Resolve → Customer survey
+```
+
+### Custom Object Setup
+```
+Setup → Object Manager → + New Custom Object → Define fields → Create page layout → Add to Lightning App → Set permissions → Deploy
+```
 
 ## URL / Route Structure
 
@@ -116,6 +125,18 @@ salesforce.com
 {instance}.lightning.force.com/lightning/o/Case/list          # Cases
 {instance}.lightning.force.com/lightning/setup/SetupOneHome/home  # Setup
 {instance}.lightning.force.com/lightning/r/Dashboard/{id}/view   # Dashboard
+{instance}.lightning.force.com/lightning/o/Account/list              # Accounts
+{instance}.lightning.force.com/lightning/o/Contact/list              # Contacts
+{instance}.lightning.force.com/lightning/r/Report/{id}/view          # Report
+{instance}.lightning.force.com/lightning/app/standard/LightningSales # Sales app
+{instance}.lightning.force.com/lightning/app/standard/LightningService # Service app
+{instance}.lightning.force.com/lightning/setup/FlowBuilder/home       # Flow Builder
+login.salesforce.com/                                                # Login
+trailhead.salesforce.com/                                            # Learning platform
+developer.salesforce.com/                                            # Developer portal
+appexchange.salesforce.com/                                          # App marketplace
+help.salesforce.com/                                                 # Help center
+status.salesforce.com/                                               # Status page
 ```
 
 ## Search & Filter
@@ -147,3 +168,59 @@ salesforce.com
 | OWD (Org-Wide Defaults) | Default record visibility (Private, Public Read, Public Read/Write) |
 | Record-Level Sharing | Manual sharing of individual records |
 | Experience Cloud (Portal) | External users with limited, scoped access to specific objects |
+
+## Core Objects
+
+| Object | Purpose | Key Fields |
+|--------|---------|------------|
+| Lead | Unqualified prospect | Name, Company, Status, Source, Rating |
+| Account | Company/organization | Name, Industry, Annual Revenue, Website |
+| Contact | Person at an account | Name, Email, Phone, Title, Account |
+| Opportunity | Potential deal | Name, Amount, Stage, Close Date, Probability |
+| Case | Support issue/ticket | Subject, Status, Priority, Account, Contact |
+| Task | To-do item | Subject, Due Date, Status, Assignee, Related To |
+| Report | Data analysis | Type, Filters, Groupings, Charts |
+| Dashboard | Collection of reports | Layout, Widgets, Refresh Schedule |
+
+## Salesforce Clouds
+
+| Cloud | Purpose |
+|-------|---------|
+| Sales Cloud | CRM, pipeline management, forecasting |
+| Service Cloud | Customer support, case management, knowledge base |
+| Marketing Cloud | Email, SMS, social marketing, journey builder |
+| Commerce Cloud | E-commerce storefronts (B2C and B2B) |
+| Experience Cloud | Customer/partner portals and communities |
+| Platform | Custom app development (Lightning Platform) |
+| Data Cloud | Customer data platform (CDP) |
+| Einstein | AI predictions, recommendations, copilot |
+
+## Automation Tools
+
+| Tool | Complexity | Use Case |
+|------|-----------|----------|
+| Flow Builder | Low-code | Visual process automation with drag-and-drop |
+| Process Builder | Low-code | Event-triggered actions (legacy, being replaced by Flow) |
+| Workflow Rules | Config | Simple field updates and email alerts |
+| Apex | Pro-code | Custom business logic in Java-like language |
+| Lightning Web Components | Pro-code | Custom UI components (HTML/JS/CSS) |
+| MuleSoft | Integration | API-led connectivity between systems |
+
+## AppExchange
+
+- **5,000+ apps** available for installation
+- **Categories:** Sales, Service, Marketing, Analytics, IT, HR, Finance
+- **Free + paid** apps from ISV partners
+- **Managed packages:** Install into org with dependency tracking
+- **Security review:** All apps pass Salesforce security review before listing
+
+## Lightning Experience Navigation
+
+| Element | Description |
+|---------|-------------|
+| App Launcher | Grid of all available apps; search across apps |
+| Navigation Bar | Tabs for objects in current app (Leads, Accounts, etc.) |
+| Utility Bar | Bottom panel with quick access tools (notes, history, macros) |
+| Global Search | Search across all objects; recent items; filtered results |
+| Notifications | Bell icon; approval requests, mentions, record changes |
+| Setup | Gear icon; admin configuration (objects, flows, users) |

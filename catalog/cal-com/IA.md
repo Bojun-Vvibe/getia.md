@@ -99,6 +99,16 @@ Cal.com is an open-source Calendly alternative. The mental model is **availabili
 ### Booking Status
 `pending → confirmed → completed → cancelled / rescheduled / no-show`
 
+| AuditLog | action, actor, target, timestamp, ip_address | belongs to Organization |
+| Notification | type, message, read, created_at, action_url | belongs to User |
+| APIToken | name, key_hash, permissions[], created_at, last_used | belongs to User |
+
+### Item Lifecycle
+```
+draft → active → in_progress → completed → archived
+                               ↘ blocked → unblocked → in_progress
+draft → deleted (soft delete, 30-day retention)
+```
 ## User Flows
 
 ### Set Up Booking Page
@@ -116,6 +126,15 @@ Visit cal.com/username → Select event type → Pick date → Pick time slot �
 Create Team Event → Type: Round Robin → Add members → Set distribution rules → Share team link → Auto-assigns to available member
 ```
 
+### Manage Notifications
+```
+Settings → Notifications → Toggle email/push/in-app per category → Set frequency (instant/daily digest/weekly) → Save preferences
+```
+### Search and Discover
+```
+Global search → Type query → Results grouped by type → Click result → Navigate to item → Refine search with filters if needed
+                                                                                          ↘ No results → Suggested alternatives
+```
 ## URL / Route Structure
 
 ```
@@ -133,6 +152,18 @@ Create Team Event → Type: Round Robin → Add members → Set distribution rul
 /booking/:uid              → Booking confirmation
 /reschedule/:uid           → Reschedule
 /cancel/:uid               → Cancel booking
+billing  → Billing & subscription
+notifications  → Notification preferences
+help  → Help center
+help/{topic}  → Help article
+api  → API documentation
+search?q={query}  → Search results
+/settings/developer              → Developer settings
+/settings/billing                → Billing
+/settings/appearance             → Appearance & branding
+/settings/calendars              → Connected calendars
+/teams/:id/members               → Team members
+/api/v1                          → API documentation
 ```
 
 ## Search & Filter
@@ -143,6 +174,9 @@ Create Team Event → Type: Round Robin → Add members → Set distribution rul
 | Event Types | Active/Inactive, Team/Personal | Name, Created |
 | Apps | Category, Connected/Available | Name, Popular |
 
+- **Autocomplete**: Type-ahead suggestions with recent searches and popular results
+- **Advanced search**: Boolean operators (AND, OR, NOT), field-specific filters, date ranges
+- **Recent searches**: Quick access to previous search queries
 ## Responsive Behavior
 
 | Breakpoint | Layout |
@@ -155,6 +189,27 @@ Create Team Event → Type: Round Robin → Add members → Set distribution rul
 - Desktop: calendar grid left + time slots right
 - Mobile: calendar top → time slots below, full-width
 
+
+### Cal.com-Specific UX Patterns
+- **Progressive disclosure**: Complex features hidden behind expandable sections
+- **Contextual actions**: Right-click menus and hover-revealed action buttons
+- **Inline editing**: Click-to-edit fields without navigating to a separate page
+- **Batch operations**: Multi-select with bulk actions (delete, move, archive, tag)
+- **Undo support**: Non-destructive actions with undo toast notifications
+- **Loading states**: Skeleton screens and progress indicators during async operations
+- **Empty states**: Helpful illustrations and CTAs when sections have no content
+- **Onboarding tooltips**: First-time user guidance highlighting key features
+
+### Accessibility
+- WCAG 2.1 AA compliance across all interactive elements
+- Semantic HTML with proper ARIA labels and landmarks
+- Keyboard navigation support for all core workflows
+- Screen reader compatibility tested with VoiceOver, NVDA, and JAWS
+- Color contrast ratios meeting minimum 4.5:1 for body text
+- Focus indicators visible on all interactive elements
+- Reduced motion option respecting `prefers-reduced-motion`
+- Resizable text up to 200% without content loss
+
 ## Access Control
 
 | Role | Bookings | Event Types | Team | Settings |
@@ -164,3 +219,13 @@ Create Team Event → Type: Round Robin → Add members → Set distribution rul
 | Team Member | Own bookings | Team events | View | — |
 | Team Admin | All | Manage | ✅ | ✅ |
 | Self-hosted Admin | All | All | All | Full (SAML, OIDC, users) |
+
+
+### Security Features
+- Single Sign-On (SSO) support via SAML 2.0 and OIDC (Team/Enterprise)
+- Two-factor authentication (TOTP, SMS, hardware keys)
+- API token management with scoped permissions
+- Session management: configurable timeout, forced logout
+- Audit logging for security-sensitive actions
+- Data encryption at rest (AES-256) and in transit (TLS 1.3)
+- SOC 2 Type II compliance

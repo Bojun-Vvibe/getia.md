@@ -7,11 +7,11 @@ website: https://headspace.com
 
 # Information Architecture — Headspace
 
-## 1. Overview
+## Overview
 
 Headspace is a mindfulness and mental health platform offering guided meditations, sleep content, focus music, and mindfulness courses. The IA is organized around daily habits — Today's meditation, sleep wind-down, focus sessions — with a content library structured by topic (stress, anxiety, sleep, self-esteem) and format (meditation, course, exercise). The design is warm, illustration-heavy, and intentionally calming, reducing cognitive load to match the product's purpose.
 
-## 2. Site Map
+## Site Map
 
 ```
 Headspace
@@ -80,7 +80,7 @@ Headspace
     └── Teachers / Students Program
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 - **Type**: Bottom tab bar (mobile), sidebar (web)
 - **Mobile Bottom Tabs**: Today, Meditate, Sleep, Move, Focus
@@ -89,7 +89,7 @@ Headspace
 - **Player**: Full-screen immersive player with progress, pause, skip; minimizable to floating player
 - **Daily Entry Point**: Push notification → opens Today tab with daily recommendation
 
-## 4. Content Model
+## Content Model
 
 | Content Type | Attributes | Relationships |
 |---|---|---|
@@ -102,29 +102,52 @@ Headspace
 | Article | title, body, topic, author, published date | → Blog |
 | User Stats | total minutes, session count, current streak, longest streak, milestones | → Profile |
 
-## 5. User Flows
+## User Flows
 
 ### Daily Meditation Routine
-1. Open app → Today tab shows daily meditation suggestion
-2. Tap "Play" → Full-screen player with calming animation
-3. Follow guided meditation (3-20 minutes) → Session ends with a bell
-4. Streak counter increments → Stats updated
-5. Suggestion for next session or course continuation
+
+```
+Open app → Today tab shows daily meditation suggestion →
+  Tap "Play" → Full-screen player with calming animation →
+  Follow guided meditation (3-20 minutes) → Session ends with a bell →
+  Streak counter increments → Stats updated → Suggestion for next session or course continuation
+```
+
 
 ### Starting a Course
-1. Meditate tab → Browse courses by topic (e.g., "Managing Anxiety")
-2. Tap course → See description, session count, duration per session
-3. Start Session 1 → Complete → Progress bar updates
-4. Return daily → Continue from where you left off
-5. Complete all sessions → Course badge earned
+
+```
+Meditate tab → Browse courses by topic (e.g., "Managing Anxiety") →
+  Tap course → See description, session count, duration per session →
+  Start Session 1 → Complete → Progress bar updates →
+  Return daily → Continue from where you left off → Complete all sessions → Course badge earned
+```
+
 
 ### Sleep Wind-Down
-1. Evening push notification: "Time to wind down"
-2. Sleep tab → Choose Sleepcast or Wind Down meditation
-3. Set sleep timer (optional) → Play → Audio fades with sleep
-4. Morning: view sleep stats if connected to health app
 
-## 6. URL / Route Structure
+```
+Evening push notification: "Time to wind down" →
+  Sleep tab → Choose Sleepcast or Wind Down meditation →
+  Set sleep timer (optional) → Play → Audio fades with sleep →
+  Morning: view sleep stats if connected to health app
+```
+
+
+
+### Focus Session
+
+```
+Focus tab → Select Focus Mode → Choose duration (15/30/45/60 min) → Select ambient music → Start timer → Background music plays → Timer ends with gentle chime → Stats updated
+```
+
+### Kids Meditation
+
+```
+Kids tab → Select age group → Browse content (Sleep Stories, Breathing, Calm) → Play session → Child-friendly animations → Session ends → Parent view shows progress
+```
+
+## URL / Route Structure
 
 ```
 headspace.com/                              # Marketing homepage
@@ -139,9 +162,24 @@ headspace.com/studentplan                   # Student discount
 headspace.com/articles/{slug}               # Blog article
 headspace.com/headspace-clinical            # Clinical / therapy offering
 my.headspace.com/                           # Web app (logged in)
+headspace.com/meditation/courses            # All courses
+headspace.com/meditation/singles             # Single meditations
+headspace.com/meditation/guided-exercises    # Guided exercises
+headspace.com/sleep/sleepcasts               # Sleepcasts
+headspace.com/sleep/music                    # Sleep music
+headspace.com/sleep/soundscapes              # Soundscapes
+headspace.com/exercise/yoga                  # Yoga workouts
+headspace.com/exercise/cardio                # Cardio workouts
+headspace.com/focus/music                    # Focus music
+headspace.com/kids                           # Kids content
+headspace.com/about                          # About Headspace
+headspace.com/science                        # Research & science
+my.headspace.com/profile                     # User profile
+my.headspace.com/settings                    # App settings
+my.headspace.com/subscription                # Subscription management
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 - **Content Search**: Search meditations, courses, sleepcasts by keyword or topic
 - **Filter by Duration**: 3, 5, 10, 15, 20+ minutes
@@ -151,7 +189,10 @@ my.headspace.com/                           # Web app (logged in)
 - **Personalized Recommendations**: Algorithm suggests content based on usage patterns and interests
 - **Offline Access**: Downloaded content accessible without search (subscription feature)
 
-## 8. Responsive Behavior
+- **Narrator Filter**: Filter meditations by specific narrator/teacher
+- **Mood-Based Search**: Search by mood (calm, focus, energize, sleep)
+- **Course Progress Tracking**: View in-progress and completed courses
+## Responsive Behavior
 
 | Breakpoint | Behavior |
 |---|---|
@@ -161,7 +202,15 @@ my.headspace.com/                           # Web app (logged in)
 | Wearable (Apple Watch) | Breathing exercise, quick meditation, mindful moment; no browse/search |
 | Smart TV | Sleep content and focus music; simplified browse; ambient mode |
 
-## 9. Access Control
+
+### Platform-Specific UX
+- Daily meditation suggestion creates a habit-forming entry point
+- Streak counter gamifies daily practice consistency
+- Calming animations during meditation enhance the immersive experience
+- Bell sound marks the end of each session — a signature Headspace audio cue
+- Course progression locks content sequentially — encouraging consistent practice
+
+## Access Control
 
 | Role | Capabilities |
 |---|---|

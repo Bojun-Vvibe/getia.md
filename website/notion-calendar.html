@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Notion Calendar</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Notion Calendar (formerly Cron) is a calendar application deeply integrated with Notion workspaces, combining time management with project and document context. The IA bridges two worlds — calendar events and Notion database items — allowing users to see their schedule alongside linked Notion pages, documents, and tasks. It features scheduling links, multi-calendar overlay, and keyboard-driven navigation for power users.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>Notion Calendar
 ├── Calendar Views
 │   ├── Day View
@@ -154,7 +154,7 @@
     ├── Pricing (included with Notion)
     └── Help Center
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <ul>
 <li><strong>Type</strong>: Left sidebar + top toolbar</li>
 <li><strong>Left Sidebar</strong>: Mini calendar, calendar list (toggle visibility), Notion databases, other people&#39;s calendars</li>
@@ -164,12 +164,12 @@
 <li><strong>Notion Link</strong>: Click linked Notion page in event → Opens Notion page in-app or in Notion</li>
 <li><strong>Multi-Calendar Overlay</strong>: Toggle teammate calendars to see combined availability</li>
 </ul>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Attributes</th>
+<th>Entity</th>
+<th>Key Attributes</th>
 <th>Relationships</th>
 </tr>
 </thead>
@@ -214,40 +214,36 @@
 <td>→ Events, → Views</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
+<h2>User Flows</h2>
 <h3>Scheduling a Meeting</h3>
-<ol>
-<li>See open time slot on calendar → Click and drag to set duration</li>
-<li>Event form opens: add title, attendees, location</li>
-<li>Toggle attendees&#39; calendar overlay → Find mutual free time</li>
-<li>Add video conferencing (auto-generates Zoom/Meet link)</li>
-<li>Link a Notion page for meeting notes → Save → Invites sent</li>
-</ol>
+<pre><code>See open time slot on calendar → Click and drag to set duration → Event form opens: add title, attendees, location → Toggle attendees&#39; calendar overlay → Find mutual free time → Add video conferencing (auto-generates Zoom/Meet link) → Link a Notion page for meeting notes → Save → Invites sent
+</code></pre>
 <h3>Using Scheduling Links</h3>
-<ol>
-<li>Settings → Scheduling → Create scheduling link</li>
-<li>Set availability: which days, which hours, which calendar to check</li>
-<li>Set options: 15/30/60 min durations, buffer between meetings</li>
-<li>Share link with external person → They see available slots</li>
-<li>They book → Event auto-created on both calendars</li>
-</ol>
+<pre><code>Settings → Scheduling → Create scheduling link → Set availability: which days, which hours, which calendar to check → Set options: 15/30/60 min durations, buffer between meetings → Share link with external person → They see available slots → They book → Event auto-created on both calendars
+</code></pre>
 <h3>Viewing Notion Database as Calendar</h3>
-<ol>
-<li>Settings → Connect Notion Workspace → Authorize</li>
-<li>Select Notion database with a date property</li>
-<li>Database items appear as events on the calendar (color-coded)</li>
-<li>Click database event → See Notion page preview → Open full page in Notion</li>
-<li>Changes sync bidirectionally</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<pre><code>Settings → Connect Notion Workspace → Authorize → Select Notion database with a date property → Database items appear as events on the calendar (color-coded) → Click database event → See Notion page preview → Open full page in Notion → Changes sync bidirectionally
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code>calendar.notion.so/                         # Web app / landing
 calendar.notion.so/app                      # Calendar web app
 calendar.notion.so/scheduling/{username}    # Public scheduling page
 calendar.notion.so/scheduling/{username}/{linkSlug}  # Specific scheduling link
 calendar.notion.so/download                 # Desktop/mobile app downloads
 notion.so/product/calendar                  # Product page on Notion site
+calendar.notion.so/settings                                     # Settings
+calendar.notion.so/settings/accounts                             # Connected accounts
+calendar.notion.so/settings/calendars                            # Calendar settings
+calendar.notion.so/settings/general                              # General settings
+calendar.notion.so/settings/availability                         # Working hours
+calendar.notion.so/settings/appearance                           # Theme settings
+calendar.notion.so/settings/shortcuts                            # Keyboard shortcuts
+calendar.notion.so/scheduling                                    # My scheduling pages
+calendar.notion.so/help                                          # Help center
+notion.so/product/calendar                                       # Product page
+notion.so/help/category/calendar                                 # Calendar help docs
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <ul>
 <li><strong>Event Search</strong>: Search events by title, attendee, or description across all calendars</li>
 <li><strong>Calendar Filtering</strong>: Toggle calendars on/off to filter visible events</li>
@@ -256,7 +252,7 @@ notion.so/product/calendar                  # Product page on Notion site
 <li><strong>Notion Database Filter</strong>: Inherits Notion database filters (status, assignee, date range)</li>
 <li><strong>No Content Search</strong>: Calendar app; search is limited to events, not documents (documents live in Notion)</li>
 </ul>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -285,7 +281,7 @@ notion.so/product/calendar                  # Product page on Notion site
 <td>Floating mini calendar + upcoming events; quick event creation without opening full app</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>
@@ -330,6 +326,111 @@ notion.so/product/calendar                  # Product page on Notion site
 <td>Full calendar features including Notion database sync, scheduling links</td>
 </tr>
 </tbody></table>
+<h2>Keyboard Shortcuts</h2>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Shortcut</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Create event</td>
+<td>C</td>
+</tr>
+<tr>
+<td>Go to today</td>
+<td>T</td>
+</tr>
+<tr>
+<td>Day view</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Week view</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Month view</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Next period</td>
+<td>J or →</td>
+</tr>
+<tr>
+<td>Previous period</td>
+<td>K or ←</td>
+</tr>
+<tr>
+<td>Delete event</td>
+<td>Backspace</td>
+</tr>
+<tr>
+<td>Quick search</td>
+<td>/</td>
+</tr>
+<tr>
+<td>Settings</td>
+<td>, (comma)</td>
+</tr>
+</tbody></table>
+<h2>Calendar Sources</h2>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Sync Type</th>
+<th>Features</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Google Calendar</td>
+<td>Bidirectional</td>
+<td>Full CRUD, color sync, attendee management</td>
+</tr>
+<tr>
+<td>Notion Database</td>
+<td>Bidirectional</td>
+<td>Date property → calendar event; page preview</td>
+</tr>
+<tr>
+<td>iCloud (via Google)</td>
+<td>Read-only</td>
+<td>Import Apple calendar events</td>
+</tr>
+<tr>
+<td>Exchange/Outlook</td>
+<td>Read-only</td>
+<td>View corporate calendar events</td>
+</tr>
+</tbody></table>
+<h2>Unique Differentiators</h2>
+<ul>
+<li><strong>Notion page linking:</strong> Attach Notion pages to events for meeting agendas and notes</li>
+<li><strong>Multi-timezone:</strong> Display secondary timezone; auto-detect travel timezone</li>
+<li><strong>Menu bar widget (macOS):</strong> Quick glance at upcoming events without opening app</li>
+<li><strong>Overlay calendars:</strong> See teammates&#39; availability overlaid on your calendar</li>
+<li><strong>Scheduling links:</strong> Built-in Calendly-like booking pages with availability rules</li>
+<li><strong>Keyboard-first:</strong> Every action accessible via keyboard shortcuts (Cron heritage)</li>
+<li><strong>Zero-config video:</strong> Auto-detects and generates Zoom/Meet/Teams links</li>
+</ul>
+<h2>Working Hours &amp; Availability</h2>
+<ul>
+<li><strong>Per-day configuration:</strong> Set different hours for each day of the week</li>
+<li><strong>Buffer time:</strong> Automatic gaps between back-to-back meetings (5/10/15/30 min)</li>
+<li><strong>Minimum notice:</strong> Prevent same-day bookings (e.g., require 4-hour lead time)</li>
+<li><strong>Date exceptions:</strong> Block specific dates from scheduling (vacations, holidays)</li>
+<li><strong>Multi-calendar check:</strong> Check multiple calendars for conflicts before showing availability</li>
+</ul>
+<h2>Event Quick Actions</h2>
+<ul>
+<li><strong>Drag to reschedule:</strong> Drag event to new time slot</li>
+<li><strong>Drag to extend:</strong> Drag bottom edge to change duration</li>
+<li><strong>Duplicate:</strong> Option-drag to create a copy</li>
+<li><strong>Color coding:</strong> Events inherit calendar color; manual override available</li>
+<li><strong>Join meeting:</strong> One-click join button for Zoom/Meet/Teams links detected in event</li>
+</ul>
 
     </div>
   </article>

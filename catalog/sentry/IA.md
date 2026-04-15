@@ -242,30 +242,33 @@ critical → high → medium → low
 
 ## User Flows
 
-### Triage New Errors
+
+
+### Triage New Error
 ```
 Alert (Slack/email: new issue) → Issues → For Review → Issue Detail → Read stack trace → Check breadcrumbs → View suspect commit → Assign to team member → Link to GitHub issue → Resolve when fixed
 ```
 
-### Debug Error with Replay
+### Debug with Session Replay
 ```
 Issue Detail → See user affected → Click "View Replay" → Watch session replay → See user actions before error → Identify reproduction steps → Fix in code → Deploy → Mark resolved
 ```
 
-### Performance Investigation
+### Investigate Slow Transaction
 ```
 Performance → Sort by P95 → Click slow transaction → View span waterfall → Identify slow database query (N+1) → View query detail → Optimize → Deploy → Compare P95 trend
 ```
 
-### Release Health Monitoring
+### Monitor New Release
 ```
 Releases → New release deployed → Monitor crash-free % → Compare to previous release → If regression: see new issues introduced → Rollback or hotfix → Track adoption %
 ```
 
-### Set Up Alerting
+### Configure Custom Alert
 ```
 Alerts → Create Alert → Issue Alert: "When new issue is seen more than 10 times in 1 hour" → Action: Send to Slack #engineering → Action: Assign to on-call → Save → Test
 ```
+
 
 ## URL / Route Structure
 

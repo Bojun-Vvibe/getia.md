@@ -147,20 +147,20 @@ grafana.com (marketing + cloud portal)
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Structure</th>
-<th>Ownership</th>
+<th>Entity</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>Dashboard</td>
 <td>Title, UID, panels, variables, annotations, links, time range, folder, permissions</td>
-<td>User/Team/Org-owned</td>
+<td>belongs to Organization</td>
 </tr>
 <tr>
 <td>Panel</td>
 <td>Title, visualization type (time series, gauge, table, stat, heatmap, etc.), queries, transform, thresholds</td>
-<td>Part of dashboard</td>
+<td>belongs to dashboard</td>
 </tr>
 <tr>
 <td>Data Source</td>
@@ -195,118 +195,92 @@ grafana.com (marketing + cloud portal)
 <tr>
 <td>Playlist</td>
 <td>Ordered list of dashboards for auto-rotation display (NOC/TV mode)</td>
-<td>User-owned</td>
+<td>belongs to User</td>
 </tr>
 </tbody></table>
 <h2>User Flows</h2>
 <h3>Building a Dashboard</h3>
-<ol>
-<li>User creates new dashboard (or duplicates existing)</li>
-<li>Clicks &quot;Add Panel&quot; → selects visualization type (time series, bar chart, gauge, etc.)</li>
-<li>Configures query: selects data source → writes PromQL, LogQL, SQL, etc.</li>
-<li>Adjusts visualization options: axes, legends, colors, thresholds</li>
-<li>Adds template variables (dropdowns for filtering by host, service, region)</li>
-<li>Arranges panels by drag-and-drop on the grid layout</li>
-<li>Saves to a folder with permissions</li>
-</ol>
+<pre><code>User creates new dashboard (or duplicates existing) →
+  Clicks &quot;Add Panel&quot; → selects visualization type (time series, bar chart, gauge,... →
+  Configures query: selects data source → writes PromQL, LogQL, SQL, etc. →
+  Adjusts visualization options: axes, legends, colors, thresholds →
+  Adds template variables (dropdowns for filtering by host, service, region) →
+  Arranges panels by drag-and-drop on the grid layout → Saves to a folder with permissions
+</code></pre>
 <h3>Explore (Ad-Hoc Investigation)</h3>
-<ol>
-<li>User opens Explore → selects data source</li>
-<li>Writes query (e.g., PromQL for metrics, LogQL for logs)</li>
-<li>Results visualize immediately — toggle between graph, table, and raw</li>
-<li>Split view: add a second query pane for comparison</li>
-<li>Convert useful queries into dashboard panels via &quot;Add to Dashboard&quot; button</li>
-</ol>
+<pre><code>User opens Explore → selects data source → Writes query (e.g., PromQL for metrics, LogQL for logs) →
+  Results visualize immediately — toggle between graph, table, and raw →
+  Split view: add a second query pane for comparison →
+  Convert useful queries into dashboard panels via &quot;Add to Dashboard&quot; button
+</code></pre>
 <h3>Setting Up Alerting</h3>
-<ol>
-<li>User navigates to Alerting → &quot;Create Alert Rule&quot;</li>
-<li>Defines condition: data source query + threshold (e.g., <code>avg(cpu_usage) &gt; 80%</code>)</li>
-<li>Sets evaluation interval and pending period</li>
-<li>Configures labels and annotations (for routing and descriptions)</li>
-<li>Links to Contact Point (email, Slack, PagerDuty, OpsGenie, etc.)</li>
-<li>Defines Notification Policy: routing rules based on labels</li>
-<li>Alert fires → notification sent → shows in Alert List with state (Firing, Pending, Normal)</li>
-</ol>
+<pre><code>User navigates to Alerting → &quot;Create Alert Rule&quot; →
+  Defines condition: data source query + threshold (e.g., `avg(cpu_usage) &gt; 80%`) →
+  Sets evaluation interval and pending period →
+  Configures labels and annotations (for routing and descriptions) →
+  Links to Contact Point (email, Slack, PagerDuty, OpsGenie, etc.) →
+  Defines Notification Policy: routing rules based on labels →
+  Alert fires → notification sent → shows in Alert List with state (Firing,...
+</code></pre>
 <h3>Incident Response (TV Dashboard)</h3>
-<ol>
-<li>Team creates a dashboard with key SLI panels (latency, error rate, throughput)</li>
-<li>Sets up Playlist with critical dashboards</li>
-<li>Displays on NOC/war room TV in kiosk mode (auto-rotating)</li>
-<li>Alert panel on dashboard shows active alerts</li>
-<li>Click-through from alert to related dashboard for investigation</li>
-</ol>
+<pre><code>Team creates a dashboard with key SLI panels (latency, error rate, throughput) →
+  Sets up Playlist with critical dashboards →
+  Displays on NOC/war room TV in kiosk mode (auto-rotating) →
+  Alert panel on dashboard shows active alerts →
+  Click-through from alert to related dashboard for investigation
+</code></pre>
 <h2>URL / Route Structure</h2>
-<table>
-<thead>
-<tr>
-<th>Pattern</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>/</code></td>
-<td>Home dashboard</td>
-</tr>
-<tr>
-<td><code>/dashboards</code></td>
-<td>Dashboard list</td>
-</tr>
-<tr>
-<td><code>/dashboards/folder/{uid}</code></td>
-<td>Folder contents</td>
-</tr>
-<tr>
-<td><code>/d/{uid}/{slug}</code></td>
-<td>Dashboard view</td>
-</tr>
-<tr>
-<td><code>/d/{uid}/{slug}?editPanel={id}</code></td>
-<td>Panel editor</td>
-</tr>
-<tr>
-<td><code>/explore</code></td>
-<td>Data exploration</td>
-</tr>
-<tr>
-<td><code>/alerting/list</code></td>
-<td>Alert rules</td>
-</tr>
-<tr>
-<td><code>/alerting/notifications</code></td>
-<td>Contact points</td>
-</tr>
-<tr>
-<td><code>/connections/datasources</code></td>
-<td>Data sources</td>
-</tr>
-<tr>
-<td><code>/connections/datasources/{uid}</code></td>
-<td>Data source config</td>
-</tr>
-<tr>
-<td><code>/plugins/{plugin_id}</code></td>
-<td>Plugin detail</td>
-</tr>
-<tr>
-<td><code>/admin/users</code></td>
-<td>User management</td>
-</tr>
-<tr>
-<td><code>/library-panels</code></td>
-<td>Library panels</td>
-</tr>
-</tbody></table>
+<pre><code>/                                             # Home dashboard
+/dashboards                                   # Dashboard list
+/dashboards/folder/{uid}                      # Folder contents
+/d/{uid}/{slug}                               # Dashboard view
+/d/{uid}/{slug}?editPanel={id}                # Panel editor
+/explore                                      # Data exploration
+/alerting/list                                # Alert rules
+/alerting/notifications                       # Contact points
+/connections/datasources                      # Data sources
+/connections/datasources/{uid}                # Data source config
+/plugins/{plugin_id}                          # Plugin detail
+/admin/users                                  # User management
+/library-panels                               # Library panels
+/d/{uid}/{slug}?from={ts}&amp;to={ts}        # Dashboard with time range
+/d/{uid}/{slug}?var-{name}={value}        # Dashboard with variable
+/explore?orgId={id}&amp;left={query}          # Explore with query
+/alerting/routes                          # Notification policies
+/alerting/silences                        # Alert silences
+/alerting/groups                          # Alert groups
+/admin/teams                              # Team management
+/admin/service-accounts                   # Service accounts
+/admin/settings                           # Server config
+/profile                                  # User preferences
+/playlists/{id}                           # Playlist detail
+/annotations                              # Annotation list
+</code></pre>
 <p>Dashboard UIDs are short alphanumeric strings. URL slug is the dashboard title (slugified). Panel IDs are numeric. Query strings used extensively for panel selection, time range, and variable values.</p>
 <h2>Search &amp; Filter</h2>
 <ul>
-<li><strong>Dashboard search</strong>: Cmd+K opens search — search dashboards by title, tags, folder; recently viewed</li>
-<li><strong>Explore query history</strong>: Browse and re-run previous queries</li>
-<li><strong>Alert filtering</strong>: Filter by state (Firing, Pending, Normal), label matchers, folder</li>
-<li><strong>Data source search</strong>: Search configured data sources by name or type</li>
-<li><strong>Plugin catalog search</strong>: Search available plugins by name, type (data source, panel, app)</li>
-<li><strong>Community dashboard search</strong>: Search grafana.com for shared dashboards by name, data source, tags</li>
-<li><strong>Dashboard tags</strong>: Tag-based categorization for dashboards — filter by tag in dashboard list</li>
-<li><strong>Panel-level filtering</strong>: Template variables act as live filters across all panels in a dashboard</li>
+<li><p><strong>Dashboard search</strong>: Cmd+K opens search — search dashboards by title, tags, folder; recently viewed</p>
+</li>
+<li><p><strong>Explore query history</strong>: Browse and re-run previous queries</p>
+</li>
+<li><p><strong>Alert filtering</strong>: Filter by state (Firing, Pending, Normal), label matchers, folder</p>
+</li>
+<li><p><strong>Data source search</strong>: Search configured data sources by name or type</p>
+</li>
+<li><p><strong>Plugin catalog search</strong>: Search available plugins by name, type (data source, panel, app)</p>
+</li>
+<li><p><strong>Community dashboard search</strong>: Search grafana.com for shared dashboards by name, data source, tags</p>
+</li>
+<li><p><strong>Dashboard tags</strong>: Tag-based categorization for dashboards — filter by tag in dashboard list</p>
+</li>
+<li><p><strong>Panel-level filtering</strong>: Template variables act as live filters across all panels in a dashboard</p>
+</li>
+<li><p><strong>Annotation search</strong>: Search annotations by tag, time range, or text</p>
+</li>
+<li><p><strong>Log search (Loki)</strong>: Full-text log search with LogQL queries within Explore</p>
+</li>
+<li><p><strong>Trace search (Tempo)</strong>: Search distributed traces by trace ID, service, or duration</p>
+</li>
 </ul>
 <h2>Responsive Behavior</h2>
 <table>
@@ -340,6 +314,20 @@ grafana.com (marketing + cloud portal)
 <li>Panel headers (title, dropdown) remain accessible at all sizes</li>
 <li>Kiosk mode (TV display) hides all chrome — panels only</li>
 <li>Explore split-view collapses to single pane on mobile</li>
+</ul>
+<h3>Platform-Specific UX</h3>
+<ul>
+<li>Dashboard variables (dropdowns) in the top bar enable dynamic filtering across all panels</li>
+<li>Time range picker is persistent and critical — affects all visualizations simultaneously</li>
+<li>Kiosk mode hides all chrome for NOC/war room TV display</li>
+<li>Panel types include time series, bar chart, gauge, stat, table, heatmap, geomap, and more</li>
+<li>Annotations mark events on time series charts (deploys, incidents, releases)</li>
+<li>Dashboard provisioning enables GitOps — dashboards defined as JSON/YAML in version control</li>
+<li>Explore mode supports split-view for comparing two queries side-by-side</li>
+<li>Library panels enable reusable panel definitions shared across multiple dashboards</li>
+<li>Alert state transitions (Firing → Pending → Normal) are visualized in the alert list</li>
+<li>Query inspector shows raw query, response data, and request timing for debugging</li>
+<li>Dashboard playlists enable auto-rotation through multiple dashboards</li>
 </ul>
 <h2>Access Control</h2>
 <table>

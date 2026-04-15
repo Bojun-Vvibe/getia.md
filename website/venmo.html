@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Venmo</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Venmo is a peer-to-peer (P2P) mobile payment service owned by PayPal, distinguished by its <strong>social feed</strong> that turns transactions into a social experience. The IA supports sending/receiving money, a social timeline, the Venmo Debit Card, business profiles, and crypto trading. The web presence serves primarily as marketing and account management; the core experience lives in the mobile app.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>venmo.com
 ├── Home
 ├── About Venmo
@@ -131,7 +131,7 @@
     ├── Log in
     └── Sign up
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <table>
 <thead>
 <tr>
@@ -162,41 +162,17 @@
 </tr>
 </tbody></table>
 <p><strong>Key pattern</strong>: The website is a funnel to the app. Every product page ends with &quot;Download Venmo&quot; CTA. The social feed is app-exclusive.</p>
-<h2>4. Content Model</h2>
-<table>
-<thead>
-<tr>
-<th>Entity</th>
-<th>Attributes</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Transaction</td>
-<td>sender, recipient, amount, note/emoji, privacy (public/friends/private), timestamp</td>
-</tr>
-<tr>
-<td>User Profile</td>
-<td>display name, handle, avatar, friends list, QR code</td>
-</tr>
-<tr>
-<td>Business Profile</td>
-<td>name, category, logo, description, ratings, QR code</td>
-</tr>
-<tr>
-<td>Card (Debit/Credit)</td>
-<td>status, last 4, rewards, transaction history</td>
-</tr>
-<tr>
-<td>Crypto Holding</td>
-<td>coin, amount, buy/sell history, current value</td>
-</tr>
-<tr>
-<td>Social Feed Item</td>
-<td>transaction note, likes, comments, privacy level</td>
-</tr>
-</tbody></table>
-<h2>5. User Flows</h2>
-<h3>5a. Send money</h3>
+<h2>Content Model</h2>
+<p>| Entity | Key Attributes | Relationships |
+|--------|-----------|
+| Transaction | sender, recipient, amount, note/emoji, privacy (public/friends/private), timestamp |
+| User Profile | display name, handle, avatar, friends list, QR code |
+| Business Profile | name, category, logo, description, ratings, QR code |
+| Card (Debit/Credit) | status, last 4, rewards, transaction history |
+| Crypto Holding | coin, amount, buy/sell history, current value |
+| Social Feed Item | transaction note, likes, comments, privacy level |</p>
+<h2>User Flows</h2>
+<h3>Send money</h3>
 <ol>
 <li>Open app → tap Pay/Request (center button)</li>
 <li>Search recipient by name, @username, phone, or email</li>
@@ -205,21 +181,21 @@
 <li>Choose funding source (balance, bank, card)</li>
 <li>Tap Pay → confirmation → appears in social feed</li>
 </ol>
-<h3>5b. Request money</h3>
+<h3>Request money</h3>
 <ol>
 <li>Tap Pay/Request → switch to &quot;Request&quot; tab</li>
 <li>Select person → enter amount + note</li>
 <li>Send request → recipient gets push notification</li>
 <li>Recipient approves → funds transfer</li>
 </ol>
-<h3>5c. Business profile setup</h3>
+<h3>Business profile setup</h3>
 <ol>
 <li>Switch to business profile in settings</li>
 <li>Add business details (name, category, description)</li>
 <li>Share QR code for in-person payments</li>
 <li>Receive payments → view in business dashboard</li>
 </ol>
-<h2>6. URL / Route Structure</h2>
+<h2>URL / Route Structure</h2>
 <pre><code>/                           → Home
 /about/                     → How Venmo works
 /debit-card/                → Venmo Debit Card
@@ -235,7 +211,7 @@
 /account/                   → User dashboard (auth)
 /account/transactions/      → Transaction history (auth)
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <table>
 <thead>
 <tr>
@@ -264,7 +240,7 @@
 <td>Keyword → categorized FAQ results</td>
 </tr>
 </tbody></table>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -289,7 +265,7 @@
 <td>Full experience — social feed, payments, wallet, crypto, card management</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>

@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Skillshare</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Skillshare is a creative learning platform offering short, project-based video classes taught by industry professionals. The IA is organized around class categories (illustration, design, photography, writing, business) with a strong emphasis on hands-on projects that students share in a class community. Unlike academic MOOCs, Skillshare focuses on practical creative skills, with classes typically 20-60 minutes broken into digestible lessons.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>Skillshare
 ├── Home
 │   ├── Continue Watching
@@ -178,7 +178,7 @@
     ├── Payment / Billing
     └── Privacy
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <ul>
 <li><strong>Type</strong>: Top nav bar (desktop), bottom tab bar (mobile)</li>
 <li><strong>Desktop Top Bar</strong>: Logo (home), Browse (mega dropdown), Workshops | Search, My Classes, Teach, Profile</li>
@@ -187,12 +187,12 @@
 <li><strong>Class Viewing</strong>: Sequential lesson playlist (sidebar on desktop, stacked on mobile)</li>
 <li><strong>Project Gallery</strong>: Within each class; students upload project work for community feedback</li>
 </ul>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Attributes</th>
+<th>Entity</th>
+<th>Key Attributes</th>
 <th>Relationships</th>
 </tr>
 </thead>
@@ -247,7 +247,7 @@
 <td>→ Classes</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
+<h2>User Flows</h2>
 <h3>Taking a Class</h3>
 <ol>
 <li>Browse or search → Select class → Watch preview video</li>
@@ -272,7 +272,7 @@
 <li>Publish → Class appears in catalog → Earn revenue based on watch minutes</li>
 <li>Monitor analytics: enrollments, watch time, completion rate, earnings</li>
 </ol>
-<h2>6. URL / Route Structure</h2>
+<h2>URL / Route Structure</h2>
 <pre><code>skillshare.com/                             # Homepage
 skillshare.com/browse                       # Browse all categories
 skillshare.com/browse/{category}            # Category page
@@ -286,7 +286,7 @@ skillshare.com/membership                   # Subscription plans
 skillshare.com/lists/{listId}               # Curated list
 skillshare.com/teams                        # Skillshare for Teams
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <ul>
 <li><strong>Class Search</strong>: Keyword search across titles, descriptions, tags, teachers</li>
 <li><strong>Category Filter</strong>: Creative Arts, Design, Photography, Writing, Business, Technology, Lifestyle</li>
@@ -297,7 +297,7 @@ skillshare.com/teams                        # Skillshare for Teams
 <li><strong>Topic Tags</strong>: Clickable tags on class pages for related content</li>
 <li><strong>Staff Picks</strong>: Curated collections highlighted on home and browse pages</li>
 </ul>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -326,7 +326,7 @@ skillshare.com/teams                        # Skillshare for Teams
 <td>Download classes for offline viewing (Premium feature)</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>

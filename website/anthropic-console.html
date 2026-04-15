@@ -114,6 +114,14 @@
 ├── /logs (API request logs)
 ├── /docs (→ redirects to docs.anthropic.com)
 └── /auth
+├── Evaluations
+│   ├── Eval Sets
+│   ├── Run Evaluation
+│   └── Results &amp; Comparison
+├── Batch Processing
+│   ├── Create Batch
+│   ├── Batch Status
+│   └── Batch Results
 </code></pre>
 <h2>Navigation Model</h2>
 <ul>
@@ -128,9 +136,9 @@
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Structure</th>
-<th>Ownership</th>
+<th>Entity</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -168,42 +176,52 @@
 <td>API request details — model, tokens, latency, status code, truncated prompt</td>
 <td>Org-scoped</td>
 </tr>
+<tr>
+<td>Prompt Version</td>
+<td>version_number, system_prompt, parameters, created_at, author</td>
+<td>belongs to Saved Prompt</td>
+</tr>
+<tr>
+<td>Rate Limit</td>
+<td>tier, requests_per_minute, tokens_per_minute, model</td>
+<td>belongs to Organization</td>
+</tr>
+<tr>
+<td>Batch Job</td>
+<td>id, status, input_file, output_file, model, created_at</td>
+<td>belongs to Organization</td>
+</tr>
+<tr>
+<td>Evaluation</td>
+<td>name, eval_set, model, results, scores</td>
+<td>belongs to Organization</td>
+</tr>
 </tbody></table>
+<h3>Entity Lifecycle</h3>
+<pre><code>created → active → updated → archived
+                  ↘ suspended → reactivated → active
+created → deleted (soft delete with recovery period)
+</code></pre>
 <h2>User Flows</h2>
 <h3>Prompt Engineering in Workbench</h3>
-<ol>
-<li>Developer opens Workbench → selects model (Claude Sonnet 4, Opus 4, Haiku)</li>
-<li>Writes system prompt in dedicated panel</li>
-<li>Adds user message → clicks &quot;Run&quot; or Cmd+Enter</li>
-<li>Response streams in the assistant panel</li>
-<li>Adjusts parameters (temperature, max tokens) → re-runs</li>
-<li>Clicks &quot;Get Code&quot; → copies Python/TypeScript/curl snippet</li>
-<li>Saves as named prompt for later use or sharing with team</li>
-</ol>
+<pre><code>Developer opens Workbench → selects model (Claude Sonnet 4, Opus 4, Haiku) → Writes system prompt in dedicated panel → Adds user message → clicks &quot;Run&quot; or Cmd+Enter → Response streams in the assistant panel → Adjusts parameters (temperature, max tokens) → re-runs → Clicks &quot;Get Code&quot; → copies Python/TypeScript/curl snippet → Saves as named prompt for later use or sharing with team
+</code></pre>
 <h3>API Key Management</h3>
-<ol>
-<li>Developer navigates to API Keys</li>
-<li>Clicks &quot;Create Key&quot; → names the key, sets permissions</li>
-<li>Key displayed once → copy and store securely</li>
-<li>Key appears in list with usage stats and last-used date</li>
-<li>Can revoke/delete keys; set rate limits per key</li>
-</ol>
+<pre><code>Developer navigates to API Keys → Clicks &quot;Create Key&quot; → names the key, sets permissions → Key displayed once → copy and store securely → Key appears in list with usage stats and last-used date → Can revoke/delete keys; set rate limits per key
+</code></pre>
 <h3>Monitoring Usage &amp; Costs</h3>
-<ol>
-<li>Developer navigates to Usage</li>
-<li>Views dashboard: tokens consumed (input/output), costs by model, request volume</li>
-<li>Filters by date range, model, API key</li>
-<li>Charts show trends over time</li>
-<li>Billing page shows invoices and payment methods</li>
-</ol>
+<pre><code>Developer navigates to Usage → Views dashboard: tokens consumed (input/output), costs by model, request volume → Filters by date range, model, API key → Charts show trends over time → Billing page shows invoices and payment methods
+</code></pre>
 <h3>Organization Management</h3>
-<ol>
-<li>Admin navigates to Settings → Members</li>
-<li>Invites team members by email</li>
-<li>Assigns roles (Admin, Developer, Billing)</li>
-<li>Sets spend limits and rate limits for the organization</li>
-<li>Manages multiple API keys with different permission scopes</li>
-</ol>
+<pre><code>Admin navigates to Settings → Members → Invites team members by email → Assigns roles (Admin, Developer, Billing) → Sets spend limits and rate limits for the organization → Manages multiple API keys with different permission scopes
+</code></pre>
+<h3>Prompt Versioning</h3>
+<pre><code>Prompts → Select prompt → Edit system prompt or parameters → Save as new version → Compare versions side-by-side → Roll back to earlier version if needed
+                                                                                                                                              ↘ Share prompt with team members
+</code></pre>
+<h3>Cost Monitoring &amp; Alerts</h3>
+<pre><code>Usage → View daily token consumption chart → Filter by model (Opus/Sonnet/Haiku) → Identify cost spike → Check per-key breakdown → Settings → Limits → Set monthly spend cap → Receive alert at 80% threshold
+</code></pre>
 <h2>URL / Route Structure</h2>
 <table>
 <thead>
@@ -266,13 +284,54 @@
 </tr>
 </tbody></table>
 <p>Standard SPA routing. UUIDs for saved prompts and workbench sessions.</p>
+<h3>Additional Routes</h3>
+<pre><code>/workbench                    → New workbench session
+/workbench/{uuid}             → Saved workbench session
+/prompts                      → Prompt library
+/prompts/{uuid}               → Individual saved prompt
+/prompts/{uuid}/versions      → Prompt version history
+/api-keys                     → API key management
+/api-keys/create              → Create new API key
+/usage                        → Usage analytics
+/usage/breakdown              → Usage breakdown by model
+/billing                      → Billing overview
+/billing/invoices             → Invoice history
+/billing/invoices/{id}        → Invoice detail
+/billing/payment-methods      → Payment methods
+/billing/plans                → Plan selection
+/settings/organization        → Org settings
+/settings/members             → Team management
+/settings/members/invite      → Invite member
+/settings/limits              → Rate/spend limits
+/settings/profile             → User profile
+/logs                         → API request logs
+/logs/{request_id}            → Log entry detail
+/docs                         → Redirect to docs.anthropic.com
+</code></pre>
 <h2>Search &amp; Filter</h2>
 <ul>
-<li><strong>Prompt search</strong>: Search saved prompts by name</li>
-<li><strong>Usage filters</strong>: Filter by date range, model (Sonnet, Opus, Haiku), API key</li>
-<li><strong>Log filters</strong>: Filter API logs by model, status code, date range, latency threshold</li>
-<li><strong>No global search</strong>: No unified search across the entire console</li>
-<li><strong>API key search</strong>: Filter keys by name</li>
+<li><p><strong>Prompt search</strong>: Search saved prompts by name</p>
+</li>
+<li><p><strong>Usage filters</strong>: Filter by date range, model (Sonnet, Opus, Haiku), API key</p>
+</li>
+<li><p><strong>Log filters</strong>: Filter API logs by model, status code, date range, latency threshold</p>
+</li>
+<li><p><strong>No global search</strong>: No unified search across the entire console</p>
+</li>
+<li><p><strong>API key search</strong>: Filter keys by name</p>
+</li>
+<li><p><strong>Log search</strong>: Search API logs by request ID, filter by model, status code, date range</p>
+</li>
+<li><p><strong>Member search</strong>: Search team members by name or email</p>
+</li>
+<li><p><strong>Sort options</strong>: By relevance, date created, date modified, alphabetical, popularity</p>
+</li>
+<li><p><strong>Autocomplete</strong>: Type-ahead suggestions with recent searches and popular results</p>
+</li>
+<li><p><strong>Advanced search</strong>: Boolean operators (AND, OR, NOT), field-specific filters, date ranges</p>
+</li>
+<li><p><strong>Recent searches</strong>: Quick access to previous search queries</p>
+</li>
 </ul>
 <h2>Responsive Behavior</h2>
 <table>
@@ -304,6 +363,28 @@
 <li>Usage charts resize responsively</li>
 <li>API key table adapts to narrower widths (truncated key previews)</li>
 <li>Code generation modal is full-screen on mobile</li>
+</ul>
+<h3>Anthropic Console-Specific UX Patterns</h3>
+<ul>
+<li><strong>Progressive disclosure</strong>: Complex features hidden behind expandable sections</li>
+<li><strong>Contextual actions</strong>: Right-click menus and hover-revealed action buttons</li>
+<li><strong>Inline editing</strong>: Click-to-edit fields without navigating to a separate page</li>
+<li><strong>Batch operations</strong>: Multi-select with bulk actions (delete, move, archive, tag)</li>
+<li><strong>Undo support</strong>: Non-destructive actions with undo toast notifications</li>
+<li><strong>Loading states</strong>: Skeleton screens and progress indicators during async operations</li>
+<li><strong>Empty states</strong>: Helpful illustrations and CTAs when sections have no content</li>
+<li><strong>Onboarding tooltips</strong>: First-time user guidance highlighting key features</li>
+</ul>
+<h3>Accessibility</h3>
+<ul>
+<li>WCAG 2.1 AA compliance across all interactive elements</li>
+<li>Semantic HTML with proper ARIA labels and landmarks</li>
+<li>Keyboard navigation support for all core workflows</li>
+<li>Screen reader compatibility tested with VoiceOver, NVDA, and JAWS</li>
+<li>Color contrast ratios meeting minimum 4.5:1 for body text</li>
+<li>Focus indicators visible on all interactive elements</li>
+<li>Reduced motion option respecting <code>prefers-reduced-motion</code></li>
+<li>Resizable text up to 200% without content loss</li>
 </ul>
 <h2>Access Control</h2>
 <table>

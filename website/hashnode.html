@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Hashnode</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Hashnode is a developer blogging platform that uniquely allows bloggers to publish on their <strong>own custom domain</strong> while leveraging Hashnode&#39;s community, CDN, and SEO infrastructure. The IA supports both the community hub (hashnode.com feed, discussions, challenges) and individual blog instances (myblog.dev). Key features include Series (multi-part tutorials), Newsletter integration, GitHub-backed editing, and a built-in analytics dashboard.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>hashnode.com (Community Hub)
 ├── Home (Community Feed)
 │   ├── Featured
@@ -168,7 +168,7 @@ Dashboard (Auth)
 │   └── Developer (API keys)
 └── Sponsors / Widgets
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <table>
 <thead>
 <tr>
@@ -209,81 +209,81 @@ Dashboard (Auth)
 </tr>
 </tbody></table>
 <p><strong>Key pattern</strong>: Dual identity — hashnode.com is the community (discovery + social), while each blog is a standalone site on the author&#39;s own domain. Content lives on the blog but is syndicated to the community feed.</p>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
 <th>Entity</th>
-<th>Attributes</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>Post</td>
 <td>title, slug, body (Markdown), cover image, tags, series, published date, canonical URL, SEO description, reactions, comments, read time</td>
+<td>→ Author, → Tags, → Newsletter</td>
 </tr>
 <tr>
 <td>Series</td>
 <td>name, description, posts (ordered), cover image</td>
+<td>has Posts, belongs to Blog</td>
 </tr>
 <tr>
 <td>Blog</td>
 <td>name, subdomain/custom domain, description, logo, favicon, theme, social links, newsletter enabled</td>
+<td>has Posts, has Series, belongs to User</td>
 </tr>
 <tr>
 <td>Tag</td>
 <td>name, articles count, followers count, community-wide</td>
+<td>has Posts, belongs to Blog</td>
 </tr>
 <tr>
 <td>Comment</td>
 <td>author, body (Markdown), parent comment, reactions, timestamp</td>
+<td>belongs to Post, → Author</td>
 </tr>
 <tr>
 <td>Newsletter Issue</td>
 <td>subject, body, recipient list, sent date, stats (opens, clicks)</td>
+<td>→ Folder, belongs to User</td>
 </tr>
 <tr>
 <td>Badge</td>
 <td>name, icon, criteria (e.g., streak, milestone)</td>
+<td>belongs to User</td>
 </tr>
 <tr>
 <td>User</td>
 <td>username, name, bio, avatar, blog URL, social links, badges</td>
+<td>has Blogs, has Posts, has Badges</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
+<h2>User Flows</h2>
 <h3>5a. Write &amp; publish</h3>
-<ol>
-<li>Click &quot;Write&quot; → Markdown editor (or use GitHub-backed source)</li>
-<li>Write article → add title, cover image, tags</li>
-<li>Assign to series (optional) → set SEO metadata</li>
-<li>Publish → article appears on personal blog AND community feed</li>
-<li>Optionally send as newsletter to subscribers</li>
-</ol>
+<pre><code>Click &quot;Write&quot; → Markdown editor (or use GitHub-backed source) →
+  Write article → add title, cover image, tags → Assign to series (optional) → set SEO metadata →
+  Publish → article appears on personal blog AND community feed →
+  Optionally send as newsletter to subscribers
+</code></pre>
 <h3>5b. Set up custom domain</h3>
-<ol>
-<li>Dashboard → Settings → Domain</li>
-<li>Enter custom domain (e.g., blog.mydomain.dev)</li>
-<li>Add CNAME record at DNS provider → point to Hashnode</li>
-<li>Hashnode provisions SSL → blog live on custom domain</li>
-<li>All posts served from custom domain with Hashnode CDN</li>
-</ol>
+<pre><code>Dashboard → Settings → Domain → Enter custom domain (e.g., blog.mydomain.dev) →
+  Add CNAME record at DNS provider → point to Hashnode →
+  Hashnode provisions SSL → blog live on custom domain →
+  All posts served from custom domain with Hashnode CDN
+</code></pre>
 <h3>5c. Discover &amp; engage (community)</h3>
-<ol>
-<li>Visit hashnode.com → browse Featured/Recent/Best</li>
-<li>React to articles (like) → comment (threaded Markdown)</li>
-<li>Follow authors → their posts appear in Following tab</li>
-<li>Follow tags → see tagged content in feed</li>
-<li>Bookmark articles for later reading</li>
-</ol>
+<pre><code>Visit hashnode.com → browse Featured/Recent/Best →
+  React to articles (like) → comment (threaded Markdown) →
+  Follow authors → their posts appear in Following tab → Follow tags → see tagged content in feed →
+  Bookmark articles for later reading
+</code></pre>
 <h3>5d. Series creation</h3>
-<ol>
-<li>Dashboard → New Series → title, description, cover</li>
-<li>Create posts → assign to series</li>
-<li>Series page auto-generates with ordered navigation</li>
-<li>Readers navigate prev/next within series</li>
-<li>Series appears as a cohesive learning path</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<pre><code>Dashboard → New Series → title, description, cover → Create posts → assign to series →
+  Series page auto-generates with ordered navigation → Readers navigate prev/next within series →
+  Series appears as a cohesive learning path
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code># Community (hashnode.com)
 /                               → Community feed
 /explore/                       → Explore tags &amp; blogs
@@ -308,8 +308,13 @@ Dashboard (Auth)
 /dashboard/newsletter/          → Newsletter management
 /dashboard/analytics/           → Analytics
 /dashboard/settings/            → Blog settings
+/explore/tags/                     # Browse all tags
+/explore/blogs/                    # Top blogs directory
+/hackathons/                       # Hackathons &amp; challenges
+/@{username}/followers/            # User&#39;s followers
+/@{username}/following/            # User&#39;s following
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <table>
 <thead>
 <tr>
@@ -342,7 +347,11 @@ Dashboard (Auth)
 <td>By post, date range, traffic source</td>
 </tr>
 </tbody></table>
-<h2>8. Responsive Behavior</h2>
+<ul>
+<li><strong>Tag filtering</strong>: Filter community feed by specific tags or combinations</li>
+<li><strong>Blog-level analytics</strong>: Filter analytics by post, traffic source, geography</li>
+</ul>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -371,7 +380,7 @@ Dashboard (Auth)
 <td>Optional AMP versions for Google discover/search</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>

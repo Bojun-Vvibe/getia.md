@@ -133,9 +133,9 @@
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Structure</th>
-<th>Ownership</th>
+<th>Entity</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -176,38 +176,17 @@
 </tbody></table>
 <h2>User Flows</h2>
 <h3>Creating a Database</h3>
-<ol>
-<li>User clicks &quot;New Database&quot; → enters name, selects region (AWS us-east-1, eu-west-1, etc.)</li>
-<li>Database created with a <code>main</code> branch (production)</li>
-<li>Connection string provided → copy into application config</li>
-<li>Connect via MySQL client, ORM, or web console</li>
-</ol>
+<pre><code>Clicks &quot;New Database&quot; → enters name, selects region (AWS us-east-1, eu-west-1, etc.) → Database created with a `main` branch (production) → Connection string provided → copy into application config → Connect via MySQL client, ORM, or web console
+</code></pre>
 <h3>Schema Change via Deploy Request</h3>
-<ol>
-<li>Developer creates a new branch from <code>main</code> (e.g., <code>add-users-table</code>)</li>
-<li>Opens web console connected to the development branch</li>
-<li>Runs DDL statements: <code>CREATE TABLE users (...)</code>, <code>ALTER TABLE ...</code></li>
-<li>Creates a Deploy Request: source=<code>add-users-table</code>, target=<code>main</code></li>
-<li>Schema diff displayed — reviewers see added/modified/removed tables and columns</li>
-<li>Reviewer approves → &quot;Deploy Changes&quot; applies schema to production without downtime</li>
-<li>PlanetScale handles online DDL — no table locks, no downtime</li>
-</ol>
+<pre><code>Developer creates a new branch from `main` (e.g., `add-users-table`) → Opens web console connected to the development branch → Runs DDL statements: `CREATE TABLE users (...)`, `ALTER TABLE ...` → Creates a Deploy Request: source=`add-users-table`, target=`main` → Schema diff displayed — reviewers see added/modified/removed tables and columns → Reviewer approves → &quot;Deploy Changes&quot; applies schema to production without downtime → PlanetScale handles online DDL — no table locks, no downtime
+</code></pre>
 <h3>Query Performance Analysis</h3>
-<ol>
-<li>User navigates to Insights tab</li>
-<li>Sees top queries ranked by total time, frequency, or latency</li>
-<li>Clicks a query → sees execution plan, latency percentiles, rows examined</li>
-<li>Identifies slow queries → optimizes with indexes or query rewrites</li>
-<li>PlanetScale Boost: enable query caching for specific query patterns</li>
-</ol>
+<pre><code>Navigates to Insights tab → Sees top queries ranked by total time, frequency, or latency → Clicks a query → sees execution plan, latency percentiles, rows examined → Identifies slow queries → optimizes with indexes or query rewrites → PlanetScale Boost: enable query caching for specific query patterns
+</code></pre>
 <h3>Connecting from Application</h3>
-<ol>
-<li>User goes to Connect tab → selects branch and framework</li>
-<li>Platform generates connection string in the framework&#39;s format (Rails, Django, Laravel, Prisma, etc.)</li>
-<li>Downloads SSL certificate (or uses secure connection string with embedded cert)</li>
-<li>Adds connection string to application&#39;s environment variables</li>
-<li>Application connects via standard MySQL protocol</li>
-</ol>
+<pre><code>Goes to Connect tab → selects branch and framework → Platform generates connection string in the framework&#39;s format (Rails, Django, Laravel, Prisma, etc.) → Downloads SSL certificate (or uses secure connection string with embedded cert) → Adds connection string to application&#39;s environment variables → Application connects via standard MySQL protocol
+</code></pre>
 <h2>URL / Route Structure</h2>
 <table>
 <thead>
@@ -349,6 +328,177 @@
 <li>Connection passwords: Generated per-branch; rotatable without downtime</li>
 <li>Audit log: All schema changes, deployments, and access events logged (Enterprise)</li>
 </ul>
+<h2>Git-Inspired Database Workflow</h2>
+<pre><code>main (production) ←── deploy request (reviewed) ←── dev-branch (schema changes)
+     ↓                                                    ↓
+   Schema A ───── diff shows changes ─────── Schema A + new tables/columns
+</code></pre>
+<h2>CLI (pscale)</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>pscale db create {name}</code></td>
+<td>Create new database</td>
+</tr>
+<tr>
+<td><code>pscale branch create {db} {branch}</code></td>
+<td>Create development branch</td>
+</tr>
+<tr>
+<td><code>pscale shell {db} {branch}</code></td>
+<td>Open SQL console</td>
+</tr>
+<tr>
+<td><code>pscale deploy-request create {db}</code></td>
+<td>Create deploy request</td>
+</tr>
+<tr>
+<td><code>pscale deploy-request deploy {db} {number}</code></td>
+<td>Deploy schema changes</td>
+</tr>
+<tr>
+<td><code>pscale connect {db} {branch}</code></td>
+<td>Create secure tunnel to branch</td>
+</tr>
+<tr>
+<td><code>pscale password create {db} {branch} {name}</code></td>
+<td>Generate connection password</td>
+</tr>
+<tr>
+<td><code>pscale audit-log list</code></td>
+<td>View audit log</td>
+</tr>
+</tbody></table>
+<h2>Vitess Under the Hood</h2>
+<ul>
+<li><strong>Horizontal sharding:</strong> Automatically shard large tables across multiple nodes</li>
+<li><strong>Online DDL:</strong> Schema changes without table locks or downtime (gh-ost / Vitess VReplication)</li>
+<li><strong>Connection pooling:</strong> Built-in connection management for high-concurrency apps</li>
+<li><strong>Query routing:</strong> Intelligent routing of queries to correct shard</li>
+<li><strong>VReplication:</strong> Real-time data replication between shards and branches</li>
+<li><strong>MySQL protocol:</strong> Full compatibility with MySQL client libraries and ORMs</li>
+</ul>
+<h2>PlanetScale Boost (Query Caching)</h2>
+<ul>
+<li><strong>Automatic caching:</strong> Frequently-run read queries cached at the edge</li>
+<li><strong>TTL control:</strong> Configure cache duration per query pattern</li>
+<li><strong>Cache invalidation:</strong> Automatic invalidation on data changes</li>
+<li><strong>Performance:</strong> Sub-millisecond reads from cache vs database round-trip</li>
+<li><strong>Analytics:</strong> See cache hit rate and performance improvement per query</li>
+</ul>
+<h2>Migration from Traditional MySQL</h2>
+<pre><code># Export schema from existing database
+mysqldump --no-data existing_db &gt; schema.sql
+
+# Import to PlanetScale
+pscale shell my-db main &lt; schema.sql
+
+# Or use PlanetScale Import tool (web UI)
+# Supports direct import from AWS RDS, Google Cloud SQL, DigitalOcean
+</code></pre>
+<h2>Comparison with Alternatives</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>PlanetScale</th>
+<th>AWS RDS</th>
+<th>Neon</th>
+<th>Supabase</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Engine</td>
+<td>MySQL (Vitess)</td>
+<td>MySQL/Postgres</td>
+<td>Postgres</td>
+<td>Postgres</td>
+</tr>
+<tr>
+<td>Branching</td>
+<td>✅ (core feature)</td>
+<td>—</td>
+<td>✅</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Schema deploy reviews</td>
+<td>✅</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Scale to zero</td>
+<td>✅ (Hobby)</td>
+<td>—</td>
+<td>✅</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Horizontal sharding</td>
+<td>✅ (automatic)</td>
+<td>Read replicas</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Online DDL</td>
+<td>✅ (zero-downtime)</td>
+<td>Manual</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Free tier</td>
+<td>✅</td>
+<td>12-month trial</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+</tbody></table>
+<h2>Query Insights Metrics</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Total time</td>
+<td>Cumulative execution time across all calls</td>
+</tr>
+<tr>
+<td>Call count</td>
+<td>Number of times the query pattern was executed</td>
+</tr>
+<tr>
+<td>Rows read</td>
+<td>Average rows scanned per execution</td>
+</tr>
+<tr>
+<td>Rows returned</td>
+<td>Average rows returned per execution</td>
+</tr>
+<tr>
+<td>P50 latency</td>
+<td>Median query latency</td>
+</tr>
+<tr>
+<td>P99 latency</td>
+<td>99th percentile latency (tail performance)</td>
+</tr>
+<tr>
+<td>Full scan flag</td>
+<td>Queries performing full table scans (optimization needed)</td>
+</tr>
+</tbody></table>
 
     </div>
   </article>

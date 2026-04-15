@@ -7,11 +7,11 @@ website: https://yelp.com
 
 # Information Architecture — Yelp
 
-## 1. Overview
+## Overview
 
 Yelp is a local business discovery and review platform covering restaurants, home services, shopping, nightlife, and more. The IA is location-driven — the home screen centers on a search bar with location context, surfacing nearby businesses with user reviews as the primary trust signal. Yelp combines consumer-facing discovery with business-facing tools (advertising, reservations, waitlist, request-a-quote), creating a two-sided marketplace for local commerce.
 
-## 2. Site Map
+## Site Map
 
 ```
 Yelp
@@ -118,7 +118,7 @@ Yelp
     └── External Applications
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 - **Type**: Top nav bar with search-first design (desktop), bottom tab bar (mobile)
 - **Desktop Top Bar**: Logo, Search (two fields: "Find" + "Near"), Write a Review, Restaurants, Home Services, Auto Services, More | Notifications, Messages, Profile
@@ -127,9 +127,9 @@ Yelp
 - **Business Page**: Long-scroll single page with tabbed sections (Overview, Reviews, Photos, Menu)
 - **Category Navigation**: Browse categories → subcategories → filtered results
 
-## 4. Content Model
+## Content Model
 
-| Content Type | Attributes | Relationships |
+| Entity | Key Attributes | Relationships |
 |---|---|---|
 | Business | name, address, phone, website, hours, categories, price range, rating (1-5), review count, photos, attributes, claimed/unclaimed | → Reviews, → Photos, → Owner |
 | Review | rating (1-5), text, photos, author, date, useful/funny/cool votes, check-in, owner response | → Business, → User |
@@ -145,7 +145,7 @@ Yelp
 | Menu | sections, items (name, price, description, photo) | → Business (restaurant) |
 | Business Post (Yelp Connect) | text, photos, CTA, date | → Business |
 
-## 5. User Flows
+## User Flows
 
 ### Finding a Restaurant
 1. Home → Search "sushi" near "San Francisco"
@@ -175,7 +175,7 @@ Yelp
 3. Accumulate check-ins → Unlock badges / contribute to Elite eligibility
 4. Leave tips for other visitors ("Try the spicy tuna roll")
 
-## 6. URL / Route Structure
+## URL / Route Structure
 
 ```
 yelp.com/                                   # Homepage
@@ -194,7 +194,7 @@ biz.yelp.com/                               # Business owner dashboard
 developers.yelp.com/                        # API / Yelp Fusion
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 - **Dual Search**: "Find" (business name, category, service) + "Near" (location)
 - **Category Filters**: Restaurants, Home Services, Auto, Shopping, Nightlife, Beauty, Health, Active Life
@@ -207,7 +207,7 @@ developers.yelp.com/                        # API / Yelp Fusion
 - **Review Search**: Search within a business's reviews by keyword
 - **Review Highlights**: AI-generated summary of common themes in reviews
 
-## 8. Responsive Behavior
+## Responsive Behavior
 
 | Breakpoint | Behavior |
 |---|---|
@@ -217,7 +217,7 @@ developers.yelp.com/                        # API / Yelp Fusion
 | Desktop (primary for research) | Two-column search results (list + map); business page with photo gallery, reviews, sidebar (hours, map, actions) |
 | SEO Pages | Server-rendered business and category pages heavily optimized for local SEO |
 
-## 9. Access Control
+## Access Control
 
 | Role | Capabilities |
 |---|---|

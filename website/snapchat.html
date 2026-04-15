@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Snapchat</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Snapchat is an ephemeral-first multimedia messaging platform centered on camera-driven communication, AR experiences, and short-form content. The IA revolves around the camera as the home screen, with horizontal swipe navigation to access conversations, stories, Snap Map, and Spotlight. Every surface is designed for speed — capture, augment, share, and move on.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>Snapchat
 ├── Camera (Home)
 │   ├── AR Lenses
@@ -141,7 +141,7 @@
     ├── Safety Center
     └── Careers
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <ul>
 <li><strong>Type</strong>: Camera-centric with tab bar + swipe gestures</li>
 <li><strong>Bottom Tab Bar</strong>: Snap Map, Chat, Camera (center), Stories, Spotlight</li>
@@ -150,12 +150,12 @@
 <li><strong>Profile Access</strong>: Top-left Bitmoji avatar → profile, settings, Snapchat+</li>
 <li><strong>Search</strong>: Top bar — universal search for friends, groups, Discover, Lenses, Places</li>
 </ul>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Attributes</th>
+<th>Entity</th>
+<th>Key Attributes</th>
 <th>Relationships</th>
 </tr>
 </thead>
@@ -200,7 +200,7 @@
 <td>→ Chat</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
+<h2>User Flows</h2>
 <h3>Daily Story Posting</h3>
 <ol>
 <li>Open app → lands on Camera → Select lens or filter</li>
@@ -221,7 +221,7 @@
 <li>Double-tap to like → Swipe up for next → Tap sound badge to see other videos using same audio</li>
 <li>Tap creator profile → Follow or subscribe</li>
 </ol>
-<h2>6. URL / Route Structure</h2>
+<h2>URL / Route Structure</h2>
 <pre><code>snapchat.com/                           # Marketing homepage
 snapchat.com/download                   # App download
 snapchat.com/add/{username}             # Add friend deeplink
@@ -235,7 +235,7 @@ ar.snap.com/                            # Lens Studio portal
 map.snapchat.com/                       # Snap Map web view
 newsroom.snap.com/                      # Press / Newsroom
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <ul>
 <li><strong>Universal Search Bar</strong>: Friends, groups, Discover publishers, Lenses, Places, sounds, Topics</li>
 <li><strong>Chat Search</strong>: Search within individual conversations</li>
@@ -244,7 +244,7 @@ newsroom.snap.com/                      # Press / Newsroom
 <li><strong>Snap Map</strong>: Search places by name, category, or address</li>
 <li><strong>Discover</strong>: Filtered by subscriptions and &quot;For You&quot; algorithmic recommendations</li>
 </ul>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -273,7 +273,7 @@ newsroom.snap.com/                      # Press / Newsroom
 <td>Full desktop AR creation tool; separate application</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>

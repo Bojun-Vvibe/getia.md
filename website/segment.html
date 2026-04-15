@@ -220,14 +220,18 @@
 </tr>
 </tbody></table>
 <h2>User Flows</h2>
-<h3>1. Instrument a New Source</h3>
-<p><code>Connections → Sources → + Add Source → Choose (e.g., JavaScript) → Get write key → Install SDK → Implement track()/identify() calls → Verify in Debugger</code></p>
-<h3>2. Connect a Destination</h3>
-<p><code>Connections → Destinations → + Add Destination → Search catalog → Select (e.g., Google Analytics) → Choose source → Enter API key → Map events → Enable</code></p>
-<h3>3. Build an Audience</h3>
-<p><code>Unify → Audiences → + New Audience → Define conditions (e.g., &quot;performed Purchase in last 30 days AND trait plan = &#39;pro&#39;&quot;) → Preview count → Sync to destination (e.g., Facebook Ads)</code></p>
-<h3>4. Enforce Data Quality</h3>
-<p><code>Protocols → Tracking Plans → + New Plan → Define events and property schemas → Connect to source → Review violations → Block/allow unplanned events</code></p>
+<h3>Add a Source</h3>
+<pre><code>Connections → Sources → + Add Source → Choose (e.g., JavaScript) → Get write key → Install SDK → Implement track()/identify() calls → Verify in Debugger
+</code></pre>
+<h3>Connect a Destination</h3>
+<pre><code>Connections → Destinations → + Add Destination → Search catalog → Select (e.g., Google Analytics) → Choose source → Enter API key → Map events → Enable
+</code></pre>
+<h3>Build an Audience</h3>
+<pre><code>Unify → Audiences → + New Audience → Define conditions (e.g., &quot;performed Purchase in last 30 days AND trait plan = &#39;pro&#39;&quot;) → Preview count → Sync to destination (e.g., Facebook Ads)
+</code></pre>
+<h3>Create a Tracking Plan</h3>
+<pre><code>Protocols → Tracking Plans → + New Plan → Define events and property schemas → Connect to source → Review violations → Block/allow unplanned events
+</code></pre>
 <h2>URL / Route Structure</h2>
 <pre><code>app.segment.com/{workspace}/overview                     # Home
 app.segment.com/{workspace}/sources/{source_slug}         # Source detail
@@ -238,6 +242,19 @@ app.segment.com/{workspace}/unify/users/{id}              # User profile
 app.segment.com/{workspace}/unify/audiences/{id}          # Audience
 app.segment.com/{workspace}/protocols/tracking-plans/{id} # Tracking plan
 app.segment.com/{workspace}/settings                      # Workspace settings
+app.segment.com/{workspace}/sources                              # All sources
+app.segment.com/{workspace}/sources/catalog                       # Source catalog
+app.segment.com/{workspace}/destinations                          # All destinations
+app.segment.com/{workspace}/unify                                 # Identity resolution
+app.segment.com/{workspace}/unify/audiences                       # Audiences
+app.segment.com/{workspace}/protocols                             # Protocols
+app.segment.com/{workspace}/protocols/tracking-plans              # Tracking plans
+app.segment.com/{workspace}/functions                             # Custom functions
+app.segment.com/{workspace}/settings                              # Workspace settings
+app.segment.com/{workspace}/settings/billing                      # Billing
+segment.com/docs                                                   # Documentation
+segment.com/recipes                                                # Integration recipes
+segment.com/catalog                                                # Full catalog
 </code></pre>
 <h2>Search &amp; Filter</h2>
 <ul>
@@ -310,6 +327,136 @@ app.segment.com/{workspace}/settings                      # Workspace settings
 <td>Enterprise identity management integration</td>
 </tr>
 </tbody></table>
+<h2>Core Concepts</h2>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Source</td>
+<td>Where data comes from (website, mobile app, server)</td>
+</tr>
+<tr>
+<td>Destination</td>
+<td>Where data goes to (analytics, marketing, data warehouse)</td>
+</tr>
+<tr>
+<td>Event</td>
+<td>User action tracked via <code>track()</code> call (e.g., &quot;Purchase Completed&quot;)</td>
+</tr>
+<tr>
+<td>Identify</td>
+<td>User profile data via <code>identify()</code> call (e.g., email, name, plan)</td>
+</tr>
+<tr>
+<td>Track</td>
+<td>Record event with properties via <code>track()</code> call</td>
+</tr>
+<tr>
+<td>Page / Screen</td>
+<td>Page view (web) or screen view (mobile) tracking</td>
+</tr>
+<tr>
+<td>Group</td>
+<td>Associate user with organization via <code>group()</code> call</td>
+</tr>
+</tbody></table>
+<h2>Spec (Semantic Events)</h2>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Properties</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Order Completed</code></td>
+<td>orderId, revenue, products[], currency</td>
+<td>E-commerce purchase</td>
+</tr>
+<tr>
+<td><code>Product Added</code></td>
+<td>productId, name, price, quantity</td>
+<td>Cart activity</td>
+</tr>
+<tr>
+<td><code>Signed Up</code></td>
+<td>type, method (email/google/etc)</td>
+<td>Registration</td>
+</tr>
+<tr>
+<td><code>Subscription Created</code></td>
+<td>planId, amount, interval</td>
+<td>SaaS subscription</td>
+</tr>
+<tr>
+<td><code>Email Opened</code></td>
+<td>campaignId, subject</td>
+<td>Marketing engagement</td>
+</tr>
+<tr>
+<td><code>Page Viewed</code></td>
+<td>name, path, url, referrer</td>
+<td>Web analytics</td>
+</tr>
+</tbody></table>
+<h2>Data Flow Architecture</h2>
+<pre><code>User Action → Source SDK (track/identify) → Segment API → Routing Engine → Fan-out to Destinations
+                                                              ↓
+                                              Protocols (validation against tracking plan)
+                                                              ↓
+                                              Unify (identity resolution → unified profile)
+                                                              ↓
+                                              Audiences (behavioral segmentation → sync to destinations)
+</code></pre>
+<h2>Destination Categories</h2>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Analytics</td>
+<td>Mixpanel, Amplitude, Google Analytics, Heap</td>
+</tr>
+<tr>
+<td>Advertising</td>
+<td>Facebook Ads, Google Ads, LinkedIn, TikTok</td>
+</tr>
+<tr>
+<td>Email/Marketing</td>
+<td>Braze, Iterable, Customer.io, Mailchimp</td>
+</tr>
+<tr>
+<td>CRM</td>
+<td>Salesforce, HubSpot, Intercom</td>
+</tr>
+<tr>
+<td>Data Warehouse</td>
+<td>BigQuery, Snowflake, Redshift, Databricks</td>
+</tr>
+<tr>
+<td>Enrichment</td>
+<td>Clearbit, FullStory, Hotjar</td>
+</tr>
+<tr>
+<td>CDP</td>
+<td>Braze, mParticle, Lytics</td>
+</tr>
+</tbody></table>
+<h2>Privacy &amp; Compliance</h2>
+<ul>
+<li><strong>Consent management:</strong> Integrate with OneTrust, Osano for GDPR/CCPA consent</li>
+<li><strong>User deletion:</strong> API to delete user data across all destinations</li>
+<li><strong>Data retention:</strong> Configurable retention periods per workspace</li>
+<li><strong>Audit trail:</strong> Track who made changes to tracking plans and configurations</li>
+</ul>
 
     </div>
   </article>

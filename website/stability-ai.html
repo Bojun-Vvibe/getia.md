@@ -139,9 +139,9 @@ platform.stability.ai (API &amp; Developer Platform)
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Structure</th>
-<th>Ownership</th>
+<th>Entity</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -182,31 +182,14 @@ platform.stability.ai (API &amp; Developer Platform)
 </tbody></table>
 <h2>User Flows</h2>
 <h3>Generating an Image (Sandbox)</h3>
-<ol>
-<li>User navigates to Sandbox on platform</li>
-<li>Selects model (Stable Diffusion 3, SDXL, SD 1.5)</li>
-<li>Enters prompt and optional negative prompt</li>
-<li>Adjusts parameters: size, steps, CFG scale, seed, style preset</li>
-<li>Clicks Generate → image(s) appear in gallery</li>
-<li>Download, save, or iterate on the prompt</li>
-<li>Credits deducted per generation</li>
-</ol>
+<pre><code>User navigates to Sandbox on platform → Selects model (Stable Diffusion 3, SDXL, SD 1.5) → Enters prompt and optional negative prompt → Adjusts parameters: size → Clicks Generate → image(s) appear in gallery → Download, save, or iterate on the prompt → Credits deducted per generation
+</code></pre>
 <h3>API Integration</h3>
-<ol>
-<li>Developer creates account → gets API key from Account → Keys</li>
-<li>Reads API docs — REST endpoints for generate, edit, upscale</li>
-<li>Makes API call with prompt, parameters, and API key in header</li>
-<li>Receives base64-encoded image or URL in response</li>
-<li>Monitors usage in Dashboard — credits consumed, request history</li>
-</ol>
+<pre><code>Developer creates account → gets API key from Account → Keys → Reads API docs — REST endpoints for generate, edit, upscale → Makes API call with prompt → Receives base64-encoded image or URL in response → Monitors usage in Dashboard — credits consumed
+</code></pre>
 <h3>Using Open-Source Models Locally</h3>
-<ol>
-<li>User visits model page (e.g., Stable Diffusion 3)</li>
-<li>Downloads model weights from Hugging Face (linked from Stability site)</li>
-<li>Runs locally using ComfyUI, Automatic1111, or custom code</li>
-<li>No credits consumed; runs on user&#39;s own hardware</li>
-<li>Subject to model license (community vs. commercial)</li>
-</ol>
+<pre><code>User visits model page (e.g., Stable Diffusion 3) → Downloads model weights from Hugging Face (linked from Stability site) → Runs locally using ComfyUI, Automatic1111, or custom code → No credits consumed; runs on user&#39;s own hardware → Subject to model license (community vs. commercial)
+</code></pre>
 <h2>URL / Route Structure</h2>
 <table>
 <thead>

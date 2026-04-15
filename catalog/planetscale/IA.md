@@ -52,8 +52,8 @@ app.planetscale.com
 
 ## Content Model
 
-| Content Type | Structure | Ownership |
-|---|---|---|
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
 | Database | Name, region, plan, branches, deploy requests, connection strings | Org-owned |
 | Branch | Name, schema (tables/columns), parent branch, status (production, development), connection string | Part of database |
 | Deploy Request | Source branch, target branch, schema diff, status (open, deployed, closed), comments, reviewer | Part of database |
@@ -65,33 +65,24 @@ app.planetscale.com
 ## User Flows
 
 ### Creating a Database
-1. User clicks "New Database" → enters name, selects region (AWS us-east-1, eu-west-1, etc.)
-2. Database created with a `main` branch (production)
-3. Connection string provided → copy into application config
-4. Connect via MySQL client, ORM, or web console
+```
+Clicks "New Database" → enters name, selects region (AWS us-east-1, eu-west-1, etc.) → Database created with a `main` branch (production) → Connection string provided → copy into application config → Connect via MySQL client, ORM, or web console
+```
 
 ### Schema Change via Deploy Request
-1. Developer creates a new branch from `main` (e.g., `add-users-table`)
-2. Opens web console connected to the development branch
-3. Runs DDL statements: `CREATE TABLE users (...)`, `ALTER TABLE ...`
-4. Creates a Deploy Request: source=`add-users-table`, target=`main`
-5. Schema diff displayed — reviewers see added/modified/removed tables and columns
-6. Reviewer approves → "Deploy Changes" applies schema to production without downtime
-7. PlanetScale handles online DDL — no table locks, no downtime
+```
+Developer creates a new branch from `main` (e.g., `add-users-table`) → Opens web console connected to the development branch → Runs DDL statements: `CREATE TABLE users (...)`, `ALTER TABLE ...` → Creates a Deploy Request: source=`add-users-table`, target=`main` → Schema diff displayed — reviewers see added/modified/removed tables and columns → Reviewer approves → "Deploy Changes" applies schema to production without downtime → PlanetScale handles online DDL — no table locks, no downtime
+```
 
 ### Query Performance Analysis
-1. User navigates to Insights tab
-2. Sees top queries ranked by total time, frequency, or latency
-3. Clicks a query → sees execution plan, latency percentiles, rows examined
-4. Identifies slow queries → optimizes with indexes or query rewrites
-5. PlanetScale Boost: enable query caching for specific query patterns
+```
+Navigates to Insights tab → Sees top queries ranked by total time, frequency, or latency → Clicks a query → sees execution plan, latency percentiles, rows examined → Identifies slow queries → optimizes with indexes or query rewrites → PlanetScale Boost: enable query caching for specific query patterns
+```
 
 ### Connecting from Application
-1. User goes to Connect tab → selects branch and framework
-2. Platform generates connection string in the framework's format (Rails, Django, Laravel, Prisma, etc.)
-3. Downloads SSL certificate (or uses secure connection string with embedded cert)
-4. Adds connection string to application's environment variables
-5. Application connects via standard MySQL protocol
+```
+Goes to Connect tab → selects branch and framework → Platform generates connection string in the framework's format (Rails, Django, Laravel, Prisma, etc.) → Downloads SSL certificate (or uses secure connection string with embedded cert) → Adds connection string to application's environment variables → Application connects via standard MySQL protocol
+```
 
 ## URL / Route Structure
 
@@ -154,3 +145,78 @@ Clean hierarchical routing: org → database → feature. Branch names in URLs. 
 - Branch protection: Production branches locked from direct schema changes — must go through deploy requests
 - Connection passwords: Generated per-branch; rotatable without downtime
 - Audit log: All schema changes, deployments, and access events logged (Enterprise)
+
+## Git-Inspired Database Workflow
+
+```
+main (production) ←── deploy request (reviewed) ←── dev-branch (schema changes)
+     ↓                                                    ↓
+   Schema A ───── diff shows changes ─────── Schema A + new tables/columns
+```
+
+## CLI (pscale)
+
+| Command | Description |
+|---------|-------------|
+| `pscale db create {name}` | Create new database |
+| `pscale branch create {db} {branch}` | Create development branch |
+| `pscale shell {db} {branch}` | Open SQL console |
+| `pscale deploy-request create {db}` | Create deploy request |
+| `pscale deploy-request deploy {db} {number}` | Deploy schema changes |
+| `pscale connect {db} {branch}` | Create secure tunnel to branch |
+| `pscale password create {db} {branch} {name}` | Generate connection password |
+| `pscale audit-log list` | View audit log |
+
+## Vitess Under the Hood
+
+- **Horizontal sharding:** Automatically shard large tables across multiple nodes
+- **Online DDL:** Schema changes without table locks or downtime (gh-ost / Vitess VReplication)
+- **Connection pooling:** Built-in connection management for high-concurrency apps
+- **Query routing:** Intelligent routing of queries to correct shard
+- **VReplication:** Real-time data replication between shards and branches
+- **MySQL protocol:** Full compatibility with MySQL client libraries and ORMs
+
+## PlanetScale Boost (Query Caching)
+
+- **Automatic caching:** Frequently-run read queries cached at the edge
+- **TTL control:** Configure cache duration per query pattern
+- **Cache invalidation:** Automatic invalidation on data changes
+- **Performance:** Sub-millisecond reads from cache vs database round-trip
+- **Analytics:** See cache hit rate and performance improvement per query
+
+## Migration from Traditional MySQL
+
+```
+# Export schema from existing database
+mysqldump --no-data existing_db > schema.sql
+
+# Import to PlanetScale
+pscale shell my-db main < schema.sql
+
+# Or use PlanetScale Import tool (web UI)
+# Supports direct import from AWS RDS, Google Cloud SQL, DigitalOcean
+```
+
+## Comparison with Alternatives
+
+| Feature | PlanetScale | AWS RDS | Neon | Supabase |
+|---------|-------------|---------|------|----------|
+| Engine | MySQL (Vitess) | MySQL/Postgres | Postgres | Postgres |
+| Branching | ✅ (core feature) | — | ✅ | — |
+| Schema deploy reviews | ✅ | — | — | — |
+| Scale to zero | ✅ (Hobby) | — | ✅ | — |
+| Horizontal sharding | ✅ (automatic) | Read replicas | — | — |
+| Online DDL | ✅ (zero-downtime) | Manual | — | — |
+| Free tier | ✅ | 12-month trial | ✅ | ✅ |
+
+## Query Insights Metrics
+
+| Metric | Description |
+|--------|-------------|
+| Total time | Cumulative execution time across all calls |
+| Call count | Number of times the query pattern was executed |
+| Rows read | Average rows scanned per execution |
+| Rows returned | Average rows returned per execution |
+| P50 latency | Median query latency |
+| P99 latency | 99th percentile latency (tail performance) |
+| Full scan flag | Queries performing full table scans (optimization needed) |

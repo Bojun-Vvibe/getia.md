@@ -7,10 +7,10 @@ website: https://www.lemonsqueezy.com
 
 # Information Architecture — Lemon Squeezy
 
-## 1. Overview
+## Overview
 Lemon Squeezy is an all-in-one platform for selling digital products and SaaS subscriptions, acting as a **merchant of record** — meaning it handles global tax compliance (VAT, GST, sales tax), payment processing, and fraud prevention on behalf of the seller. The IA is developer-friendly, with a clean dashboard, robust API, and focus on simplifying the business side of selling software, digital downloads, and subscriptions.
 
-## 2. Site Map
+## Site Map
 
 ```
 lemonsqueezy.com
@@ -77,7 +77,7 @@ lemonsqueezy.com
     └── Sign up
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 | Level | Type | Details |
 |-------|------|---------|
@@ -89,50 +89,64 @@ lemonsqueezy.com
 
 **Key pattern**: Merchant-of-record positioning is front and center — "We handle tax so you don't have to" drives the feature hierarchy. Developer docs are a top-level navigation item, reflecting the technical audience.
 
-## 4. Content Model
+## Content Model
 
-| Entity | Attributes |
-|--------|-----------|
-| Product | name, description, media, variants, price, files, license key config, store |
-| Variant | name, price, description, license activation limit, files |
-| Store | name, slug, currency, domain, logo, theme |
-| Order | customer, product, variant, amount, tax collected, status, payment method |
-| Subscription | customer, product, plan, interval, status (active/paused/cancelled), MRR contribution |
-| Customer | email, name, orders, subscriptions, lifetime value, portal access |
-| License Key | key string, product, activation limit, activations used, status, expiry |
-| Discount | code, type (% or fixed), applies to (product/store), usage limit, expiry |
-| Payout | period, gross, fees, tax remitted, net, status |
+| Entity | Key Attributes | Relationships |
+|---|---|---|
+| Product | name, description, media, variants, price, files, license key config, store | has Variants, has Reviews, belongs to Creator |
+| Variant | name, price, description, license activation limit, files | belongs to Product |
+| Store | name, slug, currency, domain, logo, theme | belongs to parent entity |
+| Order | customer, product, variant, amount, tax collected, status, payment method | belongs to Gig, → Buyer, → Seller |
+| Subscription | customer, product, plan, interval, status (active/paused/cancelled), MRR contribution | belongs to Product, → Subscriber |
+| Customer | email, name, orders, subscriptions, lifetime value, portal access | belongs to parent entity |
+| License Key | key string, product, activation limit, activations used, status, expiry | belongs to parent entity |
+| Discount | code, type (% or fixed), applies to (product/store), usage limit, expiry | belongs to parent entity |
+| Payout | period, gross, fees, tax remitted, net, status | belongs to parent entity |
 
-## 5. User Flows
+## User Flows
 
 ### 5a. Seller — Set up a product
-1. Sign up → create a Store (name, slug, currency)
-2. Add Product → name, description, upload files or set license key rules
-3. Set pricing / variants → configure checkout (overlay or hosted page)
-4. Lemon Squeezy handles tax calculation, collection, and remittance
-5. Share product URL or embed checkout on own site → start selling
+
+```
+Sign up → create a Store (name, slug, currency) →
+  Add Product → name, description, upload files or set license key rules →
+  Set pricing / variants → configure checkout (overlay or hosted page) →
+  Lemon Squeezy handles tax calculation, collection, and remittance →
+  Share product URL or embed checkout on own site → start selling
+```
+
 
 ### 5b. Buyer — Purchase
-1. Visit product page or embedded checkout
-2. Select variant → enter email and payment info
-3. Tax auto-calculated based on buyer location
-4. Pay → receive email with download link / license key / account access
-5. Access customer portal for subscription management
+
+```
+Visit product page or embedded checkout → Select variant → enter email and payment info →
+  Tax auto-calculated based on buyer location →
+  Pay → receive email with download link / license key / account access →
+  Access customer portal for subscription management
+```
+
 
 ### 5c. SaaS license key flow
-1. Seller configures product with license key settings (activation limit, expiry)
-2. Buyer purchases → unique license key generated
-3. Buyer activates license in software (API call to validate)
-4. Lemon Squeezy API returns activation status → software unlocked
-5. Seller tracks activations in dashboard
+
+```
+Seller configures product with license key settings (activation limit, expiry) →
+  Buyer purchases → unique license key generated →
+  Buyer activates license in software (API call to validate) →
+  Lemon Squeezy API returns activation status → software unlocked →
+  Seller tracks activations in dashboard
+```
+
 
 ### 5d. Subscription management
-1. Customer subscribes → recurring billing on interval
-2. Customer accesses portal → update payment, change plan, cancel
-3. Seller sees MRR, churn, LTV in dashboard
-4. Dunning emails auto-sent for failed payments
 
-## 6. URL / Route Structure
+```
+Customer subscribes → recurring billing on interval →
+  Customer accesses portal → update payment, change plan, cancel →
+  Seller sees MRR, churn, LTV in dashboard → Dunning emails auto-sent for failed payments
+```
+
+
+## URL / Route Structure
 
 ```
 /                               → Home
@@ -155,9 +169,19 @@ lemonsqueezy.com
 /app/orders/                    → Orders (auth)
 /app/subscriptions/             → Subscriptions (auth)
 /billing/                       → Customer portal (buyer auth)
+/app/customers/                → Customer list
+/app/customers/{id}/           → Customer detail
+/app/discounts/                → Discount codes
+/app/discounts/new/            → Create discount
+/app/email/                    → Email campaigns
+/app/affiliates/               → Affiliate management
+/app/payouts/                  → Payout history
+/app/settings/                 → Account settings
+/app/settings/profile/         → Profile settings
+/app/settings/store/           → Store settings
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 | Feature | Behavior |
 |---------|----------|
@@ -168,7 +192,10 @@ lemonsqueezy.com
 | Help search | Keyword search with categorized results |
 | Changelog | Chronological, filterable by feature area |
 
-## 8. Responsive Behavior
+- **Product search**: Search products by name within dashboard
+- **License key lookup**: Search license keys by key string, customer, or status
+- **Payout filtering**: Filter payouts by period, status, amount
+## Responsive Behavior
 
 | Breakpoint | Adaptation |
 |-----------|------------|
@@ -177,7 +204,13 @@ lemonsqueezy.com
 | Mobile (<768px) | Hamburger menu, single-column, simplified dashboard, mobile-optimized checkout |
 | Embedded checkout | Responsive overlay that adapts to host page width |
 
-## 9. Access Control
+
+### Platform-Specific UX
+- Merchant of record model means Lemon Squeezy handles all tax compliance globally
+- License key system supports activation limits, expiry dates, and API validation
+- Checkout can be embedded as an overlay or hosted on a dedicated page
+
+## Access Control
 
 | Role | Access |
 |------|--------|

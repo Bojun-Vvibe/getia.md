@@ -404,19 +404,19 @@ resolved → regressed (re-occurred in new events)
 (auto-assigned by ML based on impact, frequency, user count)
 </code></pre>
 <h2>User Flows</h2>
-<h3>Triage New Errors</h3>
+<h3>Triage New Error</h3>
 <pre><code>Alert (Slack/email: new issue) → Issues → For Review → Issue Detail → Read stack trace → Check breadcrumbs → View suspect commit → Assign to team member → Link to GitHub issue → Resolve when fixed
 </code></pre>
-<h3>Debug Error with Replay</h3>
+<h3>Debug with Session Replay</h3>
 <pre><code>Issue Detail → See user affected → Click &quot;View Replay&quot; → Watch session replay → See user actions before error → Identify reproduction steps → Fix in code → Deploy → Mark resolved
 </code></pre>
-<h3>Performance Investigation</h3>
+<h3>Investigate Slow Transaction</h3>
 <pre><code>Performance → Sort by P95 → Click slow transaction → View span waterfall → Identify slow database query (N+1) → View query detail → Optimize → Deploy → Compare P95 trend
 </code></pre>
-<h3>Release Health Monitoring</h3>
+<h3>Monitor New Release</h3>
 <pre><code>Releases → New release deployed → Monitor crash-free % → Compare to previous release → If regression: see new issues introduced → Rollback or hotfix → Track adoption %
 </code></pre>
-<h3>Set Up Alerting</h3>
+<h3>Configure Custom Alert</h3>
 <pre><code>Alerts → Create Alert → Issue Alert: &quot;When new issue is seen more than 10 times in 1 hour&quot; → Action: Send to Slack #engineering → Action: Assign to on-call → Save → Test
 </code></pre>
 <h2>URL / Route Structure</h2>

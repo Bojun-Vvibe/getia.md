@@ -7,11 +7,11 @@ website: https://expedia.com
 
 # Information Architecture — Expedia
 
-## 1. Overview
+## Overview
 
 Expedia is a full-service online travel agency (OTA) enabling booking of flights, hotels, vacation rentals, car rentals, cruises, and bundled packages. The IA is transaction-driven — every surface is designed to move users from search to booking. The platform differentiates through its One Key rewards program (unifying Expedia, Hotels.com, and Vrbo), bundle discounts ("Save when you book together"), and price tracking with alerts. The experience is optimized for comparison shopping across hundreds of providers.
 
-## 2. Site Map
+## Site Map
 
 ```
 Expedia
@@ -120,7 +120,7 @@ Expedia
     └── Cabin Selection
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 - **Type**: Top nav bar with tabbed search module
 - **Desktop Top Bar**: Logo, "Español" toggle, Support, Trips, Sign In | One Key callout
@@ -130,7 +130,7 @@ Expedia
 - **Booking Flow**: Linear stepper — Select → Details → Payment → Confirmation
 - **Cross-sell**: After hotel booking, suggest flights/cars/activities ("Complete your trip")
 
-## 4. Content Model
+## Content Model
 
 | Content Type | Attributes | Relationships |
 |---|---|---|
@@ -146,32 +146,42 @@ Expedia
 | Price Alert | property/flight, target price, current price, status (active/triggered) | → Account |
 | Trip | name, dates, destination, bookings (hotel, flight, car, activities), shared users | → Bookings |
 
-## 5. User Flows
+## User Flows
 
 ### Booking a Hotel
-1. Home → "Stays" tab → Enter destination, dates, guests
-2. Search → Results page with map and list
-3. Filter: Star rating, price range, guest rating, amenities, neighborhood, cancellation
-4. Sort: Recommended, Price (low-high), Guest Rating, Distance
-5. Click hotel → View photos, amenities, room types
-6. Select room → Choose rate (refundable vs. non-refundable)
-7. Checkout → Enter traveler info → Payment → Apply One Key Cash → Confirm
-8. Receive confirmation email → Booking appears in Trips
+
+```
+Home → "Stays" tab → Enter destination, dates, guests → Search → Results page with map and list →
+  Filter: Star rating, price range, guest rating, amenities, neighborhood,... →
+  Sort: Recommended, Price (low-high), Guest Rating, Distance →
+  Click hotel → View photos, amenities, room types →
+  Select room → Choose rate (refundable vs. non-refundable) →
+  Checkout → Enter traveler info → Payment → Apply One Key Cash → Confirm →
+  Receive confirmation email → Booking appears in Trips
+```
+
 
 ### Booking a Package (Flight + Hotel)
-1. Home → "Packages" tab → Enter origin, destination, dates, guests
-2. Select flight (outbound) → Select flight (return) → View package hotels
-3. Each hotel shows "Member Price" and "Bundle Savings: $X"
-4. Select hotel + room → View total package price
-5. Checkout → Potential savings of 10-30% vs. separate bookings
+
+```
+Home → "Packages" tab → Enter origin, destination, dates, guests →
+  Select flight (outbound) → Select flight (return) → View package hotels →
+  Each hotel shows "Member Price" and "Bundle Savings: $X" →
+  Select hotel + room → View total package price →
+  Checkout → Potential savings of 10-30% vs. separate bookings
+```
+
 
 ### Using Price Tracking
-1. Search for a flight or hotel → Don't book yet
-2. Click "Track Price" or bell icon on result
-3. Receive email/push notification when price drops
-4. If price drops after booking (within policy), receive automatic credit/refund
 
-## 6. URL / Route Structure
+```
+Search for a flight or hotel → Don't book yet → Click "Track Price" or bell icon on result →
+  Receive email/push notification when price drops →
+  If price drops after booking (within policy), receive automatic credit/refund
+```
+
+
+## URL / Route Structure
 
 ```
 expedia.com/                                # Homepage
@@ -189,9 +199,14 @@ expedia.com/rewards                         # One Key Rewards
 expedia.com/deals                           # Deals & promotions
 expedia.com/service/                        # Help center
 expedia.com/account                         # Account settings
+expedia.com/lp/{landing-page}              # Marketing landing pages
+expedia.com/coupons                         # Coupon codes page
+expedia.com/loyalty                         # One Key loyalty program
+expedia.com/p/info-other/travel-advisory    # Travel advisories
+expedia.com/Group-Rate                      # Group booking
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 - **Multi-Product Search**: Separate search forms for stays, flights, cars, packages, activities, cruises
 - **Hotel Filters**: Price range, star rating, guest rating, amenities (pool, WiFi, parking, breakfast), property type (hotel, resort, B&B), neighborhood, cancellation policy, payment (pay later), VIP Access
@@ -202,7 +217,7 @@ expedia.com/account                         # Account settings
 - **Map Search**: Interactive map for hotels; zoom/pan to search area
 - **Bundle Suggestions**: Cross-sell cards suggesting related products to add to trip
 
-## 8. Responsive Behavior
+## Responsive Behavior
 
 | Breakpoint | Behavior |
 |---|---|
@@ -211,7 +226,7 @@ expedia.com/account                         # Account settings
 | Tablet | Side-by-side map + list for hotels; expanded property cards |
 | Desktop (primary for research/booking) | Tabbed search module; results with filter sidebar + map; wide property detail with photo gallery |
 
-## 9. Access Control
+## Access Control
 
 | Role | Capabilities |
 |---|---|

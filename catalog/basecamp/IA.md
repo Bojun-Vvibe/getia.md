@@ -54,6 +54,14 @@ basecamp.com
     ├── People
     ├── Billing
     └── Templates
+├── Templates
+│   ├── Project Templates
+│   ├── To-do List Templates
+│   └── Message Category Templates
+├── Integrations
+│   ├── Email Forwarding (post via email)
+│   ├── Calendar (iCal/Google)
+│   └── Third-party (Zapier, webhooks)
 ```
 
 ## Navigation Model
@@ -79,21 +87,44 @@ basecamp.com
 | Check-in | recurring question (e.g., "What did you work on today?") | → Responses, Project |
 | Card Table | columns, cards | → Project |
 | Hill Chart | scopes, positions (uphill/downhill) | → To-do Lists |
+| Ping | text, sender, recipient(s), thread | → Users |
+| Booking | name, description, project | belongs to Schedule |
+| Template | type (project/todolist), structure | belongs to Account |
+| Comment | text, author, attachments, created_at | belongs to Message/Todo/Event |
+| Notification | type, subject, read_status | belongs to User |
 
 ## User Flows
 
-### 1. Kick Off a Project
-`Home → + New Project → Name, description, people → Choose tools → Post intro on Message Board → Create To-do Lists → Set Schedule milestones`
+### Kick Off a Project
+```
+Home → + New Project → Name, description, people → Choose tools → Post intro on Message Board → Create To-do Lists → Set Schedule milestones
+```
 
-### 2. Post an Update
-`Project → Message Board → + New Message → Choose category (Announcement/FYI/Pitch/Heartbeat) → Write → Notify → Team comments`
+### Post an Update
+```
+Project → Message Board → + New Message → Choose category (Announcement/FYI/Pitch/Heartbeat) → Write → Notify → Team comments
+```
 
-### 3. Track Progress with Hill Charts
-`Project → To-dos → Hill Chart → Drag scopes uphill (figuring out) → Over the hill → Downhill (execution) → Compare snapshots over time`
+### Track Progress with Hill Charts
+```
+Project → To-dos → Hill Chart → Drag scopes uphill (figuring out) → Over the hill → Downhill (execution) → Compare snapshots over time
+```
 
-### 4. Daily Check-in
-`Automatic Check-in fires (e.g., "What did you work on today?") → Respond in-app or via email → Team sees all responses in one thread`
+### Daily Check-in
+```
+Automatic Check-in fires (e.g., "What did you work on today?") → Respond in-app or via email → Team sees all responses in one thread
+```
 
+### Client Collaboration
+```
+Admin → People → Invite Client → Assign to project → Choose visible tools (hide Campfire, show Message Board + Docs) → Client sees only allowed tools
+                                                                                                                                                        ↘ Client can comment on messages and access shared documents
+```
+
+### Lineup Planning
+```
+Lineup → View projects on timeline → Drag to adjust scope → Hill Charts → Drag scopes uphill/downhill → Snapshot progress → Compare to last week's snapshot → Identify stuck scopes
+```
 ## URL / Route Structure
 
 ```
@@ -106,6 +137,30 @@ basecamp.com
 3.basecamp.com/{account_id}/buckets/{id}/vaults/{id}    # Docs & Files
 3.basecamp.com/{account_id}/reports/todos               # My Assignments
 3.basecamp.com/{account_id}/lineup                      # Lineup
+3.basecamp.com/{account_id}/                           # Home
+3.basecamp.com/{account_id}/projects                   # All projects
+3.basecamp.com/{account_id}/projects/{project_id}      # Project overview
+3.basecamp.com/{account_id}/buckets/{id}/messages       # Message Board
+3.basecamp.com/{account_id}/buckets/{id}/messages/{id}  # Message detail
+3.basecamp.com/{account_id}/buckets/{id}/todolists      # To-dos
+3.basecamp.com/{account_id}/buckets/{id}/todos/{id}     # To-do item
+3.basecamp.com/{account_id}/buckets/{id}/chats/{id}     # Campfire
+3.basecamp.com/{account_id}/buckets/{id}/schedules/{id} # Schedule
+3.basecamp.com/{account_id}/buckets/{id}/schedule_entries/{id} # Event detail
+3.basecamp.com/{account_id}/buckets/{id}/vaults/{id}    # Docs & Files
+3.basecamp.com/{account_id}/buckets/{id}/documents/{id} # Document
+3.basecamp.com/{account_id}/buckets/{id}/uploads/{id}   # File detail
+3.basecamp.com/{account_id}/buckets/{id}/card_tables/{id} # Card Table
+3.basecamp.com/{account_id}/buckets/{id}/questionnaires/{id} # Check-in
+3.basecamp.com/{account_id}/reports/todos               # My Assignments
+3.basecamp.com/{account_id}/lineup                      # Lineup
+3.basecamp.com/{account_id}/activity                    # Activity feed
+3.basecamp.com/{account_id}/pings                       # Direct messages
+3.basecamp.com/{account_id}/pings/{id}                  # Ping conversation
+3.basecamp.com/{account_id}/my/bookmarks                # Bookmarks
+3.basecamp.com/{account_id}/my/schedule                 # My Schedule
+3.basecamp.com/{account_id}/my/drafts                   # My Drafts
+3.basecamp.com/{account_id}/adminland                   # Admin settings
 ```
 
 ## Search & Filter
@@ -115,7 +170,14 @@ basecamp.com
 - **Activity feed:** Filter by project or person; "Overdue" filter for to-dos
 - **Hey! menu:** Catch Up feature lets you defer notifications to read later
 - **No custom filters or saved views** — consistent with Basecamp's simplicity philosophy
+- **Project filter**: Filter by active/archived/trashed projects
+- **Person activity**: View all activity by a specific person across all projects
+- **Overdue to-dos**: Dedicated filter showing all overdue items across projects
 
+- **Sort options**: By relevance, date created, date modified, alphabetical, popularity
+- **Autocomplete**: Type-ahead suggestions with recent searches and popular results
+- **Advanced search**: Boolean operators (AND, OR, NOT), field-specific filters, date ranges
+- **Recent searches**: Quick access to previous search queries
 ## Responsive Behavior
 
 | Breakpoint | Behavior |
@@ -125,6 +187,25 @@ basecamp.com
 | Mobile (iOS/Android app) | Bottom tab nav (Home, Hey!, Activity, Pings, My Stuff), full-featured native app |
 | Email integration | Reply to most notifications via email; content posted back to Basecamp |
 
+
+### Platform-Specific Patterns
+- Touch targets: minimum 44x44pt on mobile for accessibility
+- Swipe gestures: swipe to delete, archive, or perform quick actions
+- Pull-to-refresh: standard refresh pattern on feeds and lists
+- Keyboard shortcuts: comprehensive shortcuts on desktop for power users
+- Dark mode: system-preference detection with manual override
+- Offline support: cached data available without network connectivity
+- Progressive loading: skeleton screens while content loads
+
+### Basecamp-Specific UX Patterns
+- **Progressive disclosure**: Complex features hidden behind expandable sections
+- **Contextual actions**: Right-click menus and hover-revealed action buttons
+- **Inline editing**: Click-to-edit fields without navigating to a separate page
+- **Batch operations**: Multi-select with bulk actions (delete, move, archive, tag)
+- **Undo support**: Non-destructive actions with undo toast notifications
+- **Loading states**: Skeleton screens and progress indicators during async operations
+- **Empty states**: Helpful illustrations and CTAs when sections have no content
+- **Onboarding tooltips**: First-time user guidance highlighting key features
 ## Access Control
 
 | Role | Capabilities |
@@ -135,3 +216,13 @@ basecamp.com
 | Client (external) | Access specific projects; can be hidden from certain tools (e.g., Campfire) |
 | Guest | Single-project access, limited to invited tools |
 | Public link | Share a message/document as read-only public URL |
+
+
+### Security Features
+- Single Sign-On (SSO) support via SAML 2.0 and OIDC (Team/Enterprise)
+- Two-factor authentication (TOTP, SMS, hardware keys)
+- API token management with scoped permissions
+- Session management: configurable timeout, forced logout
+- Audit logging for security-sensitive actions
+- Data encryption at rest (AES-256) and in transit (TLS 1.3)
+- SOC 2 Type II compliance

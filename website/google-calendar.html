@@ -251,6 +251,12 @@
 <h3>RSVP from Email</h3>
 <pre><code>Receive invite in Gmail → &quot;Yes / Maybe / No&quot; buttons → Calendar updated → Response sent
 </code></pre>
+<h3>Working Location Setup</h3>
+<pre><code>Settings → Working Hours → Set working location per day (Office/Home/Other) → Visible to colleagues → Calendar adjusts suggestions based on location
+</code></pre>
+<h3>Focus Time</h3>
+<pre><code>Create Event → Select &#39;Focus Time&#39; type → Set recurring schedule → Calendar auto-declines meeting invites during focus blocks → Status shows as unavailable
+</code></pre>
 <h2>URL / Route Structure</h2>
 <pre><code>/                           → Week view (default)
 /r/day/:date                → Day view
@@ -264,6 +270,24 @@
 /r/search?q=:query          → Search results
 /r/settings                 → Settings
 /appointment/:slug          → Public booking page
+/r/day/{date}                  # Day view specific date
+/r/week/{date}                 # Week view specific date
+/r/month/{date}                # Month view specific date
+/r/year/{year}                 # Year view
+/r/agenda                      # Schedule/agenda view
+/r/customday/{date}            # Custom range view
+/eventedit                     # Create event form
+/event/{eventId}               # Event detail page
+/r/search?q={query}            # Search results
+/r/settings                    # Settings
+/r/settings/general            # General settings
+/r/settings/calendar/{calId}   # Calendar-specific settings
+/appointment/{slug}            # Public booking page
+/appointment/{slug}/edit       # Edit appointment schedule
+/r/tasks                       # Tasks view
+/r/trash                       # Deleted events
+/r/other-calendars             # Subscribe to calendars
+/r/print                       # Print view
 </code></pre>
 <h2>Search &amp; Filter</h2>
 <table>
@@ -294,6 +318,11 @@
 <td>Name, Capacity</td>
 </tr>
 </tbody></table>
+<ul>
+<li><strong>Event Content Search</strong>: Search event descriptions and attachments</li>
+<li><strong>Free/Busy Lookup</strong>: Check availability for multiple people simultaneously</li>
+<li><strong>Resource Filtering</strong>: Filter rooms by capacity, equipment, and availability window</li>
+</ul>
 <h2>Responsive Behavior</h2>
 <table>
 <thead>
@@ -315,6 +344,28 @@
 <td>Schedule/agenda view, FAB for create, swipe between days</td>
 </tr>
 </tbody></table>
+<h3>Platform-Specific UX</h3>
+<ul>
+<li>Mini calendar in the sidebar doubles as a date picker with keyboard navigation</li>
+<li>Color-coded event blocks use calendar-specific colors for visual differentiation</li>
+<li>&quot;Suggested Times&quot; algorithm finds optimal meeting slots by analyzing all attendees&#39; availability</li>
+<li>Appointment Schedules provide Calendly-like booking functionality built into Google Calendar</li>
+<li>Event types (Event, Out of Office, Working Location, Focus Time) serve different scheduling needs</li>
+<li>Gmail integration auto-detects flights, hotels, and event invitations from emails</li>
+<li>Working Hours configuration shows colleagues when you&#39;re available across time zones</li>
+<li>Time zone support displays secondary time zone alongside the primary one</li>
+<li>Keyboard shortcuts (c to create, e to edit, d for day view) enable rapid navigation</li>
+<li>Drag-and-drop on the grid allows visual rescheduling of events</li>
+<li>Quick create popup appears when clicking empty timeslots for rapid event creation</li>
+</ul>
+<h3>Event Type Behaviors</h3>
+<pre><code>Event:              Standard meeting with guests, location, Meet link
+Out of Office:      Auto-declines conflicting invitations
+Working Location:   Shows where you&#39;re working (office/home/other)
+Focus Time:         Blocks time and auto-declines meeting invites
+Task:               Calendar-linked task with due date
+Appointment Slot:   Public booking page for external scheduling
+</code></pre>
 <h2>Access Control</h2>
 <table>
 <thead>

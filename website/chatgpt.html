@@ -126,9 +126,9 @@
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Structure</th>
-<th>Ownership</th>
+<th>Entity</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -167,31 +167,32 @@
 <td>User/Team-owned</td>
 </tr>
 </tbody></table>
+<p>| AuditLog | action, actor, target, timestamp, ip_address | belongs to Organization |
+| Notification | type, message, read, created_at, action_url | belongs to User |
+| Integration | name, type, status, credentials, last_synced | belongs to Workspace |
+| Webhook | url, events[], secret, active, last_triggered | belongs to Organization |</p>
+<h3>Entity Lifecycle</h3>
+<pre><code>created → active → updated → archived
+                  ↘ suspended → reactivated → active
+created → deleted (soft delete with recovery period)
+</code></pre>
 <h2>User Flows</h2>
 <h3>New Conversation</h3>
-<ol>
-<li>User lands on <code>/</code> → sees prompt input + suggested prompts</li>
-<li>Types message → selects model (or uses default)</li>
-<li>Message streams in real-time via SSE</li>
-<li>Conversation auto-saved to sidebar with AI-generated title</li>
-<li>User can continue, branch (edit earlier message), or start new chat</li>
-</ol>
+<pre><code>User lands on `/` → sees prompt input + suggested prompts → Types message → selects model (or uses default) → Message streams in real-time via SSE → Conversation auto-saved to sidebar with AI-generated title → User can continue, branch (edit earlier message), or start new chat
+</code></pre>
 <h3>Using a GPT</h3>
-<ol>
-<li>User navigates to GPT Store or <code>/g/{id}</code></li>
-<li>Sees GPT description + conversation starters</li>
-<li>Clicks starter or types custom prompt</li>
-<li>Conversation opens in main chat with GPT context pre-loaded</li>
-<li>GPT may invoke external actions (API calls) with user consent</li>
-</ol>
+<pre><code>User navigates to GPT Store or `/g/{id}` → Sees GPT description + conversation starters → Clicks starter or types custom prompt → Conversation opens in main chat with GPT context pre-loaded → GPT may invoke external actions (API calls) with user consent
+</code></pre>
 <h3>Canvas Workflow</h3>
-<ol>
-<li>User requests a document or code artifact</li>
-<li>ChatGPT opens Canvas panel alongside chat</li>
-<li>User can directly edit text; AI can suggest inline changes</li>
-<li>Version history allows rollback</li>
-<li>Export as file or copy to clipboard</li>
-</ol>
+<pre><code>User requests a document or code artifact → ChatGPT opens Canvas panel alongside chat → User can directly edit text; AI can suggest inline changes → Version history allows rollback → Export as file or copy to clipboard
+</code></pre>
+<h3>New User Onboarding</h3>
+<pre><code>Visit ChatGPT → Sign Up (email/Google/SSO) → Complete profile → Guided setup wizard → Configure preferences → Explore key features → Start using the product
+                                                                                                                         ↘ Skip wizard → Land on dashboard
+</code></pre>
+<h3>Manage Notifications</h3>
+<pre><code>Settings → Notifications → Toggle email/push/in-app per category → Set frequency (instant/daily digest/weekly) → Save preferences
+</code></pre>
 <h2>URL / Route Structure</h2>
 <table>
 <thead>
@@ -234,12 +235,48 @@
 </tr>
 </tbody></table>
 <p>Routes are client-side (SPA); the conversation ID is a UUID. Shared links use a separate short ID. No SEO-oriented slug pattern — conversations are private by default.</p>
+<h3>Additional Routes</h3>
+<pre><code>account  → Account settings
+account/security  → Security settings
+billing  → Billing &amp; subscription
+notifications  → Notification preferences
+help  → Help center
+help/{topic}  → Help article
+api  → API documentation
+search?q={query}  → Search results
+integrations  → Integrations
+admin  → Admin console
+admin/members  → Member management
+import  → Import data
+/c/{uuid}                         → Existing conversation
+/g/{slug}                         → GPT detail page
+/gpts/discovery                   → GPT Store browse
+/gpts/editor                      → GPT Builder
+/gpts/editor/{gpt_id}             → Edit specific GPT
+/gpts/mine                        → My GPTs
+/share/{share_id}                 → Shared conversation
+/settings/general                 → General settings
+/settings/personalization         → Custom instructions &amp; memory
+/settings/data-controls           → Data controls
+/settings/subscription            → Subscription management
+/canvas                           → Canvas documents
+</code></pre>
 <h2>Search &amp; Filter</h2>
 <ul>
-<li><strong>Conversation search</strong>: Full-text search across conversation titles and message content, accessible from sidebar search bar</li>
-<li><strong>GPT Store search</strong>: Keyword search + category filters (Top Picks, DALL·E, Writing, Research, Programming, Education, Lifestyle)</li>
-<li><strong>No advanced filters</strong>: No date-range, model-type, or tag-based filtering for conversations</li>
-<li><strong>Memory search</strong>: Users can browse and search stored memory items in Settings → Personalization</li>
+<li><p><strong>Conversation search</strong>: Full-text search across conversation titles and message content, accessible from sidebar search bar</p>
+</li>
+<li><p><strong>GPT Store search</strong>: Keyword search + category filters (Top Picks, DALL·E, Writing, Research, Programming, Education, Lifestyle)</p>
+</li>
+<li><p><strong>No advanced filters</strong>: No date-range, model-type, or tag-based filtering for conversations</p>
+</li>
+<li><p><strong>Memory search</strong>: Users can browse and search stored memory items in Settings → Personalization</p>
+</li>
+<li><p><strong>Sort options</strong>: By relevance, date created, date modified, alphabetical, popularity</p>
+</li>
+<li><p><strong>Autocomplete</strong>: Type-ahead suggestions with recent searches and popular results</p>
+</li>
+<li><p><strong>Recent searches</strong>: Quick access to previous search queries</p>
+</li>
 </ul>
 <h2>Responsive Behavior</h2>
 <table>
@@ -267,6 +304,58 @@
 <li>Model selector moves into a compact dropdown</li>
 <li>File upload and attachment options collapse into a <code>+</code> menu</li>
 <li>Touch-optimized: swipe-to-open sidebar, long-press for message actions</li>
+</ul>
+<h3>ChatGPT-Specific UX Patterns</h3>
+<ul>
+<li><strong>Progressive disclosure</strong>: Complex features hidden behind expandable sections</li>
+<li><strong>Contextual actions</strong>: Right-click menus and hover-revealed action buttons</li>
+<li><strong>Inline editing</strong>: Click-to-edit fields without navigating to a separate page</li>
+<li><strong>Batch operations</strong>: Multi-select with bulk actions (delete, move, archive, tag)</li>
+<li><strong>Undo support</strong>: Non-destructive actions with undo toast notifications</li>
+<li><strong>Loading states</strong>: Skeleton screens and progress indicators during async operations</li>
+<li><strong>Empty states</strong>: Helpful illustrations and CTAs when sections have no content</li>
+<li><strong>Onboarding tooltips</strong>: First-time user guidance highlighting key features</li>
+</ul>
+<h3>Accessibility</h3>
+<ul>
+<li>WCAG 2.1 AA compliance across all interactive elements</li>
+<li>Semantic HTML with proper ARIA labels and landmarks</li>
+<li>Keyboard navigation support for all core workflows</li>
+<li>Screen reader compatibility tested with VoiceOver, NVDA, and JAWS</li>
+<li>Color contrast ratios meeting minimum 4.5:1 for body text</li>
+<li>Focus indicators visible on all interactive elements</li>
+<li>Reduced motion option respecting <code>prefers-reduced-motion</code></li>
+<li>Resizable text up to 200% without content loss</li>
+</ul>
+<h3>API &amp; Integration Patterns</h3>
+<ul>
+<li>RESTful API with JSON request/response format</li>
+<li>Webhook support for real-time event notifications</li>
+<li>OAuth 2.0 for third-party application authorization</li>
+<li>Rate limiting with clear headers (X-RateLimit-Remaining)</li>
+<li>Pagination via cursor-based or offset-based parameters</li>
+<li>Versioned API endpoints for backward compatibility</li>
+<li>Comprehensive API documentation with interactive examples</li>
+<li>SDKs available for popular languages (JavaScript, Python, Ruby, Go)</li>
+</ul>
+<h3>Memory System</h3>
+<pre><code>During conversation → ChatGPT identifies important facts → Prompts &quot;Memory updated&quot; → User can view stored memories in Settings → Edit or delete individual memories → Memories inform future conversations across all chats
+                                                                                                                                                                          ↘ Disable memory entirely in Settings → Privacy
+</code></pre>
+<h3>Project Workflow</h3>
+<pre><code>Create Project → Name and set custom instructions → Upload files (code, docs, data) → Start conversation within project → All project context automatically included → Multiple conversations share the same project knowledge → Collaborate with team members (Team plan)
+</code></pre>
+<h3>Plugin / Tool Usage</h3>
+<pre><code>User message requires external data → ChatGPT selects appropriate tool (browse web, execute code, generate image, analyze file) → Tool executes → Results integrated into response → User can see which tools were used via indicators
+                                                                                                                                        ↘ Tool fails → Fallback to text-only response with explanation
+</code></pre>
+<h3>Data Export</h3>
+<pre><code>Settings → Data Controls → Export Data → Request export → Email notification when ready → Download ZIP containing all conversations, files, and account data → Process completes within 24 hours
+</code></pre>
+<ul>
+<li>Voice mode enables hands-free conversational interaction on mobile devices</li>
+<li>Shared links create read-only conversation snapshots accessible to anyone with the URL</li>
+<li>Custom GPTs can connect to external APIs via Actions for real-time data retrieval</li>
 </ul>
 <h2>Access Control</h2>
 <table>

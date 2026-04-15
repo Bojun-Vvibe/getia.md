@@ -92,142 +92,164 @@
     <div class="detail-content-inner">
       <h1>v0 — Information Architecture</h1>
 <h2>Overview</h2>
-<p>v0 is Vercel&#39;s AI-powered UI generation tool that converts natural language prompts into production-ready React components using shadcn/ui and Tailwind CSS. The IA is structured as a <strong>prompt-to-component workshop</strong> — the interface is a chat where each AI response is a live-rendered, editable UI component. Unlike general-purpose AI tools, v0 is laser-focused on frontend generation: every output is a functional React component that can be copied, iterated upon, or deployed directly to Vercel. The product emphasizes an iterative design loop: prompt → preview → refine → ship. It integrates tightly with the Next.js/Vercel ecosystem.</p>
+<p>v0 is Vercel&#39;s AI-powered UI generation tool that converts natural language prompts into production-ready React components using shadcn/ui and Tailwind CSS. The IA is structured as a <strong>prompt-to-component workshop</strong> — the interface is a chat where each AI response is a live-rendered, editable UI component. Unlike general-purpose AI tools, v0 is laser-focused on frontend generation: every output is a functional React component that can be copied, iterated upon, or deployed directly to Vercel. The product emphasizes an iterative design loop: prompt → preview → refine → ship. It integrates tightly with the Next.js/Vercel ecosystem and supports image-to-code workflows where users can upload design screenshots for conversion.</p>
 <h2>Site Map</h2>
 <pre><code>v0.dev
-├── / (Home — prompt input + featured generations)
-├── /chat/{chat_id} (Generation conversation)
-├── /community (Community-shared generations)
-│   └── /t/{generation_id} (Individual shared generation)
+├── / (Home)
+│   ├── Prompt input (centered hero)
+│   ├── Featured generations grid
+│   ├── Recent conversations (signed in)
+│   └── Trending community creations
+├── /chat/{chat_id} (Generation Conversation)
+│   ├── Conversation sidebar (history)
+│   ├── Prompt/response pairs
+│   ├── Component preview (live render)
+│   ├── Code view (React/JSX with syntax highlighting)
+│   ├── Version history (per conversation)
+│   ├── File tree (multi-file generations)
+│   └── Actions (Copy, Deploy, Share, Fork)
+├── /community (Community Gallery)
+│   ├── Featured / Staff picks
+│   ├── Trending
+│   ├── Category filters
+│   └── /t/{generation_id} (Shared generation detail)
+│       ├── Live preview
+│       ├── Original prompt
+│       ├── Code view
+│       └── Remix button
 ├── /docs (Documentation)
+│   ├── Getting started
+│   ├── Prompting guide
+│   ├── Supported components (shadcn/ui reference)
+│   ├── Integration with Next.js
+│   ├── CLI usage (v0 CLI)
+│   └── API reference
 ├── /pricing
+│   ├── Free tier
+│   ├── Premium tier
+│   ├── Team tier
+│   └── Feature comparison
 ├── /settings
-│   ├── /account
-│   └── /subscription
+│   ├── /account (profile, email, password)
+│   ├── /subscription (plan, billing, usage)
+│   ├── /api-keys (API access tokens)
+│   └── /preferences (default framework, theme)
 └── /auth
+    ├── Sign in (Vercel, GitHub, Google OAuth)
+    └── Sign up
 </code></pre>
 <h2>Navigation Model</h2>
 <ul>
 <li><strong>Primary navigation</strong>: Minimal — centered prompt input is the hero; top bar with logo, Community, Docs, Pricing, Sign In</li>
-<li><strong>Chat navigation</strong>: Left sidebar lists conversation history (similar to ChatGPT); main area shows prompt/response pairs</li>
-<li><strong>Component navigation</strong>: Each AI response shows a rendered preview with tabs for Preview / Code</li>
-<li><strong>Iteration navigation</strong>: Follow-up prompts refine the component; previous versions accessible in the conversation</li>
-<li><strong>Community navigation</strong>: Browse shared generations with category filters</li>
+<li><strong>Chat navigation</strong>: Left sidebar lists conversation history (similar to ChatGPT); main area shows prompt/response pairs with live preview</li>
+<li><strong>Component navigation</strong>: Each AI response shows a rendered preview with tabs for Preview / Code / Files</li>
+<li><strong>Iteration navigation</strong>: Follow-up prompts refine the component; previous versions accessible in the conversation thread</li>
+<li><strong>Community navigation</strong>: Browse shared generations with category filters, trending/featured sorting</li>
 <li><strong>Utility navigation</strong>: Top-right avatar → Settings, Subscription, Sign out</li>
+<li><strong>Keyboard shortcuts</strong>: Enter to send prompt, Cmd+K for quick actions, Cmd+Shift+C to copy code</li>
 <li><strong>Mobile</strong>: Responsive; preview components scale down but code editing is desktop-optimized</li>
 </ul>
 <h2>Content Model</h2>
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Structure</th>
-<th>Ownership</th>
+<th>Entity</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>Chat/Conversation</td>
-<td>Sequential prompt-response pairs, each response containing a generated component</td>
-<td>User-owned</td>
+<td>id (UUID), title (auto-generated from first prompt), created_at, updated_at, message_count, is_public</td>
+<td>belongs to User; has many Messages</td>
+</tr>
+<tr>
+<td>Message</td>
+<td>role (user/assistant), content, timestamp, version_number</td>
+<td>belongs to Conversation</td>
 </tr>
 <tr>
 <td>Generated Component</td>
-<td>React/JSX code using shadcn/ui + Tailwind, live preview, code view</td>
-<td>Part of conversation</td>
+<td>React/JSX code, shadcn/ui imports, Tailwind classes, live preview iframe, file tree (multi-file)</td>
+<td>belongs to Message</td>
 </tr>
 <tr>
 <td>Component Version</td>
-<td>Each iteration in a conversation is a new version; all versions are preserved</td>
-<td>Part of conversation</td>
+<td>version_number, code_snapshot, preview_snapshot, diff_from_previous</td>
+<td>belongs to Conversation (each iteration)</td>
 </tr>
 <tr>
 <td>Shared Generation</td>
-<td>Public snapshot of a generated component with prompt</td>
-<td>User-shared, public</td>
+<td>short_id, title, prompt, code, preview_image, creator, created_at, views_count, forks_count</td>
+<td>published from Conversation</td>
 </tr>
 <tr>
 <td>Prompt</td>
-<td>Natural language description of desired UI, optionally with image attachments</td>
-<td>User input</td>
+<td>natural language text, attached images (for image-to-code), framework preference</td>
+<td>belongs to Message (user role)</td>
+</tr>
+<tr>
+<td>User</td>
+<td>id, email, display_name, avatar, plan (free/premium/team), usage_count, created_at</td>
+<td>has many Conversations</td>
+</tr>
+<tr>
+<td>Team</td>
+<td>name, members[], billing, shared_conversations</td>
+<td>has many Users</td>
 </tr>
 </tbody></table>
 <h2>User Flows</h2>
 <h3>Generating a UI Component</h3>
-<ol>
-<li>User lands on <code>/</code> → types prompt (e.g., &quot;a pricing page with 3 tiers, dark theme, with toggle for monthly/annual&quot;)</li>
-<li>v0 generates React component code using shadcn/ui + Tailwind</li>
-<li>Live preview renders immediately alongside the code</li>
-<li>User can toggle between Preview and Code views</li>
-<li>Copy code snippet to use in their project, or continue iterating</li>
-</ol>
+<pre><code>Home (/) → Type prompt (e.g., &quot;a pricing page with 3 tiers, dark theme&quot;) → v0 generates React code → Live preview renders → Toggle Preview / Code → Copy code or continue iterating
+</code></pre>
 <h3>Iterative Refinement</h3>
-<ol>
-<li>After initial generation, user types follow-up (e.g., &quot;make the popular tier highlighted, add a comparison table below&quot;)</li>
-<li>v0 generates updated component preserving existing structure</li>
-<li>Each iteration produces a new version — all accessible in conversation history</li>
-<li>User can reference &quot;go back to version 2 but keep the color scheme from version 4&quot;</li>
-</ol>
+<pre><code>Initial generation → Type follow-up (&quot;make the popular tier highlighted, add comparison table&quot;) → v0 updates component → New version saved → Reference previous versions → Converge on final design
+</code></pre>
+<h3>Image-to-Code</h3>
+<pre><code>Home → Upload screenshot/mockup image → v0 analyzes design → Generates matching React component → Refine with text prompts → Copy final code
+</code></pre>
 <h3>Using Generated Code</h3>
-<ol>
-<li>User clicks &quot;Copy Code&quot; or &quot;Add to Codebase&quot;</li>
-<li>Code includes shadcn/ui component imports and Tailwind classes</li>
-<li>User runs <code>npx shadcn@latest add</code> to install required shadcn components</li>
-<li>Paste generated code into their Next.js/React project</li>
-<li>v0 can also deploy directly to Vercel with &quot;Deploy&quot; button</li>
-</ol>
-<h3>Community Browsing</h3>
-<ol>
-<li>User navigates to Community page</li>
-<li>Browses featured/trending generations</li>
-<li>Clicks a generation → sees live preview + prompt used</li>
-<li>Can fork: &quot;Remix&quot; opens the generation in a new chat for customization</li>
-<li>Share URL allows anyone to view and remix</li>
-</ol>
+<pre><code>Code view → Click &quot;Copy Code&quot; → Paste into Next.js project → Run `npx shadcn@latest add` for dependencies → Component works out of the box → Or click &quot;Deploy&quot; to deploy directly to Vercel
+</code></pre>
+<h3>Community Browsing and Remixing</h3>
+<pre><code>Community → Browse trending/featured → Click generation → View live preview + prompt → &quot;Remix&quot; → Opens in new chat → Customize with follow-up prompts → Save as own version
+</code></pre>
 <h2>URL / Route Structure</h2>
-<table>
-<thead>
-<tr>
-<th>Pattern</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>/</code></td>
-<td>Home — prompt input</td>
-</tr>
-<tr>
-<td><code>/chat/{uuid}</code></td>
-<td>Chat conversation</td>
-</tr>
-<tr>
-<td><code>/community</code></td>
-<td>Community gallery</td>
-</tr>
-<tr>
-<td><code>/t/{short_id}</code></td>
-<td>Shared generation (public)</td>
-</tr>
-<tr>
-<td><code>/docs</code></td>
-<td>Documentation</td>
-</tr>
-<tr>
-<td><code>/pricing</code></td>
-<td>Pricing page</td>
-</tr>
-<tr>
-<td><code>/settings/*</code></td>
-<td>Account settings</td>
-</tr>
-</tbody></table>
-<p>Conversations use UUIDs. Shared generations use shorter IDs. Minimal route structure reflecting the product&#39;s focused scope.</p>
+<pre><code>v0.dev/                                     # Home — prompt input
+v0.dev/chat/{uuid}                          # Chat conversation
+v0.dev/chat/{uuid}/share                    # Share conversation
+v0.dev/community                            # Community gallery
+v0.dev/community/trending                   # Trending generations
+v0.dev/community/featured                   # Featured / staff picks
+v0.dev/community/{category}                 # Category filter (dashboard, landing, form, etc.)
+v0.dev/t/{short_id}                         # Shared generation (public)
+v0.dev/t/{short_id}/code                    # Shared generation code view
+v0.dev/t/{short_id}/remix                   # Fork/remix a generation
+v0.dev/docs                                 # Documentation home
+v0.dev/docs/getting-started                 # Getting started guide
+v0.dev/docs/prompting                       # Prompting best practices
+v0.dev/docs/components                      # Supported shadcn/ui components
+v0.dev/docs/integration                     # Next.js integration guide
+v0.dev/docs/cli                             # CLI reference
+v0.dev/docs/api                             # API reference
+v0.dev/pricing                              # Pricing page
+v0.dev/settings                             # Settings home
+v0.dev/settings/account                     # Account settings
+v0.dev/settings/subscription                # Subscription management
+v0.dev/settings/api-keys                    # API key management
+v0.dev/settings/preferences                 # Default preferences
+v0.dev/auth/signin                          # Sign in
+v0.dev/auth/signup                          # Sign up
+</code></pre>
 <h2>Search &amp; Filter</h2>
 <ul>
-<li><strong>Community search</strong>: Search shared generations by keyword/description</li>
-<li><strong>Community filters</strong>: Categories (Dashboard, Landing Page, E-commerce, Form, Chart, etc.)</li>
-<li><strong>Conversation history</strong>: Searchable by title/prompt in sidebar</li>
-<li><strong>No component library search</strong>: v0 generates custom components rather than searching a library</li>
-<li><strong>Sort</strong>: Trending, Most Popular, Newest in community</li>
+<li><strong>Community search</strong>: Search shared generations by keyword, description, or component type</li>
+<li><strong>Community filters</strong>: Categories (Dashboard, Landing Page, E-commerce, Form, Chart, Table, Navigation, Auth, etc.)</li>
+<li><strong>Community sort</strong>: Trending, Most Popular, Most Forked, Newest</li>
+<li><strong>Conversation history</strong>: Searchable by title/prompt in sidebar; sorted by recent</li>
+<li><strong>Component library</strong>: Browse supported shadcn/ui components in docs</li>
+<li><strong>No component marketplace</strong>: v0 generates custom components rather than searching a pre-built library</li>
 </ul>
 <h2>Responsive Behavior</h2>
 <table>
@@ -239,11 +261,11 @@
 </thead>
 <tbody><tr>
 <td>Desktop (&gt;1024px)</td>
-<td>Sidebar (conversation list) + main area (prompt + preview/code split)</td>
+<td>Sidebar (conversation list) + main area (prompt + preview/code side-by-side split)</td>
 </tr>
 <tr>
 <td>Tablet (768-1024px)</td>
-<td>Collapsible sidebar + preview/code tabs instead of side-by-side</td>
+<td>Collapsible sidebar + preview/code as tabs instead of side-by-side</td>
 </tr>
 <tr>
 <td>Mobile (&lt;768px)</td>
@@ -253,8 +275,10 @@
 <ul>
 <li>Generated component previews are rendered in an iframe that responds to viewport</li>
 <li>Users can toggle preview sizes (desktop/tablet/mobile) to test responsiveness of generated output</li>
-<li>Code view has syntax highlighting with horizontal scroll</li>
-<li>Prompt input area adapts to keyboard on mobile</li>
+<li>Code view has syntax highlighting with horizontal scroll on narrow screens</li>
+<li>Prompt input area adapts to software keyboard on mobile</li>
+<li>Community gallery switches from grid to list layout on small screens</li>
+<li>File tree collapses to dropdown on mobile</li>
 </ul>
 <h2>Access Control</h2>
 <table>
@@ -266,27 +290,32 @@
 </thead>
 <tbody><tr>
 <td>Anonymous</td>
-<td>Browse community generations; no generation access</td>
+<td>Browse community generations, view shared generations; no generation access</td>
 </tr>
 <tr>
 <td>Free (signed in)</td>
-<td>Limited generations per day (usage cap), community access</td>
+<td>Limited generations per day (usage cap), community access, basic sharing</td>
 </tr>
 <tr>
 <td>Premium ($20/mo)</td>
-<td>Higher generation limits, priority queue, longer conversations</td>
+<td>Higher generation limits, priority queue, longer conversations, image-to-code, API access</td>
 </tr>
 <tr>
 <td>Team</td>
-<td>Premium features + shared workspace, team billing</td>
+<td>Premium features + shared workspace, team billing, shared conversation history</td>
+</tr>
+<tr>
+<td>Enterprise</td>
+<td>Custom limits, SSO, dedicated support, private generations</td>
 </tr>
 </tbody></table>
 <ul>
 <li>Authentication: Vercel account (GitHub, GitLab, Bitbucket OAuth), Google OAuth, email</li>
-<li>Generation limits: Free tier has daily/monthly caps; premium has higher limits</li>
-<li>Sharing: Generated components can be shared via public URL or kept private</li>
+<li>Generation limits: Free tier has daily/monthly caps; premium has significantly higher limits</li>
+<li>Sharing: Generated components can be shared via public URL or kept private (default)</li>
 <li>Code ownership: Users own the generated code; MIT-compatible output</li>
 <li>Vercel integration: One-click deploy of generated components to Vercel</li>
+<li>API access: Premium users can access v0 generation via API for programmatic use</li>
 </ul>
 
     </div>

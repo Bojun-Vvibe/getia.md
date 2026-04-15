@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Microsoft Teams</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Microsoft Teams is a collaboration platform integrating persistent chat, video meetings, file sharing, and third-party app integration within the Microsoft 365 ecosystem. The IA is organized around Teams (groups) and Channels (topic-based threads within teams), with a left rail providing access to chat, calendar, calls, and apps. Teams serves as the central nervous system for enterprise communication, deeply integrated with SharePoint, OneDrive, Outlook, and the broader M365 suite.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>Microsoft Teams
 ├── Activity (notification feed)
 │   ├── @Mentions
@@ -178,7 +178,7 @@
     ├── Compliance
     └── Analytics &amp; Reports
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <ul>
 <li><strong>Type</strong>: Left rail (persistent vertical sidebar)</li>
 <li><strong>Left Rail</strong>: Activity, Chat, Teams, Calendar, Calls, Files, Apps (pinned), ... (more apps)</li>
@@ -188,12 +188,12 @@
 <li><strong>Mobile</strong>: Bottom tab bar — Activity, Chat, Teams, Calendar, Calls</li>
 <li><strong>Floating Action</strong>: &quot;New&quot; button for new chat, meeting, channel post</li>
 </ul>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Attributes</th>
+<th>Entity</th>
+<th>Key Attributes</th>
 <th>Relationships</th>
 </tr>
 </thead>
@@ -243,31 +243,17 @@
 <td>→ Channel / Chat</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
+<h2>User Flows</h2>
 <h3>Starting a Team Conversation</h3>
-<ol>
-<li>Left rail → Teams → Select Team → Select Channel</li>
-<li>Click &quot;New conversation&quot; in Posts tab</li>
-<li>Compose message → @mention people, attach files, add formatting</li>
-<li>Post → Thread appears; members receive notification based on mention/follow settings</li>
-<li>Others reply within thread (keeping conversations organized)</li>
-</ol>
+<pre><code>Left rail → Teams → Select Team → Select Channel → Click &quot;New conversation&quot; in Posts tab → Compose message → @mention people, attach files, add formatting → Post → Thread appears; members receive notification based on mention/follow settings → Others reply within thread (keeping conversations organized)
+</code></pre>
 <h3>Joining a Meeting</h3>
-<ol>
-<li>Calendar → See scheduled meetings → Click &quot;Join&quot;</li>
-<li>Pre-join screen: camera, mic, background, audio device selection</li>
-<li>Join → Gallery view with participants</li>
-<li>Use toolbar: Share screen, raise hand, reactions, chat, Copilot</li>
-<li>Post-meeting: Recording + transcript available; Copilot generates recap</li>
-</ol>
+<pre><code>Calendar → See scheduled meetings → Click &quot;Join&quot; → Pre-join screen: camera, mic, background, audio device selection → Join → Gallery view with participants → Use toolbar: Share screen, raise hand, reactions, chat, Copilot → Post-meeting: Recording + transcript available; Copilot generates recap
+</code></pre>
 <h3>Using Copilot in Teams</h3>
-<ol>
-<li>During meeting: Copilot captures notes, action items, key decisions</li>
-<li>Ask Copilot questions: &quot;What did I miss?&quot; / &quot;Summarize the discussion&quot;</li>
-<li>In Chat: Copilot can summarize long threads, draft replies</li>
-<li>Meeting Recap: AI-generated summary with chapters and follow-ups</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<pre><code>During meeting: Copilot captures notes, action items, key decisions → Ask Copilot questions: &quot;What did I miss?&quot; / &quot;Summarize the discussion&quot; → In Chat: Copilot can summarize long threads, draft replies → Meeting Recap: AI-generated summary with chapters and follow-ups
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code>teams.microsoft.com/                        # Teams web app
 teams.microsoft.com/l/channel/{channelId}   # Channel deeplink
 teams.microsoft.com/l/chat/{chatId}         # Chat deeplink
@@ -277,8 +263,14 @@ teams.microsoft.com/l/message/{messageId}   # Message deeplink
 admin.teams.microsoft.com/                  # Teams Admin Center
 apps.teams.microsoft.com/                   # App catalog
 learn.microsoft.com/en-us/microsoftteams/   # Documentation
+teams.microsoft.com/l/team/{teamId}              # Team deeplink
+teams.microsoft.com/l/file/{fileId}              # File deeplink
+teams.microsoft.com/calendar                     # Calendar view
+teams.microsoft.com/calls                        # Calls
+teams.microsoft.com/files                        # Files hub
+teams.microsoft.com/apps                         # Apps
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <ul>
 <li><strong>Universal Search Bar</strong>: Messages, people, files, channels, teams, apps — all from one search box</li>
 <li><strong>Message Search</strong>: Full-text with filters by sender, date range, channel, team, file type, keyword</li>
@@ -289,7 +281,7 @@ learn.microsoft.com/en-us/microsoftteams/   # Documentation
 <li><strong>Chat Filter</strong>: Unread, muted, meetings, recent</li>
 <li><strong>Copilot Search</strong>: Ask Copilot natural language questions about past conversations and meetings</li>
 </ul>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -318,7 +310,7 @@ learn.microsoft.com/en-us/microsoftteams/   # Documentation
 <td>Responsive gallery: 2x2 on mobile → 7x7 (49 tiles) on desktop; Together Mode; Dynamic View auto-adjusts</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>
@@ -369,6 +361,144 @@ learn.microsoft.com/en-us/microsoftteams/   # Documentation
 <tr>
 <td>Copilot Licensed User</td>
 <td>AI-powered meeting recaps, chat summaries, thread summaries, content generation</td>
+</tr>
+</tbody></table>
+<h2>Meeting Features Matrix</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Free</th>
+<th>Business Basic</th>
+<th>Business Standard</th>
+<th>E3/E5</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Max meeting duration</td>
+<td>60 min</td>
+<td>30 hrs</td>
+<td>30 hrs</td>
+<td>30 hrs</td>
+</tr>
+<tr>
+<td>Max participants</td>
+<td>100</td>
+<td>300</td>
+<td>300</td>
+<td>1,000</td>
+</tr>
+<tr>
+<td>Recording</td>
+<td>—</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Transcription</td>
+<td>—</td>
+<td>—</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Breakout rooms</td>
+<td>—</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Webinars</td>
+<td>—</td>
+<td>—</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Town halls</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Copilot</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>Add-on</td>
+</tr>
+</tbody></table>
+<h2>Integration with M365</h2>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Integration</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SharePoint</td>
+<td>Channel files backed by SharePoint document libraries</td>
+</tr>
+<tr>
+<td>OneDrive</td>
+<td>Personal files shared via chat; co-authoring</td>
+</tr>
+<tr>
+<td>Outlook</td>
+<td>Calendar sync; schedule from Outlook; Teams status in Outlook</td>
+</tr>
+<tr>
+<td>OneNote</td>
+<td>Shared notebooks per channel; meeting notes</td>
+</tr>
+<tr>
+<td>Planner</td>
+<td>Task management tab in channels; assigned tasks in To Do</td>
+</tr>
+<tr>
+<td>Power Platform</td>
+<td>Power Automate flows; Power BI dashboards; Power Apps tabs</td>
+</tr>
+<tr>
+<td>Loop</td>
+<td>Loop components in chat and channels; live collaborative blocks</td>
+</tr>
+<tr>
+<td>Viva</td>
+<td>Employee experience; Viva Topics, Insights, Learning</td>
+</tr>
+</tbody></table>
+<h2>Channel Types</h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Visibility</th>
+<th>Members</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Standard</td>
+<td>All team members</td>
+<td>Automatic (all team members)</td>
+<td>General topics, open discussions</td>
+</tr>
+<tr>
+<td>Private</td>
+<td>Invited members only</td>
+<td>Explicitly added</td>
+<td>Sensitive projects, leadership discussions</td>
+</tr>
+<tr>
+<td>Shared</td>
+<td>Cross-organization</td>
+<td>From multiple tenants</td>
+<td>Partner collaboration, cross-company projects</td>
 </tr>
 </tbody></table>
 

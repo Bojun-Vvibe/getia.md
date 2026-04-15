@@ -60,11 +60,11 @@ app.launchdarkly.com
 
 ## Content Model
 
-| Content Type | Structure | Ownership |
+| Entity | Key Attributes | Relationships |
 |---|---|---|
 | Feature Flag | Key, name, description, variations (boolean, string, number, JSON), targeting rules, prerequisites, tags | Project-scoped |
-| Targeting Rule | Context attributes (email, plan, country, etc.), operator, values, rollout percentage, variation to serve | Part of flag |
-| Variation | Named value — the actual value served to the application (e.g., true/false, "v1"/"v2") | Part of flag |
+| Targeting Rule | Context attributes (email, plan, country, etc.), operator, values, rollout percentage, variation to serve | belongs to flag |
+| Variation | Named value — the actual value served to the application (e.g., true/false, "v1"/"v2") | belongs to flag |
 | Segment | Key, name, rules for including/excluding contexts, reusable across flags | Project-scoped |
 | Context | Entity being evaluated (user, device, organization) with attributes, flag evaluations | Runtime data |
 | Experiment | Flag + metric pairing, statistical analysis of variation impact | Project-scoped |
@@ -76,52 +76,77 @@ app.launchdarkly.com
 ## User Flows
 
 ### Creating and Rolling Out a Feature Flag
-1. Developer creates a flag: key (`enable-new-checkout`), name, boolean type
-2. Flag defaults to `false` in all environments
-3. Wraps new feature code with flag check: `if (ldClient.variation('enable-new-checkout')))`
-4. Deploys code — feature is off for all users
-5. Product manager opens flag → Targeting tab → enables for internal team (segment: "employees")
-6. Monitors feedback → adds 10% rollout to production users
-7. Gradually increases to 50%, 100% → flag becomes permanent → remove flag from code
+
+```
+Developer creates a flag: key (`enable-new-checkout`), name, boolean type →
+  Flag defaults to `false` in all environments → Wraps new feature code with flag check: `if... →
+  Deploys code — feature is off for all users →
+  Product manager opens flag → Targeting tab → enables for internal team... →
+  Monitors feedback → adds 10% rollout to production users →
+  Gradually increases to 50%, 100% → flag becomes permanent → remove flag from...
+```
+
 
 ### Targeted Rollout with Segments
-1. User creates Segment: "beta-users" with rules (email contains "@beta.com" OR attribute "plan" = "enterprise")
-2. Opens flag → Targeting → adds targeting rule: Segment "beta-users" → serve `true`
-3. All matching users see the new feature
-4. Segment is reusable — apply to multiple flags
+
+```
+User creates Segment: "beta-users" with rules (email contains "@beta.com" OR... →
+  Opens flag → Targeting → adds targeting rule: Segment "beta-users" → serve... →
+  All matching users see the new feature → Segment is reusable — apply to multiple flags
+```
+
 
 ### A/B Experiment
-1. User creates Metric: "checkout-conversion" (custom event from app)
-2. Creates Experiment: links flag (`checkout-variant`) with metric
-3. Flag has 3 variations: "control", "variant-a", "variant-b"
-4. Sets rollout: 34% each variation
-5. Experiment runs → statistical analysis shows which variant performs best
-6. Winning variant rolled out to 100%
+
+```
+User creates Metric: "checkout-conversion" (custom event from app) →
+  Creates Experiment: links flag (`checkout-variant`) with metric →
+  Flag has 3 variations: "control", "variant-a", "variant-b" → Sets rollout: 34% each variation →
+  Experiment runs → statistical analysis shows which variant performs best →
+  Winning variant rolled out to 100%
+```
+
 
 ### Release Pipeline
-1. Team creates Release Pipeline with stages: Dev → Staging → Canary → Production
-2. Links flag changes to each stage
-3. Start release → flag enabled in Dev automatically
-4. Promote to Staging → approval gate (requires team lead approval)
-5. Promote to Canary (5% of production) → monitor metrics
-6. Promote to Production (100%) — full rollout complete
+
+```
+Team creates Release Pipeline with stages: Dev → Staging → Canary → Production →
+  Links flag changes to each stage → Start release → flag enabled in Dev automatically →
+  Promote to Staging → approval gate (requires team lead approval) →
+  Promote to Canary (5% of production) → monitor metrics →
+  Promote to Production (100%) — full rollout complete
+```
+
 
 ## URL / Route Structure
 
-| Pattern | Description |
-|---|---|
-| `/` | Dashboard |
-| `/{project_key}/flags` | Flag list |
-| `/{project_key}/flags/{flag_key}` | Flag detail |
-| `/{project_key}/flags/{flag_key}/targeting` | Targeting rules |
-| `/{project_key}/segments/{segment_key}` | Segment detail |
-| `/{project_key}/contexts` | Context explorer |
-| `/{project_key}/experiments/{key}` | Experiment detail |
-| `/{project_key}/releases/{id}` | Release pipeline |
-| `/settings/projects` | Project management |
-| `/settings/members` | Team members |
-| `/settings/integrations` | Integrations |
-| `/changelog` | Audit log |
+
+```
+/                                             # Dashboard
+/{project_key}/flags                          # Flag list
+/{project_key}/flags/{flag_key}               # Flag detail
+/{project_key}/flags/{flag_key}/targeting     # Targeting rules
+/{project_key}/segments/{segment_key}         # Segment detail
+/{project_key}/contexts                       # Context explorer
+/{project_key}/experiments/{key}              # Experiment detail
+/{project_key}/releases/{id}                  # Release pipeline
+/settings/projects                            # Project management
+/settings/members                             # Team members
+/settings/integrations                        # Integrations
+/changelog                                    # Audit log
+/{project_key}/flags/{flag_key}/variations        # Flag variations
+/{project_key}/flags/{flag_key}/activity           # Flag audit log
+/{project_key}/flags/{flag_key}/settings           # Flag settings
+/{project_key}/flags/{flag_key}/insights           # Flag insights/analytics
+/{project_key}/flags/{flag_key}/code-references    # Code references
+/{project_key}/metrics/{metric_key}                # Metric detail
+/settings/environments                             # Environment management
+/settings/webhooks                                 # Webhook config
+/settings/access-tokens                            # API tokens
+/settings/security                                 # Security/SSO settings
+/settings/billing                                  # Billing/plan
+/settings/teams                                    # Team management
+```
 
 Project and flag keys are developer-defined slugs (e.g., `my-app`, `enable-dark-mode`). Environment key is a query parameter or part of the UI state, not the URL.
 
@@ -135,6 +160,9 @@ Project and flag keys are developer-defined slugs (e.g., `my-app`, `enable-dark-
 - **Code references**: Search codebase for flag references (integrated with GitHub/GitLab)
 - **Tag system**: Flags and segments can be tagged for categorization (e.g., "frontend", "mobile", "experiment")
 
+- **Experiment results filtering**: Filter experiment data by date range, significance level, metric
+- **Release pipeline tracking**: Filter releases by status (active, completed), environment
+- **Integration log search**: Search webhook delivery history and integration events
 ## Responsive Behavior
 
 | Breakpoint | Behavior |
@@ -149,6 +177,34 @@ Project and flag keys are developer-defined slugs (e.g., `my-app`, `enable-dark-
 - Dashboard activity feed works at all sizes
 - Experiment results charts resize responsively
 - Audit log table scrolls horizontally on narrow screens
+
+
+### Platform-Specific UX
+- Inline flag toggles in the flag list enable quick on/off without opening detail pages
+- Environment selector in the top bar is persistent — all views reflect the selected environment
+- Targeting rules builder uses nested conditions with AND/OR logic and percentage rollouts
+- Code references integration shows where each flag is used in the codebase (GitHub/GitLab)
+- Stale flag detection identifies flags that haven't been evaluated recently for cleanup
+- Prerequisites system links flags — a flag can require another flag to be on before it can be enabled
+- Approval workflows in production environments require designated approvers before flag changes
+- Contexts (evolution of "users") support multi-dimensional targeting (user, device, organization, etc.)
+- Flag insights show evaluation counts, variation distribution, and targeting rule effectiveness
+- Release pipelines define staged rollout plans across environments with approval gates
+
+
+### Flag Lifecycle
+```
+created → deployed_in_code → enabled_for_internal → gradual_rollout → fully_on → permanent (remove flag from code)
+                                                                                  → kill_switch (turn off in emergency)
+```
+
+### Targeting Rule Evaluation Order
+```
+1. Individual targeting (specific context keys)
+2. Custom targeting rules (evaluated top-to-bottom, first match wins)
+3. Default rule (percentage rollout or single variation)
+4. Off variation (when flag is globally off)
+```
 
 ## Access Control
 

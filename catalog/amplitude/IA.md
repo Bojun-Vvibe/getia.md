@@ -69,6 +69,13 @@ amplitude.com
     ├── Solutions
     ├── Pricing
     └── Resources
+├── Feature Flags
+│   ├── Flag List
+│   ├── Flag Detail (variants, targeting)
+│   └── Rollout History
+├── Audiences
+│   ├── Audience Builder
+│   └── Synced Audiences
 ```
 
 ## Navigation Model
@@ -94,21 +101,42 @@ amplitude.com
 | Experiment | name, variants, metrics, allocation, status | → Feature Flag, Results |
 | Feature Flag | key, variants, rollout percentage | → Experiment |
 | Space | name, members, contents | → Charts, Dashboards, Notebooks, Cohorts |
+| Group | group_type, group_name, properties | → Users, Events |
+| Data Source | type (SDK/integration), status, last_seen | → Project |
+| Destination | type (Braze/Iterable/etc.), synced_cohorts | → Cohorts |
 
 ## User Flows
 
-### 1. Analyze Feature Usage
-`Analytics → Event Segmentation → Select event (e.g., "Button Clicked") → Segment by property (e.g., platform) → Set date range → View trend → Save to Dashboard`
+### Analyze Feature Usage
+```
+Analytics → Event Segmentation → Select event (e.g., "Button Clicked") → Segment by property (e.g., platform) → Set date range → View trend → Save to Dashboard
+```
 
-### 2. Build a Conversion Funnel
-`Analytics → Funnel Analysis → Add steps (e.g., "Sign Up" → "Complete Onboarding" → "First Purchase") → Segment by cohort → View conversion rates and drop-off → Identify bottleneck`
+### Build a Conversion Funnel
+```
+Analytics → Funnel Analysis → Add steps (e.g., "Sign Up" → "Complete Onboarding" → "First Purchase") → Segment by cohort → View conversion rates and drop-off → Identify bottleneck
+```
 
-### 3. Create a Behavioral Cohort
-`Cohorts → + New → Define: "Users who performed 'Add to Cart' 3+ times in last 7 days AND did NOT perform 'Purchase'" → Save → Use in charts or sync to marketing tool`
+### Create a Behavioral Cohort
+```
+Cohorts → + New → Define: "Users who performed 'Add to Cart' 3+ times in last 7 days AND did NOT perform 'Purchase'" → Save → Use in charts or sync to marketing tool
+```
 
-### 4. Run an A/B Test
-`Experiments → + New → Define variants → Set primary metric → Allocate traffic → Launch → Monitor results → Reach statistical significance → Ship winner`
+### Run an A/B Test
+```
+Experiments → + New → Define variants → Set primary metric → Allocate traffic → Launch → Monitor results → Reach statistical significance → Ship winner
+```
 
+### Investigate Retention Drop
+```
+Home → Retention Analysis → Select retention event (e.g., 'Session Start') → Set cohort (new users this month) → View retention curve → Compare to previous period → Identify drop-off day → Drill into cohort properties → Create segment of churned users
+                                                                                                                                                                            ↘ Sync churned cohort to email tool for re-engagement
+```
+
+### Set Up Data Source
+```
+Data → Sources → + Add Source → Select SDK (JavaScript, iOS, Android) → Copy API key → Install SDK → Instrument events → Verify in live debugger → Events appear in taxonomy
+```
 ## URL / Route Structure
 
 ```
@@ -122,6 +150,23 @@ app.amplitude.com/{org}/user-lookup/{user_id}          # User profile
 app.amplitude.com/{org}/data/events                    # Data taxonomy
 app.amplitude.com/{org}/experiment/{id}                # Experiment
 app.amplitude.com/{org}/space/{space_id}               # Space
+app.amplitude.com/{org}/chart/new?chartType=funnel        # New funnel
+app.amplitude.com/{org}/chart/new?chartType=retention      # New retention
+app.amplitude.com/{org}/chart/new?chartType=revenue        # New revenue chart
+app.amplitude.com/{org}/chart/new?chartType=pathfinder     # New pathfinder
+app.amplitude.com/{org}/cohort/new                        # New cohort
+app.amplitude.com/{org}/data/user-properties               # User properties
+app.amplitude.com/{org}/data/group-properties              # Group properties
+app.amplitude.com/{org}/data/sources                      # Data sources
+app.amplitude.com/{org}/data/destinations                 # Destinations
+app.amplitude.com/{org}/data/transformations              # Data transformations
+app.amplitude.com/{org}/data/governance                   # Governance
+app.amplitude.com/{org}/experiment/new                    # New experiment
+app.amplitude.com/{org}/feature-flags                     # Feature flags
+app.amplitude.com/{org}/settings/organization             # Org settings
+app.amplitude.com/{org}/settings/projects                 # Project settings
+app.amplitude.com/{org}/settings/members                  # Team members
+app.amplitude.com/{org}/settings/integrations             # Integrations
 ```
 
 ## Search & Filter
@@ -132,6 +177,10 @@ app.amplitude.com/{org}/space/{space_id}               # Space
 - **Chart filters:** Segment by any event/user property, cohort, date range; WHERE clauses for granular filtering
 - **Cohort conditions:** Multi-condition builder with event counts, property values, time windows, AND/OR logic
 
+- **Sort options**: By relevance, date created, date modified, alphabetical, popularity
+- **Autocomplete**: Type-ahead suggestions with recent searches and popular results
+- **Advanced search**: Boolean operators (AND, OR, NOT), field-specific filters, date ranges
+- **Recent searches**: Quick access to previous search queries
 ## Responsive Behavior
 
 | Breakpoint | Behavior |
@@ -139,6 +188,17 @@ app.amplitude.com/{org}/space/{space_id}               # Space
 | Desktop (1280px+) | Full chart builder with sidebar, visualization, and configuration panels |
 | Tablet | Dashboard viewing functional; chart building requires desktop |
 | Mobile | Dashboard viewing only; no chart editing; Amplitude is desktop-first |
+
+
+### Platform-Specific Patterns
+- Touch targets: minimum 44x44pt on mobile for accessibility
+- Swipe gestures: swipe to delete, archive, or perform quick actions
+- Pull-to-refresh: standard refresh pattern on feeds and lists
+- Keyboard shortcuts: comprehensive shortcuts on desktop for power users
+- Dark mode: system-preference detection with manual override
+- Offline support: cached data available without network connectivity
+- Progressive loading: skeleton screens while content loads
+- Amplitude's Recommend feature suggests experiments based on behavioral analysis
 
 ## Access Control
 
@@ -150,3 +210,13 @@ app.amplitude.com/{org}/space/{space_id}               # Space
 | Member | Create/edit own charts, view shared content, create cohorts |
 | Viewer | View charts, dashboards, user profiles; cannot create or modify |
 | Space-level permissions | Control who can view/edit content within a specific Space |
+
+
+### Security Features
+- Single Sign-On (SSO) support via SAML 2.0 and OIDC (Team/Enterprise)
+- Two-factor authentication (TOTP, SMS, hardware keys)
+- API token management with scoped permissions
+- Session management: configurable timeout, forced logout
+- Audit logging for security-sensitive actions
+- Data encryption at rest (AES-256) and in transit (TLS 1.3)
+- SOC 2 Type II compliance

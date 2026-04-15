@@ -7,11 +7,11 @@ website: https://edx.org
 
 # Information Architecture — edX
 
-## 1. Overview
+## Overview
 
 edX is a university-level online learning platform offering MOOCs (Massive Open Online Courses), MicroMasters, Professional Certificates, and full online degrees from top universities (MIT, Harvard, Berkeley) and organizations. The IA is structured around academic rigor — courses follow semester-like schedules with deadlines, graded assignments, and verified certificates. Now owned by 2U, edX blends free audit access with paid verified tracks and degree programs.
 
-## 2. Site Map
+## Site Map
 
 ```
 edX
@@ -104,7 +104,7 @@ edX
     └── Blog
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 - **Type**: Top nav bar with search-centric design
 - **Desktop Top Bar**: edX logo, Search bar (prominent), Courses (dropdown), Programs, edX for Business | Dashboard, Profile, Cart
@@ -114,7 +114,7 @@ edX
 - **Breadcrumb**: Institution > Subject > Course for orientation
 - **Program Navigation**: Program overview → Individual courses within program
 
-## 4. Content Model
+## Content Model
 
 | Content Type | Attributes | Relationships |
 |---|---|---|
@@ -129,31 +129,41 @@ edX
 | Institution | name, logo, description, course count, location | → Courses, → Programs |
 | Instructor | name, title, bio, photo, institution affiliation | → Courses |
 
-## 5. User Flows
+## User Flows
 
 ### Enrolling in a Course
-1. Browse catalog or search → Select course → View course detail
-2. Review syllabus, schedule, prerequisites, instructor bios
-3. Choose enrollment track:
-   - **Audit** (free): Access all content, no certificate, no graded assignments
-   - **Verified** ($50-300): Full access + verified certificate + graded assignments
-4. Enroll → Course appears on Dashboard → Access opens on start date (or immediately if self-paced)
+
+```
+Browse catalog or search → Select course → View course detail →
+  Review syllabus, schedule, prerequisites, instructor bios →
+  Choose enrollment track: (Audit (free): Access all content, no certificate, no... →
+  Enroll → Course appears on Dashboard → Access opens on start date (or...
+```
+
 
 ### Completing a MicroMasters
-1. Browse Programs → Select MicroMasters (e.g., "Supply Chain Management" by MIT)
-2. Enroll in first course of sequence → Complete with verified certificate
-3. Progress through 4-7 courses in program order
-4. Complete all courses → Earn MicroMasters credential
-5. Apply credential toward accelerated Master's degree at partner university
+
+```
+Browse Programs → Select MicroMasters (e.g., "Supply Chain Management" by MIT) →
+  Enroll in first course of sequence → Complete with verified certificate →
+  Progress through 4-7 courses in program order →
+  Complete all courses → Earn MicroMasters credential →
+  Apply credential toward accelerated Master's degree at partner university
+```
+
 
 ### Learning in a Course
-1. Dashboard → Select course → Course player opens
-2. Follow weekly structure: Watch lectures → Complete readings → Do practice exercises
-3. Submit graded assignments before deadlines → View grades
-4. Participate in discussion forums → Peer learning
-5. Take final exam → Pass → Certificate issued (if verified track)
 
-## 6. URL / Route Structure
+```
+Dashboard → Select course → Course player opens →
+  Follow weekly structure: Watch lectures → Complete readings → Do practice... →
+  Submit graded assignments before deadlines → View grades →
+  Participate in discussion forums → Peer learning →
+  Take final exam → Pass → Certificate issued (if verified track)
+```
+
+
+## URL / Route Structure
 
 ```
 edx.org/                                    # Homepage
@@ -171,9 +181,16 @@ edx.org/dashboard                           # My Learning dashboard
 courses.edx.org/courses/{course-key}/       # Course player
 edx.org/certificates/{uuid}                 # Certificate verification
 edx.org/business                            # edX for Business
+edx.org/programs                         # Programs overview
+edx.org/executive-education               # Executive education
+edx.org/boot-camps                        # Boot camps
+edx.org/register                          # Registration page
+edx.org/login                             # Login page
+edx.org/account/settings                  # Account settings
+edx.org/u/{username}                      # User profile
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 - **Global Search**: Courses, programs, subjects, institutions by keyword
 - **Subject Filter**: 12+ subject categories with subcategories
@@ -185,7 +202,9 @@ edx.org/business                            # edX for Business
 - **Price Filter**: Free (audit), Paid (verified), Subscription
 - **Sort**: Relevance, Newest, Popularity
 
-## 8. Responsive Behavior
+- **Boot Camp Filter**: Filter boot camps by subject (coding, data, cyber, UX)
+- **Duration Filter**: Filter by course length (weeks, self-paced, semester-long)
+## Responsive Behavior
 
 | Breakpoint | Behavior |
 |---|---|
@@ -194,7 +213,7 @@ edx.org/business                            # edX for Business
 | Desktop (primary) | Top nav + search; course grid with filters sidebar; player with left outline + main content |
 | Offline (mobile) | Download videos and readings for offline study; progress syncs when reconnected |
 
-## 9. Access Control
+## Access Control
 
 | Role | Capabilities |
 |---|---|

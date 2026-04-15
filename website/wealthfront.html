@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Wealthfront</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Wealthfront is a robo-advisor platform offering automated investing, tax-loss harvesting, financial planning, high-yield cash accounts, and portfolio lending. The IA is structured around a <strong>planning-first</strong> philosophy: users start with financial goals and Wealthfront builds the portfolio to match. The site balances educational content (to build trust) with product pages and a clean dashboard experience.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>wealthfront.com
 ├── Home
 ├── Invest
@@ -143,7 +143,7 @@
     ├── Log in
     └── Get started
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <table>
 <thead>
 <tr>
@@ -174,41 +174,17 @@
 </tr>
 </tbody></table>
 <p><strong>Key pattern</strong>: The public site emphasizes education and trust (performance data, methodology white papers). The dashboard is a clean, data-driven interface with portfolio visualizations.</p>
-<h2>4. Content Model</h2>
-<table>
-<thead>
-<tr>
-<th>Entity</th>
-<th>Attributes</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Investment Account</td>
-<td>type (individual, joint, IRA, 529), balance, allocation, risk score, performance</td>
-</tr>
-<tr>
-<td>Portfolio</td>
-<td>asset classes, ETFs/stocks, allocation %, rebalancing history</td>
-</tr>
-<tr>
-<td>Tax-loss Harvest</td>
-<td>harvested amount, replacement securities, 30-day wash-sale tracking</td>
-</tr>
-<tr>
-<td>Cash Account</td>
-<td>balance, APY, transactions, direct deposit info</td>
-</tr>
-<tr>
-<td>Financial Plan</td>
-<td>goals, timeline, savings rate, projected outcomes (Path)</td>
-</tr>
-<tr>
-<td>Blog Post</td>
-<td>title, author, date, category, body, related posts</td>
-</tr>
-</tbody></table>
-<h2>5. User Flows</h2>
-<h3>5a. New investor onboarding</h3>
+<h2>Content Model</h2>
+<p>| Entity | Key Attributes | Relationships |
+|--------|-----------|
+| Investment Account | type (individual, joint, IRA, 529), balance, allocation, risk score, performance |
+| Portfolio | asset classes, ETFs/stocks, allocation %, rebalancing history |
+| Tax-loss Harvest | harvested amount, replacement securities, 30-day wash-sale tracking |
+| Cash Account | balance, APY, transactions, direct deposit info |
+| Financial Plan | goals, timeline, savings rate, projected outcomes (Path) |
+| Blog Post | title, author, date, category, body, related posts |</p>
+<h2>User Flows</h2>
+<h3>New investor onboarding</h3>
 <ol>
 <li>Land on home → &quot;Get started&quot; CTA</li>
 <li>Risk questionnaire (10 questions on goals, timeline, risk tolerance)</li>
@@ -216,7 +192,7 @@
 <li>Link bank account → set initial deposit + recurring schedule</li>
 <li>Portfolio created → automated investing + tax-loss harvesting begins</li>
 </ol>
-<h3>5b. Financial planning (Path)</h3>
+<h3>Financial planning (Path)</h3>
 <ol>
 <li>Navigate to Plan → enter income, savings, goals</li>
 <li>Path simulates thousands of scenarios (Monte Carlo)</li>
@@ -224,14 +200,14 @@
 <li>Receive personalized recommendations</li>
 <li>Optionally connect external accounts for full picture</li>
 </ol>
-<h3>5c. Cash account</h3>
+<h3>Cash account</h3>
 <ol>
 <li>Open Cash Account → link bank</li>
 <li>Transfer funds → earn high APY (FDIC insured via partner banks)</li>
 <li>Set up direct deposit → get paycheck 2 days early</li>
 <li>Use for bill pay, transfers, or sweep into investment account</li>
 </ol>
-<h2>6. URL / Route Structure</h2>
+<h2>URL / Route Structure</h2>
 <pre><code>/                               → Home
 /investing/                     → Automated investing
 /tax-loss-harvesting/           → TLH feature
@@ -248,7 +224,7 @@
 /support/{topic}/               → Support article
 /dashboard/                     → Account overview (auth)
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <table>
 <thead>
 <tr>
@@ -277,7 +253,7 @@
 <td>Slider-based parameter adjustment with real-time recalculation</td>
 </tr>
 </tbody></table>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -302,7 +278,7 @@
 <td>Tab bar (Home, Invest, Cash, Plan, More), swipeable account cards</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>

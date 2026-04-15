@@ -89,6 +89,13 @@ Airtable bridges spreadsheets and databases with a colorful, friendly UI. The me
     ├── Members & Billing
     ├── SSO / Security
     └── Admin Panel
+├── Enterprise
+│   ├── Admin Panel
+│   │   ├── Usage Analytics
+│   │   ├── Audit Logs
+│   │   └── Data Governance
+│   ├── SSO Configuration
+│   └── API Rate Limits
 ```
 
 ## Navigation Model
@@ -115,6 +122,10 @@ Airtable bridges spreadsheets and databases with a colorful, friendly UI. The me
 | Automation | trigger{}, conditions[], actions[], enabled | belongs to Base |
 | Interface | name, layout, elements[], published, role_access | belongs to Base |
 | Sync | source, destination_table, fields_mapped[], frequency | belongs to Base |
+| Extension | name, type, configuration, base_id | belongs to Base |
+| Snapshot | created_at, size, base_id | belongs to Base |
+| Comment | text, author, created_at, resolved | belongs to Record |
+| Webhook | url, events[], active | belongs to Base |
 
 ### Field Types
 ```
@@ -142,6 +153,16 @@ Create Form View → Select fields → Customize branding → Share form link �
 Interface Designer → Add Grid element → Connect to table → Add filters (show only relevant) → Add Chart → Publish → Share link with stakeholders (they see interface, not raw data)
 ```
 
+### Automation Workflow
+```
+Automations tab → + New Automation → Select trigger (record created) → Add condition (status = 'New') → Add action (send Slack notification) → Test → Enable
+                                                                                                                                    ↘ Add another action (update record status)
+```
+
+### Cross-Base Sync
+```
+Source base → Table → Share view → Enable sync → Destination base → + Synced table → Paste sync link → Configure field mapping → Auto-sync every 5 minutes
+```
 ## URL / Route Structure
 
 ```
@@ -158,6 +179,17 @@ Interface Designer → Add Grid element → Connect to table → Add filters (sh
 /form/:formId                  → Public form
 /templates                     → Template gallery
 /settings                      → Settings
+/:baseId/syncs                → Synced tables
+/:baseId/extensions            → Extensions panel
+/:baseId/settings              → Base settings
+/:baseId/collaborators         → Collaborators
+/:baseId/webhooks              → Webhooks
+/:baseId/trash                 → Trash
+/workspaces/:id/settings       → Workspace settings
+/workspaces/:id/billing        → Billing
+/workspaces/:id/members        → Members
+/account                       → Account settings
+/account/api                   → API tokens
 ```
 
 ## Search & Filter
@@ -176,6 +208,8 @@ Select: is, is not, is any of, has any of, is none of
 Date: is, before, after, is within (past/next N days/weeks/months)
 Linked Record: has, does not have, contains, is empty
 ```
+| Extensions | Browse by category, popularity | Popular, Recent |
+| Automations | By trigger type, status (enabled/disabled) | Created, Modified |
 
 ## Responsive Behavior
 

@@ -7,10 +7,10 @@ website: https://www.audible.com
 
 # Information Architecture — Audible
 
-## 1. Overview
+## Overview
 Audible (an Amazon company) is the world's largest audiobook and spoken-word platform. The IA is structured around a **credit-based membership model** — members receive monthly credits to exchange for any title, plus access to the Audible Plus catalog (included titles). The experience combines a retail marketplace (browse, purchase, wishlist) with a streaming library (Plus catalog), and deep Amazon ecosystem integration (Whispersync for switching between Kindle and Audible).
 
-## 2. Site Map
+## Site Map
 
 ```
 audible.com
@@ -77,7 +77,7 @@ audible.com
     └── Start free trial
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 | Level | Type | Details |
 |-------|------|---------|
@@ -90,47 +90,56 @@ audible.com
 
 **Key pattern**: The credit model shapes the IA — "Use a Credit" vs. "Buy for $X" is a constant decision point. The Plus catalog is a secondary layer of "free with membership" content, always distinguished from credit-worthy purchases.
 
-## 4. Content Model
+## Content Model
 
-| Entity | Attributes |
-|--------|-----------|
-| Title (Audiobook) | title, author(s), narrator(s), length, release date, publisher, language, cover art, sample, price, credit-eligible, Plus-included, series, rating, reviews count |
-| Series | name, books (ordered), author, genre |
-| Podcast | name, description, episodes, creator, category, Audible Original flag |
-| Review | user, rating (1-5), title, body, helpful votes |
-| Collection | name, owner, titles, public/private |
-| Listening Stats | hours listened, titles finished, badges, streaks |
-| Credit | balance, expiry, tier (1/2 per month) |
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
+| Title (Audiobook) | title, author(s), narrator(s), length, release date, publisher, language, cover art, sample, price, credit-eligible, Plus-included, series, rating, reviews count | belongs to parent entity |
+| Series | name, books (ordered), author, genre | belongs to parent entity |
+| Podcast | name, description, episodes, creator, category, Audible Original flag | belongs to parent entity |
+| Review | user, rating (1-5), title, body, helpful votes | belongs to User and Entity |
+| Collection | name, owner, titles, public/private | belongs to parent entity |
+| Listening Stats | hours listened, titles finished, badges, streaks | belongs to parent entity |
+| Credit | balance, expiry, tier (1/2 per month) | belongs to parent entity |
+| Author | name, bio, titles[], photo | has many Titles |
+| Narrator | name, titles[], rating | has many Titles |
+| Bookmark | title_id, position_seconds, note, created_at | belongs to User |
+| Clip | title_id, start_seconds, end_seconds, shareable | belongs to User |
+| Badge | name, criteria, earned_at | belongs to User |
 
-## 5. User Flows
+## User Flows
 
-### 5a. Browse & purchase with credit
-1. Browse categories or search → find title
-2. Play sample (5-minute preview)
-3. Click "1 Credit" → title added to Library
-4. Download in app → listen offline
-5. Rate and review after listening
+### Browse & purchase with credit
+```
+Browse categories or search → find title → Play sample (5-minute preview) → Click "1 Credit" → title added to Library → Download in app → listen offline → Rate and review after listening
+```
 
-### 5b. Whispersync experience
-1. Buy Kindle eBook on Amazon → Audible version available at reduced price
-2. Purchase Audible companion → Whispersync enabled
-3. Read on Kindle → switch to Audible app → picks up where you left off
-4. Seamlessly transition between reading and listening
+### Whispersync experience
+```
+Buy Kindle eBook on Amazon → Audible version available at reduced price → Purchase Audible companion → Whispersync enabled → Read on Kindle → switch to Audible app → picks up where you left off → Seamlessly transition between reading and listening
+```
 
-### 5c. Plus catalog streaming
-1. Browse Plus Catalog → thousands of included titles
-2. Add to Library → stream or download
-3. Listen without using a credit
-4. Titles may rotate in/out of Plus catalog
+### Plus catalog streaming
+```
+Browse Plus Catalog → thousands of included titles → Add to Library → stream or download → Listen without using a credit → Titles may rotate in/out of Plus catalog
+```
 
-### 5d. Membership management
-1. Account → Membership Details
-2. View plan, next billing date, credits remaining
-3. Upgrade/downgrade plan → change credit allocation
-4. Pause membership (up to 3 months) or cancel
-5. Unused credits carry over (up to rollover limit)
+### Membership management
+```
+Account → Membership Details → View plan, next billing date, credits remaining → Upgrade/downgrade plan → change credit allocation → Pause membership (up to 3 months) or cancel → Unused credits carry over (up to rollover limit)
+```
 
-## 6. URL / Route Structure
+### Listen & Bookmark
+```
+Library → Select title → Play → Set playback speed (1.25x) → Add bookmark at key moment → Enable sleep timer → Resume later from bookmark
+                                                                                                                                              ↘ Create clip → Share clip with friends
+```
+
+### Return & Exchange
+```
+Library → Title → Return → Select reason → Credit restored immediately → Browse for replacement → Use credit on new title
+```
+## URL / Route Structure
 
 ```
 /                               → Home (personalized)
@@ -148,9 +157,23 @@ audible.com
 /account/                       → Account settings (auth)
 /help/                          → Help center
 /help/{topic}/                  → Help article
+/originals/                    → Audible Originals
+/series/{asin}                 → Series page
+/author/{name}                 → Author page
+/narrator/{name}              → Narrator page
+/lib/collections/             → Collections (auth)
+/lib/collections/{id}         → Collection detail
+/lib/stats/                    → Listening stats
+/lib/purchase-history/         → Purchase history
+/account/membership/           → Membership details
+/account/devices/              → Connected devices
+/account/preferences/          → Listening preferences
+/gift/                         → Gift memberships
+/corporate/                    → Corporate plans
+/kids/                         → Kids & Family section
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 | Feature | Behavior |
 |---------|----------|
@@ -161,8 +184,10 @@ audible.com
 | Sort | Relevance, best sellers, average rating, newest, price |
 | Whispersync filter | Show only titles with Kindle companion |
 | Library search | Search within owned titles, filter by listened/unfinished |
+| Author/Narrator | Search by author name, narrator name | Relevance, popularity |
+| Series | Browse series, filter complete/ongoing | Series order, popularity |
 
-## 8. Responsive Behavior
+## Responsive Behavior
 
 | Breakpoint | Adaptation |
 |-----------|------------|
@@ -172,7 +197,16 @@ audible.com
 | App (iOS/Android) | Full listening experience — downloads, playback speed, sleep timer, car mode, bookmarks, clips |
 | Alexa / Smart speakers | Voice-driven — "Alexa, read my audiobook" → continues where you left off |
 
-## 9. Access Control
+
+### Platform-Specific Patterns
+- Touch targets: minimum 44x44pt on mobile for accessibility
+- Swipe gestures: swipe to delete, archive, or perform quick actions
+- Pull-to-refresh: standard refresh pattern on feeds and lists
+- Keyboard shortcuts: comprehensive shortcuts on desktop for power users
+- Dark mode: system-preference detection with manual override
+- Offline support: cached data available without network connectivity
+- Progressive loading: skeleton screens while content loads
+## Access Control
 
 | Role | Access |
 |------|--------|

@@ -54,8 +54,8 @@ replicate.com
 
 ## Content Model
 
-| Content Type | Structure | Ownership |
-|---|---|---|
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
 | Model | Name, description, owner, cover image, input/output schema, playground, versions, run count | Owner (user/org) |
 | Model Version | Cog container image, input schema, output schema, changelog | Part of model |
 | Prediction | Input params, output (URL/JSON), status, duration, logs, cost | User-owned |
@@ -67,32 +67,24 @@ replicate.com
 ## User Flows
 
 ### Discovering & Running a Model
-1. User browses Explore or searches for a capability (e.g., "background removal")
-2. Clicks model → lands on playground with pre-filled example inputs
-3. Adjusts inputs (upload image, set parameters) → clicks "Run"
-4. Output renders (image, text, audio, video) in ~seconds to minutes
-5. "API" tab shows exact curl/Python/JS code to replicate the call programmatically
+```
+Browses Explore or searches for a capability (e.g., "background removal") → Clicks model → lands on playground with pre-filled example inputs → Adjusts inputs (upload image, set parameters) → clicks "Run" → Output renders (image, text, audio, video) in ~seconds to minutes → "API" tab shows exact curl/Python/JS code to replicate the call programmatically
+```
 
 ### Deploying a Model to Production
-1. User identifies a model they want to use at scale
-2. Creates a Deployment with hardware selection (CPU, GPU type) and scaling config
-3. Deployment gets a dedicated endpoint URL with guaranteed capacity
-4. Autoscales between min and max replicas based on traffic
-5. Monitors via Dashboard — latency, throughput, cost
+```
+Identifies a model they want to use at scale → Creates a Deployment with hardware selection (CPU, GPU type) and scaling config → Deployment gets a dedicated endpoint URL with guaranteed capacity → Autoscales between min and max replicas based on traffic → Monitors via Dashboard — latency, throughput, cost
+```
 
 ### Publishing a Custom Model
-1. User packages model using Cog (Docker-based ML packaging tool)
-2. Defines input/output schema in `predict.py`
-3. Pushes to Replicate: `cog push r8.im/{username}/{model_name}`
-4. Model appears on their profile with auto-generated playground
-5. Can be public (discoverable) or private
+```
+Packages model using Cog (Docker-based ML packaging tool) → Defines input/output schema in `predict.py` → Pushes to Replicate: `cog push r8.im/{username}/{model_name}` → Model appears on their profile with auto-generated playground → Can be public (discoverable) or private
+```
 
 ### Fine-Tuning
-1. User selects a base model that supports training (e.g., SDXL, Llama)
-2. Uploads training data (images for SDXL, text for LLMs)
-3. Configures hyperparameters → starts training job
-4. Training creates a new model version → testable in playground immediately
-5. Deploy the fine-tuned version via API or Deployment
+```
+Selects a base model that supports training (e.g., SDXL, Llama) → Uploads training data (images for SDXL, text for LLMs) → Configures hyperparameters → starts training job → Training creates a new model version → testable in playground immediately → Deploy the fine-tuned version via API or Deployment
+```
 
 ## URL / Route Structure
 
@@ -150,3 +142,83 @@ Owner/model URL pattern similar to GitHub. Predictions and trainings use unique 
 - API tokens: Bearer token authentication; tokens scoped to user/org
 - Model visibility: Public (free to run, anyone can see) or Private (only owner can access)
 - Rate limits: Concurrent prediction limits based on plan
+
+## Model Categories
+
+| Category | Popular Models | Use Cases |
+|----------|---------------|-----------|
+| Image Generation | Stable Diffusion, SDXL, Flux | Art, product photos, design |
+| Image Editing | InstructPix2Pix, ControlNet | Photo editing, style transfer |
+| Language | Llama, Mistral, Mixtral | Chat, summarization, code |
+| Audio | Whisper, MusicGen, Bark | Transcription, music, speech |
+| Video | Stable Video Diffusion, AnimateDiff | Video generation, animation |
+| Vision | BLIP, LLaVA, SAM | Image captioning, segmentation |
+| Upscaling | Real-ESRGAN, SwinIR | Image enhancement, super-resolution |
+| 3D | Point-E, Shap-E | 3D model generation |
+
+## API Usage
+
+```python
+import replicate
+
+output = replicate.run(
+    "stability-ai/sdxl:version_hash",
+    input={
+        "prompt": "a cyberpunk cityscape at sunset",
+        "negative_prompt": "blurry, low quality",
+        "width": 1024,
+        "height": 1024,
+        "num_outputs": 1
+    }
+)
+print(output)  # URL to generated image
+```
+
+## Deployment Options
+
+| Option | Description | Best For |
+|--------|-------------|----------|
+| Serverless | Pay-per-prediction; cold starts possible | Occasional/variable usage |
+| Custom Deployment | Dedicated GPU; always warm | Production, low-latency |
+| Fine-tuning | Train model on custom data | Brand-specific outputs |
+
+## Pricing
+
+- **Pay-per-second:** Billed by GPU-second of computation
+- **GPU types:** CPU, T4, A40, A100 (40GB/80GB), H100
+- **No minimum:** Start at $0; pay only for what you use
+- **Custom deployments:** Fixed hourly rate for dedicated GPU
+- **Free tier:** Some community models offer free predictions
+
+## Cog (Model Packaging)
+
+```
+cog.yaml → defines GPU, Python dependencies, model weights
+predict.py → defines predict() function with typed inputs/outputs
+cog push → builds Docker image, pushes to Replicate
+```
+
+## Model Publishing
+
+- **Cog packaging:** Define model with `cog.yaml` and `predict.py`
+- **Version management:** Each push creates a new version; pin to specific versions
+- **Hardware selection:** Choose GPU type per model (CPU, T4, A40, A100, H100)
+- **README:** Markdown documentation with usage examples
+- **Schema:** Auto-generated API schema from typed predict function
+- **Visibility:** Public (listed on Explore) or Private (your account only)
+
+## Webhook & Async Predictions
+
+- **Webhook URL:** Receive prediction results at your endpoint when complete
+- **Polling:** Check prediction status via GET request
+- **Streaming:** Stream output tokens for language models in real-time
+- **Cancellation:** Cancel in-progress predictions to save credits
+
+## Community Models
+
+- **Open source models:** Most models on Replicate are open source (Llama, Stable Diffusion, Whisper)
+- **Model leaderboard:** Popular models ranked by prediction count
+- **Version pinning:** Always pin to a specific version hash for production stability
+- **Fork models:** Fork and customize community models with your own fine-tuning
+- **Model collections:** Curated groups by category (image generation, audio, language)
+- **Community contributions:** Anyone can push models via Cog

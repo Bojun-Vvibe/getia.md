@@ -194,6 +194,8 @@ Collection Auth → Folder Auth → Request Auth
 
 ## User Flows
 
+
+
 ### Build and Test API Request
 ```
 New Tab → Select Method (POST) → Enter URL → Add Body (JSON) → Set Auth (Bearer token from env var) → Send → View Response → Write Test Assertions → Save to Collection
@@ -223,6 +225,7 @@ Team Workspace → Import OpenAPI spec → Generate Collection → Fork Collecti
 ```
 Collection → Create Monitor → Set schedule (every 5 min) → Select regions → Enable alerts → View results over time → Get notified on failures
 ```
+
 
 ## URL / Route Structure
 

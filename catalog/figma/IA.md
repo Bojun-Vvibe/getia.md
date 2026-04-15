@@ -170,6 +170,16 @@ Create Branch → Make changes independently → Request Review → Compare chan
 /community/file/:id        → Community file
 /community/plugin/:id      → Plugin detail
 /settings                  → Account settings
+/files/deleted                # Trash / deleted files
+/board/:boardId               # FigJam whiteboard
+/file/:fileId/branch/:branchId # Branch editor
+/community/search?q=:query    # Community search
+/community/widget/:id         # Widget detail
+/community/template/:id       # Template detail
+/settings/profile             # Profile settings
+/settings/notifications       # Notification settings
+/settings/billing             # Billing (org)
+/admin/:orgId/members         # Org member management
 ```
 
 ## Search & Filter
@@ -182,6 +192,9 @@ Create Branch → Make changes independently → Request Review → Compare chan
 | Quick Actions (⌘/) | Actions, components, plugins | — | Relevance |
 | Community | Files, plugins, widgets | Category, Free/Paid | Popular, Recent |
 
+- **Version History**: Browse/search file version history by date
+- **Plugin Manager**: Search installed and available plugins
+- **Variable Search**: Search design variables by name or collection
 ## Responsive Behavior
 
 Figma is desktop-first:

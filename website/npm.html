@@ -133,9 +133,9 @@
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Structure</th>
-<th>Ownership</th>
+<th>Entity</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -181,40 +181,17 @@
 </tbody></table>
 <h2>User Flows</h2>
 <h3>Finding and Installing a Package</h3>
-<ol>
-<li>User arrives at npmjs.com → types in search bar (e.g., &quot;date formatting&quot;)</li>
-<li>Results sorted by relevance (popularity, quality, maintenance metrics)</li>
-<li>Clicks package → reads README for API docs and usage examples</li>
-<li>Checks right sidebar: weekly downloads (popularity indicator), license, last publish date</li>
-<li>Copies install command: <code>npm install date-fns</code></li>
-<li>Optionally checks Dependencies tab for supply chain review</li>
-</ol>
+<pre><code>Arrives at npmjs.com → types in search bar (e.g., &quot;date formatting&quot;) → Results sorted by relevance (popularity, quality, maintenance metrics) → Clicks package → reads README for API docs and usage examples → Checks right sidebar: weekly downloads (popularity indicator), license, last publish date → Copies install command: `npm install date-fns` → Optionally checks Dependencies tab for supply chain review
+</code></pre>
 <h3>Publishing a Package</h3>
-<ol>
-<li>Developer creates <code>package.json</code> with name, version, description</li>
-<li>Writes README.md with usage documentation</li>
-<li>Logs in via CLI: <code>npm login</code></li>
-<li>Publishes: <code>npm publish</code></li>
-<li>Package appears on npmjs.com within minutes</li>
-<li>Subsequent versions published with <code>npm version patch &amp;&amp; npm publish</code></li>
-</ol>
+<pre><code>Developer creates `package.json` with name, version, description → Writes README.md with usage documentation → Logs in via CLI: `npm login` → Publishes: `npm publish` → Package appears on npmjs.com within minutes → Subsequent versions published with `npm version patch &amp;&amp; npm publish`
+</code></pre>
 <h3>Organization Package Management</h3>
-<ol>
-<li>Admin creates organization on npmjs.com</li>
-<li>Creates teams (e.g., &quot;frontend&quot;, &quot;backend&quot;, &quot;devops&quot;)</li>
-<li>Adds members to teams</li>
-<li>Assigns package access to teams (read-only or read-write)</li>
-<li>Scoped packages (@org/pkg-name) automatically associated with org</li>
-<li>Private packages only accessible to authorized team members</li>
-</ol>
+<pre><code>Admin creates organization on npmjs.com → Creates teams (e.g., &quot;frontend&quot;, &quot;backend&quot;, &quot;devops&quot;) → Adds members to teams → Assigns package access to teams (read-only or read-write) → Scoped packages (@org/pkg-name) automatically associated with org → Private packages only accessible to authorized team members
+</code></pre>
 <h3>Security Advisory Review</h3>
-<ol>
-<li>Developer runs <code>npm audit</code> locally → sees vulnerable dependencies</li>
-<li>Clicks advisory link → goes to npmjs.com/advisories/{id}</li>
-<li>Reads severity, affected versions, vulnerability description</li>
-<li>Sees recommended fix: upgrade to patched version</li>
-<li>Runs <code>npm audit fix</code> to auto-update compatible versions</li>
-</ol>
+<pre><code>Developer runs `npm audit` locally → sees vulnerable dependencies → Clicks advisory link → goes to npmjs.com/advisories/{id} → Reads severity, affected versions, vulnerability description → Sees recommended fix: upgrade to patched version → Runs `npm audit fix` to auto-update compatible versions
+</code></pre>
 <h2>URL / Route Structure</h2>
 <table>
 <thead>
@@ -346,6 +323,187 @@
 <li>2FA: Mandatory for publishing on high-value packages; optional but recommended for all</li>
 <li>Unpublish policy: Can unpublish within 72 hours; after that, requires npm support</li>
 </ul>
+<h2>Package Page Anatomy</h2>
+<table>
+<thead>
+<tr>
+<th>Section</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Header</td>
+<td>Package name, version badge, install command (copy button)</td>
+</tr>
+<tr>
+<td>Sidebar</td>
+<td>Weekly downloads chart, version, license, repository, homepage, npm stats</td>
+</tr>
+<tr>
+<td>Readme tab</td>
+<td>README.md rendered from package (primary content)</td>
+</tr>
+<tr>
+<td>Explore tab</td>
+<td>File browser — browse package contents by version</td>
+</tr>
+<tr>
+<td>Dependencies tab</td>
+<td>Direct and transitive dependency tree</td>
+</tr>
+<tr>
+<td>Dependents tab</td>
+<td>Packages that depend on this package</td>
+</tr>
+<tr>
+<td>Versions tab</td>
+<td>Full version history with publish dates and tags</td>
+</tr>
+</tbody></table>
+<h2>CLI Commands</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>npm install {pkg}</code></td>
+<td>Install package to project</td>
+</tr>
+<tr>
+<td><code>npm install -g {pkg}</code></td>
+<td>Install globally</td>
+</tr>
+<tr>
+<td><code>npm publish</code></td>
+<td>Publish package to registry</td>
+</tr>
+<tr>
+<td><code>npm version {patch/minor/major}</code></td>
+<td>Bump version</td>
+</tr>
+<tr>
+<td><code>npm audit</code></td>
+<td>Check for known vulnerabilities</td>
+</tr>
+<tr>
+<td><code>npm audit fix</code></td>
+<td>Auto-fix compatible vulnerabilities</td>
+</tr>
+<tr>
+<td><code>npm outdated</code></td>
+<td>Check for outdated dependencies</td>
+</tr>
+<tr>
+<td><code>npm login</code></td>
+<td>Authenticate with registry</td>
+</tr>
+<tr>
+<td><code>npm search {query}</code></td>
+<td>Search packages from CLI</td>
+</tr>
+<tr>
+<td><code>npm init</code></td>
+<td>Initialize new package.json</td>
+</tr>
+<tr>
+<td><code>npm run {script}</code></td>
+<td>Run package script</td>
+</tr>
+<tr>
+<td><code>npm link</code></td>
+<td>Symlink local package for development</td>
+</tr>
+</tbody></table>
+<h2>Security Features</h2>
+<ul>
+<li><strong>npm audit:</strong> Scan dependency tree for known vulnerabilities (CVE database)</li>
+<li><strong>Provenance:</strong> Signed build attestation linking package to source commit and CI job</li>
+<li><strong>2FA enforcement:</strong> Mandatory for publishing high-impact packages</li>
+<li><strong>Token granularity:</strong> Automation tokens (no 2FA), publish tokens, read-only tokens</li>
+<li><strong>CIDR-restricted tokens:</strong> Limit API tokens to specific IP ranges</li>
+<li><strong>Package lock:</strong> <code>package-lock.json</code> ensures reproducible installs</li>
+<li><strong>Signature verification:</strong> Verify package integrity with npm signatures</li>
+<li><strong>Socket.dev integration:</strong> Real-time supply chain threat detection (third-party)</li>
+</ul>
+<h2>Package Lifecycle</h2>
+<pre><code>npm init → develop → npm version patch → npm publish → users install → npm deprecate (if needed) → npm unpublish (within 72h only)
+</code></pre>
+<h2>Registry Statistics</h2>
+<ul>
+<li><strong>2+ million packages</strong> published</li>
+<li><strong>40+ billion downloads/month</strong> across all packages</li>
+<li><strong>Largest software registry</strong> in the world by package count</li>
+<li><strong>Scoped packages:</strong> <code>@org/name</code> format for organizational namespacing</li>
+<li><strong>Dist-tags:</strong> <code>latest</code>, <code>next</code>, <code>beta</code>, <code>canary</code> for version channels</li>
+</ul>
+<h2>package.json Key Fields</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>name</code></td>
+<td>Package identifier (unique on registry)</td>
+</tr>
+<tr>
+<td><code>version</code></td>
+<td>Semantic version (major.minor.patch)</td>
+</tr>
+<tr>
+<td><code>main</code></td>
+<td>Entry point for CommonJS (<code>require</code>)</td>
+</tr>
+<tr>
+<td><code>module</code></td>
+<td>Entry point for ES modules (<code>import</code>)</td>
+</tr>
+<tr>
+<td><code>types</code></td>
+<td>TypeScript type definitions</td>
+</tr>
+<tr>
+<td><code>exports</code></td>
+<td>Modern entry point map (conditional exports)</td>
+</tr>
+<tr>
+<td><code>scripts</code></td>
+<td>Named commands (<code>start</code>, <code>build</code>, <code>test</code>, <code>lint</code>)</td>
+</tr>
+<tr>
+<td><code>dependencies</code></td>
+<td>Production dependencies</td>
+</tr>
+<tr>
+<td><code>devDependencies</code></td>
+<td>Development-only dependencies</td>
+</tr>
+<tr>
+<td><code>peerDependencies</code></td>
+<td>Expected to be provided by consuming project</td>
+</tr>
+<tr>
+<td><code>engines</code></td>
+<td>Required Node.js version</td>
+</tr>
+<tr>
+<td><code>files</code></td>
+<td>Allowlist of files to include in published package</td>
+</tr>
+<tr>
+<td><code>repository</code></td>
+<td>Source code URL</td>
+</tr>
+<tr>
+<td><code>license</code></td>
+<td>SPDX license identifier</td>
+</tr>
+</tbody></table>
 
     </div>
   </article>

@@ -7,11 +7,11 @@ website: https://zoom.us
 
 # Information Architecture — Zoom
 
-## 1. Overview
+## Overview
 
 Zoom is a unified communications platform anchored by video conferencing, expanded into team chat, phone, webinars, virtual events, and collaborative workspaces (Zoom Rooms). The IA is organized around communication modalities — Meet, Chat, Phone, Whiteboard — with a persistent left sidebar and calendar-driven meeting entry points. The platform serves individual users, teams, and enterprises with a scalable permission model.
 
-## 2. Site Map
+## Site Map
 
 ```
 Zoom
@@ -92,7 +92,7 @@ Zoom
     └── Developer (APIs / SDKs)
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 - **Type**: Left sidebar (desktop app), top nav (web portal)
 - **Desktop App Sidebar**: Home, Team Chat, Phone, Meetings, Contacts, Whiteboards, More (Notes, Apps)
@@ -101,9 +101,9 @@ Zoom
 - **In-Meeting Controls**: Bottom toolbar — Mute, Video, Security, Participants, Chat, Share Screen, Record, Reactions, More
 - **Web Portal**: Top nav — Solutions, Pricing, Plans, Contact Sales, Resources; separate from desktop app
 
-## 4. Content Model
+## Content Model
 
-| Content Type | Attributes | Relationships |
+| Entity | Key Attributes | Relationships |
 |---|---|---|
 | Meeting | title, ID, passcode, host, participants, scheduled time, duration, recurring flag, waiting room, recording | → Host, → Participants, → Recording |
 | Recording | video file, audio transcript, chat log, duration, cloud/local, share settings | → Meeting |
@@ -115,7 +115,7 @@ Zoom
 | Contact | name, email, phone, presence status, company | → Directory |
 | AI Companion Summary | meeting summary, action items, next steps, smart chapters | → Meeting, → Recording |
 
-## 5. User Flows
+## User Flows
 
 ### Joining a Meeting
 1. Receive meeting link via email/calendar/chat → Click link
@@ -136,7 +136,7 @@ Zoom
 3. Host reviews and shares summary with participants via chat or email
 4. Smart chapters divide recording into navigable sections
 
-## 6. URL / Route Structure
+## URL / Route Structure
 
 ```
 zoom.us/                                   # Marketing homepage
@@ -156,7 +156,7 @@ zoom.us/docs/                              # Developer docs
 marketplace.zoom.us/                       # Zoom Apps marketplace
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 - **Contact Search**: Search by name, email across company directory and external contacts
 - **Chat Search**: Full-text search across channels and DMs; filter by date, sender, channel
@@ -166,7 +166,7 @@ marketplace.zoom.us/                       # Zoom Apps marketplace
 - **Marketplace Search**: Browse and search Zoom Apps by category
 - **Admin Search**: User lookup, usage reports by date range, room search
 
-## 8. Responsive Behavior
+## Responsive Behavior
 
 | Breakpoint | Behavior |
 |---|---|
@@ -176,7 +176,7 @@ marketplace.zoom.us/                       # Zoom Apps marketplace
 | Web Client (browser) | Near-parity with desktop app; no breakout room hosting (limitation); top toolbar |
 | Zoom Rooms (hardware) | Touch panel for controls; large display for gallery/speaker view; designed for conference rooms |
 
-## 9. Access Control
+## Access Control
 
 | Role | Capabilities |
 |---|---|

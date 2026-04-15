@@ -216,14 +216,18 @@
 </tr>
 </tbody></table>
 <h2>User Flows</h2>
-<h3>1. Lead-to-Opportunity Conversion</h3>
-<p><code>Leads → Open Lead → Qualify → Convert → Creates Account + Contact + Opportunity → Opportunity enters pipeline → Manage through stages</code></p>
-<h3>2. Pipeline Review</h3>
-<p><code>Opportunities → Kanban (by stage) → Drag to next stage → Open opportunity → Log activity → Update close date/amount → Forecasting updates</code></p>
-<h3>3. Case Resolution</h3>
-<p><code>Service Console → Open case from queue → Review customer history (related account/contact) → Search Knowledge Base → Reply → Resolve → Customer survey</code></p>
-<h3>4. Admin: Build a Custom Object</h3>
-<p><code>Setup → Object Manager → + New Custom Object → Define fields → Create page layout → Add to Lightning App → Set permissions → Deploy</code></p>
+<h3>Lead to Opportunity</h3>
+<pre><code>Leads → Open Lead → Qualify → Convert → Creates Account + Contact + Opportunity → Opportunity enters pipeline → Manage through stages
+</code></pre>
+<h3>Pipeline Management</h3>
+<pre><code>Opportunities → Kanban (by stage) → Drag to next stage → Open opportunity → Log activity → Update close date/amount → Forecasting updates
+</code></pre>
+<h3>Service Case Resolution</h3>
+<pre><code>Service Console → Open case from queue → Review customer history (related account/contact) → Search Knowledge Base → Reply → Resolve → Customer survey
+</code></pre>
+<h3>Custom Object Setup</h3>
+<pre><code>Setup → Object Manager → + New Custom Object → Define fields → Create page layout → Add to Lightning App → Set permissions → Deploy
+</code></pre>
 <h2>URL / Route Structure</h2>
 <pre><code>{instance}.lightning.force.com/lightning/page/home           # Home
 {instance}.lightning.force.com/lightning/o/Lead/list          # Leads list
@@ -233,6 +237,18 @@
 {instance}.lightning.force.com/lightning/o/Case/list          # Cases
 {instance}.lightning.force.com/lightning/setup/SetupOneHome/home  # Setup
 {instance}.lightning.force.com/lightning/r/Dashboard/{id}/view   # Dashboard
+{instance}.lightning.force.com/lightning/o/Account/list              # Accounts
+{instance}.lightning.force.com/lightning/o/Contact/list              # Contacts
+{instance}.lightning.force.com/lightning/r/Report/{id}/view          # Report
+{instance}.lightning.force.com/lightning/app/standard/LightningSales # Sales app
+{instance}.lightning.force.com/lightning/app/standard/LightningService # Service app
+{instance}.lightning.force.com/lightning/setup/FlowBuilder/home       # Flow Builder
+login.salesforce.com/                                                # Login
+trailhead.salesforce.com/                                            # Learning platform
+developer.salesforce.com/                                            # Developer portal
+appexchange.salesforce.com/                                          # App marketplace
+help.salesforce.com/                                                 # Help center
+status.salesforce.com/                                               # Status page
 </code></pre>
 <h2>Search &amp; Filter</h2>
 <ul>
@@ -306,6 +322,178 @@
 <tr>
 <td>Experience Cloud (Portal)</td>
 <td>External users with limited, scoped access to specific objects</td>
+</tr>
+</tbody></table>
+<h2>Core Objects</h2>
+<table>
+<thead>
+<tr>
+<th>Object</th>
+<th>Purpose</th>
+<th>Key Fields</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Lead</td>
+<td>Unqualified prospect</td>
+<td>Name, Company, Status, Source, Rating</td>
+</tr>
+<tr>
+<td>Account</td>
+<td>Company/organization</td>
+<td>Name, Industry, Annual Revenue, Website</td>
+</tr>
+<tr>
+<td>Contact</td>
+<td>Person at an account</td>
+<td>Name, Email, Phone, Title, Account</td>
+</tr>
+<tr>
+<td>Opportunity</td>
+<td>Potential deal</td>
+<td>Name, Amount, Stage, Close Date, Probability</td>
+</tr>
+<tr>
+<td>Case</td>
+<td>Support issue/ticket</td>
+<td>Subject, Status, Priority, Account, Contact</td>
+</tr>
+<tr>
+<td>Task</td>
+<td>To-do item</td>
+<td>Subject, Due Date, Status, Assignee, Related To</td>
+</tr>
+<tr>
+<td>Report</td>
+<td>Data analysis</td>
+<td>Type, Filters, Groupings, Charts</td>
+</tr>
+<tr>
+<td>Dashboard</td>
+<td>Collection of reports</td>
+<td>Layout, Widgets, Refresh Schedule</td>
+</tr>
+</tbody></table>
+<h2>Salesforce Clouds</h2>
+<table>
+<thead>
+<tr>
+<th>Cloud</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Sales Cloud</td>
+<td>CRM, pipeline management, forecasting</td>
+</tr>
+<tr>
+<td>Service Cloud</td>
+<td>Customer support, case management, knowledge base</td>
+</tr>
+<tr>
+<td>Marketing Cloud</td>
+<td>Email, SMS, social marketing, journey builder</td>
+</tr>
+<tr>
+<td>Commerce Cloud</td>
+<td>E-commerce storefronts (B2C and B2B)</td>
+</tr>
+<tr>
+<td>Experience Cloud</td>
+<td>Customer/partner portals and communities</td>
+</tr>
+<tr>
+<td>Platform</td>
+<td>Custom app development (Lightning Platform)</td>
+</tr>
+<tr>
+<td>Data Cloud</td>
+<td>Customer data platform (CDP)</td>
+</tr>
+<tr>
+<td>Einstein</td>
+<td>AI predictions, recommendations, copilot</td>
+</tr>
+</tbody></table>
+<h2>Automation Tools</h2>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Complexity</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Flow Builder</td>
+<td>Low-code</td>
+<td>Visual process automation with drag-and-drop</td>
+</tr>
+<tr>
+<td>Process Builder</td>
+<td>Low-code</td>
+<td>Event-triggered actions (legacy, being replaced by Flow)</td>
+</tr>
+<tr>
+<td>Workflow Rules</td>
+<td>Config</td>
+<td>Simple field updates and email alerts</td>
+</tr>
+<tr>
+<td>Apex</td>
+<td>Pro-code</td>
+<td>Custom business logic in Java-like language</td>
+</tr>
+<tr>
+<td>Lightning Web Components</td>
+<td>Pro-code</td>
+<td>Custom UI components (HTML/JS/CSS)</td>
+</tr>
+<tr>
+<td>MuleSoft</td>
+<td>Integration</td>
+<td>API-led connectivity between systems</td>
+</tr>
+</tbody></table>
+<h2>AppExchange</h2>
+<ul>
+<li><strong>5,000+ apps</strong> available for installation</li>
+<li><strong>Categories:</strong> Sales, Service, Marketing, Analytics, IT, HR, Finance</li>
+<li><strong>Free + paid</strong> apps from ISV partners</li>
+<li><strong>Managed packages:</strong> Install into org with dependency tracking</li>
+<li><strong>Security review:</strong> All apps pass Salesforce security review before listing</li>
+</ul>
+<h2>Lightning Experience Navigation</h2>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>App Launcher</td>
+<td>Grid of all available apps; search across apps</td>
+</tr>
+<tr>
+<td>Navigation Bar</td>
+<td>Tabs for objects in current app (Leads, Accounts, etc.)</td>
+</tr>
+<tr>
+<td>Utility Bar</td>
+<td>Bottom panel with quick access tools (notes, history, macros)</td>
+</tr>
+<tr>
+<td>Global Search</td>
+<td>Search across all objects; recent items; filtered results</td>
+</tr>
+<tr>
+<td>Notifications</td>
+<td>Bell icon; approval requests, mentions, record changes</td>
+</tr>
+<tr>
+<td>Setup</td>
+<td>Gear icon; admin configuration (objects, flows, users)</td>
 </tr>
 </tbody></table>
 

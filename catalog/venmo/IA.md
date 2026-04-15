@@ -7,10 +7,10 @@ website: https://www.venmo.com
 
 # Information Architecture — Venmo
 
-## 1. Overview
+## Overview
 Venmo is a peer-to-peer (P2P) mobile payment service owned by PayPal, distinguished by its **social feed** that turns transactions into a social experience. The IA supports sending/receiving money, a social timeline, the Venmo Debit Card, business profiles, and crypto trading. The web presence serves primarily as marketing and account management; the core experience lives in the mobile app.
 
-## 2. Site Map
+## Site Map
 
 ```
 venmo.com
@@ -51,7 +51,7 @@ venmo.com
     └── Sign up
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 | Level | Type | Details |
 |-------|------|---------|
@@ -62,9 +62,9 @@ venmo.com
 
 **Key pattern**: The website is a funnel to the app. Every product page ends with "Download Venmo" CTA. The social feed is app-exclusive.
 
-## 4. Content Model
+## Content Model
 
-| Entity | Attributes |
+| Entity | Key Attributes | Relationships |
 |--------|-----------|
 | Transaction | sender, recipient, amount, note/emoji, privacy (public/friends/private), timestamp |
 | User Profile | display name, handle, avatar, friends list, QR code |
@@ -73,9 +73,9 @@ venmo.com
 | Crypto Holding | coin, amount, buy/sell history, current value |
 | Social Feed Item | transaction note, likes, comments, privacy level |
 
-## 5. User Flows
+## User Flows
 
-### 5a. Send money
+### Send money
 1. Open app → tap Pay/Request (center button)
 2. Search recipient by name, @username, phone, or email
 3. Enter amount + note (emoji encouraged)
@@ -83,19 +83,19 @@ venmo.com
 5. Choose funding source (balance, bank, card)
 6. Tap Pay → confirmation → appears in social feed
 
-### 5b. Request money
+### Request money
 1. Tap Pay/Request → switch to "Request" tab
 2. Select person → enter amount + note
 3. Send request → recipient gets push notification
 4. Recipient approves → funds transfer
 
-### 5c. Business profile setup
+### Business profile setup
 1. Switch to business profile in settings
 2. Add business details (name, category, description)
 3. Share QR code for in-person payments
 4. Receive payments → view in business dashboard
 
-## 6. URL / Route Structure
+## URL / Route Structure
 
 ```
 /                           → Home
@@ -114,7 +114,7 @@ venmo.com
 /account/transactions/      → Transaction history (auth)
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 | Feature | Behavior |
 |---------|----------|
@@ -124,7 +124,7 @@ venmo.com
 | Business search | By name or category, location-based nearby |
 | Help search | Keyword → categorized FAQ results |
 
-## 8. Responsive Behavior
+## Responsive Behavior
 
 | Breakpoint | Adaptation |
 |-----------|------------|
@@ -133,7 +133,7 @@ venmo.com
 | Mobile web (<768px) | Deep-link to app, minimal account management, prominent app download |
 | App (iOS/Android) | Full experience — social feed, payments, wallet, crypto, card management |
 
-## 9. Access Control
+## Access Control
 
 | Role | Access |
 |------|--------|

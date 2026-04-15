@@ -7,11 +7,11 @@ website: https://tripadvisor.com
 
 # Information Architecture — Tripadvisor
 
-## 1. Overview
+## Overview
 
 Tripadvisor is a travel platform combining user-generated reviews, price comparison, and booking for hotels, restaurants, attractions, and experiences. The IA is destination-centric — users start with a location and drill into categories (hotels, things to do, restaurants) with reviews as the core content type. The platform's moat is its massive review database (1B+ reviews), which powers rankings, "Travelers' Choice" awards, and trust-based discovery.
 
-## 2. Site Map
+## Site Map
 
 ```
 Tripadvisor
@@ -106,7 +106,7 @@ Tripadvisor
     └── Linked Accounts
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 - **Type**: Top nav bar with search-first design
 - **Desktop Top Bar**: Logo, Search bar (prominent), Discover, Trips, Review, Notifications, Profile
@@ -116,9 +116,9 @@ Tripadvisor
 - **Review Navigation**: Within any listing, tabs for Overview, Reviews, Q&A, Location
 - **Breadcrumb**: Destination > Category > Specific Listing (e.g., Tokyo > Hotels > Park Hyatt)
 
-## 4. Content Model
+## Content Model
 
-| Content Type | Attributes | Relationships |
+| Entity | Key Attributes | Relationships |
 |---|---|---|
 | Hotel | name, address, star rating, Tripadvisor rating, review count, amenities, price range, photos, rooms, booking links | → Destination, → Reviews, → Booking Partners |
 | Restaurant | name, address, cuisine types, price range, rating, review count, menu, hours, reservation link | → Destination, → Reviews |
@@ -131,7 +131,7 @@ Tripadvisor
 | Photo | image, caption, uploader, listing, date, helpful votes | → Listing |
 | Travelers' Choice Award | listing, year, category (top hotel, best restaurant, etc.) | → Listing |
 
-## 5. User Flows
+## User Flows
 
 ### Researching a Hotel
 1. Search "Hotels in Paris" → Results page with map + list
@@ -154,7 +154,7 @@ Tripadvisor
 3. Share trip with travel companions → They can add/view saves
 4. On the trip: reference saves for directions, hours, reviews
 
-## 6. URL / Route Structure
+## URL / Route Structure
 
 ```
 tripadvisor.com/                                # Homepage
@@ -172,7 +172,7 @@ tripadvisor.com/Trips                          # My Trips
 tripadvisor.com/UserReview                     # Write a review
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 - **Global Search**: Hotels, restaurants, things to do, flights, destinations, forums
 - **Hotel Filters**: Star rating, price range, amenities (pool, WiFi, spa, breakfast), traveler rating, hotel class, distance from center, brand, free cancellation
@@ -183,7 +183,7 @@ tripadvisor.com/UserReview                     # Write a review
 - **Map View**: Geographic filtering; zoom to see results in visible area
 - **Price Comparison**: Hotel prices compared across 200+ booking sites in real time
 
-## 8. Responsive Behavior
+## Responsive Behavior
 
 | Breakpoint | Behavior |
 |---|---|
@@ -193,7 +193,7 @@ tripadvisor.com/UserReview                     # Write a review
 | Mobile Web | Responsive; prompts app download; same functionality as app |
 | SEO Pages | Server-rendered destination, hotel, restaurant pages optimized for search engine indexing |
 
-## 9. Access Control
+## Access Control
 
 | Role | Capabilities |
 |---|---|

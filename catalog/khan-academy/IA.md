@@ -7,11 +7,11 @@ website: https://khanacademy.org
 
 # Information Architecture — Khan Academy
 
-## 1. Overview
+## Overview
 
 Khan Academy is a free, nonprofit education platform offering mastery-based learning across math, science, computing, humanities, and test prep. The IA is structured as a knowledge tree — subjects branch into units, units into lessons, lessons into individual exercises and videos. The mastery system tracks comprehension through spaced repetition and adaptive practice, while Khanmigo (AI tutor) provides personalized guidance. The platform serves learners from K-12 through adult education.
 
-## 2. Site Map
+## Site Map
 
 ```
 Khan Academy
@@ -101,7 +101,7 @@ Khan Academy
     └── Press
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 - **Type**: Top nav bar (desktop/web), bottom tab bar (mobile app)
 - **Desktop Top Bar**: Subjects (mega dropdown), Search, Khanmigo, Donate | Profile, Teacher/Parent toggle
@@ -111,7 +111,7 @@ Khan Academy
 - **Sidebar**: Left sidebar shows unit/lesson outline for navigation within a course
 - **Mastery Map**: Visual representation of skill mastery (familiar → proficient → mastered)
 
-## 4. Content Model
+## Content Model
 
 | Content Type | Attributes | Relationships |
 |---|---|---|
@@ -127,30 +127,42 @@ Khan Academy
 | Badge | name, icon, criteria, rarity | → Profile |
 | Assignment (teacher-created) | content items, due date, class, students | → Class |
 
-## 5. User Flows
+## User Flows
 
 ### Mastery Learning
-1. Select Course (e.g., Algebra 1) → Unit 1 → Lesson 1
-2. Watch video → Read article (optional) → Start practice exercise
-3. Exercise adapts: correct answers advance; wrong answers provide hints
-4. Mastery level progresses: Attempted → Familiar → Proficient → Mastered
-5. Take Unit Test → Mastery level adjusts → Move to next unit or review
+
+```
+Select Course (e.g., Algebra 1) → Unit 1 → Lesson 1 →
+  Watch video → Read article (optional) → Start practice exercise →
+  Exercise adapts: correct answers advance; wrong answers provide hints →
+  Mastery level progresses: Attempted → Familiar → Proficient → Mastered →
+  Take Unit Test → Mastery level adjusts → Move to next unit or review
+```
+
 
 ### Teacher Assigning Work
-1. Teacher creates class → Students join via class code
-2. Teacher browses course → Selects exercises/videos → Assigns to class with due date
-3. Students see assignment on their Home dashboard → Complete exercises
-4. Teacher views Student Progress → Mastery heat map (red → yellow → green)
-5. Identify struggling students → Provide targeted support
+
+```
+Teacher creates class → Students join via class code →
+  Teacher browses course → Selects exercises/videos → Assigns to class with due... →
+  Students see assignment on their Home dashboard → Complete exercises →
+  Teacher views Student Progress → Mastery heat map (red → yellow → green) →
+  Identify struggling students → Provide targeted support
+```
+
 
 ### Using Khanmigo AI Tutor
-1. Stuck on a problem → Tap Khanmigo icon
-2. AI asks guiding questions (Socratic method) — does not give direct answers
-3. Student works through reasoning → Khanmigo confirms or redirects
-4. For writing: Khanmigo provides feedback, suggestions, not rewrites
-5. Teacher can review Khanmigo conversation logs
 
-## 6. URL / Route Structure
+```
+Stuck on a problem → Tap Khanmigo icon →
+  AI asks guiding questions (Socratic method) — does not give direct answers →
+  Student works through reasoning → Khanmigo confirms or redirects →
+  For writing: Khanmigo provides feedback, suggestions, not rewrites →
+  Teacher can review Khanmigo conversation logs
+```
+
+
+## URL / Route Structure
 
 ```
 khanacademy.org/                                # Homepage
@@ -167,9 +179,21 @@ khanacademy.org/sat                             # SAT prep
 khanacademy.org/computing                       # Computing courses
 khanacademy.org/search?q={query}                # Search results
 khanacademy.org/donate                          # Donation page
+khanacademy.org/science                      # Science courses
+khanacademy.org/humanities                    # Humanities courses
+khanacademy.org/economics-finance-domain      # Economics & Finance
+khanacademy.org/test-prep                     # Test prep (SAT, MCAT, etc.)
+khanacademy.org/kids                          # Khan Kids content
+khanacademy.org/khanmigo                      # Khanmigo AI tutor
+khanacademy.org/coach/class/{classId}          # Class dashboard
+khanacademy.org/coach/class/{classId}/students  # Student list
+khanacademy.org/signup                         # Registration page
+khanacademy.org/login                          # Login page
+khanacademy.org/settings                       # User settings
+khanacademy.org/donate                         # Donation page
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 - **Global Search**: Videos, articles, exercises by keyword across all subjects
 - **Subject Browse**: Hierarchical navigation — Subject → Course → Unit → Lesson
@@ -180,7 +204,7 @@ khanacademy.org/donate                          # Donation page
 - **Test Prep Filter**: SAT, LSAT, MCAT with practice test mode
 - **Khanmigo**: Natural language query — "Explain quadratic formula" triggers tutoring conversation
 
-## 8. Responsive Behavior
+## Responsive Behavior
 
 | Breakpoint | Behavior |
 |---|---|
@@ -190,7 +214,13 @@ khanacademy.org/donate                          # Donation page
 | Classroom / Projector | Full-screen video mode; teacher controls for pacing |
 | Offline | Mobile app supports downloaded videos and exercises for offline access |
 
-## 9. Access Control
+
+### Platform-Specific UX
+- Mastery-based progression requires demonstrating understanding before advancing
+- Energy points and badges gamify learning progress and consistency
+- Khanmigo AI tutor provides Socratic-method tutoring without giving direct answers
+
+## Access Control
 
 | Role | Capabilities |
 |---|---|

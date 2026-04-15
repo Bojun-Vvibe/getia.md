@@ -377,7 +377,6 @@ Computed: formula | relation | rollup | unique_id
 <h3>Template Reuse</h3>
 <pre><code>Database → New Template → Design layout (e.g., &quot;Weekly Standup&quot;) → Team members click [+ New] → Select template → Pre-filled page created
 </code></pre>
-<h2>URL / Route Structure</h2>
 <pre><code>/                              → Home (recently visited)
 /:workspaceSlug                → Workspace root
 /:workspaceSlug/:pageId        → Page view (UUID-based, slug suffix for readability)
@@ -392,8 +391,9 @@ Computed: formula | relation | rollup | unique_id
 /settings/billing              → Plans &amp; billing
 /templates                     → Official template gallery
 /site/:domain                  → Notion Sites (published)
+
+## URL / Route Structure
 </code></pre>
-<h3>Public URLs</h3>
 <pre><code>/:workspaceSlug/:pageId (when published)  → Public read-only page
 /api/v1/...                    → Notion API endpoints
 </code></pre>

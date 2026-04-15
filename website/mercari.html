@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Mercari</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Mercari is a consumer-to-consumer (C2C) marketplace where anyone can buy and sell almost anything — from clothing and electronics to home goods and collectibles. The IA revolves around <strong>listing simplicity</strong> (photo-first listing in minutes), <strong>buyer protection</strong> (item authentication for luxury goods, money-back guarantee), and <strong>prepaid shipping labels</strong> that remove friction. Mercari&#39;s architecture supports both web and app with near-feature-parity.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>mercari.com
 ├── Home (personalized feed)
 ├── Browse
@@ -149,7 +149,7 @@
     ├── Log in
     └── Sign up
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <table>
 <thead>
 <tr>
@@ -180,64 +180,57 @@
 </tr>
 </tbody></table>
 <p><strong>Key pattern</strong>: Search bar is the dominant navigation element. The &quot;Sell&quot; button is always visible as a persistent CTA, reflecting the two-sided marketplace model.</p>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
 <th>Entity</th>
-<th>Attributes</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>Listing</td>
 <td>title, photos (up to 12), description, price, condition, category, brand, size, shipping method, seller</td>
+<td>—</td>
 </tr>
 <tr>
 <td>Offer</td>
 <td>listing, buyer, amount, expiration, counter-offer, status</td>
+<td>—</td>
 </tr>
 <tr>
 <td>User Profile</td>
 <td>username, avatar, rating, reviews count, listings, verified badge</td>
+<td>—</td>
 </tr>
 <tr>
 <td>Transaction</td>
 <td>listing, buyer, seller, price, shipping tracking, status (purchased → shipped → delivered → rated)</td>
+<td>—</td>
 </tr>
 <tr>
 <td>Shipping Label</td>
 <td>carrier, tracking number, estimated delivery, prepaid flag</td>
+<td>—</td>
 </tr>
 <tr>
 <td>Authentication</td>
 <td>listing, status (pending/authentic/not authentic), certificate</td>
+<td>—</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
-<h3>5a. List an item</h3>
-<ol>
-<li>Tap &quot;Sell&quot; → camera opens → take/upload photos</li>
-<li>AI auto-suggests title, category, brand from photo</li>
-<li>Fill in details (condition, description, price)</li>
-<li>Select shipping (prepaid label or ship on your own)</li>
-<li>Enable Smart Pricing (auto price drops) → Publish</li>
-</ol>
-<h3>5b. Buy an item</h3>
-<ol>
-<li>Search or browse → find item → view detail page</li>
-<li>&quot;Buy Now&quot; or &quot;Make an Offer&quot; (negotiate)</li>
-<li>Checkout → select payment method (credit, debit, Mercari balance)</li>
-<li>Seller ships → tracking visible to buyer</li>
-<li>Item delivered → buyer confirms → rate seller → funds released</li>
-</ol>
-<h3>5c. Authenticate luxury item</h3>
-<ol>
-<li>Seller lists luxury item → opts into Mercari Authenticate</li>
-<li>Buyer purchases → item ships to Mercari authentication center</li>
-<li>Expert inspection → item verified authentic</li>
-<li>Forwarded to buyer with authentication certificate</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<h2>User Flows</h2>
+<h3>List an item</h3>
+<pre><code>Tap &quot;Sell&quot; → camera opens → take/upload photos → AI auto-suggests title, category, brand from photo → Fill in details (condition, description, price) → Select shipping (prepaid label or ship on your own) → Enable Smart Pricing (auto price drops) → Publish
+</code></pre>
+<h3>Buy an item</h3>
+<pre><code>Search or browse → find item → view detail page → &quot;Buy Now&quot; or &quot;Make an Offer&quot; (negotiate) → Checkout → select payment method (credit, debit, Mercari balance) → Seller ships → tracking visible to buyer → Item delivered → buyer confirms → rate seller → funds released
+</code></pre>
+<h3>Authenticate luxury item</h3>
+<pre><code>Seller lists luxury item → opts into Mercari Authenticate → Buyer purchases → item ships to Mercari authentication center → Expert inspection → item verified authentic → Forwarded to buyer with authentication certificate
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code>/                           → Home feed
 /search/                    → Search results
 /search/?keyword={q}        → Keyword search
@@ -252,8 +245,18 @@
 /help/                      → Help center
 /help/{category}/           → Help category
 /help/{category}/{article}/ → Help article
+mercari.com/mypage/reviews/              # User reviews
+mercari.com/mypage/offers/               # Sent and received offers
+mercari.com/mypage/settings/             # Account settings
+mercari.com/mypage/settings/profile/     # Profile settings
+mercari.com/mypage/settings/shipping/    # Shipping preferences
+mercari.com/mypage/settings/payment/     # Payment methods
+mercari.com/mypage/settings/notifications/ # Notification settings
+mercari.com/brands/{brand}/              # Brand browse page
+mercari.com/trending/                    # Trending items
+mercari.com/deals/                       # Deals and promotions
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <table>
 <thead>
 <tr>
@@ -282,7 +285,7 @@
 <td>Buyer gets notified when watched item drops in price</td>
 </tr>
 </tbody></table>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -307,7 +310,7 @@
 <td>Bottom tabs, camera-first sell flow, swipeable photos, push notifications</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>
@@ -342,6 +345,182 @@
 <tr>
 <td>Authentication Team</td>
 <td>Luxury item verification, certificate issuance</td>
+</tr>
+</tbody></table>
+<h2>Transaction Lifecycle</h2>
+<pre><code>Listed → Purchased → Payment Held → Seller Ships (3 day window) → In Transit → Delivered → Buyer Confirms (3 day window) → Seller Paid
+                                                                                              ↘ Buyer Opens Return Case → Resolution → Refund or Release
+</code></pre>
+<h2>Seller Tools</h2>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Smart Pricing</td>
+<td>Automatic price drops over time to increase sell probability</td>
+</tr>
+<tr>
+<td>Promote Listings</td>
+<td>Pay to boost visibility in search results</td>
+</tr>
+<tr>
+<td>Offer to Likers</td>
+<td>Send discounted offers to users who liked your item</td>
+</tr>
+<tr>
+<td>Shipping Calculator</td>
+<td>Compare carrier rates (USPS, FedEx, UPS)</td>
+</tr>
+<tr>
+<td>Sales Analytics</td>
+<td>Track views, likes, offers, and conversion per listing</td>
+</tr>
+<tr>
+<td>Bulk Listing</td>
+<td>List multiple items quickly with batch photo upload</td>
+</tr>
+<tr>
+<td>Photo Enhancer</td>
+<td>AI-powered photo background removal and enhancement</td>
+</tr>
+</tbody></table>
+<h2>Trust &amp; Safety</h2>
+<ul>
+<li><strong>Mercari Authenticate:</strong> Expert verification for luxury items ($200+)</li>
+<li><strong>Buyer Protection:</strong> Full refund if item not as described, missing, or damaged</li>
+<li><strong>Ratings System:</strong> Mutual ratings after each transaction; visible on profile</li>
+<li><strong>Prohibited Items:</strong> Automated + manual review of listings for policy violations</li>
+<li><strong>Payment Hold:</strong> Funds held in escrow until buyer confirms receipt</li>
+</ul>
+<h2>Fee Structure</h2>
+<table>
+<thead>
+<tr>
+<th>Fee Type</th>
+<th>Amount</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Selling fee</td>
+<td>10% of sale price</td>
+</tr>
+<tr>
+<td>Payment processing</td>
+<td>2.9% + $0.30</td>
+</tr>
+<tr>
+<td>Shipping (prepaid)</td>
+<td>Varies by weight/size; discounted USPS/FedEx/UPS rates</td>
+</tr>
+<tr>
+<td>Direct deposit</td>
+<td>Free</td>
+</tr>
+<tr>
+<td>Instant pay</td>
+<td>$2 per withdrawal</td>
+</tr>
+<tr>
+<td>Authentication</td>
+<td>Free for qualifying luxury items</td>
+</tr>
+</tbody></table>
+<h2>Platform Comparison</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Mercari</th>
+<th>eBay</th>
+<th>Poshmark</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Listing fee</td>
+<td>Free</td>
+<td>Insertion fees</td>
+<td>Free</td>
+</tr>
+<tr>
+<td>Selling fee</td>
+<td>10%</td>
+<td>13.25%</td>
+<td>20%</td>
+</tr>
+<tr>
+<td>Shipping</td>
+<td>Prepaid labels</td>
+<td>Seller arranges</td>
+<td>Prepaid USPS</td>
+</tr>
+<tr>
+<td>Authentication</td>
+<td>Built-in ($200+)</td>
+<td>Third party</td>
+<td>Built-in ($500+)</td>
+</tr>
+<tr>
+<td>Offer system</td>
+<td>Buyer-initiated</td>
+<td>Auction + offers</td>
+<td>Buyer + seller</td>
+</tr>
+<tr>
+<td>Social features</td>
+<td>Minimal</td>
+<td>Minimal</td>
+<td>Heavy (parties, sharing)</td>
+</tr>
+<tr>
+<td>Categories</td>
+<td>General merchandise</td>
+<td>Everything</td>
+<td>Fashion-focused</td>
+</tr>
+</tbody></table>
+<h2>Shipping Options</h2>
+<table>
+<thead>
+<tr>
+<th>Carrier</th>
+<th>Weight Limit</th>
+<th>Max Dimensions</th>
+<th>Tracking</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>USPS First Class</td>
+<td>1 lb</td>
+<td>22&quot; × 18&quot; × 15&quot;</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>USPS Priority</td>
+<td>70 lbs</td>
+<td>108&quot; combined</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>FedEx Home</td>
+<td>150 lbs</td>
+<td>108&quot; length</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>FedEx SmartPost</td>
+<td>70 lbs</td>
+<td>130&quot; combined</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>UPS Ground</td>
+<td>150 lbs</td>
+<td>108&quot; length</td>
+<td>Yes</td>
 </tr>
 </tbody></table>
 

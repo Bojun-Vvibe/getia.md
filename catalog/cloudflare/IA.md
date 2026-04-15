@@ -79,8 +79,8 @@ developers.cloudflare.com (Documentation)
 
 ## Content Model
 
-| Content Type | Structure | Ownership |
-|---|---|---|
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
 | Zone (Domain) | Domain name, DNS records, SSL config, security settings, caching rules, analytics | Account-owned |
 | Worker Service | Script code, triggers (routes, cron, queue), environment variables, KV/R2 bindings, metrics | Account-owned |
 | Pages Project | Git repo link, build settings, deployments, custom domains, environment variables | Account-owned |
@@ -94,36 +94,30 @@ developers.cloudflare.com (Documentation)
 ## User Flows
 
 ### Adding a Website (Zone)
-1. User clicks "Add a Site" → enters domain name
-2. Cloudflare scans existing DNS records → imports them
-3. User selects plan (Free, Pro, Business, Enterprise)
-4. Cloudflare provides two nameservers → user updates at registrar
-5. DNS propagation completes → Cloudflare activates zone
-6. SSL certificate auto-provisioned → HTTPS enabled
-7. User configures caching, security, and performance settings
+```
+User clicks "Add a Site" → enters domain name → Cloudflare scans existing DNS records → imports them → User selects plan (Free, Pro, Business, Enterprise) → Cloudflare provides two nameservers → user updates at registrar → DNS propagation completes → Cloudflare activates zone → SSL certificate auto-provisioned → HTTPS enabled → User configures caching, security, and performance settings
+```
 
 ### Deploying a Worker
-1. User navigates to Workers & Pages → "Create" → "Create Worker"
-2. Online editor opens with Hello World template
-3. Edits code → tests with built-in preview (sends test requests)
-4. Deploys to Cloudflare's global edge network (200+ cities)
-5. Configures triggers: HTTP route, cron schedule, or queue consumer
-6. Binds resources: KV namespace, R2 bucket, D1 database, environment variables
+```
+User navigates to Workers & Pages → "Create" → "Create Worker" → Online editor opens with Hello World template → Edits code → tests with built-in preview (sends test requests) → Deploys to Cloudflare's global edge network (200+ cities) → Configures triggers: HTTP route, cron schedule, or queue consumer → Binds resources: KV namespace, R2 bucket, D1 database, environment variables
+```
 
 ### Pages Deployment
-1. User connects GitHub/GitLab repo
-2. Configures build settings (framework preset auto-detected for Next.js, Nuxt, Astro, etc.)
-3. Every push triggers a build → deployed to `{project}.pages.dev`
-4. PRs get deploy previews with unique URLs
-5. Custom domain and redirects configured in project settings
+```
+User connects GitHub/GitLab repo → Configures build settings (framework preset auto-detected for Next.js, Nuxt, Astro, etc.) → Every push triggers a build → deployed to `{project}.pages.dev` → PRs get deploy previews with unique URLs → Custom domain and redirects configured in project settings
+```
 
 ### Zero Trust Access
-1. Admin navigates to Zero Trust → Access → Applications
-2. Creates an application (self-hosted app behind Cloudflare)
-3. Defines access policy: identity provider (Okta, Azure AD, etc.) + rules (email domain, group, IP)
-4. Users accessing the app are prompted for authentication
-5. Cloudflare proxies authenticated requests to the origin server
+```
+Admin navigates to Zero Trust → Access → Applications → Creates an application (self-hosted app behind Cloudflare) → Defines access policy: identity provider (Okta, Azure AD, etc.) + rules (email domain, group, IP) → Users accessing the app are prompted for authentication → Cloudflare proxies authenticated requests to the origin server
+```
 
+### New User Onboarding
+```
+Visit Cloudflare → Sign Up (email/Google/SSO) → Complete profile → Guided setup wizard → Configure preferences → Explore key features → Start using the product
+                                                                                                                         ↘ Skip wizard → Land on dashboard
+```
 ## URL / Route Structure
 
 | Pattern | Description |
@@ -141,6 +135,21 @@ developers.cloudflare.com (Documentation)
 
 Account ID is a hex string. Zone name is the domain. Nested routing reflects the deep product hierarchy.
 
+### Additional Routes
+
+```
+dash.cloudflare.com/settings  → Settings
+dash.cloudflare.com/billing  → Billing & subscription
+dash.cloudflare.com/notifications  → Notification preferences
+dash.cloudflare.com/help  → Help center
+dash.cloudflare.com/help/{topic}  → Help article
+dash.cloudflare.com/search?q={query}  → Search results
+dash.cloudflare.com/integrations  → Integrations
+dash.cloudflare.com/admin  → Admin console
+dash.cloudflare.com/admin/members  → Member management
+dash.cloudflare.com/import  → Import data
+```
+
 ## Search & Filter
 
 - **Zone search**: Search zones by domain name on account home
@@ -152,6 +161,10 @@ Account ID is a hex string. Zone name is the domain. Nested routing reflects the
 - **Docs search**: Full-text search across all documentation (Algolia-powered)
 - **Audit log search**: Filter by user, action type, resource, date range
 
+- **Sort options**: By relevance, date created, date modified, alphabetical, popularity
+- **Autocomplete**: Type-ahead suggestions with recent searches and popular results
+- **Advanced search**: Boolean operators (AND, OR, NOT), field-specific filters, date ranges
+- **Recent searches**: Quick access to previous search queries
 ## Responsive Behavior
 
 | Breakpoint | Behavior |
@@ -166,6 +179,27 @@ Account ID is a hex string. Zone name is the domain. Nested routing reflects the
 - Worker code editor is desktop-only (redirects to Wrangler CLI recommendation on mobile)
 - Settings forms stack vertically with full-width inputs
 - Zero Trust dashboard is complex enough to warrant desktop-only use
+
+
+### Cloudflare-Specific UX Patterns
+- **Progressive disclosure**: Complex features hidden behind expandable sections
+- **Contextual actions**: Right-click menus and hover-revealed action buttons
+- **Inline editing**: Click-to-edit fields without navigating to a separate page
+- **Batch operations**: Multi-select with bulk actions (delete, move, archive, tag)
+- **Undo support**: Non-destructive actions with undo toast notifications
+- **Loading states**: Skeleton screens and progress indicators during async operations
+- **Empty states**: Helpful illustrations and CTAs when sections have no content
+- **Onboarding tooltips**: First-time user guidance highlighting key features
+
+### Accessibility
+- WCAG 2.1 AA compliance across all interactive elements
+- Semantic HTML with proper ARIA labels and landmarks
+- Keyboard navigation support for all core workflows
+- Screen reader compatibility tested with VoiceOver, NVDA, and JAWS
+- Color contrast ratios meeting minimum 4.5:1 for body text
+- Focus indicators visible on all interactive elements
+- Reduced motion option respecting `prefers-reduced-motion`
+- Resizable text up to 200% without content loss
 
 ## Access Control
 

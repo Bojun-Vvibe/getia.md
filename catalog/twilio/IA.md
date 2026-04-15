@@ -107,16 +107,16 @@ twilio.com
 
 ## User Flows
 
-### 1. Send First SMS (Developer)
+### Send First SMS (Developer)
 `Console → Messaging → Try SMS → Enter "To" number → Type message → Send → View delivery status → Copy code snippet → Integrate into app`
 
-### 2. Build an IVR with Studio
+### Build an IVR with Studio
 `Console → Studio → + New Flow → Start widget → Add "Gather" (keypress input) → Add "Split" (branch on input) → Add "Say" or "Connect Call" → Publish → Assign to phone number`
 
-### 3. Set Up Phone Number
+### Set Up Phone Number
 `Console → Phone Numbers → Buy a Number → Search by country/area code/capabilities → Purchase → Configure webhooks (incoming SMS → URL, incoming call → Studio Flow)`
 
-### 4. Monitor & Debug
+### Monitor & Debug
 `Console → Monitor → Logs → Filter by channel/date/status → Click failed message → View error code → Debugger for detailed error context → Fix webhook/code`
 
 ## URL / Route Structure

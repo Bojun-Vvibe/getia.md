@@ -221,6 +221,15 @@
 <p><code>Outbound → + New → In-App Message → Design content → Set audience (segment) → Set trigger (page visit/event) → Preview → Go Live</code></p>
 <h3>4. Create a Help Article</h3>
 <p><code>Help Center → + New Article → Write content (rich text, video, code) → Assign to Collection/Section → Translate → Publish</code></p>
+<h3>Product Tour Creation</h3>
+<pre><code>Outbound → Product Tours → Create → Select trigger (page visit, event, manual) → Build steps (tooltips, modals, video) → Set audience (segment) → Preview → Activate → Monitor completion rates
+</code></pre>
+<h3>Conversation Triage with Fin AI</h3>
+<pre><code>Customer sends message → Fin AI analyzes intent → Searches help articles and custom answers → Provides instant response → Customer satisfied → Resolved automatically → OR → Fin lacks confidence → Escalates to human agent → Agent sees AI-suggested context
+</code></pre>
+<h3>Segment-Based Outbound Campaign</h3>
+<pre><code>Contacts → Create Segment (e.g., &#39;trial users, signed up &gt; 3 days, not activated&#39;) → Outbound → New In-App Message → Target segment → Design content → Set display rules → Go Live → Track impressions and clicks
+</code></pre>
 <h2>URL / Route Structure</h2>
 <pre><code>app.intercom.com/a/inbox/{workspace_id}/inbox/         # Inbox
 app.intercom.com/a/inbox/{workspace_id}/inbox/{conv_id} # Conversation
@@ -229,14 +238,45 @@ app.intercom.com/a/apps/{workspace_id}/outbound         # Outbound messages
 app.intercom.com/a/apps/{workspace_id}/users            # Contacts
 app.intercom.com/a/apps/{workspace_id}/reports          # Reports
 {company}.intercom-help.com/                            # Published Help Center
+app.intercom.com/a/inbox/{workspace_id}/inbox/all            # All conversations
+app.intercom.com/a/inbox/{workspace_id}/inbox/mentions        # Mentions
+app.intercom.com/a/inbox/{workspace_id}/inbox/unassigned      # Unassigned
+app.intercom.com/a/apps/{workspace_id}/articles/{id}          # Individual article
+app.intercom.com/a/apps/{workspace_id}/articles/new            # New article editor
+app.intercom.com/a/apps/{workspace_id}/outbound/messages       # All outbound messages
+app.intercom.com/a/apps/{workspace_id}/outbound/tours          # Product tours
+app.intercom.com/a/apps/{workspace_id}/outbound/checklists     # Checklists
+app.intercom.com/a/apps/{workspace_id}/outbound/banners        # Banners
+app.intercom.com/a/apps/{workspace_id}/users/{id}              # Contact detail
+app.intercom.com/a/apps/{workspace_id}/companies               # Companies list
+app.intercom.com/a/apps/{workspace_id}/companies/{id}          # Company detail
+app.intercom.com/a/apps/{workspace_id}/segments                # Segments
+app.intercom.com/a/apps/{workspace_id}/reports/conversations    # Conversation reports
+app.intercom.com/a/apps/{workspace_id}/reports/fin              # Fin AI reports
+app.intercom.com/a/apps/{workspace_id}/reports/team             # Team performance
+app.intercom.com/a/apps/{workspace_id}/settings/messenger       # Messenger settings
+app.intercom.com/a/apps/{workspace_id}/settings/channels        # Channel config
+app.intercom.com/a/apps/{workspace_id}/settings/integrations    # Integrations
+app.intercom.com/a/apps/{workspace_id}/settings/billing         # Billing
 </code></pre>
 <h2>Search &amp; Filter</h2>
 <ul>
-<li><strong>Inbox search:</strong> Search conversations by keyword, contact name/email, tags, assignee</li>
-<li><strong>Inbox Views:</strong> Saved filter combinations (e.g., &quot;VIP unassigned conversations&quot;)</li>
-<li><strong>Contact search:</strong> Search/filter by name, email, custom attributes, segment membership, last seen</li>
-<li><strong>Help Center search:</strong> Full-text article search (also powers the Messenger&#39;s self-serve)</li>
-<li><strong>Reports filters:</strong> Date range, team, channel, tag</li>
+<li><p><strong>Inbox search:</strong> Search conversations by keyword, contact name/email, tags, assignee</p>
+</li>
+<li><p><strong>Inbox Views:</strong> Saved filter combinations (e.g., &quot;VIP unassigned conversations&quot;)</p>
+</li>
+<li><p><strong>Contact search:</strong> Search/filter by name, email, custom attributes, segment membership, last seen</p>
+</li>
+<li><p><strong>Help Center search:</strong> Full-text article search (also powers the Messenger&#39;s self-serve)</p>
+</li>
+<li><p><strong>Reports filters:</strong> Date range, team, channel, tag</p>
+</li>
+<li><p><strong>Company search</strong>: Search companies by name, domain, plan, or custom attributes</p>
+</li>
+<li><p><strong>Outbound message search</strong>: Filter messages by type, status (live/paused/draft), audience, date</p>
+</li>
+<li><p><strong>Article analytics search</strong>: Filter article performance by views, helpfulness rating, date range</p>
+</li>
 </ul>
 <h2>Responsive Behavior</h2>
 <table>
@@ -263,6 +303,44 @@ app.intercom.com/a/apps/{workspace_id}/reports          # Reports
 <td>Responsive widget — adapts to mobile browsers; native SDKs for iOS/Android</td>
 </tr>
 </tbody></table>
+<h3>Platform-Specific UX</h3>
+<ul>
+<li>Three-column inbox layout (list → thread → customer profile) enables rapid triage</li>
+<li>Fin AI agent autonomously handles initial customer inquiries using help articles and custom answers</li>
+<li>Macros (saved replies) with dynamic variables speed up agent responses</li>
+<li>Customer profile sidebar shows all attributes, events, and conversation history for context</li>
+<li>Conversation assignment supports round-robin, load-balancing, and skill-based routing</li>
+<li>SLA timers with visual indicators show time remaining for first response and resolution</li>
+<li>Product Tours guide users through features with step-by-step tooltips and modals</li>
+<li>Checklists provide onboarding task lists that users can complete at their own pace</li>
+<li>Custom bots (workflow builder) create automated conversation flows with branching logic</li>
+<li>Messenger home screen can display custom cards, articles, and conversation starters</li>
+<li>Conversation tags enable categorization for reporting and routing purposes</li>
+<li>CSAT surveys trigger automatically after conversation resolution</li>
+</ul>
+<h3>Integration Points</h3>
+<ul>
+<li>Slack integration enables responding to conversations from Slack channels</li>
+<li>Salesforce and HubSpot CRM integrations sync contact and company data bidirectionally</li>
+<li>Jira integration creates tickets from conversations and tracks status</li>
+<li>Webhooks enable real-time event notifications to external systems</li>
+<li>REST API provides full programmatic access to conversations, contacts, and articles</li>
+<li>JavaScript SDK and mobile SDKs (iOS, Android, React Native) for Messenger embedding</li>
+</ul>
+<h3>Conversation Routing Flow</h3>
+<pre><code>Customer message → Fin AI attempts resolution → Confident? → Resolved automatically
+                                                → Not confident? → Route to team inbox
+                                                → Custom bot flow? → Follow branching logic
+                                                → Priority customer? → Route to VIP queue
+</code></pre>
+<h3>Messenger Components</h3>
+<pre><code>Home Screen:        Customizable cards, conversation starters, search
+Conversation:       Chat thread with agent/bot responses
+Article Viewer:     In-widget help article display
+Product Tour:       Step-by-step guided feature walkthrough
+Checklist:          Task list for onboarding completion
+Survey:            In-messenger survey for feedback collection
+</code></pre>
 <h2>Access Control</h2>
 <table>
 <thead>

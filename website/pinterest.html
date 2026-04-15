@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Pinterest</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Pinterest is a visual discovery engine that helps users find inspiration, save ideas, and shop products through an image-first interface. The IA is organized around Pins (individual ideas), Boards (curated collections), and a personalized Home Feed powered by visual recommendation algorithms. The platform bridges inspiration and action — from mood board to purchase, recipe to meal, design idea to renovation.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>Pinterest
 ├── Home Feed (personalized)
 ├── Search / Explore
@@ -138,7 +138,7 @@
     ├── Shopping Lists
     └── Verified Merchant badges
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <ul>
 <li><strong>Type</strong>: Top nav bar (desktop), bottom tab bar (mobile)</li>
 <li><strong>Desktop Top Bar</strong>: Home, Explore, Create (+), Notifications (bell), Messages, Profile avatar, Search bar (prominent)</li>
@@ -147,12 +147,12 @@
 <li><strong>Board Navigation</strong>: Grid of boards → tap board → masonry grid of pins within</li>
 <li><strong>Back Behavior</strong>: Browser-like history stack; pins can be deep-linked</li>
 </ul>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Attributes</th>
+<th>Entity</th>
+<th>Key Attributes</th>
 <th>Relationships</th>
 </tr>
 </thead>
@@ -197,29 +197,17 @@
 <td>→ Product Pins</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
+<h2>User Flows</h2>
 <h3>Saving Inspiration</h3>
-<ol>
-<li>Scroll Home Feed → Tap Pin → View detail with source link</li>
-<li>Tap &quot;Save&quot; → Select existing board or create new board</li>
-<li>Pin saved to board → &quot;More like this&quot; suggestions appear below</li>
-<li>Repeat to build a thematic collection</li>
-</ol>
+<pre><code>Scroll Home Feed → Tap Pin → View detail with source link → Tap &quot;Save&quot; → Select existing board or create new board → Pin saved to board → &quot;More like this&quot; suggestions appear below → Repeat to build a thematic collection
+</code></pre>
 <h3>Visual Search with Lens</h3>
-<ol>
-<li>Tap Search → Tap Camera icon (Lens)</li>
-<li>Point camera at object (furniture, outfit, food) → Capture</li>
-<li>Pinterest returns visually similar Pins and shoppable products</li>
-<li>Tap result → View Pin detail → Save or shop</li>
-</ol>
+<pre><code>Tap Search → Tap Camera icon (Lens) → Point camera at object (furniture, outfit, food) → Capture → Pinterest returns visually similar Pins and shoppable products → Tap result → View Pin detail → Save or shop
+</code></pre>
 <h3>Shopping Flow</h3>
-<ol>
-<li>Browse Home Feed or Search → Tap Product Pin (price badge visible)</li>
-<li>View product details, price, availability, merchant info</li>
-<li>Tap &quot;Visit&quot; → Redirect to merchant website for checkout</li>
-<li>Or tap &quot;Save to Shopping List&quot; for price-drop notifications</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<pre><code>Browse Home Feed or Search → Tap Product Pin (price badge visible) → View product details, price, availability, merchant info → Tap &quot;Visit&quot; → Redirect to merchant website for checkout → Or tap &quot;Save to Shopping List&quot; for price-drop notifications
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code>pinterest.com/                              # Home feed (logged in) / landing (logged out)
 pinterest.com/search/pins/?q={query}        # Search results
 pinterest.com/ideas/{topic}/                # Topic / category page
@@ -231,8 +219,21 @@ pinterest.com/settings/                     # Account settings
 pinterest.com/business/                     # Business hub
 ads.pinterest.com/                          # Ads Manager
 analytics.pinterest.com/                    # Analytics dashboard
+pinterest.com/pin/create/                       # Create new pin
+pinterest.com/pin/create/idea/                  # Create idea pin
+pinterest.com/{username}/boards/                # User&#39;s boards list
+pinterest.com/{username}/{board-slug}/edit      # Edit board
+pinterest.com/{username}/tried/                 # Tried pins
+pinterest.com/shopping/                         # Shopping hub
+pinterest.com/shopping/lists/                   # Shopping lists
+pinterest.com/notifications/                    # Notifications
+pinterest.com/messages/                         # Messages
+pinterest.com/settings/account/                 # Account settings
+pinterest.com/settings/notifications/           # Notification settings
+pinterest.com/settings/privacy/                 # Privacy settings
+pinterest.com/business/create/                  # Create business account
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <ul>
 <li><strong>Search Bar</strong>: Keyword search with autocomplete, trending suggestions, recent searches</li>
 <li><strong>Guided Search</strong>: Clickable filter bubbles (e.g., &quot;modern&quot; &quot;minimalist&quot; &quot;small space&quot;) refine results contextually</li>
@@ -242,7 +243,7 @@ analytics.pinterest.com/                    # Analytics dashboard
 <li><strong>Board Search</strong>: Search within a specific board&#39;s pins</li>
 <li><strong>Home Feed Tuning</strong>: &quot;Hide&quot; or &quot;See fewer like this&quot; to adjust algorithmic recommendations</li>
 </ul>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -271,7 +272,7 @@ analytics.pinterest.com/                    # Analytics dashboard
 <td>Full-screen pin preview with signup wall after scroll threshold</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>
@@ -308,6 +309,146 @@ analytics.pinterest.com/                    # Analytics dashboard
 <td>Create promoted pins, set targeting, manage campaigns and budgets</td>
 </tr>
 </tbody></table>
+<h2>Pin Types</h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Content</th>
+<th>Features</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Standard Pin</td>
+<td>Single image + link + description</td>
+<td>Save, share, click-through to source</td>
+</tr>
+<tr>
+<td>Idea Pin</td>
+<td>Multi-page (up to 20) stories</td>
+<td>Video, music, tagged products, step-by-step</td>
+</tr>
+<tr>
+<td>Product Pin</td>
+<td>Image + price + availability</td>
+<td>Buy button, merchant info, price tracking</td>
+</tr>
+<tr>
+<td>Video Pin</td>
+<td>Video (up to 15 min)</td>
+<td>Autoplay in feed, engagement metrics</td>
+</tr>
+<tr>
+<td>Rich Pin</td>
+<td>Enhanced metadata from website</td>
+<td>Article (headline, author), Recipe (ingredients, time), Product (price, stock)</td>
+</tr>
+<tr>
+<td>Try-On Pin</td>
+<td>AR-enabled product preview</td>
+<td>Virtual try-on for makeup, accessories (Lens)</td>
+</tr>
+<tr>
+<td>Collection Pin</td>
+<td>Group of products in one image</td>
+<td>Click hotspots to view individual products</td>
+</tr>
+</tbody></table>
+<h2>Algorithm &amp; Ranking</h2>
+<ul>
+<li><strong>Home feed:</strong> Personalized based on followed topics, saved pins, engaged-with content, and similar users</li>
+<li><strong>Related pins:</strong> Visual similarity + engagement patterns + same source domain</li>
+<li><strong>Search ranking:</strong> Keyword relevance + pin quality (saves, clicks) + freshness + pinner trust score</li>
+<li><strong>Guided search bubbles:</strong> Contextual refinements (e.g., search &quot;living room&quot; → bubbles: &quot;modern&quot;, &quot;small&quot;, &quot;boho&quot;, &quot;farmhouse&quot;)</li>
+<li><strong>Taste graph:</strong> Pinterest&#39;s proprietary interest mapping; clusters users by aesthetic preferences</li>
+</ul>
+<h2>Visual Search (Lens)</h2>
+<ul>
+<li><strong>Crop search:</strong> Select a region of any pin or photo → find visually similar items</li>
+<li><strong>Camera search:</strong> Point camera at real-world object → matching pins and products</li>
+<li><strong>Shop the look:</strong> Identify multiple items in an outfit or room → individual product links</li>
+<li><strong>Skin tone range:</strong> Beauty results adjusted to match user&#39;s skin tone</li>
+<li><strong>AR Try-On:</strong> Virtually apply lipstick, eyeshadow, furniture placement</li>
+</ul>
+<h2>Advertising</h2>
+<table>
+<thead>
+<tr>
+<th>Ad Format</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Standard Pins</td>
+<td>Promoted pins in feeds and search results</td>
+</tr>
+<tr>
+<td>Video Pins</td>
+<td>Promoted video content (autoplay)</td>
+</tr>
+<tr>
+<td>Carousel Pins</td>
+<td>Multi-image swipeable ads (up to 5 images)</td>
+</tr>
+<tr>
+<td>Shopping Ads</td>
+<td>Promoted product pins with price and availability</td>
+</tr>
+<tr>
+<td>Collection Ads</td>
+<td>Hero image/video + product grid below</td>
+</tr>
+<tr>
+<td>Idea Ads</td>
+<td>Sponsored Idea Pins with brand partnership</td>
+</tr>
+</tbody></table>
+<h2>Creator Tools</h2>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Idea Pin analytics</td>
+<td>Views, saves, clicks, profile visits per Idea Pin</td>
+</tr>
+<tr>
+<td>Audience insights</td>
+<td>Follower demographics, interests, engagement patterns</td>
+</tr>
+<tr>
+<td>Claimed accounts</td>
+<td>Link website, Instagram, Etsy, YouTube for attribution</td>
+</tr>
+<tr>
+<td>Rich Pins</td>
+<td>Auto-sync metadata from website (article, recipe, product)</td>
+</tr>
+<tr>
+<td>Pin scheduling</td>
+<td>Schedule pins for optimal posting times</td>
+</tr>
+<tr>
+<td>Trends tool</td>
+<td>See trending searches by region and category</td>
+</tr>
+<tr>
+<td>Analytics dashboard</td>
+<td>Total impressions, engagements, audience growth</td>
+</tr>
+</tbody></table>
+<h2>Board Organization</h2>
+<ul>
+<li><strong>Board sections:</strong> Subdivide boards into sections (e.g., &quot;Living Room&quot; board → sections: &quot;Furniture&quot;, &quot;Lighting&quot;, &quot;Art&quot;)</li>
+<li><strong>Secret boards:</strong> Private boards not visible on profile or in search</li>
+<li><strong>Collaborative boards:</strong> Invite others to pin; useful for shared planning (wedding, renovation)</li>
+<li><strong>Board covers:</strong> Custom cover pin for visual organization on profile</li>
+<li><strong>Board notes:</strong> Description text for context on the board&#39;s purpose</li>
+<li><strong>Archive boards:</strong> Hide boards from profile without deleting</li>
+</ul>
 
     </div>
   </article>

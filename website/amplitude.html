@@ -149,6 +149,13 @@
     ├── Solutions
     ├── Pricing
     └── Resources
+├── Feature Flags
+│   ├── Flag List
+│   ├── Flag Detail (variants, targeting)
+│   └── Rollout History
+├── Audiences
+│   ├── Audience Builder
+│   └── Synced Audiences
 </code></pre>
 <h2>Navigation Model</h2>
 <ul>
@@ -226,16 +233,42 @@
 <td>name, members, contents</td>
 <td>→ Charts, Dashboards, Notebooks, Cohorts</td>
 </tr>
+<tr>
+<td>Group</td>
+<td>group_type, group_name, properties</td>
+<td>→ Users, Events</td>
+</tr>
+<tr>
+<td>Data Source</td>
+<td>type (SDK/integration), status, last_seen</td>
+<td>→ Project</td>
+</tr>
+<tr>
+<td>Destination</td>
+<td>type (Braze/Iterable/etc.), synced_cohorts</td>
+<td>→ Cohorts</td>
+</tr>
 </tbody></table>
 <h2>User Flows</h2>
-<h3>1. Analyze Feature Usage</h3>
-<p><code>Analytics → Event Segmentation → Select event (e.g., &quot;Button Clicked&quot;) → Segment by property (e.g., platform) → Set date range → View trend → Save to Dashboard</code></p>
-<h3>2. Build a Conversion Funnel</h3>
-<p><code>Analytics → Funnel Analysis → Add steps (e.g., &quot;Sign Up&quot; → &quot;Complete Onboarding&quot; → &quot;First Purchase&quot;) → Segment by cohort → View conversion rates and drop-off → Identify bottleneck</code></p>
-<h3>3. Create a Behavioral Cohort</h3>
-<p><code>Cohorts → + New → Define: &quot;Users who performed &#39;Add to Cart&#39; 3+ times in last 7 days AND did NOT perform &#39;Purchase&#39;&quot; → Save → Use in charts or sync to marketing tool</code></p>
-<h3>4. Run an A/B Test</h3>
-<p><code>Experiments → + New → Define variants → Set primary metric → Allocate traffic → Launch → Monitor results → Reach statistical significance → Ship winner</code></p>
+<h3>Analyze Feature Usage</h3>
+<pre><code>Analytics → Event Segmentation → Select event (e.g., &quot;Button Clicked&quot;) → Segment by property (e.g., platform) → Set date range → View trend → Save to Dashboard
+</code></pre>
+<h3>Build a Conversion Funnel</h3>
+<pre><code>Analytics → Funnel Analysis → Add steps (e.g., &quot;Sign Up&quot; → &quot;Complete Onboarding&quot; → &quot;First Purchase&quot;) → Segment by cohort → View conversion rates and drop-off → Identify bottleneck
+</code></pre>
+<h3>Create a Behavioral Cohort</h3>
+<pre><code>Cohorts → + New → Define: &quot;Users who performed &#39;Add to Cart&#39; 3+ times in last 7 days AND did NOT perform &#39;Purchase&#39;&quot; → Save → Use in charts or sync to marketing tool
+</code></pre>
+<h3>Run an A/B Test</h3>
+<pre><code>Experiments → + New → Define variants → Set primary metric → Allocate traffic → Launch → Monitor results → Reach statistical significance → Ship winner
+</code></pre>
+<h3>Investigate Retention Drop</h3>
+<pre><code>Home → Retention Analysis → Select retention event (e.g., &#39;Session Start&#39;) → Set cohort (new users this month) → View retention curve → Compare to previous period → Identify drop-off day → Drill into cohort properties → Create segment of churned users
+                                                                                                                                                                            ↘ Sync churned cohort to email tool for re-engagement
+</code></pre>
+<h3>Set Up Data Source</h3>
+<pre><code>Data → Sources → + Add Source → Select SDK (JavaScript, iOS, Android) → Copy API key → Install SDK → Instrument events → Verify in live debugger → Events appear in taxonomy
+</code></pre>
 <h2>URL / Route Structure</h2>
 <pre><code>app.amplitude.com/{org}/home                          # Home
 app.amplitude.com/{org}/chart/{chart_id}               # Chart (any type)
@@ -247,14 +280,44 @@ app.amplitude.com/{org}/user-lookup/{user_id}          # User profile
 app.amplitude.com/{org}/data/events                    # Data taxonomy
 app.amplitude.com/{org}/experiment/{id}                # Experiment
 app.amplitude.com/{org}/space/{space_id}               # Space
+app.amplitude.com/{org}/chart/new?chartType=funnel        # New funnel
+app.amplitude.com/{org}/chart/new?chartType=retention      # New retention
+app.amplitude.com/{org}/chart/new?chartType=revenue        # New revenue chart
+app.amplitude.com/{org}/chart/new?chartType=pathfinder     # New pathfinder
+app.amplitude.com/{org}/cohort/new                        # New cohort
+app.amplitude.com/{org}/data/user-properties               # User properties
+app.amplitude.com/{org}/data/group-properties              # Group properties
+app.amplitude.com/{org}/data/sources                      # Data sources
+app.amplitude.com/{org}/data/destinations                 # Destinations
+app.amplitude.com/{org}/data/transformations              # Data transformations
+app.amplitude.com/{org}/data/governance                   # Governance
+app.amplitude.com/{org}/experiment/new                    # New experiment
+app.amplitude.com/{org}/feature-flags                     # Feature flags
+app.amplitude.com/{org}/settings/organization             # Org settings
+app.amplitude.com/{org}/settings/projects                 # Project settings
+app.amplitude.com/{org}/settings/members                  # Team members
+app.amplitude.com/{org}/settings/integrations             # Integrations
 </code></pre>
 <h2>Search &amp; Filter</h2>
 <ul>
-<li><strong>Global search:</strong> Find charts, cohorts, dashboards, notebooks, events, and users by keyword</li>
-<li><strong>Event search (Data):</strong> Search event names, filter by volume, first/last seen, status (live/blocked/hidden)</li>
-<li><strong>User Look-Up:</strong> Search by user_id, device_id, or user property value</li>
-<li><strong>Chart filters:</strong> Segment by any event/user property, cohort, date range; WHERE clauses for granular filtering</li>
-<li><strong>Cohort conditions:</strong> Multi-condition builder with event counts, property values, time windows, AND/OR logic</li>
+<li><p><strong>Global search:</strong> Find charts, cohorts, dashboards, notebooks, events, and users by keyword</p>
+</li>
+<li><p><strong>Event search (Data):</strong> Search event names, filter by volume, first/last seen, status (live/blocked/hidden)</p>
+</li>
+<li><p><strong>User Look-Up:</strong> Search by user_id, device_id, or user property value</p>
+</li>
+<li><p><strong>Chart filters:</strong> Segment by any event/user property, cohort, date range; WHERE clauses for granular filtering</p>
+</li>
+<li><p><strong>Cohort conditions:</strong> Multi-condition builder with event counts, property values, time windows, AND/OR logic</p>
+</li>
+<li><p><strong>Sort options</strong>: By relevance, date created, date modified, alphabetical, popularity</p>
+</li>
+<li><p><strong>Autocomplete</strong>: Type-ahead suggestions with recent searches and popular results</p>
+</li>
+<li><p><strong>Advanced search</strong>: Boolean operators (AND, OR, NOT), field-specific filters, date ranges</p>
+</li>
+<li><p><strong>Recent searches</strong>: Quick access to previous search queries</p>
+</li>
 </ul>
 <h2>Responsive Behavior</h2>
 <table>
@@ -277,6 +340,17 @@ app.amplitude.com/{org}/space/{space_id}               # Space
 <td>Dashboard viewing only; no chart editing; Amplitude is desktop-first</td>
 </tr>
 </tbody></table>
+<h3>Platform-Specific Patterns</h3>
+<ul>
+<li>Touch targets: minimum 44x44pt on mobile for accessibility</li>
+<li>Swipe gestures: swipe to delete, archive, or perform quick actions</li>
+<li>Pull-to-refresh: standard refresh pattern on feeds and lists</li>
+<li>Keyboard shortcuts: comprehensive shortcuts on desktop for power users</li>
+<li>Dark mode: system-preference detection with manual override</li>
+<li>Offline support: cached data available without network connectivity</li>
+<li>Progressive loading: skeleton screens while content loads</li>
+<li>Amplitude&#39;s Recommend feature suggests experiments based on behavioral analysis</li>
+</ul>
 <h2>Access Control</h2>
 <table>
 <thead>
@@ -310,6 +384,16 @@ app.amplitude.com/{org}/space/{space_id}               # Space
 <td>Control who can view/edit content within a specific Space</td>
 </tr>
 </tbody></table>
+<h3>Security Features</h3>
+<ul>
+<li>Single Sign-On (SSO) support via SAML 2.0 and OIDC (Team/Enterprise)</li>
+<li>Two-factor authentication (TOTP, SMS, hardware keys)</li>
+<li>API token management with scoped permissions</li>
+<li>Session management: configurable timeout, forced logout</li>
+<li>Audit logging for security-sensitive actions</li>
+<li>Data encryption at rest (AES-256) and in transit (TLS 1.3)</li>
+<li>SOC 2 Type II compliance</li>
+</ul>
 
     </div>
   </article>

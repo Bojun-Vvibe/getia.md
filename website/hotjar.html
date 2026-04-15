@@ -233,6 +233,15 @@
 <p><code>Surveys → + New → Choose template (NPS, exit intent, custom) → Add questions → Set targeting (specific page, after 30s, exit intent) → Launch → Review responses</code></p>
 <h3>4. Investigate Funnel Drop-off</h3>
 <p><code>Funnels → + New → Define steps (e.g., &quot;/products&quot; → &quot;/cart&quot; → &quot;/checkout&quot; → &quot;/confirmation&quot;) → View conversion rates → Click drop-off → Watch recordings of users who dropped</code></p>
+<h3>Set Up Feedback Widget</h3>
+<pre><code>Ask → Feedback → Configure widget → Set emoji scale → Choose placement (right/left/bottom) → Target specific pages → Enable → Incoming feedback appears in dashboard
+</code></pre>
+<h3>Recruit for User Interview</h3>
+<pre><code>Engage → New Study → Define criteria → Set incentive → Create recruitment survey → Embed on site → Participants apply → Schedule interviews → Conduct via Hotjar or external tool
+</code></pre>
+<h3>Create Trend Analysis</h3>
+<pre><code>Trends → Select metric (rage clicks, scroll depth, page views) → Set date range → View line chart over time → Compare pages → Identify regression → Link to recordings for investigation
+</code></pre>
 <h2>URL / Route Structure</h2>
 <pre><code>insights.hotjar.com/sites/{site_id}/dashboard              # Dashboard
 insights.hotjar.com/sites/{site_id}/heatmaps/{id}          # Heatmap
@@ -243,14 +252,39 @@ insights.hotjar.com/sites/{site_id}/surveys/{id}/responses  # Survey responses
 insights.hotjar.com/sites/{site_id}/feedback                # Feedback inbox
 insights.hotjar.com/sites/{site_id}/funnels/{id}            # Funnel
 insights.hotjar.com/sites/{site_id}/highlights              # Highlights
+insights.hotjar.com/sites/{site_id}/heatmaps/new       # Create heatmap
+insights.hotjar.com/sites/{site_id}/surveys/new         # Create survey
+insights.hotjar.com/sites/{site_id}/surveys/templates   # Survey templates
+insights.hotjar.com/sites/{site_id}/feedback/settings   # Feedback widget settings
+insights.hotjar.com/sites/{site_id}/trends              # Trends over time
+insights.hotjar.com/sites/{site_id}/engage              # User interviews
+insights.hotjar.com/sites/{site_id}/engage/recruit      # Recruit participants
+insights.hotjar.com/organizations/{id}/settings         # Org settings
+insights.hotjar.com/organizations/{id}/billing          # Billing
+insights.hotjar.com/organizations/{id}/team             # Team members
+insights.hotjar.com/organizations/{id}/sites            # Manage sites
+hotjar.com/pricing                                       # Pricing page
+hotjar.com/blog                                          # Blog
+hotjar.com/product                                       # Product overview
 </code></pre>
 <h2>Search &amp; Filter</h2>
 <ul>
-<li><strong>Recording filters:</strong> Page URL visited, country, device, duration, rage clicks, u-turns, console errors, user attributes, date range, referrer</li>
-<li><strong>Heatmap filters:</strong> Device type, date range, custom user attributes</li>
-<li><strong>Survey response filters:</strong> By question answer, page, date, completion status</li>
-<li><strong>Feedback filters:</strong> By rating (emoji), date, page URL, keyword in comment</li>
-<li><strong>Funnel filters:</strong> By user segment, device, date range</li>
+<li><p><strong>Recording filters:</strong> Page URL visited, country, device, duration, rage clicks, u-turns, console errors, user attributes, date range, referrer</p>
+</li>
+<li><p><strong>Heatmap filters:</strong> Device type, date range, custom user attributes</p>
+</li>
+<li><p><strong>Survey response filters:</strong> By question answer, page, date, completion status</p>
+</li>
+<li><p><strong>Feedback filters:</strong> By rating (emoji), date, page URL, keyword in comment</p>
+</li>
+<li><p><strong>Funnel filters:</strong> By user segment, device, date range</p>
+</li>
+<li><p><strong>Highlight search</strong>: Search saved clips by note text or collection</p>
+</li>
+<li><p><strong>Trend analysis</strong>: Filter trends by page, device, date range</p>
+</li>
+<li><p><strong>Engage participant search</strong>: Filter interview candidates by criteria</p>
+</li>
 </ul>
 <h2>Responsive Behavior</h2>
 <table>
@@ -277,6 +311,36 @@ insights.hotjar.com/sites/{site_id}/highlights              # Highlights
 <td>Hotjar tracks behavior on all device sizes; heatmaps can be filtered by device</td>
 </tr>
 </tbody></table>
+<h3>Platform-Specific UX</h3>
+<ul>
+<li>Heatmaps overlay directly on a screenshot of the tracked page — showing click, move, and scroll patterns</li>
+<li>Rage click detection identifies user frustration by detecting rapid repeated clicks</li>
+<li>Session recordings include user journey (page sequence), events timeline, and console errors</li>
+<li>Highlights allow saving clips from recordings with notes for team sharing</li>
+<li>Survey targeting supports page-specific, behavior-based, and exit-intent triggering</li>
+<li>Feedback widget uses emoji ratings (happy/neutral/sad) for quick sentiment collection</li>
+<li>Funnels link directly to recordings of users who dropped off at specific steps</li>
+<li>Privacy controls allow CSS selector-based suppression of sensitive content in recordings</li>
+<li>Trends visualization shows metrics (rage clicks, scroll depth, etc.) over time for regression detection</li>
+<li>Engage feature enables recruiting users for live interviews directly from the site</li>
+<li>Data suppression ensures PII like passwords and credit card numbers are never recorded</li>
+</ul>
+<h3>Integration Points</h3>
+<ul>
+<li>Google Analytics integration links behavior data with analytics events</li>
+<li>Segment integration enables centralized event tracking</li>
+<li>Slack/Jira/Trello integrations allow sharing findings directly from the platform</li>
+<li>Tag manager support (GTM, Segment) for easy installation without code changes</li>
+</ul>
+<h3>Recording Event Types</h3>
+<pre><code>Click:         Standard user click on an element
+Rage Click:    3+ rapid clicks on the same element — indicates frustration
+U-Turn:        User navigates to a page and immediately returns
+Error:         JavaScript console error during the session
+Page Change:   Navigation between pages within the recorded session
+Scroll:        Scroll depth tracking with percentage indicators
+Form Input:    Text field interactions (content suppressed for privacy)
+</code></pre>
 <h2>Access Control</h2>
 <table>
 <thead>

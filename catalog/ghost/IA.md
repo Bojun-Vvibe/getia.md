@@ -7,10 +7,10 @@ website: https://ghost.org
 
 # Information Architecture — Ghost
 
-## 1. Overview
+## Overview
 Ghost is an open-source publishing platform focused on professional content creators who want to build a membership-based business around their writing. The IA supports the full creator economy stack: **publishing** (posts, pages, newsletters), **memberships** (free and paid tiers), **newsletters** (built-in email), and **monetization** (Stripe integration for subscriptions). Ghost positions itself as the independent, open-source alternative to Substack and WordPress, with a focus on speed, clean design, and owning your audience.
 
-## 2. Site Map
+## Site Map
 
 ```
 ghost.org (Marketing & Docs)
@@ -129,7 +129,7 @@ Ghost Admin (CMS)
     └── Revenue
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 | Level | Type | Details |
 |-------|------|---------|
@@ -140,49 +140,62 @@ Ghost Admin (CMS)
 
 **Key pattern**: Ghost Admin is intentionally minimal — the left sidebar has fewer than 10 items. The editor is distraction-free, with settings tucked behind a side panel. The focus is on writing.
 
-## 4. Content Model
+## Content Model
 
-| Entity | Attributes |
-|--------|-----------|
-| Post | title, slug, body (Mobiledoc/Lexical), feature image, excerpt, tags, authors, published date, visibility (public/members/paid), newsletter flag, email status |
-| Page | title, slug, body, feature image, template |
-| Tag | name, slug, description, feature image, meta (SEO) |
-| Author | name, slug, bio, avatar, location, social links |
-| Member | email, name, status (free/paid/complimentary), subscription tier, created date, labels, email preferences, Stripe customer ID |
-| Tier | name, description, monthly price, yearly price, benefits, visibility |
-| Newsletter | name, sender, design settings, status, post association |
-| Offer | name, code, discount (% or amount), tier, duration, redemptions |
+| Entity | Key Attributes | Relationships |
+|---|---|---|
+| Post | title, slug, body (Mobiledoc/Lexical), feature image, excerpt, tags, authors, published date, visibility (public/members/paid), newsletter flag, email status | → Author, → Tags, → Newsletter |
+| Page | title, slug, body, feature image, template | belongs to Site, has Components |
+| Tag | name, slug, description, feature image, meta (SEO) | has Posts, belongs to Blog |
+| Author | name, slug, bio, avatar, location, social links | has Posts, belongs to Blog |
+| Member | email, name, status (free/paid/complimentary), subscription tier, created date, labels, email preferences, Stripe customer ID | → Subscription Tier, belongs to Blog |
+| Tier | name, description, monthly price, yearly price, benefits, visibility | has Members, belongs to Blog |
+| Newsletter | name, sender, design settings, status, post association | → Folder, belongs to User |
+| Offer | name, code, discount (% or amount), tier, duration, redemptions | → Tier, belongs to Blog |
 
-## 5. User Flows
+## User Flows
 
 ### 5a. Publish a post
-1. Ghost Admin → New Post → editor opens
-2. Write content with cards (image, gallery, embed, bookmark, code, callout, etc.)
-3. Open settings panel → tags, excerpt, feature image, visibility (public/members/paid)
-4. Toggle "Email newsletter" → send as email to members
-5. Publish → post live on site + email sent (if enabled)
+
+```
+Ghost Admin → New Post → editor opens →
+  Write content with cards (image, gallery, embed, bookmark, code, callout, etc.) →
+  Open settings panel → tags, excerpt, feature image, visibility... →
+  Toggle "Email newsletter" → send as email to members →
+  Publish → post live on site + email sent (if enabled)
+```
+
 
 ### 5b. Build membership business
-1. Settings → Membership → define tiers (Free, Paid Monthly, Paid Yearly)
-2. Connect Stripe → set prices
-3. Create subscriber-only content (set visibility to "Members" or "Paid members")
-4. Readers visit site → hit paywall → sign up (free) or subscribe (paid)
-5. Dashboard shows MRR, member growth, churn, revenue
+
+```
+Settings → Membership → define tiers (Free, Paid Monthly, Paid Yearly) → Connect Stripe → set prices →
+  Create subscriber-only content (set visibility to "Members" or "Paid members") →
+  Readers visit site → hit paywall → sign up (free) or subscribe (paid) →
+  Dashboard shows MRR, member growth, churn, revenue
+```
+
 
 ### 5c. Reader — Subscribe and read
-1. Visit publication → browse free posts
-2. Hit members-only post → "Subscribe" CTA
-3. Enter email (free) or select paid plan (Stripe checkout)
-4. Receive welcome email → full access to content
-5. Manage subscription via account page (cancel, update payment, email prefs)
+
+```
+Visit publication → browse free posts → Hit members-only post → "Subscribe" CTA →
+  Enter email (free) or select paid plan (Stripe checkout) →
+  Receive welcome email → full access to content →
+  Manage subscription via account page (cancel, update payment, email prefs)
+```
+
 
 ### 5d. Newsletter workflow
-1. Write post → toggle "Send as newsletter"
-2. Select newsletter (can have multiple) → preview email
-3. Publish → post goes live on site + email delivered to segment
-4. View email analytics (opens, clicks, unsubscribes)
 
-## 6. URL / Route Structure
+```
+Write post → toggle "Send as newsletter" → Select newsletter (can have multiple) → preview email →
+  Publish → post goes live on site + email delivered to segment →
+  View email analytics (opens, clicks, unsubscribes)
+```
+
+
+## URL / Route Structure
 
 ```
 # ghost.org
@@ -216,7 +229,7 @@ Ghost Admin (CMS)
 /ghost/#/settings/              → Settings
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 | Feature | Behavior |
 |---------|----------|
@@ -227,7 +240,7 @@ Ghost Admin (CMS)
 | Tag archives | Built-in content filtering by tag |
 | Author archives | Built-in content filtering by author |
 
-## 8. Responsive Behavior
+## Responsive Behavior
 
 | Breakpoint | Adaptation |
 |-----------|------------|
@@ -237,7 +250,7 @@ Ghost Admin (CMS)
 | Ghost Admin | Responsive — works on tablet, limited on phone (desktop recommended) |
 | Email (newsletter) | Responsive email template, optimized for all email clients |
 
-## 9. Access Control
+## Access Control
 
 | Role | Access |
 |------|--------|

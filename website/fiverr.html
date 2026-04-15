@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Fiverr</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Fiverr is a freelance services marketplace where sellers offer productized services called <strong>gigs</strong> — fixed-scope deliverables with tiered pricing packages. The IA is buyer-centric: categories, search, and recommendations are optimized for clients finding talent. Key differentiators include the gig-based model (vs. hourly bidding), Fiverr Pro (vetted premium talent), Fiverr Business (team collaboration), and a resolution center for dispute management.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>fiverr.com
 ├── Home
 ├── Explore (Categories)
@@ -155,7 +155,7 @@
     ├── Log in
     └── Join (sign up)
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <table>
 <thead>
 <tr>
@@ -191,65 +191,65 @@
 </tr>
 </tbody></table>
 <p><strong>Key pattern</strong>: The search bar and category mega-menu are the primary discovery mechanisms. Gig pages use a comparison table for packages — a unique pattern in freelance marketplaces.</p>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
 <th>Entity</th>
-<th>Attributes</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>Gig</td>
 <td>title, gallery (images + intro video), description, category, subcategory, tags, packages (3 tiers), extras, delivery time, revisions, FAQ</td>
+<td>→ Seller, has Packages, has Reviews</td>
 </tr>
 <tr>
 <td>Package</td>
 <td>tier (Basic/Standard/Premium), name, description, price, delivery days, revisions, features checklist</td>
+<td>belongs to Gig</td>
 </tr>
 <tr>
 <td>Seller</td>
 <td>username, avatar, bio, country, languages, skills, member since, level, rating, reviews count, response time</td>
+<td>has Gigs, has Reviews</td>
 </tr>
 <tr>
 <td>Order</td>
 <td>gig, package, extras, buyer, seller, requirements, delivery, revisions, status, timeline</td>
+<td>belongs to Gig, → Buyer, → Seller</td>
 </tr>
 <tr>
 <td>Review</td>
 <td>buyer, rating (1-5), comment, timestamp, seller response</td>
+<td>belongs to Gig/Seller, → Buyer</td>
 </tr>
 <tr>
 <td>Portfolio Item</td>
 <td>title, images/video, category, associated gig</td>
+<td>belongs to Seller, → Gig</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
+<h2>User Flows</h2>
 <h3>5a. Buyer — Find &amp; order a gig</h3>
-<ol>
-<li>Search or browse category → view gig results (grid/list)</li>
-<li>Open gig page → compare Basic/Standard/Premium packages</li>
-<li>Select package → add extras (faster delivery, extra revisions)</li>
-<li>Proceed to order → fill in buyer requirements (brief)</li>
-<li>Pay → seller begins work → delivery → approve or request revision</li>
-</ol>
+<pre><code>Search or browse category → view gig results (grid/list) →
+  Open gig page → compare Basic/Standard/Premium packages →
+  Select package → add extras (faster delivery, extra revisions) →
+  Proceed to order → fill in buyer requirements (brief) →
+  Pay → seller begins work → delivery → approve or request revision
+</code></pre>
 <h3>5b. Seller — Create a gig</h3>
-<ol>
-<li>&quot;Become a Seller&quot; → complete profile (skills, languages, bio)</li>
-<li>Create gig → title, category, tags</li>
-<li>Define 3 packages (scope, price, delivery time, revisions)</li>
-<li>Upload gallery (images, intro video)</li>
-<li>Write description, FAQ → publish</li>
-<li>Promote via social or Fiverr&#39;s promoted gigs</li>
-</ol>
+<pre><code>&quot;Become a Seller&quot; → complete profile (skills, languages, bio) → Create gig → title, category, tags →
+  Define 3 packages (scope, price, delivery time, revisions) → Upload gallery (images, intro video) →
+  Write description, FAQ → publish → Promote via social or Fiverr&#39;s promoted gigs
+</code></pre>
 <h3>5c. Custom order</h3>
-<ol>
-<li>Buyer contacts seller via inbox → discusses requirements</li>
-<li>Seller creates a custom offer (price, scope, delivery time)</li>
-<li>Buyer reviews → accepts → order created</li>
-<li>Standard delivery/revision flow</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<pre><code>Buyer contacts seller via inbox → discusses requirements →
+  Seller creates a custom offer (price, scope, delivery time) →
+  Buyer reviews → accepts → order created → Standard delivery/revision flow
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code>/                               → Home
 /categories/{category}/         → Category page
 /categories/{cat}/{subcat}/     → Subcategory
@@ -265,8 +265,19 @@
 /help/                          → Help center
 /community/                     → Forum
 /resources/                     → Blog / Academy
+/gig/create/                   # Create new gig
+/gig/{gig-id}/manage/          # Manage gig
+/users/{username}/seller_dashboard/  # Seller dashboard
+/users/{username}/analytics/    # Seller analytics
+/users/{username}/earnings/     # Earnings overview
+/reviews/                       # Reviews management
+/resolution_center/             # Dispute resolution
+/settings/account/              # Account settings
+/settings/security/             # Security settings
+/settings/notifications/        # Notification preferences
+/support/                       # Support center
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <table>
 <thead>
 <tr>
@@ -299,7 +310,12 @@
 <td>Sellers can browse buyer requests and submit offers</td>
 </tr>
 </tbody></table>
-<h2>8. Responsive Behavior</h2>
+<ul>
+<li><strong>Review search</strong>: Search reviews by keyword or rating</li>
+<li><strong>Earnings filtering</strong>: Filter earnings by period, gig, status</li>
+<li><strong>Order history search</strong>: Search past orders by buyer, gig, date</li>
+</ul>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -324,7 +340,36 @@
 <td>Bottom tabs (Home, Search, Orders, Inbox, Profile), push for order updates</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h3>Platform-Specific UX</h3>
+<ul>
+<li>Three-tier package comparison table is Fiverr&#39;s signature UI pattern for gig pricing</li>
+<li>Seller response time and delivery stats are prominently displayed as trust signals</li>
+<li>Custom offers enable direct negotiation outside the standard gig packages</li>
+<li>Buyer Requirements form collects the brief before the seller begins work</li>
+<li>Resolution Center provides structured dispute escalation with Fiverr as mediator</li>
+<li>Seller levels (New → Level 1 → Level 2 → Top Rated) unlock progressively more features</li>
+<li>Promoted Gigs allow sellers to boost visibility through an auction-based ad system</li>
+<li>Fiverr&#39;s review system is one-directional: only buyers review sellers (no seller reviews of buyers)</li>
+<li>Portfolio section lets sellers showcase past work samples beyond gig gallery images</li>
+<li>Fiverr Business adds team collaboration, consolidated invoicing, and dedicated account management</li>
+<li>Order activity timeline shows all communications, deliveries, and revisions in chronological order</li>
+</ul>
+<h3>Integration Points</h3>
+<ul>
+<li><p>Fiverr API enables programmatic order management and gig data access</p>
+</li>
+<li><p>Fiverr Workspace (formerly AND CO) provides invoicing and contract management</p>
+</li>
+<li><p>Integrations with payment processors support PayPal, credit cards, and Apple Pay</p>
+</li>
+<li><p>Quick response indicator shows sellers&#39; average response time to new inquiries</p>
+</li>
+<li><p>Mobile app provides push notifications for new orders, messages, and delivery deadlines</p>
+</li>
+<li><p>Gig SEO relies on 5 tags per gig and keyword-optimized titles and descriptions</p>
+</li>
+</ul>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>

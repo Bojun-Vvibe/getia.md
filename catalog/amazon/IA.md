@@ -281,6 +281,11 @@ Seller Central → Catalog → Add Product → Search existing ASIN or Create Ne
 Your Orders → Order Detail → Return Items → Select reason → Print return label → Ship back → Refund processed (often instant) → Receive refund
 ```
 
+### New User Onboarding
+```
+Visit Amazon → Sign Up (email/Google/SSO) → Complete profile → Guided setup wizard → Configure preferences → Explore key features → Start using the product
+                                                                                                                         ↘ Skip wizard → Land on dashboard
+```
 ## URL / Route Structure
 
 ```
@@ -303,6 +308,8 @@ Your Orders → Order Detail → Return Items → Select reason → Print return
 /gp/help/customer              → Help
 /gp/returns                    → Returns Center
 /sellercentral/                → Seller Central (separate domain)
+settings  → Settings
+/gp/subscribe-and-save          → Subscribe & Save management
 ```
 
 ## Search & Filter

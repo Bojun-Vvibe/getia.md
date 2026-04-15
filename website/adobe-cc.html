@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Adobe Creative Cloud</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Adobe Creative Cloud is the industry-standard creative software suite encompassing 20+ applications for photography (Photoshop, Lightroom), design (Illustrator, InDesign, XD), video (Premiere Pro, After Effects), 3D (Substance 3D), web (Dreamweaver, Animate), and emerging categories (Adobe Firefly AI, Adobe Express). The IA is massive — spanning individual app marketing, a unified Creative Cloud desktop app, Adobe.com&#39;s cross-product marketplace, cloud document management, and learning resources. Adobe&#39;s architecture must serve hobbyists, professionals, students, teams, and enterprises.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>adobe.com
 ├── Home
 ├── Creative Cloud
@@ -229,7 +229,7 @@ Creative Cloud Desktop App
     ├── Cloud storage
     └── Beta features
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <table>
 <thead>
 <tr>
@@ -270,91 +270,78 @@ Creative Cloud Desktop App
 </tr>
 </tbody></table>
 <p><strong>Key pattern</strong>: Adobe.com is a massive matrix — products x audiences x use cases. The navigation uses mega-menus to handle the breadth. The CC Desktop App acts as a unified launcher and file manager across all apps. Each app has its own deep IA internally.</p>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
 <th>Entity</th>
-<th>Attributes</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>Application</td>
 <td>name, icon, description, features, platforms (Mac/Win/iPad/Web), version, plan eligibility</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Cloud Document</td>
 <td>name, app, thumbnail, last modified, shared flag, version history, collaborators</td>
+<td>belongs to User/Workspace</td>
 </tr>
 <tr>
 <td>Library</td>
 <td>name, elements (colors, character styles, graphics, patterns), shared flag, team</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Font</td>
 <td>family, styles (weights), foundry, classification, language support, activated flag</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Stock Asset</td>
 <td>type (photo/vector/video/template/3D), preview, license type, price/credits, keywords</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Plugin</td>
 <td>name, developer, supported apps, rating, reviews, price, install count</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Tutorial</td>
 <td>title, app, skill level, duration, instructor, steps, video</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Plan</td>
 <td>name (All Apps/Single App/Photography), price, apps included, storage, features</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Behance Project</td>
 <td>title, creator, images/videos, tools used, views, appreciations, comments</td>
+<td>belongs to Workspace, has many Tasks</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
-<h3>5a. Subscribe &amp; start creating</h3>
-<ol>
-<li>Browse plans on adobe.com → choose plan (All Apps, Single App, Photography)</li>
-<li>Sign in / create Adobe ID → enter payment</li>
-<li>Download CC Desktop App → install desired applications</li>
-<li>Open app → create new document → start designing</li>
-<li>Save to Creative Cloud → access from any device</li>
-</ol>
-<h3>5b. Cross-app workflow</h3>
-<ol>
-<li>Design logo in Illustrator → save as CC Library element</li>
-<li>Open Photoshop → use logo from shared Library in composition</li>
-<li>Place composition in InDesign layout → export for print</li>
-<li>Edit video in Premiere Pro → use same brand assets from Library</li>
-<li>Libraries sync across all apps automatically</li>
-</ol>
-<h3>5c. Adobe Stock integration</h3>
-<ol>
-<li>Search Adobe Stock (from within Photoshop or Stock website)</li>
-<li>Preview watermarked asset in design</li>
-<li>License asset → watermark removed, high-res downloaded</li>
-<li>Asset linked in document → always up to date</li>
-</ol>
-<h3>5d. Adobe Firefly AI</h3>
-<ol>
-<li>Open Firefly (web or in Photoshop/Illustrator)</li>
-<li>Enter text prompt → &quot;a watercolor painting of a mountain sunset&quot;</li>
-<li>Generate variations → select preferred result</li>
-<li>Edit in full app → use in commercial work (commercially safe training data)</li>
-</ol>
-<h3>5e. Team/Enterprise deployment</h3>
-<ol>
-<li>IT admin signs into Admin Console</li>
-<li>Purchase team plan → assign licenses to users</li>
-<li>Configure deployment (managed install, auto-updates)</li>
-<li>Set storage policies, shared Libraries, font activation</li>
-<li>Monitor usage analytics, manage seats</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<h2>User Flows</h2>
+<h3>Subscribe &amp; start creating</h3>
+<pre><code>Browse plans on adobe.com → choose plan (All Apps, Single App, Photography) → Sign in / create Adobe ID → enter payment → Download CC Desktop App → install desired applications → Open app → create new document → start designing → Save to Creative Cloud → access from any device
+</code></pre>
+<h3>Cross-app workflow</h3>
+<pre><code>Design logo in Illustrator → save as CC Library element → Open Photoshop → use logo from shared Library in composition → Place composition in InDesign layout → export for print → Edit video in Premiere Pro → use same brand assets from Library → Libraries sync across all apps automatically
+</code></pre>
+<h3>Adobe Stock integration</h3>
+<pre><code>Search Adobe Stock (from within Photoshop or Stock website) → Preview watermarked asset in design → License asset → watermark removed, high-res downloaded → Asset linked in document → always up to date
+</code></pre>
+<h3>Adobe Firefly AI</h3>
+<pre><code>Open Firefly (web or in Photoshop/Illustrator) → Enter text prompt → &quot;a watercolor painting of a mountain sunset&quot; → Generate variations → select preferred result → Edit in full app → use in commercial work (commercially safe training data)
+</code></pre>
+<h3>Team/Enterprise deployment</h3>
+<pre><code>IT admin signs into Admin Console → Purchase team plan → assign licenses to users → Configure deployment (managed install, auto-updates) → Set storage policies, shared Libraries, font activation → Monitor usage analytics, manage seats
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code># adobe.com
 /                                   → Home
 /creativecloud/                     → Creative Cloud overview
@@ -386,7 +373,7 @@ Creative Cloud Desktop App
 # Creative Cloud Assets
 /assets.adobe.com/                  → Cloud files &amp; libraries
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <table>
 <thead>
 <tr>
@@ -427,7 +414,7 @@ Creative Cloud Desktop App
 <td>Layers, actions, brushes, fonts, stock, plugins</td>
 </tr>
 </tbody></table>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -460,7 +447,7 @@ Creative Cloud Desktop App
 <td>Fully responsive browser-based experience</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>

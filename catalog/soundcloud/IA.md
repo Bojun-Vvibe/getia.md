@@ -7,10 +7,10 @@ website: https://www.soundcloud.com
 
 # Information Architecture — SoundCloud
 
-## 1. Overview
+## Overview
 SoundCloud is an audio platform for independent musicians, podcasters, and listeners. Its IA is built around the **waveform player** — a distinctive visual representation of audio that enables timed comments, making listening social. The platform uniquely supports emerging artists through direct upload, fan-powered royalties, and discovery tools. SoundCloud blends social networking (reposts, likes, following) with streaming and distribution.
 
-## 2. Site Map
+## Site Map
 
 ```
 soundcloud.com
@@ -86,7 +86,7 @@ soundcloud.com
     └── Create account
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 | Level | Type | Details |
 |-------|------|---------|
@@ -99,9 +99,9 @@ soundcloud.com
 
 **Key pattern**: The persistent bottom player follows the user everywhere. Waveform visualization and timed comments are SoundCloud's signature — audio is always visual.
 
-## 4. Content Model
+## Content Model
 
-| Entity | Attributes |
+| Entity | Key Attributes | Relationships |
 |--------|-----------|
 | Track | title, artist, waveform, duration, genre, tags, description, plays, likes, reposts, comments (timed), buy link, downloadable flag, license |
 | Playlist | name, creator, tracks, public/private, likes, reposts |
@@ -111,36 +111,36 @@ soundcloud.com
 | Repost | user, track/playlist, timestamp (appears in follower feeds) |
 | Station | seed track/artist, auto-generated playlist |
 
-## 5. User Flows
+## User Flows
 
-### 5a. Listen & discover
+### Listen & discover
 1. Open Home → scroll Stream (new tracks from followed artists)
 2. Or visit Discover → browse charts/genres/playlists
 3. Play track → waveform player loads → see timed comments scroll by
 4. Like, repost, or add to playlist
 5. Artist radio/station auto-plays related tracks
 
-### 5b. Upload a track
+### Upload a track
 1. Click Upload → drag & drop audio file(s)
 2. Edit metadata (title, genre, tags, description, artwork)
 3. Set privacy (public, private, scheduled)
 4. Set permissions (download, embed, comments)
 5. Publish → track appears on profile and in followers' streams
 
-### 5c. Monetization & distribution
+### Monetization & distribution
 1. Enable SoundCloud for Artists → verify artist profile
 2. Opt into fan-powered royalties → earn from Go+ subscriber plays
 3. Distribute to external platforms (Spotify, Apple Music, etc.) via SoundCloud
 4. View analytics (plays, listeners, geography, sources)
 5. Receive payouts
 
-### 5d. Social interaction
+### Social interaction
 1. Browse a track → click on waveform at a specific timestamp
 2. Type a timed comment → appears at that point for future listeners
 3. Repost track → appears in your followers' streams
 4. Follow artist → their new uploads appear in your Home stream
 
-## 6. URL / Route Structure
+## URL / Route Structure
 
 ```
 /                           → Home (Stream)
@@ -160,7 +160,7 @@ soundcloud.com
 /help/                      → Help center
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 | Feature | Behavior |
 |---------|----------|
@@ -171,7 +171,7 @@ soundcloud.com
 | Track filter | Duration, license type (Creative Commons), to listen |
 | Station seed | Start radio from any track or artist |
 
-## 8. Responsive Behavior
+## Responsive Behavior
 
 | Breakpoint | Adaptation |
 |-----------|------------|
@@ -181,7 +181,7 @@ soundcloud.com
 | App (iOS/Android) | Bottom tabs, offline downloads (Go+), push for new releases, mini-player |
 | Embed | Compact waveform player widget, customizable colors |
 
-## 9. Access Control
+## Access Control
 
 | Role | Access |
 |------|--------|

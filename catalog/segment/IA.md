@@ -93,17 +93,26 @@ segment.com
 
 ## User Flows
 
-### 1. Instrument a New Source
-`Connections → Sources → + Add Source → Choose (e.g., JavaScript) → Get write key → Install SDK → Implement track()/identify() calls → Verify in Debugger`
 
-### 2. Connect a Destination
-`Connections → Destinations → + Add Destination → Search catalog → Select (e.g., Google Analytics) → Choose source → Enter API key → Map events → Enable`
+### Add a Source
+```
+Connections → Sources → + Add Source → Choose (e.g., JavaScript) → Get write key → Install SDK → Implement track()/identify() calls → Verify in Debugger
+```
 
-### 3. Build an Audience
-`Unify → Audiences → + New Audience → Define conditions (e.g., "performed Purchase in last 30 days AND trait plan = 'pro'") → Preview count → Sync to destination (e.g., Facebook Ads)`
+### Connect a Destination
+```
+Connections → Destinations → + Add Destination → Search catalog → Select (e.g., Google Analytics) → Choose source → Enter API key → Map events → Enable
+```
 
-### 4. Enforce Data Quality
-`Protocols → Tracking Plans → + New Plan → Define events and property schemas → Connect to source → Review violations → Block/allow unplanned events`
+### Build an Audience
+```
+Unify → Audiences → + New Audience → Define conditions (e.g., "performed Purchase in last 30 days AND trait plan = 'pro'") → Preview count → Sync to destination (e.g., Facebook Ads)
+```
+
+### Create a Tracking Plan
+```
+Protocols → Tracking Plans → + New Plan → Define events and property schemas → Connect to source → Review violations → Block/allow unplanned events
+```
 
 ## URL / Route Structure
 
@@ -117,6 +126,19 @@ app.segment.com/{workspace}/unify/users/{id}              # User profile
 app.segment.com/{workspace}/unify/audiences/{id}          # Audience
 app.segment.com/{workspace}/protocols/tracking-plans/{id} # Tracking plan
 app.segment.com/{workspace}/settings                      # Workspace settings
+app.segment.com/{workspace}/sources                              # All sources
+app.segment.com/{workspace}/sources/catalog                       # Source catalog
+app.segment.com/{workspace}/destinations                          # All destinations
+app.segment.com/{workspace}/unify                                 # Identity resolution
+app.segment.com/{workspace}/unify/audiences                       # Audiences
+app.segment.com/{workspace}/protocols                             # Protocols
+app.segment.com/{workspace}/protocols/tracking-plans              # Tracking plans
+app.segment.com/{workspace}/functions                             # Custom functions
+app.segment.com/{workspace}/settings                              # Workspace settings
+app.segment.com/{workspace}/settings/billing                      # Billing
+segment.com/docs                                                   # Documentation
+segment.com/recipes                                                # Integration recipes
+segment.com/catalog                                                # Full catalog
 ```
 
 ## Search & Filter
@@ -148,3 +170,57 @@ app.segment.com/{workspace}/settings                      # Workspace settings
 | Unify User | Access Profiles and Audiences; manage identity |
 | API Token | Programmatic access scoped to specific resources |
 | SSO / SCIM | Enterprise identity management integration |
+
+## Core Concepts
+
+| Concept | Description |
+|---------|-------------|
+| Source | Where data comes from (website, mobile app, server) |
+| Destination | Where data goes to (analytics, marketing, data warehouse) |
+| Event | User action tracked via `track()` call (e.g., "Purchase Completed") |
+| Identify | User profile data via `identify()` call (e.g., email, name, plan) |
+| Track | Record event with properties via `track()` call |
+| Page / Screen | Page view (web) or screen view (mobile) tracking |
+| Group | Associate user with organization via `group()` call |
+
+## Spec (Semantic Events)
+
+| Event | Properties | Use Case |
+|-------|-----------|----------|
+| `Order Completed` | orderId, revenue, products[], currency | E-commerce purchase |
+| `Product Added` | productId, name, price, quantity | Cart activity |
+| `Signed Up` | type, method (email/google/etc) | Registration |
+| `Subscription Created` | planId, amount, interval | SaaS subscription |
+| `Email Opened` | campaignId, subject | Marketing engagement |
+| `Page Viewed` | name, path, url, referrer | Web analytics |
+
+## Data Flow Architecture
+
+```
+User Action → Source SDK (track/identify) → Segment API → Routing Engine → Fan-out to Destinations
+                                                              ↓
+                                              Protocols (validation against tracking plan)
+                                                              ↓
+                                              Unify (identity resolution → unified profile)
+                                                              ↓
+                                              Audiences (behavioral segmentation → sync to destinations)
+```
+
+## Destination Categories
+
+| Category | Examples |
+|----------|---------|
+| Analytics | Mixpanel, Amplitude, Google Analytics, Heap |
+| Advertising | Facebook Ads, Google Ads, LinkedIn, TikTok |
+| Email/Marketing | Braze, Iterable, Customer.io, Mailchimp |
+| CRM | Salesforce, HubSpot, Intercom |
+| Data Warehouse | BigQuery, Snowflake, Redshift, Databricks |
+| Enrichment | Clearbit, FullStory, Hotjar |
+| CDP | Braze, mParticle, Lytics |
+
+## Privacy & Compliance
+
+- **Consent management:** Integrate with OneTrust, Osano for GDPR/CCPA consent
+- **User deletion:** API to delete user data across all destinations
+- **Data retention:** Configurable retention periods per workspace
+- **Audit trail:** Track who made changes to tracking plans and configurations

@@ -203,14 +203,18 @@
 </tr>
 </tbody></table>
 <h2>User Flows</h2>
-<h3>1. Analyze Event Trends</h3>
-<p><code>Reports → Insights → Select event (e.g., &quot;Song Played&quot;) → Breakdown by property (e.g., &quot;Genre&quot;) → Set to Last 30 Days → Line chart → Compare to previous period → Save to Board</code></p>
-<h3>2. Measure Conversion</h3>
-<p><code>Reports → Funnels → Add steps (e.g., &quot;Search&quot; → &quot;View Item&quot; → &quot;Add to Cart&quot; → &quot;Purchase&quot;) → View conversion rates → Breakdown by user property (e.g., &quot;Plan Type&quot;) → Identify drop-off</code></p>
-<h3>3. Explore User Paths</h3>
-<p><code>Reports → Flows → Set starting event → View top paths users take → Click a path branch to drill down → Identify unexpected navigation patterns</code></p>
-<h3>4. Set Up an Alert</h3>
-<p><code>Alerts → + New → Select metric (e.g., &quot;Daily Active Users&quot;) → Set threshold (e.g., &quot;drops below 1000&quot;) → Choose notification (email/Slack) → Save</code></p>
+<h3>Analyze Event Trends</h3>
+<pre><code>Reports → Insights → Select event (e.g., &quot;Song Played&quot;) → Breakdown by property (e.g., &quot;Genre&quot;) → Set to Last 30 Days → Line chart → Compare to previous period → Save to Board
+</code></pre>
+<h3>Measure Conversion</h3>
+<pre><code>Reports → Funnels → Add steps (e.g., &quot;Search&quot; → &quot;View Item&quot; → &quot;Add to Cart&quot; → &quot;Purchase&quot;) → View conversion rates → Breakdown by user property (e.g., &quot;Plan Type&quot;) → Identify drop-off
+</code></pre>
+<h3>Explore User Paths</h3>
+<pre><code>Reports → Flows → Set starting event → View top paths users take → Click a path branch to drill down → Identify unexpected navigation patterns
+</code></pre>
+<h3>Set Up an Alert</h3>
+<pre><code>Alerts → + New → Select metric (e.g., &quot;Daily Active Users&quot;) → Set threshold (e.g., &quot;drops below 1000&quot;) → Choose notification (email/Slack) → Save
+</code></pre>
 <h2>URL / Route Structure</h2>
 <pre><code>mixpanel.com/project/{project_id}/view/home          # Home
 mixpanel.com/project/{project_id}/view/insights       # Insights report
@@ -221,6 +225,17 @@ mixpanel.com/project/{project_id}/view/users          # Users / Cohorts
 mixpanel.com/project/{project_id}/view/boards/{id}    # Board
 mixpanel.com/project/{project_id}/view/user/{id}      # User profile
 mixpanel.com/project/{project_id}/data-management     # Lexicon
+mixpanel.com/project/{project_id}/view/cohorts                  # Cohorts
+mixpanel.com/project/{project_id}/view/boards                   # All boards
+mixpanel.com/project/{project_id}/view/alerts                   # Alerts
+mixpanel.com/project/{project_id}/data-management/lexicon       # Lexicon
+mixpanel.com/project/{project_id}/data-management/data-views    # Data views
+mixpanel.com/project/{project_id}/data-management/lookup-tables # Lookup tables
+mixpanel.com/project/{project_id}/settings                      # Project settings
+mixpanel.com/settings/org/{org_id}/members                      # Members
+mixpanel.com/settings/org/{org_id}/billing                      # Billing
+mixpanel.com/settings/org/{org_id}/security                     # Security
+mixpanel.com/report-templates                                   # Template gallery
 </code></pre>
 <h2>Search &amp; Filter</h2>
 <ul>
@@ -287,6 +302,159 @@ mixpanel.com/project/{project_id}/data-management     # Lexicon
 <tr>
 <td>Service Account</td>
 <td>API access with scoped permissions</td>
+</tr>
+</tbody></table>
+<h2>Report Types Deep Dive</h2>
+<table>
+<thead>
+<tr>
+<th>Report</th>
+<th>Question It Answers</th>
+<th>Visualization</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Insights</td>
+<td>How many times did X happen? How is it trending?</td>
+<td>Line, bar, stacked bar, pie, table</td>
+</tr>
+<tr>
+<td>Funnels</td>
+<td>What % of users complete steps A → B → C?</td>
+<td>Funnel bar chart, conversion table</td>
+</tr>
+<tr>
+<td>Flows</td>
+<td>What paths do users take after/before event X?</td>
+<td>Sankey-style flow diagram</td>
+</tr>
+<tr>
+<td>Retention</td>
+<td>Do users come back? How often?</td>
+<td>Retention curve, cohort table</td>
+</tr>
+<tr>
+<td>Impact</td>
+<td>Did feature X cause metric Y to change?</td>
+<td>Causal impact chart</td>
+</tr>
+</tbody></table>
+<h2>Data Governance</h2>
+<ul>
+<li><strong>Lexicon:</strong> Central dictionary of all events and properties with descriptions, tags, and visibility controls</li>
+<li><strong>Data Views:</strong> Filtered subsets of events to create role-specific analytics scopes</li>
+<li><strong>Custom Properties:</strong> Computed properties using formulas on existing event/user data</li>
+<li><strong>Lookup Tables:</strong> Enrich event properties with external reference data (e.g., product catalog)</li>
+<li><strong>Data Pipelines:</strong> Export raw event data to data warehouse (BigQuery, Snowflake, S3)</li>
+<li><strong>Group Analytics:</strong> Analyze by company/account (B2B) rather than individual user</li>
+</ul>
+<h2>SDK Integration</h2>
+<table>
+<thead>
+<tr>
+<th>Platform</th>
+<th>Method</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>JavaScript</td>
+<td><code>mixpanel.track(&#39;Purchase&#39;, {amount: 50, plan: &#39;pro&#39;})</code></td>
+</tr>
+<tr>
+<td>iOS (Swift)</td>
+<td><code>Mixpanel.mainInstance().track(event: &quot;Purchase&quot;)</code></td>
+</tr>
+<tr>
+<td>Android</td>
+<td><code>mixpanel.track(&quot;Purchase&quot;, props)</code></td>
+</tr>
+<tr>
+<td>Python</td>
+<td><code>mp.track(distinct_id, &#39;Purchase&#39;, {&#39;amount&#39;: 50})</code></td>
+</tr>
+<tr>
+<td>React Native</td>
+<td><code>Mixpanel.track(&#39;Purchase&#39;, {amount: 50})</code></td>
+</tr>
+<tr>
+<td>Server-side</td>
+<td>HTTP API with JSON payload</td>
+</tr>
+<tr>
+<td>Import</td>
+<td>CSV, warehouse (BigQuery, Snowflake, Redshift)</td>
+</tr>
+</tbody></table>
+<h2>Identity Resolution</h2>
+<ul>
+<li><strong>Distinct ID:</strong> Primary user identifier</li>
+<li><strong>Alias:</strong> Link anonymous ID to known user on signup/login</li>
+<li><strong>Merge:</strong> Combine multiple distinct IDs for the same person</li>
+<li><strong>Group Analytics:</strong> Associate users with companies (B2B account-level analysis)</li>
+<li><strong>Cross-platform:</strong> Merge mobile and web identities</li>
+</ul>
+<h2>Event Schema Best Practices</h2>
+<pre><code>// Event naming convention
+&quot;Page Viewed&quot; — passive, past tense
+&quot;Button Clicked&quot; — user action, past tense
+&quot;Purchase Completed&quot; — completion state
+
+// Property naming convention
+snake_case: item_name, total_price, user_plan
+Descriptive: &quot;Cart Size&quot; not &quot;cs&quot;
+Typed: number for amounts, string for categories
+</code></pre>
+<h2>Comparison with Alternatives</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Mixpanel</th>
+<th>Amplitude</th>
+<th>GA4</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Primary model</td>
+<td>Event-based</td>
+<td>Event-based</td>
+<td>Session-based</td>
+</tr>
+<tr>
+<td>User profiles</td>
+<td>✅</td>
+<td>✅</td>
+<td>Limited</td>
+</tr>
+<tr>
+<td>Funnels</td>
+<td>✅ (flexible)</td>
+<td>✅</td>
+<td>Basic</td>
+</tr>
+<tr>
+<td>Flows/Paths</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Real-time</td>
+<td>✅</td>
+<td>✅</td>
+<td>Delayed</td>
+</tr>
+<tr>
+<td>Data warehouse export</td>
+<td>✅</td>
+<td>✅</td>
+<td>BigQuery</td>
+</tr>
+<tr>
+<td>Free tier</td>
+<td>20M events/mo</td>
+<td>10M events/mo</td>
+<td>Unlimited</td>
 </tr>
 </tbody></table>
 

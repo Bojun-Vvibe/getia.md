@@ -7,10 +7,10 @@ website: https://www.mercari.com
 
 # Information Architecture — Mercari
 
-## 1. Overview
+## Overview
 Mercari is a consumer-to-consumer (C2C) marketplace where anyone can buy and sell almost anything — from clothing and electronics to home goods and collectibles. The IA revolves around **listing simplicity** (photo-first listing in minutes), **buyer protection** (item authentication for luxury goods, money-back guarantee), and **prepaid shipping labels** that remove friction. Mercari's architecture supports both web and app with near-feature-parity.
 
-## 2. Site Map
+## Site Map
 
 ```
 mercari.com
@@ -69,7 +69,7 @@ mercari.com
     └── Sign up
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 | Level | Type | Details |
 |-------|------|---------|
@@ -80,40 +80,35 @@ mercari.com
 
 **Key pattern**: Search bar is the dominant navigation element. The "Sell" button is always visible as a persistent CTA, reflecting the two-sided marketplace model.
 
-## 4. Content Model
+## Content Model
 
-| Entity | Attributes |
-|--------|-----------|
-| Listing | title, photos (up to 12), description, price, condition, category, brand, size, shipping method, seller |
-| Offer | listing, buyer, amount, expiration, counter-offer, status |
-| User Profile | username, avatar, rating, reviews count, listings, verified badge |
-| Transaction | listing, buyer, seller, price, shipping tracking, status (purchased → shipped → delivered → rated) |
-| Shipping Label | carrier, tracking number, estimated delivery, prepaid flag |
-| Authentication | listing, status (pending/authentic/not authentic), certificate |
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
+| Listing | title, photos (up to 12), description, price, condition, category, brand, size, shipping method, seller | — |
+| Offer | listing, buyer, amount, expiration, counter-offer, status | — |
+| User Profile | username, avatar, rating, reviews count, listings, verified badge | — |
+| Transaction | listing, buyer, seller, price, shipping tracking, status (purchased → shipped → delivered → rated) | — |
+| Shipping Label | carrier, tracking number, estimated delivery, prepaid flag | — |
+| Authentication | listing, status (pending/authentic/not authentic), certificate | — |
 
-## 5. User Flows
+## User Flows
 
-### 5a. List an item
-1. Tap "Sell" → camera opens → take/upload photos
-2. AI auto-suggests title, category, brand from photo
-3. Fill in details (condition, description, price)
-4. Select shipping (prepaid label or ship on your own)
-5. Enable Smart Pricing (auto price drops) → Publish
+### List an item
+```
+Tap "Sell" → camera opens → take/upload photos → AI auto-suggests title, category, brand from photo → Fill in details (condition, description, price) → Select shipping (prepaid label or ship on your own) → Enable Smart Pricing (auto price drops) → Publish
+```
 
-### 5b. Buy an item
-1. Search or browse → find item → view detail page
-2. "Buy Now" or "Make an Offer" (negotiate)
-3. Checkout → select payment method (credit, debit, Mercari balance)
-4. Seller ships → tracking visible to buyer
-5. Item delivered → buyer confirms → rate seller → funds released
+### Buy an item
+```
+Search or browse → find item → view detail page → "Buy Now" or "Make an Offer" (negotiate) → Checkout → select payment method (credit, debit, Mercari balance) → Seller ships → tracking visible to buyer → Item delivered → buyer confirms → rate seller → funds released
+```
 
-### 5c. Authenticate luxury item
-1. Seller lists luxury item → opts into Mercari Authenticate
-2. Buyer purchases → item ships to Mercari authentication center
-3. Expert inspection → item verified authentic
-4. Forwarded to buyer with authentication certificate
+### Authenticate luxury item
+```
+Seller lists luxury item → opts into Mercari Authenticate → Buyer purchases → item ships to Mercari authentication center → Expert inspection → item verified authentic → Forwarded to buyer with authentication certificate
+```
 
-## 6. URL / Route Structure
+## URL / Route Structure
 
 ```
 /                           → Home feed
@@ -130,9 +125,19 @@ mercari.com
 /help/                      → Help center
 /help/{category}/           → Help category
 /help/{category}/{article}/ → Help article
+mercari.com/mypage/reviews/              # User reviews
+mercari.com/mypage/offers/               # Sent and received offers
+mercari.com/mypage/settings/             # Account settings
+mercari.com/mypage/settings/profile/     # Profile settings
+mercari.com/mypage/settings/shipping/    # Shipping preferences
+mercari.com/mypage/settings/payment/     # Payment methods
+mercari.com/mypage/settings/notifications/ # Notification settings
+mercari.com/brands/{brand}/              # Brand browse page
+mercari.com/trending/                    # Trending items
+mercari.com/deals/                       # Deals and promotions
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 | Feature | Behavior |
 |---------|----------|
@@ -142,7 +147,7 @@ mercari.com
 | Saved search | Save criteria → push notification when new match listed |
 | Smart pricing alerts | Buyer gets notified when watched item drops in price |
 
-## 8. Responsive Behavior
+## Responsive Behavior
 
 | Breakpoint | Adaptation |
 |-----------|------------|
@@ -151,7 +156,7 @@ mercari.com
 | Mobile (<768px) | 2-column grid, bottom sheet filters, floating sell button |
 | App (iOS/Android) | Bottom tabs, camera-first sell flow, swipeable photos, push notifications |
 
-## 9. Access Control
+## Access Control
 
 | Role | Access |
 |------|--------|
@@ -162,3 +167,63 @@ mercari.com
 | Buyer | Purchase history, returns, order tracking |
 | Internal Moderator | Listing review, prohibited items enforcement, dispute resolution |
 | Authentication Team | Luxury item verification, certificate issuance |
+
+## Transaction Lifecycle
+
+```
+Listed → Purchased → Payment Held → Seller Ships (3 day window) → In Transit → Delivered → Buyer Confirms (3 day window) → Seller Paid
+                                                                                              ↘ Buyer Opens Return Case → Resolution → Refund or Release
+```
+
+## Seller Tools
+
+| Tool | Description |
+|------|-------------|
+| Smart Pricing | Automatic price drops over time to increase sell probability |
+| Promote Listings | Pay to boost visibility in search results |
+| Offer to Likers | Send discounted offers to users who liked your item |
+| Shipping Calculator | Compare carrier rates (USPS, FedEx, UPS) |
+| Sales Analytics | Track views, likes, offers, and conversion per listing |
+| Bulk Listing | List multiple items quickly with batch photo upload |
+| Photo Enhancer | AI-powered photo background removal and enhancement |
+
+## Trust & Safety
+
+- **Mercari Authenticate:** Expert verification for luxury items ($200+)
+- **Buyer Protection:** Full refund if item not as described, missing, or damaged
+- **Ratings System:** Mutual ratings after each transaction; visible on profile
+- **Prohibited Items:** Automated + manual review of listings for policy violations
+- **Payment Hold:** Funds held in escrow until buyer confirms receipt
+
+## Fee Structure
+
+| Fee Type | Amount |
+|----------|--------|
+| Selling fee | 10% of sale price |
+| Payment processing | 2.9% + $0.30 |
+| Shipping (prepaid) | Varies by weight/size; discounted USPS/FedEx/UPS rates |
+| Direct deposit | Free |
+| Instant pay | $2 per withdrawal |
+| Authentication | Free for qualifying luxury items |
+
+## Platform Comparison
+
+| Feature | Mercari | eBay | Poshmark |
+|---------|---------|------|----------|
+| Listing fee | Free | Insertion fees | Free |
+| Selling fee | 10% | 13.25% | 20% |
+| Shipping | Prepaid labels | Seller arranges | Prepaid USPS |
+| Authentication | Built-in ($200+) | Third party | Built-in ($500+) |
+| Offer system | Buyer-initiated | Auction + offers | Buyer + seller |
+| Social features | Minimal | Minimal | Heavy (parties, sharing) |
+| Categories | General merchandise | Everything | Fashion-focused |
+
+## Shipping Options
+
+| Carrier | Weight Limit | Max Dimensions | Tracking |
+|---------|-------------|----------------|----------|
+| USPS First Class | 1 lb | 22" × 18" × 15" | Yes |
+| USPS Priority | 70 lbs | 108" combined | Yes |
+| FedEx Home | 150 lbs | 108" length | Yes |
+| FedEx SmartPost | 70 lbs | 130" combined | Yes |
+| UPS Ground | 150 lbs | 108" length | Yes |

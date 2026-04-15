@@ -7,11 +7,11 @@ website: https://calm.com
 
 # Information Architecture — Calm
 
-## 1. Overview
+## Overview
 
 Calm is a wellness app focused on meditation, sleep, relaxation, and mental fitness. The IA is anchored by the "Daily Calm" — a daily 10-minute guided meditation — and a rich content library organized by goal (sleep, stress, focus, anxiety) and format (Sleep Stories narrated by celebrities, meditation courses, music, masterclasses). The interface uses nature-inspired scenes and ambient sounds to create an immediately calming experience from the moment of app launch.
 
-## 2. Site Map
+## Site Map
 
 ```
 Calm
@@ -84,7 +84,7 @@ Calm
     └── Science / Research
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 - **Type**: Bottom tab bar (mobile), sidebar (web)
 - **Mobile Bottom Tabs**: Home, Sleep, Meditate, Music, Profile
@@ -93,10 +93,10 @@ Calm
 - **Player**: Full-screen with progress bar, sleep timer, background scene; minimizable
 - **Daily Calm**: Prominently featured at top of Home every day
 
-## 4. Content Model
+## Content Model
 
-| Content Type | Attributes | Relationships |
-|---|---|---|
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
 | Daily Calm | title, theme, narrator (Tamara Levitt), duration (~10 min), date, audio | standalone daily |
 | Sleep Story | title, narrator (celebrity/professional), duration (25-45 min), theme, cover art, audio | → Sleep, → Narrator |
 | Meditation | title, instructor, duration, topic, level, audio, program sequence | → Program, → Topic |
@@ -108,28 +108,33 @@ Calm
 | Mood Check-In | mood selection, timestamp, journal text, suggested content | → Profile |
 | Breathing Exercise | name, pattern (e.g., 4-7-8), duration, animation | → Meditate |
 
-## 5. User Flows
+## User Flows
 
 ### Daily Calm Routine
-1. Open app → Home shows "Daily Calm" prominently with today's theme
-2. Tap play → 10-minute guided meditation with calming background
-3. Session ends → Streak counter updates → "How do you feel?" check-in
-4. View stats: consecutive days, total minutes, milestones
+```
+Open app → Home shows "Daily Calm" prominently with today's theme → Tap play → 10-minute guided meditation with calming background → Session ends → Streak counter updates → "How do you feel?" check-in → View stats: consecutive days, total minutes, milestones
+```
 
 ### Sleep Story Selection
-1. Tap Sleep tab → Sleep Stories section
-2. Browse by narrator (celebrity voices draw users) or theme
-3. Select story → Set sleep timer (optional, auto-plays to end by default)
-4. Lie down → Listen → Audio designed to lull you to sleep
-5. Story fades to ambient sound at the end
+```
+Tap Sleep tab → Sleep Stories section → Browse by narrator (celebrity voices draw users) or theme → Select story → Set sleep timer (optional, auto-plays to end by default) → Lie down → Listen → Audio designed to lull you to sleep → Story fades to ambient sound at the end
+```
 
 ### Mood-Based Quick Start
-1. Open app → "How are you feeling?" prompt
-2. Select mood (anxious, stressed, happy, tired, etc.)
-3. App suggests tailored content (meditation for anxiety, sleep story for tired)
-4. Tap suggestion → Player opens immediately
+```
+Open app → "How are you feeling?" prompt → Select mood (anxious, stressed, happy, tired, etc.) → App suggests tailored content (meditation for anxiety, sleep story for tired) → Tap suggestion → Player opens immediately
+```
 
-## 6. URL / Route Structure
+### Manage Notifications
+```
+Settings → Notifications → Toggle email/push/in-app per category → Set frequency (instant/daily digest/weekly) → Save preferences
+```
+### Search and Discover
+```
+Global search → Type query → Results grouped by type → Click result → Navigate to item → Refine search with filters if needed
+                                                                                          ↘ No results → Suggested alternatives
+```
+## URL / Route Structure
 
 ```
 calm.com/                                   # Marketing homepage
@@ -145,9 +150,16 @@ calm.com/business                           # Calm Business (enterprise)
 calm.com/health                             # Calm Health (clinical)
 calm.com/schools                            # Calm for schools
 app.calm.com/                               # Web app (logged in)
+calm.com/settings  # Settings
+calm.com/account  # Account settings
+calm.com/account/security  # Security settings
+calm.com/billing  # Billing & subscription
+calm.com/notifications  # Notification preferences
+calm.com/help  # Help center
+calm.com/help/{topic}  # Help article
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 - **Content Search**: Search by keyword across meditations, Sleep Stories, music, masterclasses
 - **Mood Filter**: Quick-start mood selection narrows content suggestions
@@ -158,7 +170,11 @@ app.calm.com/                               # Web app (logged in)
 - **Personalized**: Algorithmic suggestions based on listening history, mood check-ins, and goals
 - **Scene Selection**: Choose app background scene (not a search, but a personalization surface)
 
-## 8. Responsive Behavior
+- **Sort options**: By relevance, date created, date modified, alphabetical, popularity
+- **Autocomplete**: Type-ahead suggestions with recent searches and popular results
+- **Advanced search**: Boolean operators (AND, OR, NOT), field-specific filters, date ranges
+- **Recent searches**: Quick access to previous search queries
+## Responsive Behavior
 
 | Breakpoint | Behavior |
 |---|---|
@@ -169,7 +185,37 @@ app.calm.com/                               # Web app (logged in)
 | Smart TV / Chromecast | Sleep Stories and music; ambient scenes; simplified browse |
 | Alexa / Google Home | Voice-activated: "Play Sleep Story" / "Start Daily Calm"; no visual interface |
 
-## 9. Access Control
+
+### Platform-Specific Patterns
+- Touch targets: minimum 44x44pt on mobile for accessibility
+- Swipe gestures: swipe to delete, archive, or perform quick actions
+- Pull-to-refresh: standard refresh pattern on feeds and lists
+- Keyboard shortcuts: comprehensive shortcuts on desktop for power users
+- Dark mode: system-preference detection with manual override
+- Offline support: cached data available without network connectivity
+- Progressive loading: skeleton screens while content loads
+
+### Calm-Specific UX Patterns
+- **Progressive disclosure**: Complex features hidden behind expandable sections
+- **Contextual actions**: Right-click menus and hover-revealed action buttons
+- **Inline editing**: Click-to-edit fields without navigating to a separate page
+- **Batch operations**: Multi-select with bulk actions (delete, move, archive, tag)
+- **Undo support**: Non-destructive actions with undo toast notifications
+- **Loading states**: Skeleton screens and progress indicators during async operations
+- **Empty states**: Helpful illustrations and CTAs when sections have no content
+- **Onboarding tooltips**: First-time user guidance highlighting key features
+
+### Accessibility
+- WCAG 2.1 AA compliance across all interactive elements
+- Semantic HTML with proper ARIA labels and landmarks
+- Keyboard navigation support for all core workflows
+- Screen reader compatibility tested with VoiceOver, NVDA, and JAWS
+- Color contrast ratios meeting minimum 4.5:1 for body text
+- Focus indicators visible on all interactive elements
+- Reduced motion option respecting `prefers-reduced-motion`
+- Resizable text up to 200% without content loss
+
+## Access Control
 
 | Role | Capabilities |
 |---|---|

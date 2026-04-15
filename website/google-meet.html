@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Google Meet</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Google Meet is Google&#39;s video conferencing platform, tightly integrated with Google Workspace (Gmail, Calendar, Chat, Docs). The IA is intentionally streamlined — a single entry point for starting or joining meetings, with in-meeting controls prioritizing simplicity. Meet focuses on reliable video calls with AI-powered features like live captions, noise cancellation, and companion mode, rather than trying to be a full collaboration suite.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>Google Meet
 ├── Landing Page
 │   ├── New Meeting
@@ -153,7 +153,7 @@
     ├── Interoperability
     └── Usage Reports
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <ul>
 <li><strong>Type</strong>: Minimal — meeting-centric with single entry point</li>
 <li><strong>Landing Page</strong>: Two actions — &quot;New meeting&quot; button + &quot;Enter a code&quot; input</li>
@@ -162,7 +162,7 @@
 <li><strong>No Persistent Nav</strong>: Meet has no sidebar or tab bar; it is a single-purpose meeting interface</li>
 <li><strong>Companion Mode</strong>: Secondary device joins same meeting for chat/controls while primary device handles audio/video</li>
 </ul>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
@@ -217,29 +217,32 @@
 <td>→ Meeting</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
+<h2>User Flows</h2>
 <h3>Starting an Instant Meeting</h3>
-<ol>
-<li>Go to meet.google.com → Click &quot;New meeting&quot; → &quot;Start an instant meeting&quot;</li>
-<li>Pre-join screen: preview camera, select mic/speaker, choose background</li>
-<li>Click &quot;Join now&quot; → In meeting; share link with participants</li>
-<li>Participants click link → Pre-join screen → &quot;Ask to join&quot; (host admits)</li>
-</ol>
+<pre><code>Go to meet.google.com → Click &quot;New meeting&quot; → &quot;Start an instant meeting&quot; →
+  Pre-join screen: preview camera, select mic/speaker, choose background →
+  Click &quot;Join now&quot; → In meeting; share link with participants →
+  Participants click link → Pre-join screen → &quot;Ask to join&quot; (host admits)
+</code></pre>
 <h3>Joining via Calendar</h3>
-<ol>
-<li>Google Calendar event has &quot;Join with Google Meet&quot; button</li>
-<li>Click button 5 minutes before → Pre-join screen opens</li>
-<li>Join meeting → Calendar title becomes meeting title</li>
-<li>Calendar sends notification reminders to attendees</li>
-</ol>
+<pre><code>Google Calendar event has &quot;Join with Google Meet&quot; button →
+  Click button 5 minutes before → Pre-join screen opens →
+  Join meeting → Calendar title becomes meeting title →
+  Calendar sends notification reminders to attendees
+</code></pre>
 <h3>Using Companion Mode</h3>
-<ol>
-<li>Join meeting on primary device (laptop) with audio/video</li>
-<li>On secondary device (phone/tablet) → Join same meeting → Select &quot;Companion Mode&quot;</li>
-<li>Secondary device has: chat, raise hand, polls, Q&amp;A, reactions — no audio/video (avoids echo)</li>
-<li>Useful in conference rooms: room system handles A/V, individual devices handle interaction</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<pre><code>Join meeting on primary device (laptop) with audio/video →
+  On secondary device (phone/tablet) → Join same meeting → Select &quot;Companion Mode&quot; →
+  Secondary device has: chat, raise hand, polls, Q&amp;A, reactions — no audio/video... →
+  Useful in conference rooms: room system handles A/V, individual devices handle...
+</code></pre>
+<h3>Recording and Transcript</h3>
+<pre><code>Host starts recording → Meeting proceeds → Host stops recording or meeting ends → Recording saved to Google Drive → Transcript auto-generated in Google Docs → AI summary created by Gemini → Shared with participants
+</code></pre>
+<h3>Breakout Rooms</h3>
+<pre><code>Host opens Activities → Breakout Rooms → Create rooms → Assign participants (auto or manual) → Set timer → Open rooms → Participants moved to rooms → Timer ends → All return to main meeting
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code>meet.google.com/                            # Landing page
 meet.google.com/{meeting-code}              # Join meeting (e.g., abc-defg-hij)
 meet.google.com/new                         # Create instant meeting
@@ -248,18 +251,43 @@ calendar.google.com/                        # Google Calendar (meeting schedulin
 drive.google.com/file/d/{recordingId}       # Meeting recording
 admin.google.com/ac/appsettings/meet        # Admin console for Meet
 support.google.com/meet/                    # Help center
+meet.google.com/                            # Landing page
+meet.google.com/{meeting-code}              # Join meeting
+meet.google.com/new                         # Create instant meeting
+meet.google.com/lookup/{code}               # Meeting lookup
+meet.google.com/getalink                    # Get a meeting link
+calendar.google.com/calendar/event          # Schedule via Calendar
+drive.google.com/file/d/{recordingId}       # Meeting recording
+docs.google.com/document/d/{transcriptId}   # Meeting transcript
+admin.google.com/ac/appsettings/meet        # Admin console
+support.google.com/meet/                    # Help center
+support.google.com/meet/answer/{id}         # Specific help article
+workspace.google.com/products/meet/         # Product page
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <ul>
-<li><strong>Meeting Search</strong>: No built-in search; meetings found via Google Calendar search</li>
-<li><strong>Participant Search</strong>: Type-ahead search in &quot;Add people&quot; dialog during meeting</li>
-<li><strong>Chat Search</strong>: In-meeting chat is not searchable (ephemeral); saved chat goes to Calendar event</li>
-<li><strong>Recording Search</strong>: Recordings saved to Google Drive; searchable via Drive&#39;s search</li>
-<li><strong>Transcript Search</strong>: Full-text search within meeting transcripts in Google Docs</li>
-<li><strong>Admin Reports</strong>: Search meeting usage by date, user, duration in Admin Console</li>
-<li><strong>Calendar Integration</strong>: Primary discovery mechanism for past and future meetings</li>
+<li><p><strong>Meeting Search</strong>: No built-in search; meetings found via Google Calendar search</p>
+</li>
+<li><p><strong>Participant Search</strong>: Type-ahead search in &quot;Add people&quot; dialog during meeting</p>
+</li>
+<li><p><strong>Chat Search</strong>: In-meeting chat is not searchable (ephemeral); saved chat goes to Calendar event</p>
+</li>
+<li><p><strong>Recording Search</strong>: Recordings saved to Google Drive; searchable via Drive&#39;s search</p>
+</li>
+<li><p><strong>Transcript Search</strong>: Full-text search within meeting transcripts in Google Docs</p>
+</li>
+<li><p><strong>Admin Reports</strong>: Search meeting usage by date, user, duration in Admin Console</p>
+</li>
+<li><p><strong>Calendar Integration</strong>: Primary discovery mechanism for past and future meetings</p>
+</li>
+<li><p><strong>Calendar-based Discovery</strong>: All meetings discoverable via Google Calendar search by title, attendee, or date</p>
+</li>
+<li><p><strong>Transcript Full-Text Search</strong>: Search within meeting transcripts for specific topics or keywords</p>
+</li>
+<li><p><strong>Drive Recording Search</strong>: Recordings searchable by meeting title, date, or participants in Google Drive</p>
+</li>
 </ul>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -288,7 +316,21 @@ support.google.com/meet/                    # Help center
 <td>Simplified meeting view for Google smart displays</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h3>Platform-Specific UX</h3>
+<ul>
+<li>Pre-join &quot;green room&quot; shows camera preview and audio test before entering meeting</li>
+<li>Companion Mode enables using a secondary device for chat and reactions while primary handles A/V</li>
+<li>Live captions with real-time translation support multiple languages (Workspace feature)</li>
+<li>Noise cancellation uses AI to filter background sounds (keyboard typing, construction, pets)</li>
+<li>Gemini AI Notes automatically generates meeting summaries with key topics and action items</li>
+<li>Tiled view supports up to 49 simultaneous video participants on desktop</li>
+<li>Screen sharing supports full screen, window, or tab sharing with audio</li>
+<li>Virtual backgrounds and visual effects are available in the pre-join screen and during meetings</li>
+<li>Reactions (thumbs up, clap, heart, etc.) provide non-verbal feedback without interrupting</li>
+<li>Raise hand queue management helps hosts track speaking order</li>
+<li>Hand-off from Gmail/Calendar is seamless — one-click join from email or calendar event</li>
+</ul>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>

@@ -203,6 +203,11 @@ Complete Lessons → Earn XP → Check Leaderboard → "3rd Place in Gold League
 Practice → Roleplay → Scenario: "Ordering at a café in Paris" → Type/Speak Response → AI Responds in Character → Conversation → Feedback on Grammar
 ```
 
+### New User Onboarding
+```
+Visit Duolingo → Sign Up (email/Google/SSO) → Complete profile → Guided setup wizard → Configure preferences → Explore key features → Start using the product
+                                                                                                                         ↘ Skip wizard → Land on dashboard
+```
 ## URL / Route Structure
 
 ```
@@ -225,6 +230,8 @@ Practice → Roleplay → Scenario: "Ordering at a café in Paris" → Type/Spea
 /max                           → Duolingo Max
 /podcasts                      → Podcasts
 /events                        → Duolingo Events (meetups)
+billing  → Billing & subscription
+/settings/notifications           → Notification preferences
 ```
 
 ## Search & Filter

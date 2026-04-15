@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Headspace</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Headspace is a mindfulness and mental health platform offering guided meditations, sleep content, focus music, and mindfulness courses. The IA is organized around daily habits — Today&#39;s meditation, sleep wind-down, focus sessions — with a content library structured by topic (stress, anxiety, sleep, self-esteem) and format (meditation, course, exercise). The design is warm, illustration-heavy, and intentionally calming, reducing cognitive load to match the product&#39;s purpose.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>Headspace
 ├── Home (Today)
 │   ├── Daily Meditation
@@ -159,7 +159,7 @@
     ├── Research
     └── Teachers / Students Program
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <ul>
 <li><strong>Type</strong>: Bottom tab bar (mobile), sidebar (web)</li>
 <li><strong>Mobile Bottom Tabs</strong>: Today, Meditate, Sleep, Move, Focus</li>
@@ -168,7 +168,7 @@
 <li><strong>Player</strong>: Full-screen immersive player with progress, pause, skip; minimizable to floating player</li>
 <li><strong>Daily Entry Point</strong>: Push notification → opens Today tab with daily recommendation</li>
 </ul>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
@@ -218,31 +218,32 @@
 <td>→ Profile</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
+<h2>User Flows</h2>
 <h3>Daily Meditation Routine</h3>
-<ol>
-<li>Open app → Today tab shows daily meditation suggestion</li>
-<li>Tap &quot;Play&quot; → Full-screen player with calming animation</li>
-<li>Follow guided meditation (3-20 minutes) → Session ends with a bell</li>
-<li>Streak counter increments → Stats updated</li>
-<li>Suggestion for next session or course continuation</li>
-</ol>
+<pre><code>Open app → Today tab shows daily meditation suggestion →
+  Tap &quot;Play&quot; → Full-screen player with calming animation →
+  Follow guided meditation (3-20 minutes) → Session ends with a bell →
+  Streak counter increments → Stats updated → Suggestion for next session or course continuation
+</code></pre>
 <h3>Starting a Course</h3>
-<ol>
-<li>Meditate tab → Browse courses by topic (e.g., &quot;Managing Anxiety&quot;)</li>
-<li>Tap course → See description, session count, duration per session</li>
-<li>Start Session 1 → Complete → Progress bar updates</li>
-<li>Return daily → Continue from where you left off</li>
-<li>Complete all sessions → Course badge earned</li>
-</ol>
+<pre><code>Meditate tab → Browse courses by topic (e.g., &quot;Managing Anxiety&quot;) →
+  Tap course → See description, session count, duration per session →
+  Start Session 1 → Complete → Progress bar updates →
+  Return daily → Continue from where you left off → Complete all sessions → Course badge earned
+</code></pre>
 <h3>Sleep Wind-Down</h3>
-<ol>
-<li>Evening push notification: &quot;Time to wind down&quot;</li>
-<li>Sleep tab → Choose Sleepcast or Wind Down meditation</li>
-<li>Set sleep timer (optional) → Play → Audio fades with sleep</li>
-<li>Morning: view sleep stats if connected to health app</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<pre><code>Evening push notification: &quot;Time to wind down&quot; →
+  Sleep tab → Choose Sleepcast or Wind Down meditation →
+  Set sleep timer (optional) → Play → Audio fades with sleep →
+  Morning: view sleep stats if connected to health app
+</code></pre>
+<h3>Focus Session</h3>
+<pre><code>Focus tab → Select Focus Mode → Choose duration (15/30/45/60 min) → Select ambient music → Start timer → Background music plays → Timer ends with gentle chime → Stats updated
+</code></pre>
+<h3>Kids Meditation</h3>
+<pre><code>Kids tab → Select age group → Browse content (Sleep Stories, Breathing, Calm) → Play session → Child-friendly animations → Session ends → Parent view shows progress
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code>headspace.com/                              # Marketing homepage
 headspace.com/meditation                    # Meditation overview
 headspace.com/sleep                         # Sleep content overview
@@ -255,18 +256,46 @@ headspace.com/studentplan                   # Student discount
 headspace.com/articles/{slug}               # Blog article
 headspace.com/headspace-clinical            # Clinical / therapy offering
 my.headspace.com/                           # Web app (logged in)
+headspace.com/meditation/courses            # All courses
+headspace.com/meditation/singles             # Single meditations
+headspace.com/meditation/guided-exercises    # Guided exercises
+headspace.com/sleep/sleepcasts               # Sleepcasts
+headspace.com/sleep/music                    # Sleep music
+headspace.com/sleep/soundscapes              # Soundscapes
+headspace.com/exercise/yoga                  # Yoga workouts
+headspace.com/exercise/cardio                # Cardio workouts
+headspace.com/focus/music                    # Focus music
+headspace.com/kids                           # Kids content
+headspace.com/about                          # About Headspace
+headspace.com/science                        # Research &amp; science
+my.headspace.com/profile                     # User profile
+my.headspace.com/settings                    # App settings
+my.headspace.com/subscription                # Subscription management
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <ul>
-<li><strong>Content Search</strong>: Search meditations, courses, sleepcasts by keyword or topic</li>
-<li><strong>Filter by Duration</strong>: 3, 5, 10, 15, 20+ minutes</li>
-<li><strong>Filter by Topic</strong>: Stress, Anxiety, Sleep, Focus, Self-Esteem, Relationships, etc.</li>
-<li><strong>Filter by Level</strong>: Beginner, Intermediate, Advanced</li>
-<li><strong>Browse by Narrator</strong>: Filter by specific teacher/narrator voice</li>
-<li><strong>Personalized Recommendations</strong>: Algorithm suggests content based on usage patterns and interests</li>
-<li><strong>Offline Access</strong>: Downloaded content accessible without search (subscription feature)</li>
+<li><p><strong>Content Search</strong>: Search meditations, courses, sleepcasts by keyword or topic</p>
+</li>
+<li><p><strong>Filter by Duration</strong>: 3, 5, 10, 15, 20+ minutes</p>
+</li>
+<li><p><strong>Filter by Topic</strong>: Stress, Anxiety, Sleep, Focus, Self-Esteem, Relationships, etc.</p>
+</li>
+<li><p><strong>Filter by Level</strong>: Beginner, Intermediate, Advanced</p>
+</li>
+<li><p><strong>Browse by Narrator</strong>: Filter by specific teacher/narrator voice</p>
+</li>
+<li><p><strong>Personalized Recommendations</strong>: Algorithm suggests content based on usage patterns and interests</p>
+</li>
+<li><p><strong>Offline Access</strong>: Downloaded content accessible without search (subscription feature)</p>
+</li>
+<li><p><strong>Narrator Filter</strong>: Filter meditations by specific narrator/teacher</p>
+</li>
+<li><p><strong>Mood-Based Search</strong>: Search by mood (calm, focus, energize, sleep)</p>
+</li>
+<li><p><strong>Course Progress Tracking</strong>: View in-progress and completed courses</p>
+</li>
 </ul>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -295,7 +324,15 @@ my.headspace.com/                           # Web app (logged in)
 <td>Sleep content and focus music; simplified browse; ambient mode</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h3>Platform-Specific UX</h3>
+<ul>
+<li>Daily meditation suggestion creates a habit-forming entry point</li>
+<li>Streak counter gamifies daily practice consistency</li>
+<li>Calming animations during meditation enhance the immersive experience</li>
+<li>Bell sound marks the end of each session — a signature Headspace audio cue</li>
+<li>Course progression locks content sequentially — encouraging consistent practice</li>
+</ul>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>

@@ -7,10 +7,10 @@ website: https://wordpress.com
 
 # Information Architecture — WordPress
 
-## 1. Overview
+## Overview
 WordPress.com (by Automattic) is the hosted version of the world's most popular content management system, powering over 40% of all websites. The IA must serve an extraordinarily wide audience — from personal bloggers to enterprise publishers, small business sites to full e-commerce stores. Key features include the **Gutenberg block editor**, thousands of themes and plugins, Jetpack integration, and a tiered hosting model. The IA balances simplicity for beginners with depth for power users.
 
-## 2. Site Map
+## Site Map
 
 ```
 wordpress.com
@@ -108,7 +108,7 @@ Site Admin (wp-admin / Calypso)
 └── Plans & Billing
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 | Level | Type | Details |
 |-------|------|---------|
@@ -121,9 +121,9 @@ Site Admin (wp-admin / Calypso)
 
 **Key pattern**: WordPress has TWO admin experiences — the modern Calypso interface (React-based, at wordpress.com) and the classic wp-admin. The Gutenberg block editor is shared across both, becoming the primary content creation and site editing tool.
 
-## 4. Content Model
+## Content Model
 
-| Entity | Attributes |
+| Entity | Key Attributes | Relationships |
 |--------|-----------|
 | Post | title, body (blocks/Gutenberg), excerpt, featured image, categories, tags, author, status (draft/published/scheduled/private), slug, format (standard/gallery/video/quote/link) |
 | Page | title, body (blocks), template, parent page, order, slug |
@@ -135,9 +135,9 @@ Site Admin (wp-admin / Calypso)
 | Plugin | name, version, author, description, settings |
 | User | username, email, role (admin/editor/author/contributor/subscriber), profile |
 
-## 5. User Flows
+## User Flows
 
-### 5a. Create a website
+### Create a website
 1. Sign up → choose site type (blog, business, portfolio, store)
 2. Pick a domain (free subdomain or custom)
 3. Select a theme → preview
@@ -145,28 +145,28 @@ Site Admin (wp-admin / Calypso)
 5. Add pages and posts → publish
 6. Optionally upgrade plan for more features
 
-### 5b. Write a blog post (Gutenberg)
+### Write a blog post (Gutenberg)
 1. Posts → Add New → Gutenberg editor
 2. Add title → write content using blocks (paragraph, image, heading, list, embed)
 3. Insert specialized blocks (gallery, quote, columns, table, code)
 4. Set featured image, categories, tags, excerpt
 5. Preview → Publish (or schedule)
 
-### 5c. Build with blocks (Site Editor)
+### Build with blocks (Site Editor)
 1. Appearance → Editor (full site editing)
 2. Edit templates (home, single post, archive, 404)
 3. Insert block patterns (pre-designed sections)
 4. Customize global styles (typography, colors)
 5. Save → entire site updated consistently
 
-### 5d. Set up e-commerce
+### Set up e-commerce
 1. Upgrade to eCommerce plan → WooCommerce auto-installed
 2. Run WooCommerce setup wizard (store details, shipping, payments)
 3. Add products → configure inventory, pricing, variations
 4. Customize store pages → set up checkout
 5. Launch store → manage orders from admin
 
-## 6. URL / Route Structure
+## URL / Route Structure
 
 ```
 # wordpress.com (marketing)
@@ -197,7 +197,7 @@ Site Admin (wp-admin / Calypso)
 /customize/                     → Customizer (Calypso)
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 | Feature | Behavior |
 |---------|----------|
@@ -209,7 +209,7 @@ Site Admin (wp-admin / Calypso)
 | Site search (frontend) | Built-in search widget/block, Jetpack enhanced search on higher plans |
 | Reader | Discover posts by topic, search across WordPress.com network |
 
-## 8. Responsive Behavior
+## Responsive Behavior
 
 | Breakpoint | Adaptation |
 |-----------|------------|
@@ -219,7 +219,7 @@ Site Admin (wp-admin / Calypso)
 | App (iOS/Android) | Post creation, stats, comments, notifications — not full site editing |
 | AMP | Optional AMP plugin for mobile-optimized pages |
 
-## 9. Access Control
+## Access Control
 
 | Role | Access |
 |------|--------|

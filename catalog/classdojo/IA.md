@@ -248,6 +248,19 @@ Portfolio → "Draw your favorite animal" → Draw → Submit → Teacher Review
 /toolkit                         → Toolkit (timer, noise meter)
 /school-story                    → School Story
 /settings                        → Account Settings
+billing  → Billing & subscription
+notifications  → Notification preferences
+help  → Help center
+help/{topic}  → Help article
+api  → API documentation
+search?q={query}  → Search results
+/teacher/classes/{id}/attendance  → Attendance tracking
+/teacher/classes/{id}/groups      → Student groups
+/teacher/reports                  → Reports
+/parent/portfolio                 → Student portfolio
+/parent/messaging                 → Parent messaging
+/teacher/classes/{id}/story       → Class Story feed
+/student/portfolio/{id}           → Portfolio item detail
 ```
 
 ## Search & Filter

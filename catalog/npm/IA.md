@@ -52,8 +52,8 @@ npmjs.com
 
 ## Content Model
 
-| Content Type | Structure | Ownership |
-|---|---|---|
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
 | Package | Name, description, README, keywords, version history, dependencies, maintainers, license | Maintainer-owned |
 | Version | Semver string, tarball, dist-tag (latest, next, beta), publish date, npm signature | Part of package |
 | README | Markdown rendered from package.json readme field or README.md file | Part of version |
@@ -66,35 +66,24 @@ npmjs.com
 ## User Flows
 
 ### Finding and Installing a Package
-1. User arrives at npmjs.com → types in search bar (e.g., "date formatting")
-2. Results sorted by relevance (popularity, quality, maintenance metrics)
-3. Clicks package → reads README for API docs and usage examples
-4. Checks right sidebar: weekly downloads (popularity indicator), license, last publish date
-5. Copies install command: `npm install date-fns`
-6. Optionally checks Dependencies tab for supply chain review
+```
+Arrives at npmjs.com → types in search bar (e.g., "date formatting") → Results sorted by relevance (popularity, quality, maintenance metrics) → Clicks package → reads README for API docs and usage examples → Checks right sidebar: weekly downloads (popularity indicator), license, last publish date → Copies install command: `npm install date-fns` → Optionally checks Dependencies tab for supply chain review
+```
 
 ### Publishing a Package
-1. Developer creates `package.json` with name, version, description
-2. Writes README.md with usage documentation
-3. Logs in via CLI: `npm login`
-4. Publishes: `npm publish`
-5. Package appears on npmjs.com within minutes
-6. Subsequent versions published with `npm version patch && npm publish`
+```
+Developer creates `package.json` with name, version, description → Writes README.md with usage documentation → Logs in via CLI: `npm login` → Publishes: `npm publish` → Package appears on npmjs.com within minutes → Subsequent versions published with `npm version patch && npm publish`
+```
 
 ### Organization Package Management
-1. Admin creates organization on npmjs.com
-2. Creates teams (e.g., "frontend", "backend", "devops")
-3. Adds members to teams
-4. Assigns package access to teams (read-only or read-write)
-5. Scoped packages (@org/pkg-name) automatically associated with org
-6. Private packages only accessible to authorized team members
+```
+Admin creates organization on npmjs.com → Creates teams (e.g., "frontend", "backend", "devops") → Adds members to teams → Assigns package access to teams (read-only or read-write) → Scoped packages (@org/pkg-name) automatically associated with org → Private packages only accessible to authorized team members
+```
 
 ### Security Advisory Review
-1. Developer runs `npm audit` locally → sees vulnerable dependencies
-2. Clicks advisory link → goes to npmjs.com/advisories/{id}
-3. Reads severity, affected versions, vulnerability description
-4. Sees recommended fix: upgrade to patched version
-5. Runs `npm audit fix` to auto-update compatible versions
+```
+Developer runs `npm audit` locally → sees vulnerable dependencies → Clicks advisory link → goes to npmjs.com/advisories/{id} → Reads severity, affected versions, vulnerability description → Sees recommended fix: upgrade to patched version → Runs `npm audit fix` to auto-update compatible versions
+```
 
 ## URL / Route Structure
 
@@ -156,3 +145,76 @@ Package names in URLs include the `@scope/` prefix for scoped packages. User pro
 - npm provenance: Signed build attestation linking package to source commit and CI job
 - 2FA: Mandatory for publishing on high-value packages; optional but recommended for all
 - Unpublish policy: Can unpublish within 72 hours; after that, requires npm support
+
+## Package Page Anatomy
+
+| Section | Content |
+|---------|---------|
+| Header | Package name, version badge, install command (copy button) |
+| Sidebar | Weekly downloads chart, version, license, repository, homepage, npm stats |
+| Readme tab | README.md rendered from package (primary content) |
+| Explore tab | File browser — browse package contents by version |
+| Dependencies tab | Direct and transitive dependency tree |
+| Dependents tab | Packages that depend on this package |
+| Versions tab | Full version history with publish dates and tags |
+
+## CLI Commands
+
+| Command | Description |
+|---------|-------------|
+| `npm install {pkg}` | Install package to project |
+| `npm install -g {pkg}` | Install globally |
+| `npm publish` | Publish package to registry |
+| `npm version {patch/minor/major}` | Bump version |
+| `npm audit` | Check for known vulnerabilities |
+| `npm audit fix` | Auto-fix compatible vulnerabilities |
+| `npm outdated` | Check for outdated dependencies |
+| `npm login` | Authenticate with registry |
+| `npm search {query}` | Search packages from CLI |
+| `npm init` | Initialize new package.json |
+| `npm run {script}` | Run package script |
+| `npm link` | Symlink local package for development |
+
+## Security Features
+
+- **npm audit:** Scan dependency tree for known vulnerabilities (CVE database)
+- **Provenance:** Signed build attestation linking package to source commit and CI job
+- **2FA enforcement:** Mandatory for publishing high-impact packages
+- **Token granularity:** Automation tokens (no 2FA), publish tokens, read-only tokens
+- **CIDR-restricted tokens:** Limit API tokens to specific IP ranges
+- **Package lock:** `package-lock.json` ensures reproducible installs
+- **Signature verification:** Verify package integrity with npm signatures
+- **Socket.dev integration:** Real-time supply chain threat detection (third-party)
+
+## Package Lifecycle
+
+```
+npm init → develop → npm version patch → npm publish → users install → npm deprecate (if needed) → npm unpublish (within 72h only)
+```
+
+## Registry Statistics
+
+- **2+ million packages** published
+- **40+ billion downloads/month** across all packages
+- **Largest software registry** in the world by package count
+- **Scoped packages:** `@org/name` format for organizational namespacing
+- **Dist-tags:** `latest`, `next`, `beta`, `canary` for version channels
+
+## package.json Key Fields
+
+| Field | Purpose |
+|-------|---------|
+| `name` | Package identifier (unique on registry) |
+| `version` | Semantic version (major.minor.patch) |
+| `main` | Entry point for CommonJS (`require`) |
+| `module` | Entry point for ES modules (`import`) |
+| `types` | TypeScript type definitions |
+| `exports` | Modern entry point map (conditional exports) |
+| `scripts` | Named commands (`start`, `build`, `test`, `lint`) |
+| `dependencies` | Production dependencies |
+| `devDependencies` | Development-only dependencies |
+| `peerDependencies` | Expected to be provided by consuming project |
+| `engines` | Required Node.js version |
+| `files` | Allowlist of files to include in published package |
+| `repository` | Source code URL |
+| `license` | SPDX license identifier |

@@ -151,9 +151,9 @@ Local Development (CLI/Studio)
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Structure</th>
-<th>Ownership</th>
+<th>Entity</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -199,42 +199,17 @@ Local Development (CLI/Studio)
 </tbody></table>
 <h2>User Flows</h2>
 <h3>Setting Up Prisma in a Project</h3>
-<ol>
-<li>Developer runs <code>npm install prisma --save-dev</code> and <code>npx prisma init</code></li>
-<li>Prisma creates <code>prisma/schema.prisma</code> with default config</li>
-<li>Developer configures database connection in schema (<code>datasource db</code>)</li>
-<li>Defines data models (e.g., <code>model User { id Int @id, name String, email String @unique }</code>)</li>
-<li>Runs <code>npx prisma migrate dev --name init</code> → creates SQL migration and applies it</li>
-<li>Runs <code>npx prisma generate</code> → generates Prisma Client</li>
-<li>Imports and uses type-safe client in application code</li>
-</ol>
+<pre><code>Developer runs `npm install prisma --save-dev` and `npx prisma init` → Prisma creates `prisma/schema.prisma` with default config → Developer configures database connection in schema (`datasource db`) → Defines data models (e.g., `model User { id Int @id, name String, email String @unique }`) → Runs `npx prisma migrate dev --name init` → creates SQL migration and applies it → Runs `npx prisma generate` → generates Prisma Client → Imports and uses type-safe client in application code
+</code></pre>
 <h3>Schema Evolution (Migration)</h3>
-<ol>
-<li>Developer modifies schema (adds field, new model, changes relation)</li>
-<li>Runs <code>npx prisma migrate dev --name add-posts</code></li>
-<li>Prisma generates SQL migration file (viewable, editable)</li>
-<li>Migration applied to development database</li>
-<li>In production: <code>npx prisma migrate deploy</code> applies pending migrations</li>
-<li>Prisma Client regenerated with updated types</li>
-</ol>
+<pre><code>Developer modifies schema (adds field, new model, changes relation) → Runs `npx prisma migrate dev --name add-posts` → Prisma generates SQL migration file (viewable, editable) → Migration applied to development database → In production: `npx prisma migrate deploy` applies pending migrations → Prisma Client regenerated with updated types
+</code></pre>
 <h3>Prisma Studio (Visual Database Browser)</h3>
-<ol>
-<li>Developer runs <code>npx prisma studio</code> → opens browser at <code>localhost:5555</code></li>
-<li>Left sidebar shows all models/tables from the schema</li>
-<li>Click a model → see data in a spreadsheet-like grid</li>
-<li>Add, edit, delete records visually</li>
-<li>Navigate relations — click related records to follow foreign keys</li>
-<li>Filter and sort data by column values</li>
-</ol>
+<pre><code>Developer runs `npx prisma studio` → opens browser at `localhost:5555` → Left sidebar shows all models/tables from the schema → Click a model → see data in a spreadsheet-like grid → Add, edit, delete records visually → Navigate relations — click related records to follow foreign keys → Filter and sort data by column values
+</code></pre>
 <h3>Prisma Accelerate Setup</h3>
-<ol>
-<li>Developer creates project on console.prisma.io</li>
-<li>Adds database connection string → creates environment</li>
-<li>Enables Accelerate → gets a Prisma Accelerate connection URL</li>
-<li>Replaces direct database URL with Accelerate URL in application</li>
-<li>Queries now go through Accelerate: connection pooling + global caching</li>
-<li>Monitors cache hit rates and query performance in Insights</li>
-</ol>
+<pre><code>Developer creates project on console.prisma.io → Adds database connection string → creates environment → Enables Accelerate → gets a Prisma Accelerate connection URL → Replaces direct database URL with Accelerate URL in application → Queries now go through Accelerate: connection pooling + global caching → Monitors cache hit rates and query performance in Insights
+</code></pre>
 <h2>URL / Route Structure</h2>
 <table>
 <thead>
@@ -367,6 +342,161 @@ Local Development (CLI/Studio)
 <li>Prisma Studio: Only accessible on localhost — not exposed publicly</li>
 <li>Schema security: Schema file should not be committed with production credentials (use env vars)</li>
 </ul>
+<h2>Prisma Stack</h2>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Purpose</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Prisma Schema</td>
+<td>Define data model, relations, and database connection</td>
+<td><code>.prisma</code> file</td>
+</tr>
+<tr>
+<td>Prisma Client</td>
+<td>Auto-generated, type-safe query builder</td>
+<td>npm package</td>
+</tr>
+<tr>
+<td>Prisma Migrate</td>
+<td>Database schema migrations from schema changes</td>
+<td>CLI tool</td>
+</tr>
+<tr>
+<td>Prisma Studio</td>
+<td>Visual database browser and editor</td>
+<td>GUI app</td>
+</tr>
+<tr>
+<td>Prisma Accelerate</td>
+<td>Global edge caching for database queries</td>
+<td>Cloud service</td>
+</tr>
+<tr>
+<td>Prisma Pulse</td>
+<td>Real-time database change events</td>
+<td>Cloud service</td>
+</tr>
+<tr>
+<td>Prisma Optimize</td>
+<td>AI-powered query optimization recommendations</td>
+<td>Cloud service</td>
+</tr>
+</tbody></table>
+<h2>Schema Example</h2>
+<pre><code class="language-prisma">model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  posts     Post[]
+  profile   Profile?
+  createdAt DateTime @default(now())
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String?
+  published Boolean  @default(false)
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  Int
+  tags      Tag[]
+}
+</code></pre>
+<h2>CLI Commands</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>prisma init</code></td>
+<td>Initialize Prisma in project</td>
+</tr>
+<tr>
+<td><code>prisma generate</code></td>
+<td>Generate Prisma Client from schema</td>
+</tr>
+<tr>
+<td><code>prisma db push</code></td>
+<td>Push schema to database (prototyping)</td>
+</tr>
+<tr>
+<td><code>prisma migrate dev</code></td>
+<td>Create and apply migration</td>
+</tr>
+<tr>
+<td><code>prisma migrate deploy</code></td>
+<td>Apply pending migrations (production)</td>
+</tr>
+<tr>
+<td><code>prisma studio</code></td>
+<td>Open visual database browser</td>
+</tr>
+<tr>
+<td><code>prisma format</code></td>
+<td>Format schema file</td>
+</tr>
+<tr>
+<td><code>prisma validate</code></td>
+<td>Validate schema syntax</td>
+</tr>
+<tr>
+<td><code>prisma db pull</code></td>
+<td>Introspect existing database into schema</td>
+</tr>
+</tbody></table>
+<h2>Database Support</h2>
+<table>
+<thead>
+<tr>
+<th>Database</th>
+<th>Status</th>
+<th>Unique Features</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PostgreSQL</td>
+<td>Full support</td>
+<td>JSON, arrays, full-text search</td>
+</tr>
+<tr>
+<td>MySQL</td>
+<td>Full support</td>
+<td>Standard support</td>
+</tr>
+<tr>
+<td>SQLite</td>
+<td>Full support</td>
+<td>Embedded, serverless</td>
+</tr>
+<tr>
+<td>SQL Server</td>
+<td>Full support</td>
+<td>Windows/Azure ecosystem</td>
+</tr>
+<tr>
+<td>MongoDB</td>
+<td>Full support</td>
+<td>Document model, embedded documents</td>
+</tr>
+<tr>
+<td>CockroachDB</td>
+<td>Full support</td>
+<td>Distributed SQL</td>
+</tr>
+<tr>
+<td>PlanetScale</td>
+<td>Full support (via MySQL)</td>
+<td>Branching, serverless</td>
+</tr>
+</tbody></table>
 
     </div>
   </article>

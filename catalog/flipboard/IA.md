@@ -7,10 +7,10 @@ website: https://www.flipboard.com
 
 # Information Architecture — Flipboard
 
-## 1. Overview
+## Overview
 Flipboard is a magazine-style news aggregation platform known for its signature **flip animation** (page-turn gesture) and visually rich content presentation. The IA centers on **Magazines** (user-curated collections), **Storyboards** (editorial narratives), and **Smart Magazines** (AI-curated topic feeds). Content is sourced from RSS, social media, and publisher partnerships, then presented in a beautiful, lean-back reading experience that mimics a glossy magazine.
 
-## 2. Site Map
+## Site Map
 
 ```
 flipboard.com
@@ -83,7 +83,7 @@ flipboard.com
     └── Sign up
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 | Level | Type | Details |
 |-------|------|---------|
@@ -96,48 +96,59 @@ flipboard.com
 
 **Key pattern**: The flip gesture IS the navigation. Vertical swipes page through articles like a physical magazine. This gesture-driven nav replaces traditional lists and is Flipboard's signature UX.
 
-## 4. Content Model
+## Content Model
 
-| Entity | Attributes |
-|--------|-----------|
-| Article | title, source/publisher, author, body (or link), cover image, published date, likes, comments, flipped-into count |
-| Magazine | title, description, cover image, curator, articles, followers, topic tags, public/private |
-| Smart Magazine | topic, AI-curated articles, auto-updating, follower count |
-| Storyboard | title, author, narrative blocks (text, image, video, embed), cover image |
-| Topic | name, related topics, Smart Magazine, follower count |
-| Publisher Channel | name, logo, articles, followers, verified flag |
-| Profile | name, avatar, bio, magazines, followers, following |
+| Entity | Key Attributes | Relationships |
+|---|---|---|
+| Article | title, source/publisher, author, body (or link), cover image, published date, likes, comments, flipped-into count | → Feed, → Board, → Source |
+| Magazine | title, description, cover image, curator, articles, followers, topic tags, public/private | has Articles, belongs to Curator |
+| Smart Magazine | topic, AI-curated articles, auto-updating, follower count | has Articles, belongs to Curator |
+| Storyboard | title, author, narrative blocks (text, image, video, embed), cover image | has Articles, belongs to User/Team |
+| Topic | name, related topics, Smart Magazine, follower count | has Smart Magazine, has Articles |
+| Publisher Channel | name, logo, articles, followers, verified flag | has Articles, belongs to Publisher |
+| Profile | name, avatar, bio, magazines, followers, following | has Magazines, has Followers |
 
-## 5. User Flows
+## User Flows
 
 ### 5a. Read & discover
-1. Open Flipboard → Home "For You" feed (personalized)
-2. Flip through articles (vertical swipe gesture)
-3. Tap article → full view (in-app reader or original source)
-4. Like, comment, or flip into a personal magazine
-5. Explore tab → browse topics → follow new topics for more content
+
+```
+Open Flipboard → Home "For You" feed (personalized) → Flip through articles (vertical swipe gesture) →
+  Tap article → full view (in-app reader or original source) →
+  Like, comment, or flip into a personal magazine →
+  Explore tab → browse topics → follow new topics for more content
+```
+
 
 ### 5b. Curate a magazine
-1. Tap "+" → create new magazine (title, description, cover)
-2. Browse articles → "Flip into" your magazine
-3. Arrange article order → publish
-4. Share magazine link → followers can subscribe
-5. Magazine grows as you continue adding articles
+
+```
+Tap "+" → create new magazine (title, description, cover) →
+  Browse articles → "Flip into" your magazine → Arrange article order → publish →
+  Share magazine link → followers can subscribe → Magazine grows as you continue adding articles
+```
+
 
 ### 5c. Create a Storyboard
-1. New Storyboard → title + cover image
-2. Add blocks: text paragraphs, images, video embeds, tweets, articles
-3. Arrange narrative flow → preview
-4. Publish → appears on profile and can be shared
+
+```
+New Storyboard → title + cover image →
+  Add blocks: text paragraphs, images, video embeds, tweets, articles →
+  Arrange narrative flow → preview → Publish → appears on profile and can be shared
+```
+
 
 ### 5d. Follow & personalize
-1. During onboarding → select interests (5+ topics)
-2. Flipboard curates Home feed based on selections
-3. Follow specific magazines, publishers, and people
-4. "Following" tab shows chronological updates from followed sources
-5. AI refines recommendations based on reading behavior
 
-## 6. URL / Route Structure
+```
+During onboarding → select interests (5+ topics) → Flipboard curates Home feed based on selections →
+  Follow specific magazines, publishers, and people →
+  "Following" tab shows chronological updates from followed sources →
+  AI refines recommendations based on reading behavior
+```
+
+
+## URL / Route Structure
 
 ```
 /                               → Home (For You)
@@ -151,9 +162,20 @@ flipboard.com
 /publishers/                    → Publisher program
 /help/                          → Help center
 /tv/                            → Flipboard TV
+/@{username}/storyboards/      # User's storyboards
+/@{username}/likes/             # User's liked articles
+/@{username}/followers/         # Followers list
+/@{username}/following/         # Following list
+/notifications/                # Notifications
+/settings/                     # Account settings
+/settings/profile/             # Profile settings
+/settings/interests/           # Manage interests
+/about/                        # About Flipboard
+/terms/                        # Terms of service
+/privacy/                      # Privacy policy
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 | Feature | Behavior |
 |---------|----------|
@@ -164,7 +186,10 @@ flipboard.com
 | Smart Magazine | Auto-curated, no manual filtering needed |
 | Sort (implicit) | Home = algorithmic, Following = chronological |
 
-## 8. Responsive Behavior
+- **Storyboard search**: Find storyboards by title or author
+- **Publisher search**: Find publishers and content partners
+- **History**: Recently viewed articles for re-discovery
+## Responsive Behavior
 
 | Breakpoint | Adaptation |
 |-----------|------------|
@@ -174,7 +199,19 @@ flipboard.com
 | App (iOS/Android) | Native flip animation, offline reading, push notifications for breaking news |
 | Web widget | Embeddable magazine widget for blogs/sites |
 
-## 9. Access Control
+
+### Platform-Specific UX
+- The flip gesture (vertical swipe) is the core navigation metaphor — replaces scrolling
+- Magazine cover design follows glossy print magazine aesthetics
+- Smart Magazines are AI-curated and auto-updating based on topic algorithms
+- Storyboards combine text, images, video, and social embeds for editorial narratives
+- Publisher partnerships provide verified channels with analytics access
+- Flipboard TV offers video news consumption in a dedicated section
+- Content is sourced from RSS, social media APIs, and direct publisher integrations
+- The "Flip Into" action is the primary curation gesture — adds articles to personal magazines
+- Topic following during onboarding seeds the personalization algorithm
+
+## Access Control
 
 | Role | Access |
 |------|--------|

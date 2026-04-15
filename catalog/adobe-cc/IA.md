@@ -7,10 +7,10 @@ website: https://www.adobe.com
 
 # Information Architecture — Adobe Creative Cloud
 
-## 1. Overview
+## Overview
 Adobe Creative Cloud is the industry-standard creative software suite encompassing 20+ applications for photography (Photoshop, Lightroom), design (Illustrator, InDesign, XD), video (Premiere Pro, After Effects), 3D (Substance 3D), web (Dreamweaver, Animate), and emerging categories (Adobe Firefly AI, Adobe Express). The IA is massive — spanning individual app marketing, a unified Creative Cloud desktop app, Adobe.com's cross-product marketplace, cloud document management, and learning resources. Adobe's architecture must serve hobbyists, professionals, students, teams, and enterprises.
 
-## 2. Site Map
+## Site Map
 
 ```
 adobe.com
@@ -149,7 +149,7 @@ Creative Cloud Desktop App
     └── Beta features
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 | Level | Type | Details |
 |-------|------|---------|
@@ -162,56 +162,48 @@ Creative Cloud Desktop App
 
 **Key pattern**: Adobe.com is a massive matrix — products x audiences x use cases. The navigation uses mega-menus to handle the breadth. The CC Desktop App acts as a unified launcher and file manager across all apps. Each app has its own deep IA internally.
 
-## 4. Content Model
+## Content Model
 
-| Entity | Attributes |
-|--------|-----------|
-| Application | name, icon, description, features, platforms (Mac/Win/iPad/Web), version, plan eligibility |
-| Cloud Document | name, app, thumbnail, last modified, shared flag, version history, collaborators |
-| Library | name, elements (colors, character styles, graphics, patterns), shared flag, team |
-| Font | family, styles (weights), foundry, classification, language support, activated flag |
-| Stock Asset | type (photo/vector/video/template/3D), preview, license type, price/credits, keywords |
-| Plugin | name, developer, supported apps, rating, reviews, price, install count |
-| Tutorial | title, app, skill level, duration, instructor, steps, video |
-| Plan | name (All Apps/Single App/Photography), price, apps included, storage, features |
-| Behance Project | title, creator, images/videos, tools used, views, appreciations, comments |
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
+| Application | name, icon, description, features, platforms (Mac/Win/iPad/Web), version, plan eligibility | belongs to parent entity |
+| Cloud Document | name, app, thumbnail, last modified, shared flag, version history, collaborators | belongs to User/Workspace |
+| Library | name, elements (colors, character styles, graphics, patterns), shared flag, team | belongs to parent entity |
+| Font | family, styles (weights), foundry, classification, language support, activated flag | belongs to parent entity |
+| Stock Asset | type (photo/vector/video/template/3D), preview, license type, price/credits, keywords | belongs to parent entity |
+| Plugin | name, developer, supported apps, rating, reviews, price, install count | belongs to parent entity |
+| Tutorial | title, app, skill level, duration, instructor, steps, video | belongs to parent entity |
+| Plan | name (All Apps/Single App/Photography), price, apps included, storage, features | belongs to parent entity |
+| Behance Project | title, creator, images/videos, tools used, views, appreciations, comments | belongs to Workspace, has many Tasks |
 
-## 5. User Flows
+## User Flows
 
-### 5a. Subscribe & start creating
-1. Browse plans on adobe.com → choose plan (All Apps, Single App, Photography)
-2. Sign in / create Adobe ID → enter payment
-3. Download CC Desktop App → install desired applications
-4. Open app → create new document → start designing
-5. Save to Creative Cloud → access from any device
+### Subscribe & start creating
+```
+Browse plans on adobe.com → choose plan (All Apps, Single App, Photography) → Sign in / create Adobe ID → enter payment → Download CC Desktop App → install desired applications → Open app → create new document → start designing → Save to Creative Cloud → access from any device
+```
 
-### 5b. Cross-app workflow
-1. Design logo in Illustrator → save as CC Library element
-2. Open Photoshop → use logo from shared Library in composition
-3. Place composition in InDesign layout → export for print
-4. Edit video in Premiere Pro → use same brand assets from Library
-5. Libraries sync across all apps automatically
+### Cross-app workflow
+```
+Design logo in Illustrator → save as CC Library element → Open Photoshop → use logo from shared Library in composition → Place composition in InDesign layout → export for print → Edit video in Premiere Pro → use same brand assets from Library → Libraries sync across all apps automatically
+```
 
-### 5c. Adobe Stock integration
-1. Search Adobe Stock (from within Photoshop or Stock website)
-2. Preview watermarked asset in design
-3. License asset → watermark removed, high-res downloaded
-4. Asset linked in document → always up to date
+### Adobe Stock integration
+```
+Search Adobe Stock (from within Photoshop or Stock website) → Preview watermarked asset in design → License asset → watermark removed, high-res downloaded → Asset linked in document → always up to date
+```
 
-### 5d. Adobe Firefly AI
-1. Open Firefly (web or in Photoshop/Illustrator)
-2. Enter text prompt → "a watercolor painting of a mountain sunset"
-3. Generate variations → select preferred result
-4. Edit in full app → use in commercial work (commercially safe training data)
+### Adobe Firefly AI
+```
+Open Firefly (web or in Photoshop/Illustrator) → Enter text prompt → "a watercolor painting of a mountain sunset" → Generate variations → select preferred result → Edit in full app → use in commercial work (commercially safe training data)
+```
 
-### 5e. Team/Enterprise deployment
-1. IT admin signs into Admin Console
-2. Purchase team plan → assign licenses to users
-3. Configure deployment (managed install, auto-updates)
-4. Set storage policies, shared Libraries, font activation
-5. Monitor usage analytics, manage seats
+### Team/Enterprise deployment
+```
+IT admin signs into Admin Console → Purchase team plan → assign licenses to users → Configure deployment (managed install, auto-updates) → Set storage policies, shared Libraries, font activation → Monitor usage analytics, manage seats
+```
 
-## 6. URL / Route Structure
+## URL / Route Structure
 
 ```
 # adobe.com
@@ -246,7 +238,7 @@ Creative Cloud Desktop App
 /assets.adobe.com/                  → Cloud files & libraries
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 | Feature | Behavior |
 |---------|----------|
@@ -259,7 +251,7 @@ Creative Cloud Desktop App
 | CC Desktop | Search installed/available apps, fonts, stock, files |
 | In-app (e.g., Photoshop) | Layers, actions, brushes, fonts, stock, plugins |
 
-## 8. Responsive Behavior
+## Responsive Behavior
 
 | Breakpoint | Adaptation |
 |-----------|------------|
@@ -270,7 +262,7 @@ Creative Cloud Desktop App
 | iPad apps (Photoshop, Illustrator, Fresco) | Touch-optimized UI, Apple Pencil support |
 | Web apps (Express, Firefly, Lightroom Web) | Fully responsive browser-based experience |
 
-## 9. Access Control
+## Access Control
 
 | Role | Access |
 |------|--------|

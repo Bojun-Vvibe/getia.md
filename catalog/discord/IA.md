@@ -286,6 +286,12 @@ Type /command → Autocomplete shows bot commands → Select → Fill parameters
 https://discord.gg/:code              → Server invite (short)
 https://discord.com/invite/:code      → Server invite (full)
 https://discord.gg/:vanityUrl         → Vanity invite (boosted servers)
+discord.com/account  → Account settings
+discord.com/account/security  → Security settings
+discord.com/billing  → Billing & subscription
+discord.com/notifications  → Notification preferences
+discord.com/help  → Help center
+discord.com/help/{topic}  → Help article
 ```
 
 ## Search & Filter

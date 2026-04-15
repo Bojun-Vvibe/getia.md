@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Deliveroo</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Deliveroo is a food delivery platform connecting customers with local restaurants, grocery stores, and its own &quot;Editions&quot; dark kitchens. The IA is location-first — the home screen adapts to the user&#39;s delivery address, showing nearby restaurants with estimated delivery times. The platform supports on-demand delivery (30-45 min) and scheduled delivery, with Deliveroo Plus (subscription) offering free delivery for frequent users.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>Deliveroo
 ├── Home (location-based)
 │   ├── Address Input / Saved Addresses
@@ -191,7 +191,7 @@
     ├── Marketing Tools
     └── Financials
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <ul>
 <li><strong>Type</strong>: Top nav (desktop) + bottom tab bar (mobile app)</li>
 <li><strong>Desktop Top Bar</strong>: Deliveroo logo, Address (editable), Search, Offers, Account, Cart</li>
@@ -200,12 +200,12 @@
 <li><strong>Restaurant Drill-Down</strong>: Home → Restaurant → Menu → Item customization → Cart → Checkout</li>
 <li><strong>Category Scroll</strong>: Horizontal cuisine/category chips on home; vertical menu categories in restaurant</li>
 </ul>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Attributes</th>
+<th>Entity</th>
+<th>Key Attributes</th>
 <th>Relationships</th>
 </tr>
 </thead>
@@ -265,32 +265,24 @@
 <td>→ Account</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
+<h2>User Flows</h2>
 <h3>Ordering Food</h3>
-<ol>
-<li>Open app → Confirm delivery address → Home shows nearby restaurants</li>
-<li>Browse by cuisine or search → Tap restaurant → View menu</li>
-<li>Select items → Customize (size, toppings, extras) → Add to cart</li>
-<li>View cart → Enter promo code → Add delivery instructions and tip</li>
-<li>Checkout → Select payment → Place order</li>
-<li>Track order: Preparing → Rider picking up → On the way → Delivered</li>
-<li>Receive food → Rate restaurant and rider</li>
-</ol>
+<pre><code>Open app → Confirm delivery address → Home shows nearby restaurants → Browse by cuisine or search → Tap restaurant → View menu → Select items → Customize (size, toppings, extras) → Add to cart → View cart → Enter promo code → Add delivery instructions and tip → Checkout → Select payment → Place order → Track order: Preparing → Rider picking up → On the way → Delivered → Receive food → Rate restaurant and rider
+</code></pre>
 <h3>Scheduling a Delivery</h3>
-<ol>
-<li>Browse and select items → Go to checkout</li>
-<li>Tap &quot;Delivery Time&quot; → Switch from &quot;ASAP&quot; to &quot;Schedule&quot;</li>
-<li>Select date and time slot (30-min windows, up to 7 days ahead)</li>
-<li>Place order → Confirmation with scheduled time → Reminder before delivery</li>
-</ol>
+<pre><code>Browse and select items → Go to checkout → Tap &quot;Delivery Time&quot; → Switch from &quot;ASAP&quot; to &quot;Schedule&quot; → Select date and time slot (30-min windows, up to 7 days ahead) → Place order → Confirmation with scheduled time → Reminder before delivery
+</code></pre>
 <h3>Grocery Shopping</h3>
-<ol>
-<li>Home → Grocery category → Browse stores</li>
-<li>Select store → Browse categories or search products</li>
-<li>Add items to cart → View cart with substitution preferences</li>
-<li>Checkout → Rider shops and delivers → Receive within 20-30 min</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<pre><code>Home → Grocery category → Browse stores → Select store → Browse categories or search products → Add items to cart → View cart with substitution preferences → Checkout → Rider shops and delivers → Receive within 20-30 min
+</code></pre>
+<h3>New User Onboarding</h3>
+<pre><code>Visit Deliveroo → Sign Up (email/Google/SSO) → Complete profile → Guided setup wizard → Configure preferences → Explore key features → Start using the product
+                                                                                                                         ↘ Skip wizard → Land on dashboard
+</code></pre>
+<h3>Manage Notifications</h3>
+<pre><code>Settings → Notifications → Toggle email/push/in-app per category → Set frequency (instant/daily digest/weekly) → Save preferences
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code>deliveroo.com/                              # Homepage (location prompt)
 deliveroo.com/restaurants/{city}            # City restaurant listing
 deliveroo.com/menu/{city}/{restaurant-slug} # Restaurant menu
@@ -304,8 +296,15 @@ deliveroo.com/offers                        # Current promotions
 deliveroo.com/rider                         # Rider signup
 deliveroo.com/restaurants/partner           # Restaurant partner signup
 restaurant-hub.deliveroo.com/              # Partner portal
+deliveroo.com/settings  # Settings
+deliveroo.com/account  # Account settings
+deliveroo.com/account/security  # Security settings
+deliveroo.com/billing  # Billing &amp; subscription
+deliveroo.com/notifications  # Notification preferences
+deliveroo.com/help  # Help center
+deliveroo.com/help/{topic}  # Help article
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <ul>
 <li><strong>Restaurant Search</strong>: By name, cuisine, dish name</li>
 <li><strong>Cuisine Filter</strong>: Pizza, Sushi, Indian, Chinese, Burgers, Healthy, Vegan, etc.</li>
@@ -317,7 +316,7 @@ restaurant-hub.deliveroo.com/              # Partner portal
 <li><strong>Grocery Search</strong>: Product search within specific stores</li>
 <li><strong>Reorder</strong>: Quick-reorder from past orders (1-tap)</li>
 </ul>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -342,7 +341,7 @@ restaurant-hub.deliveroo.com/              # Partner portal
 <td>Responsive web app; prompts to download native app; same functionality as app</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>

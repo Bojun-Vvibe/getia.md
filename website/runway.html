@@ -139,9 +139,9 @@
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Structure</th>
-<th>Ownership</th>
+<th>Entity</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -177,30 +177,14 @@
 </tbody></table>
 <h2>User Flows</h2>
 <h3>Gen-3 Alpha Video Generation</h3>
-<ol>
-<li>User navigates to Generate → Video</li>
-<li>Chooses mode: Text-to-Video, Image-to-Video, or Video-to-Video</li>
-<li>Enters text prompt and/or uploads reference image</li>
-<li>Adjusts parameters: duration (5s/10s), aspect ratio, motion intensity, camera movement</li>
-<li>Clicks Generate → video renders (1-5 minutes depending on duration)</li>
-<li>Preview plays in-browser → download, extend, or iterate with variations</li>
-</ol>
+<pre><code>Navigates to Generate → Video → Chooses mode: Text-to-Video, Image-to-Video, or Video-to-Video → Enters text prompt and/or uploads reference image → Adjusts parameters: duration (5s/10s), aspect ratio, motion intensity, camera movement → Clicks Generate → video renders (1-5 minutes depending on duration) → Preview plays in-browser → download, extend, or iterate with variations
+</code></pre>
 <h3>Motion Brush Workflow</h3>
-<ol>
-<li>User uploads or selects a still image</li>
-<li>Opens Motion Brush tool → paints brush strokes on areas to animate</li>
-<li>Direction and intensity of strokes define the motion vector</li>
-<li>Generates short video clip with localized motion</li>
-<li>Can combine with camera motion controls for cinematic effect</li>
-</ol>
+<pre><code>Uploads or selects a still image → Opens Motion Brush tool → paints brush strokes on areas to animate → Direction and intensity of strokes define the motion vector → Generates short video clip with localized motion → Can combine with camera motion controls for cinematic effect
+</code></pre>
 <h3>Project-Based Workflow</h3>
-<ol>
-<li>User creates a Project (e.g., &quot;Music Video Concept&quot;)</li>
-<li>Generates multiple video clips using various tools</li>
-<li>All outputs automatically organized in the Project</li>
-<li>Team members invited to collaborate — can view, generate, download</li>
-<li>Assets (reference images, style guides) uploaded to Project asset library</li>
-</ol>
+<pre><code>Creates a Project (e.g., &quot;Music Video Concept&quot;) → Generates multiple video clips using various tools → All outputs automatically organized in the Project → Team members invited to collaborate — can view, generate, download → Assets (reference images, style guides) uploaded to Project asset library
+</code></pre>
 <h2>URL / Route Structure</h2>
 <table>
 <thead>
@@ -330,6 +314,234 @@
 <li>API: Separate API access for programmatic generation (Enterprise/custom plans)</li>
 <li>Outputs: Users own generated content; commercial use allowed on paid plans</li>
 <li>Watermark: Free tier adds Runway watermark to all outputs</li>
+</ul>
+<h2>AI Tools</h2>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Input</th>
+<th>Output</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Gen-3 Alpha</td>
+<td>Text prompt</td>
+<td>Video (10s)</td>
+<td>State-of-the-art text-to-video generation</td>
+</tr>
+<tr>
+<td>Gen-2</td>
+<td>Text or image</td>
+<td>Video (4s)</td>
+<td>Previous gen text/image-to-video</td>
+</tr>
+<tr>
+<td>Text to Image</td>
+<td>Text prompt</td>
+<td>Image</td>
+<td>High-quality image generation</td>
+</tr>
+<tr>
+<td>Image to Image</td>
+<td>Image + prompt</td>
+<td>Image</td>
+<td>Style transfer and modification</td>
+</tr>
+<tr>
+<td>Inpainting</td>
+<td>Image + mask</td>
+<td>Image</td>
+<td>Remove or replace objects</td>
+</tr>
+<tr>
+<td>Expand Image</td>
+<td>Image</td>
+<td>Larger image</td>
+<td>Extend canvas with AI-generated content</td>
+</tr>
+<tr>
+<td>Remove Background</td>
+<td>Image</td>
+<td>Image (no BG)</td>
+<td>Automatic background removal</td>
+</tr>
+<tr>
+<td>Motion Brush</td>
+<td>Video + brush</td>
+<td>Video</td>
+<td>Apply motion to specific regions</td>
+</tr>
+<tr>
+<td>Lip Sync</td>
+<td>Video + audio</td>
+<td>Video</td>
+<td>Sync lip movement to audio</td>
+</tr>
+<tr>
+<td>Super Resolution</td>
+<td>Low-res media</td>
+<td>High-res media</td>
+<td>Upscale images and video</td>
+</tr>
+<tr>
+<td>Green Screen</td>
+<td>Video</td>
+<td>Video (no BG)</td>
+<td>AI-powered chroma keying</td>
+</tr>
+<tr>
+<td>Depth Map</td>
+<td>Image</td>
+<td>Depth map</td>
+<td>Extract depth information</td>
+</tr>
+<tr>
+<td>Scene Detection</td>
+<td>Video</td>
+<td>Timestamps</td>
+<td>Detect scene transitions</td>
+</tr>
+<tr>
+<td>Transcription</td>
+<td>Audio/video</td>
+<td>Text</td>
+<td>Speech-to-text transcription</td>
+</tr>
+</tbody></table>
+<h2>Video Generation Parameters</h2>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Options</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Duration</td>
+<td>4s, 10s, 16s (Gen-3 Alpha)</td>
+</tr>
+<tr>
+<td>Aspect ratio</td>
+<td>16:9, 9:16, 1:1</td>
+</tr>
+<tr>
+<td>Motion amount</td>
+<td>Low, Medium, High</td>
+</tr>
+<tr>
+<td>Camera movement</td>
+<td>Pan, Zoom, Orbit, Dolly (text-described)</td>
+</tr>
+<tr>
+<td>Seed</td>
+<td>Reproducible results</td>
+</tr>
+<tr>
+<td>Resolution</td>
+<td>720p, 1080p (Gen-3 Alpha)</td>
+</tr>
+</tbody></table>
+<h2>Pricing</h2>
+<table>
+<thead>
+<tr>
+<th>Plan</th>
+<th>Credits/mo</th>
+<th>Price</th>
+<th>Features</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Free</td>
+<td>125</td>
+<td>$0</td>
+<td>3 projects, Gen-2 access</td>
+</tr>
+<tr>
+<td>Standard</td>
+<td>625</td>
+<td>$12/mo</td>
+<td>Unlimited projects, Gen-3 Alpha</td>
+</tr>
+<tr>
+<td>Pro</td>
+<td>2250</td>
+<td>$28/mo</td>
+<td>Higher resolution, priority queue</td>
+</tr>
+<tr>
+<td>Unlimited</td>
+<td>Unlimited</td>
+<td>$76/mo</td>
+<td>No credit limits, all features</td>
+</tr>
+<tr>
+<td>Enterprise</td>
+<td>Custom</td>
+<td>Custom</td>
+<td>API access, dedicated support</td>
+</tr>
+</tbody></table>
+<h2>Asset Management</h2>
+<ul>
+<li><strong>Projects:</strong> Organize generations into project folders</li>
+<li><strong>Favorites:</strong> Star best outputs for quick access</li>
+<li><strong>History:</strong> Full generation history with prompts and parameters</li>
+<li><strong>Download:</strong> Export in MP4 (video), PNG/JPG (image)</li>
+<li><strong>Sharing:</strong> Public link sharing for generated content</li>
+<li><strong>Team workspace:</strong> Shared asset library for team collaboration</li>
+</ul>
+<h2>Creative Workflows</h2>
+<h3>Text-to-Video Pipeline</h3>
+<pre><code>Write Prompt → Select Duration (4s/10s) → Choose Aspect Ratio → Set Motion Amount → Generate → Review → Extend (add more seconds) → Download MP4
+</code></pre>
+<h3>Image-to-Video</h3>
+<pre><code>Upload Reference Image → Write Motion Prompt → Select Camera Movement → Generate Video from Still → Apply Motion Brush for Selective Animation → Export
+</code></pre>
+<h3>Multi-Tool Composition</h3>
+<pre><code>Generate Image (Text-to-Image) → Edit with Inpainting → Remove Background → Animate with Image-to-Video → Add Motion Brush Effects → Composite in Video Editor
+</code></pre>
+<h2>Industry Applications</h2>
+<table>
+<thead>
+<tr>
+<th>Industry</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Film/TV</td>
+<td>Pre-visualization, concept art, VFX prototyping</td>
+</tr>
+<tr>
+<td>Advertising</td>
+<td>Rapid ad creative generation and iteration</td>
+</tr>
+<tr>
+<td>Social Media</td>
+<td>Short-form video content creation</td>
+</tr>
+<tr>
+<td>Gaming</td>
+<td>Concept art, texture generation, cutscene prototyping</td>
+</tr>
+<tr>
+<td>E-commerce</td>
+<td>Product video generation from still photos</td>
+</tr>
+<tr>
+<td>Education</td>
+<td>Visual content for courses and presentations</td>
+</tr>
+</tbody></table>
+<h2>Gen-3 Alpha Capabilities</h2>
+<ul>
+<li><strong>Temporal coherence:</strong> Consistent characters and objects across video frames</li>
+<li><strong>Camera control:</strong> Pan, tilt, zoom, dolly, orbit via text description</li>
+<li><strong>Motion quality:</strong> Realistic physics simulation for movement</li>
+<li><strong>Style consistency:</strong> Maintains visual style throughout generated clip</li>
 </ul>
 
     </div>

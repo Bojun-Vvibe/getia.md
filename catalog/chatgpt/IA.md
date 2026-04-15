@@ -45,8 +45,8 @@ chat.openai.com
 
 ## Content Model
 
-| Content Type | Structure | Ownership |
-|---|---|---|
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
 | Conversation | Thread of alternating user/assistant messages, each with timestamps, model tag, optional attachments | User-owned, deletable |
 | Message | Text (Markdown), code blocks, images, file attachments, tool-use indicators | Part of conversation |
 | Canvas Document | Rich-text or code document co-edited with AI, versioned | Linked to conversation |
@@ -55,29 +55,43 @@ chat.openai.com
 | Shared Link | Read-only snapshot of a conversation at share time | Public or link-only |
 | Project | Folder grouping conversations + files + custom instructions | User/Team-owned |
 
+| AuditLog | action, actor, target, timestamp, ip_address | belongs to Organization |
+| Notification | type, message, read, created_at, action_url | belongs to User |
+| Integration | name, type, status, credentials, last_synced | belongs to Workspace |
+| Webhook | url, events[], secret, active, last_triggered | belongs to Organization |
+
+### Entity Lifecycle
+```
+created → active → updated → archived
+                  ↘ suspended → reactivated → active
+created → deleted (soft delete with recovery period)
+```
 ## User Flows
 
 ### New Conversation
-1. User lands on `/` → sees prompt input + suggested prompts
-2. Types message → selects model (or uses default)
-3. Message streams in real-time via SSE
-4. Conversation auto-saved to sidebar with AI-generated title
-5. User can continue, branch (edit earlier message), or start new chat
+```
+User lands on `/` → sees prompt input + suggested prompts → Types message → selects model (or uses default) → Message streams in real-time via SSE → Conversation auto-saved to sidebar with AI-generated title → User can continue, branch (edit earlier message), or start new chat
+```
 
 ### Using a GPT
-1. User navigates to GPT Store or `/g/{id}`
-2. Sees GPT description + conversation starters
-3. Clicks starter or types custom prompt
-4. Conversation opens in main chat with GPT context pre-loaded
-5. GPT may invoke external actions (API calls) with user consent
+```
+User navigates to GPT Store or `/g/{id}` → Sees GPT description + conversation starters → Clicks starter or types custom prompt → Conversation opens in main chat with GPT context pre-loaded → GPT may invoke external actions (API calls) with user consent
+```
 
 ### Canvas Workflow
-1. User requests a document or code artifact
-2. ChatGPT opens Canvas panel alongside chat
-3. User can directly edit text; AI can suggest inline changes
-4. Version history allows rollback
-5. Export as file or copy to clipboard
+```
+User requests a document or code artifact → ChatGPT opens Canvas panel alongside chat → User can directly edit text; AI can suggest inline changes → Version history allows rollback → Export as file or copy to clipboard
+```
 
+### New User Onboarding
+```
+Visit ChatGPT → Sign Up (email/Google/SSO) → Complete profile → Guided setup wizard → Configure preferences → Explore key features → Start using the product
+                                                                                                                         ↘ Skip wizard → Land on dashboard
+```
+### Manage Notifications
+```
+Settings → Notifications → Toggle email/push/in-app per category → Set frequency (instant/daily digest/weekly) → Save preferences
+```
 ## URL / Route Structure
 
 | Pattern | Description |
@@ -93,6 +107,35 @@ chat.openai.com
 
 Routes are client-side (SPA); the conversation ID is a UUID. Shared links use a separate short ID. No SEO-oriented slug pattern — conversations are private by default.
 
+### Additional Routes
+
+```
+account  → Account settings
+account/security  → Security settings
+billing  → Billing & subscription
+notifications  → Notification preferences
+help  → Help center
+help/{topic}  → Help article
+api  → API documentation
+search?q={query}  → Search results
+integrations  → Integrations
+admin  → Admin console
+admin/members  → Member management
+import  → Import data
+/c/{uuid}                         → Existing conversation
+/g/{slug}                         → GPT detail page
+/gpts/discovery                   → GPT Store browse
+/gpts/editor                      → GPT Builder
+/gpts/editor/{gpt_id}             → Edit specific GPT
+/gpts/mine                        → My GPTs
+/share/{share_id}                 → Shared conversation
+/settings/general                 → General settings
+/settings/personalization         → Custom instructions & memory
+/settings/data-controls           → Data controls
+/settings/subscription            → Subscription management
+/canvas                           → Canvas documents
+```
+
 ## Search & Filter
 
 - **Conversation search**: Full-text search across conversation titles and message content, accessible from sidebar search bar
@@ -100,6 +143,9 @@ Routes are client-side (SPA); the conversation ID is a UUID. Shared links use a 
 - **No advanced filters**: No date-range, model-type, or tag-based filtering for conversations
 - **Memory search**: Users can browse and search stored memory items in Settings → Personalization
 
+- **Sort options**: By relevance, date created, date modified, alphabetical, popularity
+- **Autocomplete**: Type-ahead suggestions with recent searches and popular results
+- **Recent searches**: Quick access to previous search queries
 ## Responsive Behavior
 
 | Breakpoint | Behavior |
@@ -112,6 +158,65 @@ Routes are client-side (SPA); the conversation ID is a UUID. Shared links use a 
 - Model selector moves into a compact dropdown
 - File upload and attachment options collapse into a `+` menu
 - Touch-optimized: swipe-to-open sidebar, long-press for message actions
+
+
+### ChatGPT-Specific UX Patterns
+- **Progressive disclosure**: Complex features hidden behind expandable sections
+- **Contextual actions**: Right-click menus and hover-revealed action buttons
+- **Inline editing**: Click-to-edit fields without navigating to a separate page
+- **Batch operations**: Multi-select with bulk actions (delete, move, archive, tag)
+- **Undo support**: Non-destructive actions with undo toast notifications
+- **Loading states**: Skeleton screens and progress indicators during async operations
+- **Empty states**: Helpful illustrations and CTAs when sections have no content
+- **Onboarding tooltips**: First-time user guidance highlighting key features
+
+### Accessibility
+- WCAG 2.1 AA compliance across all interactive elements
+- Semantic HTML with proper ARIA labels and landmarks
+- Keyboard navigation support for all core workflows
+- Screen reader compatibility tested with VoiceOver, NVDA, and JAWS
+- Color contrast ratios meeting minimum 4.5:1 for body text
+- Focus indicators visible on all interactive elements
+- Reduced motion option respecting `prefers-reduced-motion`
+- Resizable text up to 200% without content loss
+
+
+### API & Integration Patterns
+- RESTful API with JSON request/response format
+- Webhook support for real-time event notifications
+- OAuth 2.0 for third-party application authorization
+- Rate limiting with clear headers (X-RateLimit-Remaining)
+- Pagination via cursor-based or offset-based parameters
+- Versioned API endpoints for backward compatibility
+- Comprehensive API documentation with interactive examples
+- SDKs available for popular languages (JavaScript, Python, Ruby, Go)
+
+
+### Memory System
+```
+During conversation → ChatGPT identifies important facts → Prompts "Memory updated" → User can view stored memories in Settings → Edit or delete individual memories → Memories inform future conversations across all chats
+                                                                                                                                                                          ↘ Disable memory entirely in Settings → Privacy
+```
+
+### Project Workflow
+```
+Create Project → Name and set custom instructions → Upload files (code, docs, data) → Start conversation within project → All project context automatically included → Multiple conversations share the same project knowledge → Collaborate with team members (Team plan)
+```
+
+### Plugin / Tool Usage
+```
+User message requires external data → ChatGPT selects appropriate tool (browse web, execute code, generate image, analyze file) → Tool executes → Results integrated into response → User can see which tools were used via indicators
+                                                                                                                                        ↘ Tool fails → Fallback to text-only response with explanation
+```
+
+### Data Export
+```
+Settings → Data Controls → Export Data → Request export → Email notification when ready → Download ZIP containing all conversations, files, and account data → Process completes within 24 hours
+```
+
+- Voice mode enables hands-free conversational interaction on mobile devices
+- Shared links create read-only conversation snapshots accessible to anyone with the URL
+- Custom GPTs can connect to external APIs via Actions for real-time data retrieval
 
 ## Access Control
 

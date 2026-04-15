@@ -216,39 +216,34 @@ Extension Package (npm)
 
 ## User Flows
 
-### Instant Launch
+
+### Launch App
 ```
 Option+Space → Type "sl" → "Slack" appears → Enter → Slack opens
 (Total time: ~0.5 seconds)
 ```
 
-### Clipboard History
 ```
 Option+Space → Type "clip" or use ⌘⇧V hotkey → Clipboard History → Search → Select entry → Paste (auto-paste to active app)
 ```
 
-### Quick AI
 ```
 Select text in any app → ⌘⇧K → Choose AI command (Summarize / Fix Grammar / Translate) → Result appears → Paste or Copy
 ```
 
-### Snippet Expansion
 ```
 In any text field → Type keyword (e.g., "!email") → Auto-expands to full template with dynamic values ("Dear {cursor}, ...")
 ```
 
-### Window Management
 ```
 Option+Space → "left half" → Current window snaps to left half
 Or: Use hotkey (e.g., ⌘⌃←) → Instant snap
 ```
 
-### Extension Installation
 ```
 Store → Search "GitHub" → GitHub Extension → Install → Preferences → Add access token → Option+Space → "GitHub Search Repos" → Search repos → Open / Clone / Star
 ```
 
-### Developer: Build Extension
 ```
 npx create-raycast-extension → Choose template → Code (React + TypeScript) → npm run dev → Raycast auto-loads extension → Test in command bar → Publish to Store
 ```

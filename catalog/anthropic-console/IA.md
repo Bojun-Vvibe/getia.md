@@ -34,6 +34,14 @@ console.anthropic.com
 ├── /logs (API request logs)
 ├── /docs (→ redirects to docs.anthropic.com)
 └── /auth
+├── Evaluations
+│   ├── Eval Sets
+│   ├── Run Evaluation
+│   └── Results & Comparison
+├── Batch Processing
+│   ├── Create Batch
+│   ├── Batch Status
+│   └── Batch Results
 ```
 
 ## Navigation Model
@@ -47,8 +55,8 @@ console.anthropic.com
 
 ## Content Model
 
-| Content Type | Structure | Ownership |
-|---|---|---|
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
 | Workbench Session | Model, system prompt, message pairs, parameters (temperature, max_tokens, top_p), response | User-owned, saveable |
 | Saved Prompt | Named prompt template with variables, model config, system prompt | User/Org-owned |
 | API Key | Key string, name, permissions, created date, last used | Org-scoped |
@@ -56,39 +64,50 @@ console.anthropic.com
 | Organization | Name, members, billing info, API keys, rate limits | Org |
 | Invoice | Billing period, usage breakdown by model, total cost | Org billing |
 | Log Entry | API request details — model, tokens, latency, status code, truncated prompt | Org-scoped |
+| Prompt Version | version_number, system_prompt, parameters, created_at, author | belongs to Saved Prompt |
+| Rate Limit | tier, requests_per_minute, tokens_per_minute, model | belongs to Organization |
+| Batch Job | id, status, input_file, output_file, model, created_at | belongs to Organization |
+| Evaluation | name, eval_set, model, results, scores | belongs to Organization |
 
+
+### Entity Lifecycle
+```
+created → active → updated → archived
+                  ↘ suspended → reactivated → active
+created → deleted (soft delete with recovery period)
+```
 ## User Flows
 
 ### Prompt Engineering in Workbench
-1. Developer opens Workbench → selects model (Claude Sonnet 4, Opus 4, Haiku)
-2. Writes system prompt in dedicated panel
-3. Adds user message → clicks "Run" or Cmd+Enter
-4. Response streams in the assistant panel
-5. Adjusts parameters (temperature, max tokens) → re-runs
-6. Clicks "Get Code" → copies Python/TypeScript/curl snippet
-7. Saves as named prompt for later use or sharing with team
+```
+Developer opens Workbench → selects model (Claude Sonnet 4, Opus 4, Haiku) → Writes system prompt in dedicated panel → Adds user message → clicks "Run" or Cmd+Enter → Response streams in the assistant panel → Adjusts parameters (temperature, max tokens) → re-runs → Clicks "Get Code" → copies Python/TypeScript/curl snippet → Saves as named prompt for later use or sharing with team
+```
 
 ### API Key Management
-1. Developer navigates to API Keys
-2. Clicks "Create Key" → names the key, sets permissions
-3. Key displayed once → copy and store securely
-4. Key appears in list with usage stats and last-used date
-5. Can revoke/delete keys; set rate limits per key
+```
+Developer navigates to API Keys → Clicks "Create Key" → names the key, sets permissions → Key displayed once → copy and store securely → Key appears in list with usage stats and last-used date → Can revoke/delete keys; set rate limits per key
+```
 
 ### Monitoring Usage & Costs
-1. Developer navigates to Usage
-2. Views dashboard: tokens consumed (input/output), costs by model, request volume
-3. Filters by date range, model, API key
-4. Charts show trends over time
-5. Billing page shows invoices and payment methods
+```
+Developer navigates to Usage → Views dashboard: tokens consumed (input/output), costs by model, request volume → Filters by date range, model, API key → Charts show trends over time → Billing page shows invoices and payment methods
+```
 
 ### Organization Management
-1. Admin navigates to Settings → Members
-2. Invites team members by email
-3. Assigns roles (Admin, Developer, Billing)
-4. Sets spend limits and rate limits for the organization
-5. Manages multiple API keys with different permission scopes
+```
+Admin navigates to Settings → Members → Invites team members by email → Assigns roles (Admin, Developer, Billing) → Sets spend limits and rate limits for the organization → Manages multiple API keys with different permission scopes
+```
 
+### Prompt Versioning
+```
+Prompts → Select prompt → Edit system prompt or parameters → Save as new version → Compare versions side-by-side → Roll back to earlier version if needed
+                                                                                                                                              ↘ Share prompt with team members
+```
+
+### Cost Monitoring & Alerts
+```
+Usage → View daily token consumption chart → Filter by model (Opus/Sonnet/Haiku) → Identify cost spike → Check per-key breakdown → Settings → Limits → Set monthly spend cap → Receive alert at 80% threshold
+```
 ## URL / Route Structure
 
 | Pattern | Description |
@@ -109,6 +128,34 @@ console.anthropic.com
 
 Standard SPA routing. UUIDs for saved prompts and workbench sessions.
 
+
+### Additional Routes
+
+```
+/workbench                    → New workbench session
+/workbench/{uuid}             → Saved workbench session
+/prompts                      → Prompt library
+/prompts/{uuid}               → Individual saved prompt
+/prompts/{uuid}/versions      → Prompt version history
+/api-keys                     → API key management
+/api-keys/create              → Create new API key
+/usage                        → Usage analytics
+/usage/breakdown              → Usage breakdown by model
+/billing                      → Billing overview
+/billing/invoices             → Invoice history
+/billing/invoices/{id}        → Invoice detail
+/billing/payment-methods      → Payment methods
+/billing/plans                → Plan selection
+/settings/organization        → Org settings
+/settings/members             → Team management
+/settings/members/invite      → Invite member
+/settings/limits              → Rate/spend limits
+/settings/profile             → User profile
+/logs                         → API request logs
+/logs/{request_id}            → Log entry detail
+/docs                         → Redirect to docs.anthropic.com
+```
+
 ## Search & Filter
 
 - **Prompt search**: Search saved prompts by name
@@ -116,7 +163,13 @@ Standard SPA routing. UUIDs for saved prompts and workbench sessions.
 - **Log filters**: Filter API logs by model, status code, date range, latency threshold
 - **No global search**: No unified search across the entire console
 - **API key search**: Filter keys by name
+- **Log search**: Search API logs by request ID, filter by model, status code, date range
+- **Member search**: Search team members by name or email
 
+- **Sort options**: By relevance, date created, date modified, alphabetical, popularity
+- **Autocomplete**: Type-ahead suggestions with recent searches and popular results
+- **Advanced search**: Boolean operators (AND, OR, NOT), field-specific filters, date ranges
+- **Recent searches**: Quick access to previous search queries
 ## Responsive Behavior
 
 | Breakpoint | Behavior |
@@ -130,6 +183,27 @@ Standard SPA routing. UUIDs for saved prompts and workbench sessions.
 - Usage charts resize responsively
 - API key table adapts to narrower widths (truncated key previews)
 - Code generation modal is full-screen on mobile
+
+
+### Anthropic Console-Specific UX Patterns
+- **Progressive disclosure**: Complex features hidden behind expandable sections
+- **Contextual actions**: Right-click menus and hover-revealed action buttons
+- **Inline editing**: Click-to-edit fields without navigating to a separate page
+- **Batch operations**: Multi-select with bulk actions (delete, move, archive, tag)
+- **Undo support**: Non-destructive actions with undo toast notifications
+- **Loading states**: Skeleton screens and progress indicators during async operations
+- **Empty states**: Helpful illustrations and CTAs when sections have no content
+- **Onboarding tooltips**: First-time user guidance highlighting key features
+
+### Accessibility
+- WCAG 2.1 AA compliance across all interactive elements
+- Semantic HTML with proper ARIA labels and landmarks
+- Keyboard navigation support for all core workflows
+- Screen reader compatibility tested with VoiceOver, NVDA, and JAWS
+- Color contrast ratios meeting minimum 4.5:1 for body text
+- Focus indicators visible on all interactive elements
+- Reduced motion option respecting `prefers-reduced-motion`
+- Resizable text up to 200% without content loss
 
 ## Access Control
 

@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Hacker News</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Hacker News (HN) is Y Combinator&#39;s minimalist technology news aggregator and discussion forum. The IA is intentionally sparse — a single-column list of links ranked by a gravity-based algorithm, threaded comments, and virtually no media embellishments. This design philosophy prioritizes substance over presentation, rewarding intellectual curiosity and deep technical discussion. The site has barely changed its layout since 2007.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>Hacker News
 ├── Front Page (Top Stories)
 ├── New (newest submissions)
@@ -130,7 +130,7 @@
     ├── Active (most-discussed)
     └── Noob Comments (new users&#39; comments for mentoring)
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <ul>
 <li><strong>Type</strong>: Single horizontal text nav bar at top (orange header)</li>
 <li><strong>Top Bar Links</strong>: Y logo | Hacker News | new | past | comments | ask | show | jobs | submit</li>
@@ -140,7 +140,7 @@
 <li><strong>Thread Navigation</strong>: Click comment count → full threaded discussion; indent = nesting depth</li>
 <li><strong>No JavaScript-based Navigation</strong>: All navigation is server-rendered page loads</li>
 </ul>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
@@ -185,30 +185,32 @@
 <td>→ Comments</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
+<h2>User Flows</h2>
 <h3>Reading &amp; Voting</h3>
-<ol>
-<li>Visit front page → Scan ranked list of 30 story titles with domains</li>
-<li>Click title → Opens external link (or HN text post)</li>
-<li>Click comment count → View threaded discussion</li>
-<li>Upvote stories/comments (if &gt;500 karma: can also downvote comments)</li>
-<li>Click &quot;More&quot; at bottom → Next page of stories</li>
-</ol>
+<pre><code>Visit front page → Scan ranked list of 30 story titles with domains →
+  Click title → Opens external link (or HN text post) →
+  Click comment count → View threaded discussion →
+  Upvote stories/comments (if &gt;500 karma: can also downvote comments) →
+  Click &quot;More&quot; at bottom → Next page of stories
+</code></pre>
 <h3>Submitting a Story</h3>
-<ol>
-<li>Click &quot;submit&quot; in nav → Enter URL and title (or text for Ask/Show HN)</li>
-<li>Submit → Story appears on /newest</li>
-<li>If it gains upvotes quickly, it rises to the front page via ranking algorithm</li>
-<li>Points decay over time (gravity model): score / (age + 2)^1.8</li>
-</ol>
+<pre><code>Click &quot;submit&quot; in nav → Enter URL and title (or text for Ask/Show HN) →
+  Submit → Story appears on /newest →
+  If it gains upvotes quickly, it rises to the front page via ranking algorithm →
+  Points decay over time (gravity model): score / (age + 2)^1.8
+</code></pre>
 <h3>Show HN Flow</h3>
-<ol>
-<li>Submit with title starting &quot;Show HN:&quot; + project URL + description</li>
-<li>Appears on /show page and /newest</li>
-<li>Community provides feedback in comments</li>
-<li>Successful Show HN posts reach front page</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<pre><code>Submit with title starting &quot;Show HN:&quot; + project URL + description →
+  Appears on /show page and /newest → Community provides feedback in comments →
+  Successful Show HN posts reach front page
+</code></pre>
+<h3>Ask HN Discussion</h3>
+<pre><code>Click &#39;submit&#39; → Title starts with &#39;Ask HN:&#39; → Write question in text body → Submit → Community responds in comments → Best answers voted to top → Discussion unfolds over hours/days
+</code></pre>
+<h3>Flagging Inappropriate Content</h3>
+<pre><code>See problematic story/comment → Click &#39;flag&#39; link → Enough flags → Story de-ranked or marked [flagged] → Moderator reviews → May be [dead] or restored
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code>news.ycombinator.com/                       # Front page (top stories)
 news.ycombinator.com/newest                 # New submissions
 news.ycombinator.com/past?page={date}       # Past top stories
@@ -223,20 +225,48 @@ news.ycombinator.com/favorites?id={username}# User&#39;s favorites
 news.ycombinator.com/submit                 # Submit form
 news.ycombinator.com/leaders                # Top karma leaderboard
 hacker-news.firebaseio.com/v0/             # Public API root
+news.ycombinator.com/best                     # Best stories
+news.ycombinator.com/active                   # Most-discussed stories
+news.ycombinator.com/noobstories              # New users&#39; stories
+news.ycombinator.com/noobcomments              # New users&#39; comments
+news.ycombinator.com/login                    # Login page
+news.ycombinator.com/submitted?id={username}  # User&#39;s submissions
+news.ycombinator.com/upvoted?id={username}    # User&#39;s upvoted items
+news.ycombinator.com/changepw                 # Change password
+news.ycombinator.com/newpoll                  # Create poll (rare)
+hn.algolia.com/                               # Full-text search (external)
+hn.algolia.com/api                            # Algolia search API
+hacker-news.firebaseio.com/v0/beststories     # API: best stories
+hacker-news.firebaseio.com/v0/askstories      # API: Ask HN stories
+hacker-news.firebaseio.com/v0/showstories     # API: Show HN stories
+hacker-news.firebaseio.com/v0/jobstories      # API: Job stories
+hacker-news.firebaseio.com/v0/updates         # API: recent changes
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <ul>
-<li><strong>No Built-in Search</strong>: HN has no native search feature on the site</li>
-<li><strong>Algolia HN Search</strong>: hn.algolia.com provides full-text search (official integration)<ul>
+<li><p><strong>No Built-in Search</strong>: HN has no native search feature on the site</p>
+</li>
+<li><p><strong>Algolia HN Search</strong>: hn.algolia.com provides full-text search (official integration)</p>
+<ul>
 <li>Filter by stories, comments, date range, popularity</li>
 </ul>
 </li>
-<li><strong>List Filters</strong>: Top / New / Best / Active / Ask / Show / Jobs — predefined views</li>
-<li><strong>Past Page</strong>: Browse top stories by specific date</li>
-<li><strong>No Tags/Categories</strong>: Stories are not categorized; ranking is purely algorithmic</li>
-<li><strong>Flagging</strong>: Users can flag inappropriate content; flagged stories may be de-ranked or killed</li>
+<li><p><strong>List Filters</strong>: Top / New / Best / Active / Ask / Show / Jobs — predefined views</p>
+</li>
+<li><p><strong>Past Page</strong>: Browse top stories by specific date</p>
+</li>
+<li><p><strong>No Tags/Categories</strong>: Stories are not categorized; ranking is purely algorithmic</p>
+</li>
+<li><p><strong>Flagging</strong>: Users can flag inappropriate content; flagged stories may be de-ranked or killed</p>
+</li>
+<li><p><strong>Algolia Search Filters</strong>: Filter by stories only, comments only, popularity threshold, date range</p>
+</li>
+<li><p><strong>Algolia Sort Options</strong>: Sort by relevance, date, popularity</p>
+</li>
+<li><p><strong>User Submissions</strong>: Browse all submissions and comments by a specific user</p>
+</li>
 </ul>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -265,7 +295,41 @@ hacker-news.firebaseio.com/v0/             # Public API root
 <td>Mobile experience primarily through third-party clients (Harmonic, Hack, Materialistic) that provide proper mobile UI</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h3>Platform-Specific UX</h3>
+<ul>
+<li>Table-based HTML layout has not changed significantly since 2007 — intentional minimalism</li>
+<li>No JavaScript frameworks — all navigation is server-rendered page loads</li>
+<li>Comment indentation depth indicates nesting level in threaded discussions</li>
+<li>Karma system: points earned from upvotes on stories and comments (not visible to others on comments for 24h)</li>
+<li>Flagging mechanism: users with sufficient karma can flag stories for moderation</li>
+<li>Hellban (shadow ban): banned users&#39; posts visible only to themselves — others see nothing</li>
+<li>No edit/delete after ~2 hours — encourages thoughtful posting</li>
+<li>Gravity-based ranking: score / (age + 2)^1.8 ensures fresh content rises and old content falls</li>
+<li>&quot;Show dead&quot; toggle (karma &gt;30) reveals flagged/killed posts for transparency</li>
+<li>Single moderator team (dang, sctb) manages the entire community</li>
+<li>No images, no avatars, no rich media — pure text-based discussion</li>
+<li>Orange color scheme is Y Combinator&#39;s brand color</li>
+<li>Poll feature exists but is rarely used — limited to text options</li>
+<li>Jobs board is exclusively for YC portfolio companies</li>
+</ul>
+<h3>Historical Context</h3>
+<ul>
+<li>Founded by Paul Graham in 2007 as a Y Combinator community project</li>
+<li>Algolia search (hn.algolia.com) is the unofficial but sanctioned search engine</li>
+<li>Firebase API provides programmatic access to stories, comments, and users</li>
+<li>Third-party mobile clients (Harmonic, Hack, Materialistic) provide proper mobile UX</li>
+<li>&quot;Who Is Hiring&quot; monthly threads are among the most valuable recurring posts</li>
+</ul>
+<h3>Ranking Algorithm</h3>
+<pre><code>Score = (votes - 1)^0.8 / (age_hours + 2)^1.8
+
+Key properties:
+- Recent stories with few votes can outrank older stories with many votes
+- The denominator grows faster than the numerator — stories naturally decay
+- Flagged stories receive a heavy penalty multiplier
+- Second-chance pool rescues worthy stories that didn&#39;t get initial traction
+</code></pre>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>

@@ -117,18 +117,31 @@ braze.com
 
 ## User Flows
 
-### 1. Launch a Push Campaign
-`Campaigns → + Create → Push Notification → Compose (title, body, image, deep link) → Target segment → Set delivery (scheduled or action-based) → Set conversion event → Launch`
+### Launch a Push Campaign
+```
+Campaigns → + Create → Push Notification → Compose (title, body, image, deep link) → Target segment → Set delivery (scheduled or action-based) → Set conversion event → Launch
+```
 
-### 2. Build a Multi-Step Canvas
-`Canvas → + Create → Set entry audience + schedule → Add Message step (welcome email) → Add Delay (2 days) → Add Decision Split (opened email?) → Branch A: Send push → Branch B: Send reminder email → Launch`
+### Build a Multi-Step Canvas
+```
+Canvas → + Create → Set entry audience + schedule → Add Message step (welcome email) → Add Delay (2 days) → Add Decision Split (opened email?) → Branch A: Send push → Branch B: Send reminder email → Launch
+```
 
-### 3. Analyze Cross-Channel Performance
-`Analytics → Report Builder → Select campaigns/canvases → Compare metrics (sends, opens, clicks, conversions, revenue) → Export report`
+### Analyze Cross-Channel Performance
+```
+Analytics → Report Builder → Select campaigns/canvases → Compare metrics (sends, opens, clicks, conversions, revenue) → Export report
+```
 
-### 4. Search and Inspect a User
-`Audience → User Search → Enter email/external_id → View profile → Check attribute values → Review event history → See which campaigns/canvases they received → Debug delivery issues`
+### Search and Inspect a User
+```
+Audience → User Search → Enter email/external_id → View profile → Check attribute values → Review event history → See which campaigns/canvases they received → Debug delivery issues
+```
 
+### New User Onboarding
+```
+Visit Braze → Sign Up (email/Google/SSO) → Complete profile → Guided setup wizard → Configure preferences → Explore key features → Start using the product
+                                                                                                                         ↘ Skip wizard → Land on dashboard
+```
 ## URL / Route Structure
 
 ```
@@ -142,6 +155,16 @@ dashboard.braze.com/{app_group}/users/user_search           # User search
 dashboard.braze.com/{app_group}/data/custom_events          # Custom events
 dashboard.braze.com/{app_group}/data/currents               # Currents
 dashboard.braze.com/{app_group}/reports/                    # Analytics
+dashboard.braze.com/settings  # Settings
+dashboard.braze.com/account  # Account settings
+dashboard.braze.com/account/security  # Security settings
+dashboard.braze.com/billing  # Billing & subscription
+dashboard.braze.com/notifications  # Notification preferences
+dashboard.braze.com/help  # Help center
+dashboard.braze.com/help/{topic}  # Help article
+dashboard.braze.com/api  # API documentation
+dashboard.braze.com/integrations  # Integrations
+dashboard.braze.com/admin  # Admin console
 ```
 
 ## Search & Filter
@@ -152,6 +175,10 @@ dashboard.braze.com/{app_group}/reports/                    # Analytics
 - **Event/Attribute search (Data):** Search custom events and attributes by name, view volume
 - **Analytics filters:** Date range, channel, campaign/canvas comparison
 
+- **Sort options**: By relevance, date created, date modified, alphabetical, popularity
+- **Autocomplete**: Type-ahead suggestions with recent searches and popular results
+- **Advanced search**: Boolean operators (AND, OR, NOT), field-specific filters, date ranges
+- **Recent searches**: Quick access to previous search queries
 ## Responsive Behavior
 
 | Breakpoint | Behavior |
@@ -160,6 +187,26 @@ dashboard.braze.com/{app_group}/reports/                    # Analytics
 | Tablet | Dashboard and campaign list viewable; Canvas builder requires desktop |
 | Mobile | Not supported — Braze dashboard is desktop-only |
 | End-user channels | Push, in-app messages, Content Cards, and email are all mobile-responsive by design |
+
+
+### Platform-Specific Patterns
+- Touch targets: minimum 44x44pt on mobile for accessibility
+- Swipe gestures: swipe to delete, archive, or perform quick actions
+- Pull-to-refresh: standard refresh pattern on feeds and lists
+- Keyboard shortcuts: comprehensive shortcuts on desktop for power users
+- Dark mode: system-preference detection with manual override
+- Offline support: cached data available without network connectivity
+- Progressive loading: skeleton screens while content loads
+
+### Accessibility
+- WCAG 2.1 AA compliance across all interactive elements
+- Semantic HTML with proper ARIA labels and landmarks
+- Keyboard navigation support for all core workflows
+- Screen reader compatibility tested with VoiceOver, NVDA, and JAWS
+- Color contrast ratios meeting minimum 4.5:1 for body text
+- Focus indicators visible on all interactive elements
+- Reduced motion option respecting `prefers-reduced-motion`
+- Resizable text up to 200% without content loss
 
 ## Access Control
 

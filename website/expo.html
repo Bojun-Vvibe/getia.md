@@ -153,160 +153,138 @@ Local Development (CLI)
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Structure</th>
-<th>Ownership</th>
+<th>Entity</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>Project</td>
 <td>Name, slug, platform (iOS/Android), SDK version, builds, updates, credentials</td>
-<td>User/Org-owned</td>
+<td>belongs to Organization</td>
 </tr>
 <tr>
 <td>Build</td>
 <td>Platform (iOS/Android), profile (development, preview, production), status, logs, artifact (IPA/APK/AAB), EAS config</td>
-<td>Part of project</td>
+<td>belongs to project</td>
 </tr>
 <tr>
 <td>Submission</td>
 <td>Platform, build artifact, status, App Store/Play Store link, review status</td>
-<td>Part of project</td>
+<td>belongs to project</td>
 </tr>
 <tr>
 <td>Update</td>
 <td>Branch, runtime version, platform, assets (JS bundle, images), message, rollout</td>
-<td>Part of project</td>
+<td>belongs to project</td>
 </tr>
 <tr>
 <td>Channel</td>
 <td>Name (production, staging), linked branch, points to specific updates</td>
-<td>Part of project</td>
+<td>belongs to project</td>
 </tr>
 <tr>
 <td>Branch</td>
 <td>Name, updates list, linked channel</td>
-<td>Part of project</td>
+<td>belongs to project</td>
 </tr>
 <tr>
 <td>Credential</td>
 <td>iOS: signing cert, provisioning profile. Android: keystore. Auto-managed or manual</td>
-<td>Part of project</td>
+<td>belongs to project</td>
 </tr>
 <tr>
 <td>Snack</td>
 <td>Online playground code, dependencies, live preview</td>
-<td>User-owned (public)</td>
+<td>belongs to User</td>
 </tr>
 <tr>
 <td>Deployment</td>
 <td>Combination of build + channel configuration for a release</td>
-<td>Part of project</td>
+<td>belongs to project</td>
 </tr>
 </tbody></table>
 <h2>User Flows</h2>
 <h3>Starting a New Expo Project</h3>
-<ol>
-<li>Developer runs <code>npx create-expo-app my-app</code></li>
-<li>Selects template (blank, tabs, TypeScript)</li>
-<li><code>cd my-app &amp;&amp; npx expo start</code> → Metro bundler starts</li>
-<li>Scans QR code with Expo Go app on phone → live preview on device</li>
-<li>Edits code → hot reload updates the app in real-time</li>
-<li>Uses Expo Router for file-based navigation (<code>app/(tabs)/index.tsx</code>)</li>
-</ol>
+<pre><code>Developer runs `npx create-expo-app my-app` → Selects template (blank, tabs, TypeScript) →
+  `cd my-app &amp;&amp; npx expo start` → Metro bundler starts →
+  Scans QR code with Expo Go app on phone → live preview on device →
+  Edits code → hot reload updates the app in real-time →
+  Uses Expo Router for file-based navigation (`app/(tabs)/index.tsx`)
+</code></pre>
 <h3>Building for Production (EAS Build)</h3>
-<ol>
-<li>Developer runs <code>eas build:configure</code> → creates <code>eas.json</code> with build profiles</li>
-<li>Runs <code>eas build --platform ios --profile production</code></li>
-<li>Build queued on EAS cloud → builds in managed macOS environment</li>
-<li>Build log streams on expo.dev → artifacts (IPA) available for download</li>
-<li>Credentials (signing cert, provisioning profile) managed automatically by EAS</li>
-<li>Build can be downloaded or submitted directly to App Store</li>
-</ol>
+<pre><code>Developer runs `eas build:configure` → creates `eas.json` with build profiles →
+  Runs `eas build --platform ios --profile production` →
+  Build queued on EAS cloud → builds in managed macOS environment →
+  Build log streams on expo.dev → artifacts (IPA) available for download →
+  Credentials (signing cert, provisioning profile) managed automatically by EAS →
+  Build can be downloaded or submitted directly to App Store
+</code></pre>
 <h3>App Store Submission (EAS Submit)</h3>
-<ol>
-<li>Developer runs <code>eas submit --platform ios</code> → selects the build to submit</li>
-<li>Configures App Store credentials (API key or manual login)</li>
-<li>EAS uploads the build to App Store Connect / Google Play Console</li>
-<li>Monitors submission status on expo.dev dashboard</li>
-<li>App reviewed by Apple/Google → published to store</li>
-</ol>
+<pre><code>Developer runs `eas submit --platform ios` → selects the build to submit →
+  Configures App Store credentials (API key or manual login) →
+  EAS uploads the build to App Store Connect / Google Play Console →
+  Monitors submission status on expo.dev dashboard →
+  App reviewed by Apple/Google → published to store
+</code></pre>
 <h3>Over-the-Air Update (EAS Update)</h3>
-<ol>
-<li>Developer makes a JS-only change (no native code changes)</li>
-<li>Runs <code>eas update --branch production --message &quot;fix checkout bug&quot;</code></li>
-<li>Update pushed to EAS → available to all users on the <code>production</code> channel</li>
-<li>App checks for updates on launch → downloads and applies the JS bundle</li>
-<li>No App Store review needed — instant rollout</li>
-<li>Can configure rollout percentage for gradual release</li>
-</ol>
+<pre><code>Developer makes a JS-only change (no native code changes) →
+  Runs `eas update --branch production --message &quot;fix checkout bug&quot;` →
+  Update pushed to EAS → available to all users on the `production` channel →
+  App checks for updates on launch → downloads and applies the JS bundle →
+  No App Store review needed — instant rollout →
+  Can configure rollout percentage for gradual release
+</code></pre>
 <h3>Snack (Online Playground)</h3>
-<ol>
-<li>User opens snack.expo.dev</li>
-<li>Writes React Native code in the browser editor</li>
-<li>Live preview runs on web, or scan QR code for device preview</li>
-<li>Share Snack via URL — others can fork and modify</li>
-<li>Embed in documentation or blog posts</li>
-</ol>
+<pre><code>User opens snack.expo.dev → Writes React Native code in the browser editor →
+  Live preview runs on web, or scan QR code for device preview →
+  Share Snack via URL — others can fork and modify → Embed in documentation or blog posts
+</code></pre>
 <h2>URL / Route Structure</h2>
-<table>
-<thead>
-<tr>
-<th>Pattern</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>expo.dev/</code></td>
-<td>Marketing home</td>
-</tr>
-<tr>
-<td><code>expo.dev/accounts/{username}</code></td>
-<td>User/org profile</td>
-</tr>
-<tr>
-<td><code>expo.dev/accounts/{username}/projects/{slug}</code></td>
-<td>Project overview</td>
-</tr>
-<tr>
-<td><code>expo.dev/accounts/{username}/projects/{slug}/builds</code></td>
-<td>Build list</td>
-</tr>
-<tr>
-<td><code>expo.dev/accounts/{username}/projects/{slug}/builds/{uuid}</code></td>
-<td>Build detail</td>
-</tr>
-<tr>
-<td><code>expo.dev/accounts/{username}/projects/{slug}/updates/branches/{name}</code></td>
-<td>Branch updates</td>
-</tr>
-<tr>
-<td><code>expo.dev/accounts/{username}/projects/{slug}/channels/{name}</code></td>
-<td>Channel config</td>
-</tr>
-<tr>
-<td><code>expo.dev/accounts/{username}/projects/{slug}/credentials</code></td>
-<td>Signing credentials</td>
-</tr>
-<tr>
-<td><code>expo.dev/snack/{id}</code></td>
-<td>Snack playground</td>
-</tr>
-<tr>
-<td><code>expo.dev/docs/{path}</code></td>
-<td>Documentation</td>
-</tr>
-</tbody></table>
+<pre><code>expo.dev/                                     # Marketing home
+expo.dev/accounts/{username}                  # User/org profile
+expo.dev/accounts/{username}/projects/{slug}  # Project overview
+expo.dev/accounts/{username}/projects/{slug}/builds # Build list
+expo.dev/accounts/{username}/projects/{slug}/builds/{uuid} # Build detail
+expo.dev/accounts/{username}/projects/{slug}/updates/branches/{name} # Branch updates
+expo.dev/accounts/{username}/projects/{slug}/channels/{name} # Channel config
+expo.dev/accounts/{username}/projects/{slug}/credentials # Signing credentials
+expo.dev/snack/{id}                           # Snack playground
+expo.dev/docs/{path}                          # Documentation
+expo.dev/accounts/{username}/projects/{slug}/submissions                # Submissions list
+expo.dev/accounts/{username}/projects/{slug}/submissions/{uuid}          # Submission detail
+expo.dev/accounts/{username}/projects/{slug}/deployments                 # Deployments
+expo.dev/accounts/{username}/projects/{slug}/settings                    # Project settings
+expo.dev/accounts/{username}/settings                                    # Account settings
+expo.dev/accounts/{username}/settings/members                            # Team members
+expo.dev/accounts/{username}/settings/billing                            # Billing
+expo.dev/accounts/{username}/settings/access-tokens                      # Access tokens
+expo.dev/eas                                                             # EAS product page
+expo.dev/changelog                                                       # Changelog
+expo.dev/blog                                                            # Blog
+expo.dev/blog/{slug}                                                     # Blog post
+</code></pre>
 <p>Account/project hierarchy in URLs. Build IDs are UUIDs. Branch and channel names are developer-defined strings.</p>
 <h2>Search &amp; Filter</h2>
 <ul>
-<li><strong>Project search</strong>: Search projects by name on account dashboard</li>
-<li><strong>Build filtering</strong>: Filter by platform (iOS/Android), profile (development, preview, production), status (new, in-progress, finished, errored), SDK version</li>
-<li><strong>Update filtering</strong>: Filter by branch, runtime version, platform</li>
-<li><strong>Docs search</strong>: Full-text documentation search (critical — Expo docs are extensive and SDK is large)</li>
-<li><strong>Snack search</strong>: No public Snack search — share via direct URL</li>
-<li><strong>Package search</strong>: <code>npx expo install</code> suggests compatible SDK packages</li>
-<li><strong>Credential filtering</strong>: Filter by platform, type (signing cert, provisioning profile, keystore)</li>
+<li><p><strong>Project search</strong>: Search projects by name on account dashboard</p>
+</li>
+<li><p><strong>Build filtering</strong>: Filter by platform (iOS/Android), profile (development, preview, production), status (new, in-progress, finished, errored), SDK version</p>
+</li>
+<li><p><strong>Update filtering</strong>: Filter by branch, runtime version, platform</p>
+</li>
+<li><p><strong>Docs search</strong>: Full-text documentation search (critical — Expo docs are extensive and SDK is large)</p>
+</li>
+<li><p><strong>Snack search</strong>: No public Snack search — share via direct URL</p>
+</li>
+<li><p><strong>Package search</strong>: <code>npx expo install</code> suggests compatible SDK packages</p>
+</li>
+<li><p><strong>Credential filtering</strong>: Filter by platform, type (signing cert, provisioning profile, keystore)</p>
+</li>
+<li><p><strong>Changelog search</strong>: Search product updates by keyword or date</p>
+</li>
+<li><p><strong>Blog search</strong>: Full-text search across blog posts</p>
+</li>
 </ul>
 <h2>Responsive Behavior</h2>
 <table>
@@ -340,6 +318,17 @@ Local Development (CLI)
 <li>Docs site is fully responsive with collapsible sidebar TOC</li>
 <li>Snack playground: code editor + preview panes stack vertically on mobile</li>
 <li>Marketing site is fully responsive with mobile-first design</li>
+</ul>
+<h3>Platform-Specific UX</h3>
+<ul>
+<li>Expo Go app serves as the development client — scan QR code for instant preview</li>
+<li><code>app.json</code> / <code>app.config.js</code> is the single config file for native settings (icons, splash, permissions)</li>
+<li>EAS Build profiles (development, preview, production) allow different configs per environment</li>
+<li>OTA updates only work for JS changes — native code changes require a new build</li>
+<li>Runtime version system ensures updates are compatible with the installed native binary</li>
+<li>Channel-branch linking controls which updates reach which audience (e.g., production channel → main branch)</li>
+<li>Expo Router provides file-based routing similar to Next.js but for React Native</li>
+<li>Snack playground runs real React Native in the browser for quick prototyping and sharing</li>
 </ul>
 <h2>Access Control</h2>
 <table>

@@ -112,6 +112,24 @@ freshdesk.com
 ### 4. Monitor Performance
 `Reports → Agent Performance → Select date range → View first response time, resolution time, tickets resolved, CSAT scores → Drill down by agent/group`
 
+
+### Customer Self-Service
+
+```
+Visitor opens Support Portal → Searches Knowledge Base → Finds article → Issue resolved without ticket
+```
+
+Alternatively:
+```
+Visitor opens Support Portal → Searches KB → No result → Submits Ticket → Receives confirmation email → Tracks status via portal
+```
+
+### Freddy AI Assistance
+
+```
+Customer submits ticket → Freddy AI analyzes content → Suggests relevant KB articles → Customer resolves via self-service → OR → Freddy classifies and routes to appropriate agent group
+```
+
 ## URL / Route Structure
 
 ```
@@ -125,6 +143,19 @@ freshdesk.com
 {domain}.freshdesk.com/support/home                  # Customer Portal home
 {domain}.freshdesk.com/support/solutions/articles/{id} # Public article
 {domain}.freshdesk.com/support/tickets/new           # Submit ticket
+{domain}.freshdesk.com/a/tickets/new                    # New ticket form
+{domain}.freshdesk.com/a/companies/{id}                 # Company detail
+{domain}.freshdesk.com/a/solutions/articles/{id}/edit   # Edit article
+{domain}.freshdesk.com/a/admin/agents                   # Agent management
+{domain}.freshdesk.com/a/admin/groups                   # Group management
+{domain}.freshdesk.com/a/admin/sla                      # SLA policies
+{domain}.freshdesk.com/a/admin/business-hours            # Business hours
+{domain}.freshdesk.com/a/admin/canned-responses         # Canned responses
+{domain}.freshdesk.com/a/admin/ticket-fields             # Custom fields
+{domain}.freshdesk.com/a/admin/freddy                   # Freddy AI settings
+{domain}.freshdesk.com/a/admin/marketplace              # Marketplace apps
+{domain}.freshdesk.com/a/forums/{id}                    # Forum category
+{domain}.freshdesk.com/support/tickets/check_status     # Track ticket status
 ```
 
 ## Search & Filter
@@ -135,6 +166,9 @@ freshdesk.com
 - **Knowledge Base search:** Full-text article search in admin and customer portal; auto-suggest
 - **Freddy AI suggestions:** AI-powered article suggestions based on ticket content
 
+- **Canned Response search**: Search canned responses by title or folder
+- **Forum search**: Full-text search in community forums
+- **Agent search**: Find agents by name, group, or skill
 ## Responsive Behavior
 
 | Breakpoint | Behavior |
@@ -143,6 +177,42 @@ freshdesk.com
 | Tablet (768–1023px) | Responsive layout; ticket detail as full page |
 | Mobile (Freshdesk app) | View/respond to tickets, manage views, notifications; limited admin |
 | Customer Portal | Fully responsive; search articles, submit tickets, track status on any device |
+
+
+### Platform-Specific UX
+- Dispatch'r, Supervisor, and Observer form the automation triad for ticket lifecycle management
+- Freddy AI provides suggested responses and ticket classification powered by ML
+- SLA policies with escalation rules ensure response and resolution time compliance
+- Multi-channel support unifies Email, Phone, Chat, Social, and WhatsApp into a single inbox
+- Canned responses with dynamic placeholders speed up agent replies
+- Parent-child ticket relationships enable splitting complex issues into sub-tasks
+- Customer Portal provides self-service ticket submission, tracking, and knowledge base access
+- Satisfaction surveys (CSAT) are auto-sent after ticket resolution
+- Day Pass model allows occasional agents to work tickets without full-time seats
+- Time tracking enables billing clients for support hours spent per ticket
+- Custom ticket forms with conditional fields adapt to different issue types
+- Marketplace apps extend functionality with 1000+ integrations
+
+### Integration Points
+- Native integrations with Slack, Microsoft Teams, Jira, and Salesforce
+- Freshdesk API (v2) provides full CRUD operations on tickets, contacts, and solutions
+- Webhooks enable event-driven automation with external systems
+
+
+### Ticket Priority Matrix
+```
+Urgent + High Impact  → P1 → 1-hour response SLA
+High + Medium Impact  → P2 → 4-hour response SLA
+Medium + Low Impact   → P3 → 8-hour response SLA
+Low + Minimal Impact  → P4 → 24-hour response SLA
+```
+
+### Channel Support
+- Email: Auto-ticket creation from incoming emails
+- Phone: Call logging with ticket linking
+- Chat: Live chat widget on customer portal
+- Social: Twitter and Facebook message monitoring
+- WhatsApp: Business API integration for messaging
 
 ## Access Control
 

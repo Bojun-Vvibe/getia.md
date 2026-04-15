@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Gumroad</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Gumroad is a minimalist platform for creators to sell digital products — e-books, courses, software, music, templates, memberships — directly to their audience. The IA is radically simple: a creator gets a product page, a checkout flow, and a dashboard. No storefronts to design, no complex catalogs. Gumroad&#39;s philosophy is &quot;start selling in minutes&quot; with features like simple checkout links, pay-what-you-want pricing, email delivery, and subscription/membership support.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>gumroad.com
 ├── Home
 ├── Discover
@@ -158,7 +158,7 @@
     ├── Log in
     └── Start selling
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <table>
 <thead>
 <tr>
@@ -194,68 +194,76 @@
 </tr>
 </tbody></table>
 <p><strong>Key pattern</strong>: Extreme minimalism. The product page IS the storefront. Creators share direct links — no need for a full website. One URL = one product = one checkout.</p>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
 <th>Entity</th>
-<th>Attributes</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>Product</td>
 <td>name, description (rich text), cover image, preview, price (fixed/PWYW/tiered), files/content, category, tags, ratings</td>
+<td>has Variants, has Reviews, belongs to Creator</td>
 </tr>
 <tr>
 <td>Variant</td>
 <td>name, price, description (e.g., different tiers of a course)</td>
+<td>belongs to Product</td>
 </tr>
 <tr>
 <td>Subscription</td>
 <td>product, interval (monthly/annually), price, subscriber count</td>
+<td>belongs to Product, → Subscriber</td>
 </tr>
 <tr>
 <td>Creator</td>
 <td>name, bio, avatar, products, followers, social links, payout info</td>
+<td>has Products, has Followers</td>
 </tr>
 <tr>
 <td>Sale</td>
 <td>product, customer, amount, discount code, timestamp, payout status</td>
+<td>→ Product, → Customer</td>
 </tr>
 <tr>
 <td>Review</td>
 <td>customer, rating (1-5 stars), comment, product</td>
+<td>belongs to Gig/Seller, → Buyer</td>
 </tr>
 <tr>
 <td>Workflow</td>
 <td>trigger (purchase, refund), actions (email, webhook, content unlock)</td>
+<td>→ Product, triggered by Events</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
+<h2>User Flows</h2>
 <h3>5a. Creator — Sell a product</h3>
-<ol>
-<li>Sign up → &quot;New Product&quot; → choose type (digital, course, membership, physical)</li>
-<li>Upload content files, set cover image, write description</li>
-<li>Set pricing (fixed, pay-what-you-want with minimum, tiered variants)</li>
-<li>Configure delivery (instant download, drip content, email)</li>
-<li>Get product URL → share anywhere (social, email, website embed)</li>
-</ol>
+<pre><code>Sign up → &quot;New Product&quot; → choose type (digital, course, membership, physical) →
+  Upload content files, set cover image, write description →
+  Set pricing (fixed, pay-what-you-want with minimum, tiered variants) →
+  Configure delivery (instant download, drip content, email) →
+  Get product URL → share anywhere (social, email, website embed)
+</code></pre>
 <h3>5b. Buyer — Purchase</h3>
-<ol>
-<li>Click product link → view product page</li>
-<li>Select variant (if applicable) → set price (if PWYW)</li>
-<li>Enter email + payment → checkout (overlay or full page)</li>
-<li>Receive email with download link / access</li>
-<li>Optionally leave a review</li>
-</ol>
+<pre><code>Click product link → view product page → Select variant (if applicable) → set price (if PWYW) →
+  Enter email + payment → checkout (overlay or full page) →
+  Receive email with download link / access → Optionally leave a review
+</code></pre>
 <h3>5c. Creator — Membership</h3>
-<ol>
-<li>Create membership product → set monthly/annual pricing</li>
-<li>Define member-only content (posts, files, community)</li>
-<li>Members subscribe → recurring billing</li>
-<li>Creator posts updates → members notified via email</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<pre><code>Create membership product → set monthly/annual pricing →
+  Define member-only content (posts, files, community) → Members subscribe → recurring billing →
+  Creator posts updates → members notified via email
+</code></pre>
+<h3>Email Marketing</h3>
+<pre><code>Dashboard → Email → New Post/Update → Write content → Select audience (all customers / product-specific) → Schedule or send immediately → Track opens and clicks
+</code></pre>
+<h3>Affiliate Program Setup</h3>
+<pre><code>Dashboard → Affiliates → Enable for product → Set commission rate (%) → Generate affiliate signup link → Affiliates register → Track referrals and payouts
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code>/                           → Home
 /discover/                  → Discovery marketplace
 /discover/{category}/       → Category browse
@@ -273,8 +281,21 @@
 /dashboard/customers/       → Email list (auth)
 /dashboard/payouts/         → Payout history (auth)
 /library/                   → Buyer&#39;s purchased products (auth)
+/discover/{category}/{subcategory}/  # Subcategory browse
+/discover/top/                       # Top products
+/discover/new/                       # New releases
+/{creator}/follow/                   # Follow creator
+/dashboard/products/{id}/edit/       # Edit product
+/dashboard/products/{id}/analytics/  # Product analytics
+/dashboard/products/{id}/content/    # Product content files
+/dashboard/affiliates/               # Affiliate management
+/dashboard/workflows/                # Workflow automations
+/dashboard/email/                    # Email campaigns
+/dashboard/settings/                 # Account settings
+/dashboard/settings/profile/         # Profile settings
+/dashboard/settings/payout/          # Payout settings
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <table>
 <thead>
 <tr>
@@ -307,7 +328,12 @@
 <td>Search email list, filter by product purchased</td>
 </tr>
 </tbody></table>
-<h2>8. Responsive Behavior</h2>
+<ul>
+<li><strong>Product content search</strong>: Search within product descriptions and titles</li>
+<li><strong>Email campaign filtering</strong>: Filter past campaigns by product, date, open rate</li>
+<li><strong>Affiliate tracking</strong>: Search affiliates by name, product, performance</li>
+</ul>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -332,7 +358,14 @@
 <td>Checkout overlay widget embeddable on any website</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h3>Platform-Specific UX</h3>
+<ul>
+<li>Product page IS the storefront — no separate website needed, just share the URL</li>
+<li>Pay-what-you-want pricing with minimum lets buyers set their own price</li>
+<li>Overlay checkout embeds directly on any website via Gumroad.js widget</li>
+<li>Workflow automations trigger actions (emails, webhooks) on purchase, refund, or subscription events</li>
+</ul>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>

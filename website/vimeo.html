@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Vimeo</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Vimeo is a professional video platform offering high-quality hosting, live streaming, OTT (over-the-top) channel creation, video analytics, and collaboration tools. Unlike YouTube&#39;s ad-driven model, Vimeo is subscription-based and creator-focused — no ads, clean player, privacy controls, and enterprise-grade features. The IA serves individual creators, small businesses, and enterprise teams with distinct product tiers.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>vimeo.com
 ├── Home
 ├── Features
@@ -161,7 +161,7 @@
     ├── Log in
     └── Join / Start free
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <table>
 <thead>
 <tr>
@@ -202,41 +202,17 @@
 </tr>
 </tbody></table>
 <p><strong>Key pattern</strong>: Dual identity — Vimeo is both a watching community (public videos, Staff Picks) and a B2B video platform (enterprise hosting, analytics). The nav balances both but increasingly prioritizes the B2B/SaaS side.</p>
-<h2>4. Content Model</h2>
-<table>
-<thead>
-<tr>
-<th>Entity</th>
-<th>Attributes</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Video</td>
-<td>title, description, file, thumbnail, privacy (public/password/private/domain-restricted), tags, categories, chapters, captions</td>
-</tr>
-<tr>
-<td>Folder / Project</td>
-<td>name, videos, collaborators, review settings</td>
-</tr>
-<tr>
-<td>Live Event</td>
-<td>title, schedule, stream key, destinations, chat, replay</td>
-</tr>
-<tr>
-<td>Channel</td>
-<td>name, description, owner, followers, videos</td>
-</tr>
-<tr>
-<td>Review Page</td>
-<td>video, timestamped comments, reviewers, approval status</td>
-</tr>
-<tr>
-<td>Analytics Report</td>
-<td>video, plays, impressions, engagement, geography, devices</td>
-</tr>
-</tbody></table>
-<h2>5. User Flows</h2>
-<h3>5a. Upload &amp; share</h3>
+<h2>Content Model</h2>
+<p>| Entity | Key Attributes | Relationships |
+|--------|-----------|
+| Video | title, description, file, thumbnail, privacy (public/password/private/domain-restricted), tags, categories, chapters, captions |
+| Folder / Project | name, videos, collaborators, review settings |
+| Live Event | title, schedule, stream key, destinations, chat, replay |
+| Channel | name, description, owner, followers, videos |
+| Review Page | video, timestamped comments, reviewers, approval status |
+| Analytics Report | video, plays, impressions, engagement, geography, devices |</p>
+<h2>User Flows</h2>
+<h3>Upload &amp; share</h3>
 <ol>
 <li>Log in → &quot;New video&quot; → upload file (drag &amp; drop)</li>
 <li>Set title, description, thumbnail, privacy</li>
@@ -244,7 +220,7 @@
 <li>Copy link or embed code → share</li>
 <li>View analytics as viewers engage</li>
 </ol>
-<h3>5b. Team review workflow</h3>
+<h3>Team review workflow</h3>
 <ol>
 <li>Upload video to project folder</li>
 <li>Create review page → invite reviewers via email</li>
@@ -252,7 +228,7 @@
 <li>Creator addresses feedback → upload new version</li>
 <li>Reviewer approves → video finalized</li>
 </ol>
-<h3>5c. Live streaming</h3>
+<h3>Live streaming</h3>
 <ol>
 <li>Create Live Event → set title, date/time, privacy</li>
 <li>Configure stream settings (encoder, quality, simulcast destinations)</li>
@@ -260,7 +236,7 @@
 <li>End stream → replay auto-available</li>
 <li>View post-event analytics</li>
 </ol>
-<h3>5d. OTT channel</h3>
+<h3>OTT channel</h3>
 <ol>
 <li>Subscribe to Vimeo OTT → create channel</li>
 <li>Upload content library → organize into series/seasons</li>
@@ -268,7 +244,7 @@
 <li>Launch branded apps (iOS, Android, Roku, Apple TV)</li>
 <li>Manage subscribers and revenue in dashboard</li>
 </ol>
-<h2>6. URL / Route Structure</h2>
+<h2>URL / Route Structure</h2>
 <pre><code>/                           → Home
 /features/                  → Feature overview
 /features/{feature}/        → Feature detail
@@ -286,7 +262,7 @@
 /live/                      → Live events (auth)
 /help/                      → Help center
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <table>
 <thead>
 <tr>
@@ -315,7 +291,7 @@
 <td>Curated, not searchable — editorial selection</td>
 </tr>
 </tbody></table>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -344,7 +320,7 @@
 <td>Responsive player that adapts to container width, customizable aspect ratio</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>

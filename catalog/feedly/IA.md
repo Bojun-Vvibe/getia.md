@@ -7,10 +7,10 @@ website: https://feedly.com
 
 # Information Architecture — Feedly
 
-## 1. Overview
+## Overview
 Feedly is an RSS reader and content intelligence platform that aggregates news, blogs, and research sources into a unified feed. The IA is organized around **Feeds** (RSS subscriptions), **Boards** (curated collections for sharing/organizing), and **Leo** (an AI assistant that prioritizes, summarizes, and filters content). Feedly spans from individual power-readers to enterprise teams tracking competitive intelligence, threat research, and industry trends.
 
-## 2. Site Map
+## Site Map
 
 ```
 feedly.com
@@ -77,7 +77,7 @@ feedly.com
     └── Get started
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 | Level | Type | Details |
 |-------|------|---------|
@@ -89,48 +89,60 @@ feedly.com
 
 **Key pattern**: The sidebar is the primary organizational structure — feeds grouped into folders, boards as curated output. Leo AI works as an invisible layer that tags and prioritizes articles inline, not as a separate view.
 
-## 4. Content Model
+## Content Model
 
-| Entity | Attributes |
-|--------|-----------|
-| Article | title, source, author, published date, summary, full text, images, URL, Leo score, topics, entities, read/unread |
-| Feed (Source) | name, URL (RSS), category, frequency, last updated, article count |
-| Folder | name, feeds, unread count |
-| Board | name, articles (saved), owner, shared flag, team, notes |
-| Keyword Alert | query, sources scope, results, frequency |
-| Leo Rule | type (topic/entity/keyword/mute), criteria, action (prioritize/mute/tag) |
-| Highlight | text, article, note, color |
-| Newsletter | sender, subject, body, assigned folder |
+| Entity | Key Attributes | Relationships |
+|---|---|---|
+| Article | title, source, author, published date, summary, full text, images, URL, Leo score, topics, entities, read/unread | → Feed, → Board, → Source |
+| Feed (Source) | name, URL (RSS), category, frequency, last updated, article count | → Folder, has Articles |
+| Folder | name, feeds, unread count | has Feeds, belongs to User |
+| Board | name, articles (saved), owner, shared flag, team, notes | has Articles, belongs to User/Team |
+| Keyword Alert | query, sources scope, results, frequency | → Sources, has Articles |
+| Leo Rule | type (topic/entity/keyword/mute), criteria, action (prioritize/mute/tag) | → Articles, belongs to User |
+| Highlight | text, article, note, color | → Article, belongs to User |
+| Newsletter | sender, subject, body, assigned folder | → Folder, belongs to User |
 
-## 5. User Flows
+## User Flows
 
 ### 5a. Add sources & read
-1. Click "+" or Discover → search for blog/site/YouTube channel/subreddit
-2. Add to folder → articles appear in feed
-3. Browse feed → read inline or open full article
-4. Mark as read, save to board, or share
+
+```
+Click "+" or Discover → search for blog/site/YouTube channel/subreddit →
+  Add to folder → articles appear in feed → Browse feed → read inline or open full article →
+  Mark as read, save to board, or share
+```
+
 
 ### 5b. Train Leo AI
-1. Read articles → Leo learns from your reading patterns
-2. Set explicit rules: "Prioritize articles about 'AI regulation'"
-3. Set mute filters: "Hide articles about sports"
-4. Leo adds priority badges → "Today" view shows AI-curated top articles
-5. Review Leo's picks → thumbs up/down to improve
+
+```
+Read articles → Leo learns from your reading patterns →
+  Set explicit rules: "Prioritize articles about 'AI regulation'" →
+  Set mute filters: "Hide articles about sports" →
+  Leo adds priority badges → "Today" view shows AI-curated top articles →
+  Review Leo's picks → thumbs up/down to improve
+```
+
 
 ### 5c. Team collaboration (Business)
-1. Create shared board → invite team members
-2. Save relevant articles to board → add notes/highlights
-3. Team sees curated intelligence board
-4. Share board via Slack integration or email digest
-5. Track what team members saved and annotated
+
+```
+Create shared board → invite team members → Save relevant articles to board → add notes/highlights →
+  Team sees curated intelligence board → Share board via Slack integration or email digest →
+  Track what team members saved and annotated
+```
+
 
 ### 5d. Keyword Alerts
-1. Set up keyword alert (e.g., "competitor name" OR "product launch")
-2. Feedly monitors all sources for matches
-3. Matching articles appear in dedicated alert feed
-4. Optionally forward to Slack or email
 
-## 6. URL / Route Structure
+```
+Set up keyword alert (e.g., "competitor name" OR "product launch") →
+  Feedly monitors all sources for matches → Matching articles appear in dedicated alert feed →
+  Optionally forward to Slack or email
+```
+
+
+## URL / Route Structure
 
 ```
 /                               → Marketing home
@@ -149,9 +161,19 @@ feedly.com
 /solutions/{use-case}/          → Solution page
 /blog/                          → Blog
 /help/                          → Help center
+/i/today/                      # Today (AI-prioritized)
+/i/newsletters/                # Newsletter inbox
+/i/highlights/                 # Highlights
+/i/team/                       # Team boards
+/i/settings/                   # Account settings
+/i/settings/integrations/      # Integration settings
+/i/settings/leo/               # Leo AI settings
+/i/opml/                       # OPML import/export
+/login/                        # Login page
+/signup/                       # Get started
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 | Feature | Behavior |
 |---------|----------|
@@ -163,7 +185,10 @@ feedly.com
 | Board search | Search within board articles |
 | Keyword alerts | Persistent keyword monitoring across sources |
 
-## 8. Responsive Behavior
+- **Highlight search**: Search within saved highlights and notes
+- **Team board search**: Search within shared team boards
+- **Newsletter filtering**: Filter newsletters by sender or date
+## Responsive Behavior
 
 | Breakpoint | Adaptation |
 |-----------|------------|
@@ -173,7 +198,19 @@ feedly.com
 | App (iOS/Android) | Bottom tabs, offline reading, widget for unread count |
 | Browser extension | Quick save to board from any web page |
 
-## 9. Access Control
+
+### Platform-Specific UX
+- Leo AI priority badges appear inline on articles — not as a separate filtered view
+- Three-pane layout (folders | article list | article detail) mirrors traditional email clients
+- Board sharing enables team intelligence workflows — curate and annotate for colleagues
+- Newsletter integration assigns incoming newsletters to folders like RSS feeds
+- OPML import/export ensures portability from other RSS readers
+- Power search supports Boolean operators and date range filtering
+- Browser extension enables one-click "save to board" from any webpage
+- Feedly's AI summary feature generates article abstracts for quick scanning
+- Highlight and note system allows inline annotation directly on articles
+
+## Access Control
 
 | Role | Access |
 |------|--------|

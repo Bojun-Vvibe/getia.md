@@ -95,16 +95,16 @@ zendesk.com
 
 ## User Flows
 
-### 1. Resolve a Ticket
+### Resolve a Ticket
 `Views → Select "Your Unsolved Tickets" → Open ticket → Read conversation → Check customer context → Search/link Knowledge Base article → Apply macro or type reply → Set status to Solved`
 
-### 2. Set Up a Trigger
+### Set Up a Trigger
 `Admin Center → Business Rules → Triggers → + Add → Conditions (e.g., "Ticket is Created" AND "Priority is Urgent") → Actions (e.g., "Notify group via Slack") → Save`
 
-### 3. Publish Help Article
+### Publish Help Article
 `Guide → + New Article → Select category/section → Write content (rich text, video, code) → Set visibility (agents/signed-in/everyone) → Publish`
 
-### 4. Build a Custom Report
+### Build a Custom Report
 `Explore → + New Report → Select dataset (Tickets, Chat, Talk) → Add metrics/attributes → Apply filters → Choose visualization → Save to Dashboard`
 
 ## URL / Route Structure

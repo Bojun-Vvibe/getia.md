@@ -169,6 +169,13 @@
     ├── Members &amp; Billing
     ├── SSO / Security
     └── Admin Panel
+├── Enterprise
+│   ├── Admin Panel
+│   │   ├── Usage Analytics
+│   │   ├── Audit Logs
+│   │   └── Data Governance
+│   ├── SSO Configuration
+│   └── API Rate Limits
 </code></pre>
 <h2>Navigation Model</h2>
 <table>
@@ -264,6 +271,26 @@
 <td>source, destination_table, fields_mapped[], frequency</td>
 <td>belongs to Base</td>
 </tr>
+<tr>
+<td>Extension</td>
+<td>name, type, configuration, base_id</td>
+<td>belongs to Base</td>
+</tr>
+<tr>
+<td>Snapshot</td>
+<td>created_at, size, base_id</td>
+<td>belongs to Base</td>
+</tr>
+<tr>
+<td>Comment</td>
+<td>text, author, created_at, resolved</td>
+<td>belongs to Record</td>
+</tr>
+<tr>
+<td>Webhook</td>
+<td>url, events[], active</td>
+<td>belongs to Base</td>
+</tr>
 </tbody></table>
 <h3>Field Types</h3>
 <pre><code>Single Line Text | Long Text | Attachment | Checkbox | Single Select | Multi Select |
@@ -282,6 +309,13 @@ AI (summarize, categorize, translate)
 <h3>Interface for Stakeholders</h3>
 <pre><code>Interface Designer → Add Grid element → Connect to table → Add filters (show only relevant) → Add Chart → Publish → Share link with stakeholders (they see interface, not raw data)
 </code></pre>
+<h3>Automation Workflow</h3>
+<pre><code>Automations tab → + New Automation → Select trigger (record created) → Add condition (status = &#39;New&#39;) → Add action (send Slack notification) → Test → Enable
+                                                                                                                                    ↘ Add another action (update record status)
+</code></pre>
+<h3>Cross-Base Sync</h3>
+<pre><code>Source base → Table → Share view → Enable sync → Destination base → + Synced table → Paste sync link → Configure field mapping → Auto-sync every 5 minutes
+</code></pre>
 <h2>URL / Route Structure</h2>
 <pre><code>/                              → Home
 /workspace/:id                 → Workspace
@@ -296,6 +330,17 @@ AI (summarize, categorize, translate)
 /form/:formId                  → Public form
 /templates                     → Template gallery
 /settings                      → Settings
+/:baseId/syncs                → Synced tables
+/:baseId/extensions            → Extensions panel
+/:baseId/settings              → Base settings
+/:baseId/collaborators         → Collaborators
+/:baseId/webhooks              → Webhooks
+/:baseId/trash                 → Trash
+/workspaces/:id/settings       → Workspace settings
+/workspaces/:id/billing        → Billing
+/workspaces/:id/members        → Members
+/account                       → Account settings
+/account/api                   → API tokens
 </code></pre>
 <h2>Search &amp; Filter</h2>
 <table>
@@ -329,6 +374,8 @@ Select: is, is not, is any of, has any of, is none of
 Date: is, before, after, is within (past/next N days/weeks/months)
 Linked Record: has, does not have, contains, is empty
 </code></pre>
+<p>| Extensions | Browse by category, popularity | Popular, Recent |
+| Automations | By trigger type, status (enabled/disabled) | Created, Modified |</p>
 <h2>Responsive Behavior</h2>
 <table>
 <thead>

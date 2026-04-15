@@ -190,14 +190,18 @@
 </tr>
 </tbody></table>
 <h2>User Flows</h2>
-<h3>1. Create a Board from Template</h3>
-<p><code>+ New → Board → Choose template (or blank) → Name board → Set workspace → Customize columns</code></p>
-<h3>2. Set Up an Automation</h3>
-<p><code>Board → Automations → + Add Automation → Select recipe (e.g., &quot;When status changes, notify someone&quot;) → Configure → Activate</code></p>
-<h3>3. Build a Cross-Board Dashboard</h3>
-<p><code>+ New → Dashboard → Add Widget → Select board(s) + column(s) → Choose chart type → Arrange layout</code></p>
-<h3>4. Track Personal Work</h3>
-<p><code>My Work → View items assigned to me across all boards → Filter by date/status → Click item to open detail</code></p>
+<h3>Create a Board from Template</h3>
+<pre><code>+ New → Board → Choose template (or blank) → Name board → Set workspace → Customize columns
+</code></pre>
+<h3>Set Up an Automation</h3>
+<pre><code>Board → Automations → + Add Automation → Select recipe (e.g., &quot;When status changes, notify someone&quot;) → Configure → Activate
+</code></pre>
+<h3>Build a Cross-Board Dashboard</h3>
+<pre><code>+ New → Dashboard → Add Widget → Select board(s) + column(s) → Choose chart type → Arrange layout
+</code></pre>
+<h3>Track Personal Work</h3>
+<pre><code>My Work → View items assigned to me across all boards → Filter by date/status → Click item to open detail
+</code></pre>
 <h2>URL / Route Structure</h2>
 <pre><code>{slug}.monday.com/boards/{board_id}                  # Board main table
 {slug}.monday.com/boards/{board_id}/views/{view_id}  # Specific view
@@ -206,6 +210,20 @@
 {slug}.monday.com/docs/{id}                          # Document
 {slug}.monday.com/workspaces/{id}                    # Workspace landing
 {slug}.monday.com/inbox                              # Notifications
+{slug}.monday.com/automations                          # Automations center
+{slug}.monday.com/integrations                         # Integrations center
+{slug}.monday.com/apps                                 # Apps marketplace
+{slug}.monday.com/docs/{id}                            # Document
+{slug}.monday.com/settings                             # Account settings
+{slug}.monday.com/settings/users                       # User management
+{slug}.monday.com/settings/billing                     # Billing
+{slug}.monday.com/settings/security                    # Security
+{slug}.monday.com/settings/api                         # API settings
+{slug}.monday.com/search                               # Global search
+monday.com/pricing                                     # Pricing page
+monday.com/crm                                         # monday CRM
+monday.com/dev                                         # monday dev
+monday.com/marketplace                                 # App marketplace
 </code></pre>
 <h2>Search &amp; Filter</h2>
 <ul>
@@ -267,6 +285,202 @@
 <tr>
 <td>Board Subscriber</td>
 <td>Receive notifications without editing</td>
+</tr>
+</tbody></table>
+<h2>Column Types</h2>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Column Types</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Basic</td>
+<td>Status, Text, Numbers, Date, People, Timeline, Checkbox</td>
+</tr>
+<tr>
+<td>Advanced</td>
+<td>Formula, Mirror (cross-board), Dependency, Time Tracking</td>
+</tr>
+<tr>
+<td>Media</td>
+<td>Files, Link, Phone, Email, Location</td>
+</tr>
+<tr>
+<td>Integration</td>
+<td>Dropdown, Rating, Tags, Color Picker, Vote</td>
+</tr>
+</tbody></table>
+<h2>View Types</h2>
+<table>
+<thead>
+<tr>
+<th>View</th>
+<th>Description</th>
+<th>Best For</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Main Table</td>
+<td>Spreadsheet-like rows and columns</td>
+<td>Default data entry and management</td>
+</tr>
+<tr>
+<td>Kanban</td>
+<td>Cards grouped by Status column</td>
+<td>Visual workflow tracking</td>
+</tr>
+<tr>
+<td>Timeline</td>
+<td>Gantt-style horizontal bars</td>
+<td>Project scheduling</td>
+</tr>
+<tr>
+<td>Calendar</td>
+<td>Date-based card layout</td>
+<td>Deadline tracking</td>
+</tr>
+<tr>
+<td>Chart</td>
+<td>Bar, pie, line visualizations</td>
+<td>Reporting and dashboards</td>
+</tr>
+<tr>
+<td>Files Gallery</td>
+<td>Grid of attached files</td>
+<td>Asset management</td>
+</tr>
+<tr>
+<td>Map</td>
+<td>Location-pinned items</td>
+<td>Geographic data</td>
+</tr>
+<tr>
+<td>Workload</td>
+<td>Resource allocation view</td>
+<td>Capacity planning</td>
+</tr>
+</tbody></table>
+<h2>Automation Recipes</h2>
+<ul>
+<li><strong>When status changes to X, notify person Y</strong></li>
+<li><strong>When date arrives, move item to group Z</strong></li>
+<li><strong>When item created, assign to person and set status</strong></li>
+<li><strong>Every time period, create an item</strong></li>
+<li><strong>When column changes, push date by N days</strong></li>
+<li><strong>When status changes, send email/Slack message</strong></li>
+<li><strong>Custom automations with conditions and multiple actions</strong></li>
+</ul>
+<h2>Product Suite</h2>
+<table>
+<thead>
+<tr>
+<th>Product</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>monday work management</td>
+<td>Project and task management with customizable boards</td>
+</tr>
+<tr>
+<td>monday CRM</td>
+<td>Sales pipeline, contacts, deals tracking</td>
+</tr>
+<tr>
+<td>monday dev</td>
+<td>Sprint planning, bug tracking, roadmaps for dev teams</td>
+</tr>
+<tr>
+<td>monday service</td>
+<td>Ticketing, SLA management, customer support workflows</td>
+</tr>
+</tbody></table>
+<h2>Integrations</h2>
+<ul>
+<li><strong>Communication:</strong> Slack, Microsoft Teams, Outlook, Gmail, Zoom</li>
+<li><strong>Project tools:</strong> Jira, Asana, Trello, GitHub, GitLab</li>
+<li><strong>Cloud storage:</strong> Google Drive, Dropbox, OneDrive, Box</li>
+<li><strong>CRM:</strong> Salesforce, HubSpot, Copper</li>
+<li><strong>Marketing:</strong> Mailchimp, Facebook Ads, LinkedIn</li>
+<li><strong>Finance:</strong> QuickBooks, Stripe, PayPal</li>
+<li><strong>Custom:</strong> Zapier, Make (Integromat), API, Webhooks</li>
+</ul>
+<h2>API &amp; Developer Platform</h2>
+<ul>
+<li><strong>REST API:</strong> CRUD operations on boards, items, columns, groups</li>
+<li><strong>GraphQL API:</strong> Flexible queries for complex data retrieval</li>
+<li><strong>Webhooks:</strong> Real-time event notifications (item created, status changed)</li>
+<li><strong>SDK:</strong> JavaScript/TypeScript SDK for custom app development</li>
+<li><strong>App Framework:</strong> Build apps with custom views, widgets, and integrations</li>
+<li><strong>Marketplace:</strong> Publish and distribute custom apps to monday.com users</li>
+<li><strong>OAuth 2.0:</strong> Secure authentication for third-party integrations</li>
+<li><strong>Rate limits:</strong> 5,000 requests/minute (complexity-based)</li>
+</ul>
+<h2>Reporting &amp; Analytics</h2>
+<table>
+<thead>
+<tr>
+<th>Widget</th>
+<th>Data Source</th>
+<th>Visualization</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Chart</td>
+<td>Board data</td>
+<td>Bar, line, pie, doughnut</td>
+</tr>
+<tr>
+<td>Numbers</td>
+<td>Board columns</td>
+<td>Single metric with trend</td>
+</tr>
+<tr>
+<td>Table</td>
+<td>Board data</td>
+<td>Filtered/sorted table</td>
+</tr>
+<tr>
+<td>Battery</td>
+<td>Status column</td>
+<td>Completion percentage</td>
+</tr>
+<tr>
+<td>Timeline</td>
+<td>Timeline column</td>
+<td>Gantt chart</td>
+</tr>
+<tr>
+<td>Workload</td>
+<td>People + timeline</td>
+<td>Resource allocation</td>
+</tr>
+</tbody></table>
+<h2>Board Permissions</h2>
+<table>
+<thead>
+<tr>
+<th>Board Type</th>
+<th>Visibility</th>
+<th>Who Can Edit</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Main Board</td>
+<td>All workspace members</td>
+<td>Board subscribers</td>
+</tr>
+<tr>
+<td>Shareable Board</td>
+<td>Anyone with link</td>
+<td>Invited editors</td>
+</tr>
+<tr>
+<td>Private Board</td>
+<td>Creator + invited members</td>
+<td>Invited editors</td>
 </tr>
 </tbody></table>
 

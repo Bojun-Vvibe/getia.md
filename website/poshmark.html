@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Poshmark</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Poshmark is a social commerce marketplace for new and secondhand fashion, home, and beauty. Its differentiator is the <strong>social selling model</strong> — Posh Parties (themed live shopping events), sharing listings to boost visibility, bundles for multi-item purchases, and an offer/counter-offer negotiation system. The IA treats every user as both a buyer and a seller, with the closet (profile) as the storefront and sharing as the primary growth mechanic.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>poshmark.com
 ├── Home (feed)
 ├── Browse
@@ -157,7 +157,7 @@
     ├── Log in
     └── Sign up
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <table>
 <thead>
 <tr>
@@ -193,71 +193,60 @@
 </tr>
 </tbody></table>
 <p><strong>Key pattern</strong>: &quot;Share&quot; is a primary action — sharing your own or others&#39; listings to followers and parties is how items get visibility. The feed is a social timeline of shared listings.</p>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
 <th>Entity</th>
-<th>Attributes</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>Listing</td>
 <td>photos (up to 16), title, description, size, brand, category, original price, listing price, condition, likes, comments, shares</td>
+<td>—</td>
 </tr>
 <tr>
 <td>Closet (User)</td>
 <td>username, avatar, bio, cover photo, listings count, followers, following, Love Notes, Posh Ambassador status</td>
+<td>—</td>
 </tr>
 <tr>
 <td>Offer</td>
 <td>listing, buyer, amount, counter-amount, expiration (24h), status</td>
+<td>—</td>
 </tr>
 <tr>
 <td>Bundle</td>
 <td>seller, buyer, items list, bundle discount, offer, shipping</td>
+<td>—</td>
 </tr>
 <tr>
 <td>Posh Party</td>
 <td>theme, date/time, host(s), listed items, duration</td>
+<td>—</td>
 </tr>
 <tr>
 <td>Love Note (Review)</td>
 <td>buyer, seller, listing, rating, comment, photo</td>
+<td>—</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
-<h3>5a. Buy with offer</h3>
-<ol>
-<li>Browse/search → find listing → &quot;Make an Offer&quot;</li>
-<li>Enter offer amount (must meet minimum % of listing price)</li>
-<li>Seller receives → Accept / Counter / Decline within 24h</li>
-<li>If accepted → buyer charged → seller ships with prepaid label</li>
-<li>Item delivered → buyer accepts or opens case → seller paid after 3 days</li>
-</ol>
-<h3>5b. Create a bundle</h3>
-<ol>
-<li>Visit a seller&#39;s closet → add multiple items to bundle</li>
-<li>Seller sees bundle → offers bundle discount</li>
-<li>Buyer can also make an offer on the bundle</li>
-<li>Single checkout, single shipping for all items</li>
-</ol>
-<h3>5c. Posh Party participation</h3>
-<ol>
-<li>View upcoming parties → join a themed party (e.g., &quot;Date Night Style&quot;)</li>
-<li>Share eligible listings to the party</li>
-<li>Browse party listings → like, share, buy</li>
-<li>Host picks &quot;Host Picks&quot; — featured listings get extra visibility</li>
-</ol>
-<h3>5d. Sell an item</h3>
-<ol>
-<li>Tap &quot;Sell&quot; → photo first (up to 16 photos)</li>
-<li>Fill in brand, size, category, condition, price</li>
-<li>Publish → share to feed, parties, followers</li>
-<li>Buyer purchases → prepaid USPS label generated → ship within 3 days</li>
-<li>Earnings credited to Posh balance after buyer accepts</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<h2>User Flows</h2>
+<h3>Buy with offer</h3>
+<pre><code>Browse/search → find listing → &quot;Make an Offer&quot; → Enter offer amount (must meet minimum % of listing price) → Seller receives → Accept / Counter / Decline within 24h → If accepted → buyer charged → seller ships with prepaid label → Item delivered → buyer accepts or opens case → seller paid after 3 days
+</code></pre>
+<h3>Create a bundle</h3>
+<pre><code>Visit a seller&#39;s closet → add multiple items to bundle → Seller sees bundle → offers bundle discount → Buyer can also make an offer on the bundle → Single checkout, single shipping for all items
+</code></pre>
+<h3>Posh Party participation</h3>
+<pre><code>View upcoming parties → join a themed party (e.g., &quot;Date Night Style&quot;) → Share eligible listings to the party → Browse party listings → like, share, buy → Host picks &quot;Host Picks&quot; — featured listings get extra visibility
+</code></pre>
+<h3>Sell an item</h3>
+<pre><code>Tap &quot;Sell&quot; → photo first (up to 16 photos) → Fill in brand, size, category, condition, price → Publish → share to feed, parties, followers → Buyer purchases → prepaid USPS label generated → ship within 3 days → Earnings credited to Posh balance after buyer accepts
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code>/                           → Home feed
 /search?query={q}           → Search results
 /category/{department}/     → Department browse
@@ -273,8 +262,18 @@
 /account/offers/            → My offers (auth)
 /account/earnings/          → My earnings (auth)
 /help/                      → Help center
+poshmark.com/feed                             # Social feed
+poshmark.com/discover                         # Discover page
+poshmark.com/search?query={q}&amp;type=listings   # Search with filters
+poshmark.com/search?query={q}&amp;type=people     # Search users
+poshmark.com/category/{dept}/{cat}            # Category browse
+poshmark.com/brand/{brand-name}/{category}    # Brand + category
+poshmark.com/closet/{username}/love-notes     # Seller reviews
+poshmark.com/account/stats                    # Posh Stats
+poshmark.com/account/offers/active            # Active offers
+poshmark.com/account/bundles                  # Bundles dashboard
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <table>
 <thead>
 <tr>
@@ -307,7 +306,7 @@
 <td>Available, sold, drafts, price drops needed</td>
 </tr>
 </tbody></table>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -332,7 +331,7 @@
 <td>Bottom tabs, swipe-to-share, camera-first sell, party notifications</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>
@@ -367,6 +366,119 @@
 <tr>
 <td>Authentication Team</td>
 <td>Posh Authenticate for luxury items ($500+)</td>
+</tr>
+</tbody></table>
+<h2>Social Commerce Mechanics</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>How It Works</th>
+<th>Impact</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Sharing</td>
+<td>Share listings to your followers&#39; feeds</td>
+<td>More visibility = more sales</td>
+</tr>
+<tr>
+<td>Posh Parties</td>
+<td>Themed virtual shopping events (e.g., &quot;Nike Party&quot;)</td>
+<td>Targeted buyers see your listings</td>
+</tr>
+<tr>
+<td>Bundles</td>
+<td>Buyer adds multiple items from one seller</td>
+<td>Higher order value, single shipping</td>
+</tr>
+<tr>
+<td>Offer System</td>
+<td>Buyer proposes lower price; seller counters</td>
+<td>24-hour negotiation window</td>
+</tr>
+<tr>
+<td>Likes</td>
+<td>Bookmark listings; seller sees who liked</td>
+<td>Seller can send &quot;Offer to Likers&quot; discount</td>
+</tr>
+<tr>
+<td>Comments</td>
+<td>Q&amp;A on listings</td>
+<td>Build trust, clarify details</td>
+</tr>
+</tbody></table>
+<h2>Posh Ambassador Program</h2>
+<ul>
+<li><strong>Requirements:</strong> 5,000+ community shares, 15+ sales, 4.5+ rating, fast shipping</li>
+<li><strong>Benefits:</strong> Verified badge, increased visibility, party hosting eligibility</li>
+<li><strong>Mentoring:</strong> Assigned new users to guide through first sales</li>
+<li><strong>Community status:</strong> Recognized as trusted, experienced seller</li>
+</ul>
+<h2>Fee Structure</h2>
+<table>
+<thead>
+<tr>
+<th>Fee</th>
+<th>Amount</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Selling commission</td>
+<td>20% (items $15+) or flat $2.95 (items under $15)</td>
+</tr>
+<tr>
+<td>Shipping</td>
+<td>$7.67 flat rate (buyer pays); Priority Mail</td>
+</tr>
+<tr>
+<td>Discounted shipping</td>
+<td>Seller can offer reduced shipping (absorbs cost)</td>
+</tr>
+<tr>
+<td>Posh Authenticate</td>
+<td>Free for luxury items over $500</td>
+</tr>
+<tr>
+<td>Direct deposit</td>
+<td>Free</td>
+</tr>
+<tr>
+<td>Instant transfer</td>
+<td>$0.25 per transfer</td>
+</tr>
+</tbody></table>
+<h2>Posh Party Format</h2>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Theme</td>
+<td>Category or brand focus (e.g., &quot;Best in Shoes&quot;, &quot;Nike Party&quot;, &quot;Date Night&quot;)</td>
+</tr>
+<tr>
+<td>Duration</td>
+<td>Typically 2 hours</td>
+</tr>
+<tr>
+<td>Frequency</td>
+<td>Multiple parties daily</td>
+</tr>
+<tr>
+<td>Host</td>
+<td>1-4 community hosts (Posh Ambassadors)</td>
+</tr>
+<tr>
+<td>Host Picks</td>
+<td>Hosts select standout listings for extra visibility</td>
+</tr>
+<tr>
+<td>Participation</td>
+<td>Share eligible listings to the party feed</td>
 </tr>
 </tbody></table>
 

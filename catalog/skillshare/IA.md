@@ -7,11 +7,11 @@ website: https://skillshare.com
 
 # Information Architecture — Skillshare
 
-## 1. Overview
+## Overview
 
 Skillshare is a creative learning platform offering short, project-based video classes taught by industry professionals. The IA is organized around class categories (illustration, design, photography, writing, business) with a strong emphasis on hands-on projects that students share in a class community. Unlike academic MOOCs, Skillshare focuses on practical creative skills, with classes typically 20-60 minutes broken into digestible lessons.
 
-## 2. Site Map
+## Site Map
 
 ```
 Skillshare
@@ -99,7 +99,7 @@ Skillshare
     └── Privacy
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 - **Type**: Top nav bar (desktop), bottom tab bar (mobile)
 - **Desktop Top Bar**: Logo (home), Browse (mega dropdown), Workshops | Search, My Classes, Teach, Profile
@@ -108,9 +108,9 @@ Skillshare
 - **Class Viewing**: Sequential lesson playlist (sidebar on desktop, stacked on mobile)
 - **Project Gallery**: Within each class; students upload project work for community feedback
 
-## 4. Content Model
+## Content Model
 
-| Content Type | Attributes | Relationships |
+| Entity | Key Attributes | Relationships |
 |---|---|---|
 | Class | title, teacher, description, category, subcategory, level (beginner/intermediate/advanced), lesson count, total duration, preview video, rating, student count, tags | → Lessons, → Project, → Teacher |
 | Lesson | title, video, duration, position in class, notes | → Class |
@@ -123,7 +123,7 @@ Skillshare
 | Collection | name, description, classes list, curator | → Classes |
 | List (user) | name, saved classes | → Classes |
 
-## 5. User Flows
+## User Flows
 
 ### Taking a Class
 1. Browse or search → Select class → Watch preview video
@@ -146,7 +146,7 @@ Skillshare
 4. Publish → Class appears in catalog → Earn revenue based on watch minutes
 5. Monitor analytics: enrollments, watch time, completion rate, earnings
 
-## 6. URL / Route Structure
+## URL / Route Structure
 
 ```
 skillshare.com/                             # Homepage
@@ -163,7 +163,7 @@ skillshare.com/lists/{listId}               # Curated list
 skillshare.com/teams                        # Skillshare for Teams
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 - **Class Search**: Keyword search across titles, descriptions, tags, teachers
 - **Category Filter**: Creative Arts, Design, Photography, Writing, Business, Technology, Lifestyle
@@ -174,7 +174,7 @@ skillshare.com/teams                        # Skillshare for Teams
 - **Topic Tags**: Clickable tags on class pages for related content
 - **Staff Picks**: Curated collections highlighted on home and browse pages
 
-## 8. Responsive Behavior
+## Responsive Behavior
 
 | Breakpoint | Behavior |
 |---|---|
@@ -184,7 +184,7 @@ skillshare.com/teams                        # Skillshare for Teams
 | TV Apps | Lean-back class viewing; simplified browse; no project upload |
 | Offline (mobile) | Download classes for offline viewing (Premium feature) |
 
-## 9. Access Control
+## Access Control
 
 | Role | Capabilities |
 |---|---|

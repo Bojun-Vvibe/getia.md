@@ -7,11 +7,11 @@ website: https://bereal.com
 
 # Information Architecture — BeReal
 
-## 1. Overview
+## Overview
 
 BeReal is an anti-curation social platform that prompts all users simultaneously at a random time each day to share an unfiltered dual-camera photo within a 2-minute window. The IA is radically simple — no followers count, no likes, no filters — designed to strip away performative social media behaviors. The entire experience revolves around one daily moment of authenticity.
 
-## 2. Site Map
+## Site Map
 
 ```
 BeReal
@@ -52,9 +52,21 @@ BeReal
     ├── Notifications
     ├── Memories (export)
     └── Help / Contact
+├── BTS (Bonus BeReal)
+│   ├── Capture Additional Moments
+│   ├── BTS Gallery
+│   └── BTS Reactions
+├── Streaks Dashboard
+│   ├── Active Streaks
+│   ├── Streak History
+│   └── Top Streaks
+├── Year in Review
+│   ├── Annual Recap Video
+│   ├── Stats (posts, reactions, streaks)
+│   └── Top Moments
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 - **Type**: Minimal bottom tab bar
 - **Bottom Tabs**: Feed, Friends (or Discovery), Profile
@@ -63,10 +75,10 @@ BeReal
 - **Feed Toggle**: Friends / Discovery tab switch at top of feed
 - **Minimal Depth**: Almost all content is 1–2 taps from the feed
 
-## 4. Content Model
+## Content Model
 
-| Content Type | Attributes | Relationships |
-|---|---|---|
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
 | BeReal Post | front photo, back photo, timestamp, caption, location, retake count, late flag | → User, → RealMojis, → Comments |
 | RealMoji | selfie reaction (photo), reactor user, timestamp | → BeReal Post, → User |
 | Comment | text, author, timestamp | → BeReal Post |
@@ -74,47 +86,96 @@ BeReal
 | Memory | date, front/back photos, caption, location | → Calendar, → User |
 | Streak | two users, streak count, active/expired | → Friends |
 | User Profile | username, display name, avatar (last BeReal), friend count, streak info | → Posts, → Friends |
+| Friend Request | sender, recipient, status (pending/accepted/declined), sent_at | → Users |
+| Notification | type (daily/reaction/friend_request), message, read, timestamp | → User |
+| Year in Review | year, stats (total_posts, reactions, streaks), video_url | → User |
+| Report | reporter, content_id, reason, status | → BeReal Post or User |
+| Block | blocker_id, blocked_id, created_at | → Users |
 
-## 5. User Flows
+## User Flows
 
 ### Daily BeReal Capture
-1. Random push notification: "Time to BeReal!" → All users notified simultaneously
-2. Open app → Camera activates with 2-minute countdown
-3. Capture → Front and back cameras fire simultaneously
-4. Add optional caption and location → Post
-5. If posted late, "Late" badge displayed with exact delay time
-6. Retake allowed, but retake count is visible to friends
+```
+Random push notification: "Time to BeReal!" → All users notified simultaneously → Open app → Camera activates with 2-minute countdown → Capture → Front and back cameras fire simultaneously → Add optional caption and location → Post → If posted late, "Late" badge displayed with exact delay time → Retake allowed, but retake count is visible to friends
+```
 
 ### Reacting with RealMoji
-1. View friend's BeReal in feed → Tap RealMoji bar
-2. Front camera activates → Capture selfie as reaction
-3. Choose from preset expressions or custom selfie
-4. RealMoji appears on the friend's post
+```
+View friend's BeReal in feed → Tap RealMoji bar → Front camera activates → Capture selfie as reaction → Choose from preset expressions or custom selfie → RealMoji appears on the friend's post
+```
 
 ### Viewing Memories
-1. Tap Profile → "Memories" section
-2. Calendar grid shows one thumbnail per day
-3. Tap date → View that day's BeReal (front + back)
-4. Scroll through months for personal time capsule
+```
+Tap Profile → "Memories" section → Calendar grid shows one thumbnail per day → Tap date → View that day's BeReal (front + back) → Scroll through months for personal time capsule
+```
 
-## 6. URL / Route Structure
+### Managing Streaks
+```
+Post daily BeReal → Friend also posts → Streak counter increments → Miss a day → Streak resets to 0 → Notification warns before streak breaks
+                                                                                                                                             ↘ View streak stats in profile
+```
+
+### Adding Friends
+```
+Profile → Friends → Add → Search by username → Send request → Friend accepts → Mutual friendship established → See each other's BeReals in Friends feed
+                                                          ↘ Share invite link → Friend opens link → Redirected to app → Auto-connected
+```
+
+### Bonus BeReal (BTS)
+```
+After posting daily BeReal → BTS option unlocked → Capture additional moments throughout the day → BTS posts appear in separate BTS tab → Friends can view and react
+```
+
+### Privacy Controls
+```
+Settings → Privacy → Choose who sees your BeReal (Friends Only / Friends of Friends / Everyone) → Configure Discovery visibility → Manage blocked accounts → Control location sharing
+```
+## URL / Route Structure
 
 ```
 bereal.com/                             # Marketing landing page
 bereal.com/download                     # App store redirect
 bereal.com/{username}                   # Profile deeplink (opens in app)
 bfrn.link/{shortcode}                   # Shared BeReal deeplink
+bereal.com/                                   # Marketing landing page
+bereal.com/download                           # App store redirect
+bereal.com/about                              # About BeReal
+bereal.com/privacy                            # Privacy policy
+bereal.com/terms                              # Terms of service
+bereal.com/community-guidelines               # Community guidelines
+bereal.com/support                            # Support & FAQ
+bereal.com/careers                            # Careers
+bereal.com/press                              # Press kit
+bereal.com/{username}                         # Profile deeplink (opens in app)
+bfrn.link/{shortcode}                         # Shared BeReal deeplink
+bereal.com/safety                             # Safety center
+bereal.com/parents                            # Parent guide
+bereal.com/developers                         # Developer info
+# App deep links (mobile only)
+bereal://feed                                 # Open feed
+bereal://capture                              # Open camera
+bereal://profile/{username}                   # Open profile
+bereal://memories                             # Open memories
+bereal://friends                              # Open friends list
+bereal://settings                             # Open settings
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 - **Friend Search**: Search by username or real name to add friends
 - **Discovery Feed**: Browse public BeReals by region (no keyword search)
 - **Memories**: Browse by date (calendar view); no text search
 - **No Hashtags**: No tagging, trending, or algorithmic discovery by design
 - **Intentionally Minimal**: Search features are deliberately limited to discourage clout-seeking behavior
+- **Discovery regions**: Browse public BeReals by geographic region
+- **Memories date picker**: Navigate to specific dates via calendar interface
+- **Friend suggestions**: Algorithm-based suggestions from contacts and mutual friends
 
-## 8. Responsive Behavior
+- **Sort options**: By relevance, date created, date modified, alphabetical, popularity
+- **Autocomplete**: Type-ahead suggestions with recent searches and popular results
+- **Advanced search**: Boolean operators (AND, OR, NOT), field-specific filters, date ranges
+- **Recent searches**: Quick access to previous search queries
+## Responsive Behavior
 
 | Breakpoint | Behavior |
 |---|---|
@@ -123,7 +184,37 @@ bfrn.link/{shortcode}                   # Shared BeReal deeplink
 | Web (bereal.com) | Marketing and download page only; no feed viewing on web |
 | Desktop | No desktop app or web app; mobile-only experience by design |
 
-## 9. Access Control
+
+### Platform-Specific Patterns
+- Touch targets: minimum 44x44pt on mobile for accessibility
+- Swipe gestures: swipe to delete, archive, or perform quick actions
+- Pull-to-refresh: standard refresh pattern on feeds and lists
+- Keyboard shortcuts: comprehensive shortcuts on desktop for power users
+- Dark mode: system-preference detection with manual override
+- Offline support: cached data available without network connectivity
+- Progressive loading: skeleton screens while content loads
+
+### BeReal-Specific UX Patterns
+- **Progressive disclosure**: Complex features hidden behind expandable sections
+- **Contextual actions**: Right-click menus and hover-revealed action buttons
+- **Inline editing**: Click-to-edit fields without navigating to a separate page
+- **Batch operations**: Multi-select with bulk actions (delete, move, archive, tag)
+- **Undo support**: Non-destructive actions with undo toast notifications
+- **Loading states**: Skeleton screens and progress indicators during async operations
+- **Empty states**: Helpful illustrations and CTAs when sections have no content
+- **Onboarding tooltips**: First-time user guidance highlighting key features
+
+### Accessibility
+- WCAG 2.1 AA compliance across all interactive elements
+- Semantic HTML with proper ARIA labels and landmarks
+- Keyboard navigation support for all core workflows
+- Screen reader compatibility tested with VoiceOver, NVDA, and JAWS
+- Color contrast ratios meeting minimum 4.5:1 for body text
+- Focus indicators visible on all interactive elements
+- Reduced motion option respecting `prefers-reduced-motion`
+- Resizable text up to 200% without content loss
+
+## Access Control
 
 | Role | Capabilities |
 |---|---|

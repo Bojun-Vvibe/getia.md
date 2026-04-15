@@ -52,67 +52,112 @@ elevenlabs.io
 
 ## Content Model
 
-| Content Type | Structure | Ownership |
+| Entity | Key Attributes | Relationships |
 |---|---|---|
-| Voice | Name, description, preview sample, settings (stability, similarity, style), category, language | User-owned (cloned) or ElevenLabs (pre-made) |
-| Cloned Voice | Uploaded audio samples, processing status, voice profile | User-owned |
-| Generation | Text input, voice used, model, audio output (MP3), character count, timestamp | User-owned |
-| Project | Title, chapters, voice assignments per character, full manuscript text, generated audio | User-owned |
-| Dubbing Job | Source video/audio, target languages, speaker mapping, dubbed output | User-owned |
-| Sound Effect | Text prompt, generated audio clip | User-owned |
+| Voice | Name, description, preview sample, settings (stability, similarity, style), category, language | belongs to User |
+| Cloned Voice | Uploaded audio samples, processing status, voice profile | belongs to User |
+| Generation | Text input, voice used, model, audio output (MP3), character count, timestamp | belongs to User |
+| Project | Title, chapters, voice assignments per character, full manuscript text, generated audio | belongs to User |
+| Dubbing Job | Source video/audio, target languages, speaker mapping, dubbed output | belongs to User |
+| Sound Effect | Text prompt, generated audio clip | belongs to User |
 | Voice Library Entry | Published voice with description, preview, category, usage count | Community-shared |
 
 ## User Flows
 
 ### Text-to-Speech Generation
-1. User opens Speech Synthesis
-2. Selects voice from dropdown (pre-made, cloned, or community voice)
-3. Adjusts voice settings: stability (consistency), similarity boost, style exaggeration
-4. Selects model (Multilingual v2, Turbo v2.5, English v1)
-5. Types or pastes text (up to character limit based on plan)
-6. Clicks Generate → audio streams/plays immediately
-7. Download as MP3 or save to History
+
+```
+User opens Speech Synthesis → Selects voice from dropdown (pre-made, cloned, or community voice) →
+  Adjusts voice settings: stability (consistency), similarity boost, style... →
+  Selects model (Multilingual v2, Turbo v2.5, English v1) →
+  Types or pastes text (up to character limit based on plan) →
+  Clicks Generate → audio streams/plays immediately → Download as MP3 or save to History
+```
+
 
 ### Voice Cloning
-1. User opens Voice Lab → "Add Voice" → "Instant Voice Clone"
-2. Uploads audio samples (minimum 1 minute of clear speech)
-3. Names the voice and adds description/labels
-4. Voice is processed and added to "My Voices"
-5. Alternatively: "Professional Voice Clone" requires 30+ minutes of studio-quality audio and verification
-6. Cloned voice available across all tools (speech synthesis, projects, dubbing)
+
+```
+User opens Voice Lab → "Add Voice" → "Instant Voice Clone" →
+  Uploads audio samples (minimum 1 minute of clear speech) →
+  Names the voice and adds description/labels → Voice is processed and added to "My Voices" →
+  Alternatively: "Professional Voice Clone" requires 30+ minutes of... →
+  Cloned voice available across all tools (speech synthesis, projects, dubbing)
+```
+
 
 ### Audiobook/Podcast Project
-1. User creates a Project → selects type (Audiobook, Podcast)
-2. Uploads manuscript (TXT, PDF, EPUB) or pastes text
-3. System auto-detects chapters → user can edit chapter boundaries
-4. Assigns voices to characters/narrators
-5. Generates chapter by chapter — can re-generate individual paragraphs
-6. Exports complete audiobook as MP3 files per chapter
+
+```
+User creates a Project → selects type (Audiobook, Podcast) →
+  Uploads manuscript (TXT, PDF, EPUB) or pastes text →
+  System auto-detects chapters → user can edit chapter boundaries →
+  Assigns voices to characters/narrators →
+  Generates chapter by chapter — can re-generate individual paragraphs →
+  Exports complete audiobook as MP3 files per chapter
+```
+
 
 ### Video Dubbing
-1. User opens Dubbing → uploads video or provides YouTube URL
-2. Selects source language and target language(s)
-3. System transcribes → translates → assigns voices → generates dubbed audio
-4. User reviews with side-by-side comparison (original vs. dubbed)
-5. Can swap voices, edit translated text, adjust timing
-6. Export dubbed video
+
+```
+User opens Dubbing → uploads video or provides YouTube URL →
+  Selects source language and target language(s) →
+  System transcribes → translates → assigns voices → generates dubbed audio →
+  User reviews with side-by-side comparison (original vs. dubbed) →
+  Can swap voices, edit translated text, adjust timing → Export dubbed video
+```
+
+
+
+### Sound Effect Generation
+
+```
+Open Sound Effects → Type descriptive prompt → Select duration → Generate → Preview → Download MP3 → Use in project
+```
+
+### Voice Isolation
+
+```
+Open Voice Isolator → Upload audio with background noise → Process → Preview clean audio → Download isolated voice track
+```
 
 ## URL / Route Structure
 
-| Pattern | Description |
-|---|---|
-| `/` | Marketing home |
-| `/app/speech-synthesis` | TTS workspace |
-| `/app/voice-lab` | Voice management |
-| `/app/voice-lab/{uuid}` | Individual voice settings |
-| `/app/voice-library` | Community voices |
-| `/app/projects/{uuid}` | Project workspace |
-| `/app/dubbing/{uuid}` | Dubbing job |
-| `/app/sound-effects` | SFX generator |
-| `/app/history` | Generation history |
-| `/docs/{path}` | API documentation |
-| `/pricing` | Plans |
-| `/settings/*` | Account settings |
+
+```
+/                                             # Marketing home
+/app/speech-synthesis                         # TTS workspace
+/app/voice-lab                                # Voice management
+/app/voice-lab/{uuid}                         # Individual voice settings
+/app/voice-library                            # Community voices
+/app/projects/{uuid}                          # Project workspace
+/app/dubbing/{uuid}                           # Dubbing job
+/app/sound-effects                            # SFX generator
+/app/history                                  # Generation history
+/docs/{path}                                  # API documentation
+/pricing                                      # Plans
+/settings/*                                   # Account settings
+/app/voice-lab/clone                      # Voice cloning wizard
+/app/voice-lab/professional               # Professional voice clone
+/app/projects/new                         # New project creation
+/app/dubbing/new                          # New dubbing job
+/app/usage                                # Usage analytics
+/app/voice-isolator                       # Voice isolation tool
+/settings/profile                         # Profile settings
+/settings/subscription                    # Subscription management
+/settings/api-keys                        # API key management
+/settings/billing                         # Billing details
+/docs/api/text-to-speech                  # TTS API reference
+/docs/api/voice-cloning                   # Clone API reference
+/docs/api/dubbing                         # Dubbing API reference
+/docs/api/sound-effects                   # SFX API reference
+/auth/login                               # Login page
+/auth/register                            # Registration page
+/about                                    # About page
+/blog                                     # Blog
+/blog/{slug}                              # Blog post
+```
 
 App routes under `/app` prefix. UUIDs for user content. Marketing pages at root.
 
@@ -125,6 +170,9 @@ App routes under `/app` prefix. UUIDs for user content. Marketing pages at root.
 - **No generation prompt search**: History organized chronologically, not searchable by text content
 - **Voice Lab**: My Voices searchable by name
 
+- **Model Comparison**: Compare outputs across different TTS models (Multilingual v2, Turbo, English v1)
+- **Usage filtering**: Filter usage analytics by date range, voice, model type
+- **API documentation search**: Full-text search across API reference docs
 ## Responsive Behavior
 
 | Breakpoint | Behavior |
@@ -139,6 +187,21 @@ App routes under `/app` prefix. UUIDs for user content. Marketing pages at root.
 - Voice Library grid (voice cards) reflows from 4→2→1 columns
 - Project editor (multi-pane: chapters + editor + audio) collapses to tabbed view on mobile
 - Dubbing comparison view stacks vertically on narrow screens
+
+
+### Platform-Specific UX
+- Voice selector dropdown is shared across all generation tools — pick once, generate everywhere
+- Audio waveform visualization appears during playback and generation
+- Character count meter shows remaining quota prominently
+- Generation history preserves all outputs with voice, settings, and text for reproducibility
+- Professional Voice Clone requires identity verification and a 30-minute minimum of studio audio
+- Projects support per-paragraph voice assignment — ideal for audiobooks with multiple characters
+- Dubbing preserves lip-sync timing by matching generated audio duration to original segments
+- API playground in docs allows testing endpoints directly in the browser
+- Voice Library uses a like/save system for community voice discovery
+- Real-time streaming available via WebSocket API for low-latency applications
+- Sound effects generation uses text prompts rather than audio samples
+- Model comparison lets users hear the same text in different TTS models side by side
 
 ## Access Control
 

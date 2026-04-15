@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Audible</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Audible (an Amazon company) is the world&#39;s largest audiobook and spoken-word platform. The IA is structured around a <strong>credit-based membership model</strong> — members receive monthly credits to exchange for any title, plus access to the Audible Plus catalog (included titles). The experience combines a retail marketplace (browse, purchase, wishlist) with a streaming library (Plus catalog), and deep Amazon ecosystem integration (Whispersync for switching between Kindle and Audible).</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>audible.com
 ├── Home (personalized)
 ├── Browse
@@ -157,7 +157,7 @@
     ├── Sign in (Amazon account)
     └── Start free trial
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <table>
 <thead>
 <tr>
@@ -198,75 +198,97 @@
 </tr>
 </tbody></table>
 <p><strong>Key pattern</strong>: The credit model shapes the IA — &quot;Use a Credit&quot; vs. &quot;Buy for $X&quot; is a constant decision point. The Plus catalog is a secondary layer of &quot;free with membership&quot; content, always distinguished from credit-worthy purchases.</p>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
 <th>Entity</th>
-<th>Attributes</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>Title (Audiobook)</td>
 <td>title, author(s), narrator(s), length, release date, publisher, language, cover art, sample, price, credit-eligible, Plus-included, series, rating, reviews count</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Series</td>
 <td>name, books (ordered), author, genre</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Podcast</td>
 <td>name, description, episodes, creator, category, Audible Original flag</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Review</td>
 <td>user, rating (1-5), title, body, helpful votes</td>
+<td>belongs to User and Entity</td>
 </tr>
 <tr>
 <td>Collection</td>
 <td>name, owner, titles, public/private</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Listening Stats</td>
 <td>hours listened, titles finished, badges, streaks</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Credit</td>
 <td>balance, expiry, tier (1/2 per month)</td>
+<td>belongs to parent entity</td>
+</tr>
+<tr>
+<td>Author</td>
+<td>name, bio, titles[], photo</td>
+<td>has many Titles</td>
+</tr>
+<tr>
+<td>Narrator</td>
+<td>name, titles[], rating</td>
+<td>has many Titles</td>
+</tr>
+<tr>
+<td>Bookmark</td>
+<td>title_id, position_seconds, note, created_at</td>
+<td>belongs to User</td>
+</tr>
+<tr>
+<td>Clip</td>
+<td>title_id, start_seconds, end_seconds, shareable</td>
+<td>belongs to User</td>
+</tr>
+<tr>
+<td>Badge</td>
+<td>name, criteria, earned_at</td>
+<td>belongs to User</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
-<h3>5a. Browse &amp; purchase with credit</h3>
-<ol>
-<li>Browse categories or search → find title</li>
-<li>Play sample (5-minute preview)</li>
-<li>Click &quot;1 Credit&quot; → title added to Library</li>
-<li>Download in app → listen offline</li>
-<li>Rate and review after listening</li>
-</ol>
-<h3>5b. Whispersync experience</h3>
-<ol>
-<li>Buy Kindle eBook on Amazon → Audible version available at reduced price</li>
-<li>Purchase Audible companion → Whispersync enabled</li>
-<li>Read on Kindle → switch to Audible app → picks up where you left off</li>
-<li>Seamlessly transition between reading and listening</li>
-</ol>
-<h3>5c. Plus catalog streaming</h3>
-<ol>
-<li>Browse Plus Catalog → thousands of included titles</li>
-<li>Add to Library → stream or download</li>
-<li>Listen without using a credit</li>
-<li>Titles may rotate in/out of Plus catalog</li>
-</ol>
-<h3>5d. Membership management</h3>
-<ol>
-<li>Account → Membership Details</li>
-<li>View plan, next billing date, credits remaining</li>
-<li>Upgrade/downgrade plan → change credit allocation</li>
-<li>Pause membership (up to 3 months) or cancel</li>
-<li>Unused credits carry over (up to rollover limit)</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<h2>User Flows</h2>
+<h3>Browse &amp; purchase with credit</h3>
+<pre><code>Browse categories or search → find title → Play sample (5-minute preview) → Click &quot;1 Credit&quot; → title added to Library → Download in app → listen offline → Rate and review after listening
+</code></pre>
+<h3>Whispersync experience</h3>
+<pre><code>Buy Kindle eBook on Amazon → Audible version available at reduced price → Purchase Audible companion → Whispersync enabled → Read on Kindle → switch to Audible app → picks up where you left off → Seamlessly transition between reading and listening
+</code></pre>
+<h3>Plus catalog streaming</h3>
+<pre><code>Browse Plus Catalog → thousands of included titles → Add to Library → stream or download → Listen without using a credit → Titles may rotate in/out of Plus catalog
+</code></pre>
+<h3>Membership management</h3>
+<pre><code>Account → Membership Details → View plan, next billing date, credits remaining → Upgrade/downgrade plan → change credit allocation → Pause membership (up to 3 months) or cancel → Unused credits carry over (up to rollover limit)
+</code></pre>
+<h3>Listen &amp; Bookmark</h3>
+<pre><code>Library → Select title → Play → Set playback speed (1.25x) → Add bookmark at key moment → Enable sleep timer → Resume later from bookmark
+                                                                                                                                              ↘ Create clip → Share clip with friends
+</code></pre>
+<h3>Return &amp; Exchange</h3>
+<pre><code>Library → Title → Return → Select reason → Credit restored immediately → Browse for replacement → Use credit on new title
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code>/                               → Home (personalized)
 /cat/                           → Browse categories
 /cat/{genre}/                   → Genre page
@@ -282,8 +304,22 @@
 /account/                       → Account settings (auth)
 /help/                          → Help center
 /help/{topic}/                  → Help article
+/originals/                    → Audible Originals
+/series/{asin}                 → Series page
+/author/{name}                 → Author page
+/narrator/{name}              → Narrator page
+/lib/collections/             → Collections (auth)
+/lib/collections/{id}         → Collection detail
+/lib/stats/                    → Listening stats
+/lib/purchase-history/         → Purchase history
+/account/membership/           → Membership details
+/account/devices/              → Connected devices
+/account/preferences/          → Listening preferences
+/gift/                         → Gift memberships
+/corporate/                    → Corporate plans
+/kids/                         → Kids &amp; Family section
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <table>
 <thead>
 <tr>
@@ -319,8 +355,16 @@
 <td>Library search</td>
 <td>Search within owned titles, filter by listened/unfinished</td>
 </tr>
+<tr>
+<td>Author/Narrator</td>
+<td>Search by author name, narrator name</td>
+</tr>
+<tr>
+<td>Series</td>
+<td>Browse series, filter complete/ongoing</td>
+</tr>
 </tbody></table>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -349,7 +393,17 @@
 <td>Voice-driven — &quot;Alexa, read my audiobook&quot; → continues where you left off</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h3>Platform-Specific Patterns</h3>
+<ul>
+<li>Touch targets: minimum 44x44pt on mobile for accessibility</li>
+<li>Swipe gestures: swipe to delete, archive, or perform quick actions</li>
+<li>Pull-to-refresh: standard refresh pattern on feeds and lists</li>
+<li>Keyboard shortcuts: comprehensive shortcuts on desktop for power users</li>
+<li>Dark mode: system-preference detection with manual override</li>
+<li>Offline support: cached data available without network connectivity</li>
+<li>Progressive loading: skeleton screens while content loads</li>
+</ul>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>

@@ -206,14 +206,18 @@
 </tr>
 </tbody></table>
 <h2>User Flows</h2>
-<h3>1. Build a Scenario</h3>
-<p><code>Scenarios → + New → Canvas → Add trigger module (e.g., Watch Gmail) → Connect → Add action module (e.g., Create Trello Card) → Map fields → Add filter/router if needed → Run Once to test → Turn On</code></p>
-<h3>2. Handle Errors</h3>
-<p><code>Module → Add Error Handler route → Choose strategy (Resume, Commit, Rollback, Ignore, Break) → Configure fallback action</code></p>
-<h3>3. Use Data Stores</h3>
-<p><code>Data Stores → + New → Define structure (fields) → In scenario, add &quot;Search/Add/Update/Delete Data Store Record&quot; modules</code></p>
-<h3>4. Debug a Failed Run</h3>
-<p><code>Scenario → History → Click failed run → Inspect each module&#39;s input/output bubbles → Identify error → Fix mapping → Re-run</code></p>
+<h3>Build a Scenario</h3>
+<pre><code>Scenarios → + New → Canvas → Add trigger module (e.g., Watch Gmail) → Connect → Add action module (e.g., Create Trello Card) → Map fields → Add filter/router if needed → Run Once to test → Turn On
+</code></pre>
+<h3>Handle Errors</h3>
+<pre><code>Module → Add Error Handler route → Choose strategy (Resume, Commit, Rollback, Ignore, Break) → Configure fallback action
+</code></pre>
+<h3>Use Data Stores</h3>
+<pre><code>Data Stores → + New → Define structure (fields) → In scenario, add &quot;Search/Add/Update/Delete Data Store Record&quot; modules
+</code></pre>
+<h3>Debug a Failed Run</h3>
+<pre><code>Scenario → History → Click failed run → Inspect each module&#39;s input/output bubbles → Identify error → Fix mapping → Re-run
+</code></pre>
 <h2>URL / Route Structure</h2>
 <pre><code>make.com/{org}/scenarios                    # Scenario list
 make.com/{org}/scenarios/{id}               # Scenario editor
@@ -224,6 +228,17 @@ make.com/{org}/datastores/{id}              # Data store records
 make.com/{org}/templates                    # Templates
 make.com/{org}/custom-apps                  # Custom apps
 make.com/{org}/organization/members         # Team members
+make.com/{org}/scenarios/{id}/log                   # Execution log
+make.com/{org}/scenarios/{id}/blueprint              # Scenario blueprint (JSON)
+make.com/{org}/keys                                  # API keys
+make.com/{org}/webhooks                              # Webhooks
+make.com/{org}/devices                               # Devices
+make.com/{org}/organization/billing                  # Billing
+make.com/{org}/organization/security                 # Security settings
+make.com/en/apps                                     # App directory
+make.com/en/templates/{category}                     # Template categories
+make.com/en/academy                                  # Make Academy
+make.com/en/integrations/{app}                       # App integration page
 </code></pre>
 <h2>Search &amp; Filter</h2>
 <ul>
@@ -288,6 +303,143 @@ make.com/{org}/organization/members         # Team members
 <td>Granular permissions per resource type (Enterprise)</td>
 </tr>
 </tbody></table>
+<h2>Module Types</h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Purpose</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Trigger</td>
+<td>Starts scenario execution</td>
+<td>Watch new emails in Gmail</td>
+</tr>
+<tr>
+<td>Action</td>
+<td>Performs an operation</td>
+<td>Create a row in Google Sheets</td>
+</tr>
+<tr>
+<td>Search</td>
+<td>Finds existing records</td>
+<td>Search contacts in HubSpot</td>
+</tr>
+<tr>
+<td>Aggregator</td>
+<td>Combines multiple items into one</td>
+<td>Merge array into CSV</td>
+</tr>
+<tr>
+<td>Iterator</td>
+<td>Splits an array into individual items</td>
+<td>Process each line item</td>
+</tr>
+<tr>
+<td>Router</td>
+<td>Branches execution into multiple paths</td>
+<td>Route based on status field</td>
+</tr>
+<tr>
+<td>Filter</td>
+<td>Controls which items continue</td>
+<td>Only process priority: high</td>
+</tr>
+<tr>
+<td>Error Handler</td>
+<td>Catches and handles errors</td>
+<td>Retry, ignore, or notify on failure</td>
+</tr>
+<tr>
+<td>Transformer</td>
+<td>Modifies data format</td>
+<td>Parse JSON, format dates, math</td>
+</tr>
+</tbody></table>
+<h2>Scenario Scheduling</h2>
+<ul>
+<li><strong>Interval:</strong> Every 1-60 minutes (or longer)</li>
+<li><strong>Cron expression:</strong> Fine-grained scheduling (Enterprise)</li>
+<li><strong>Webhook-triggered:</strong> Instant execution on incoming HTTP request</li>
+<li><strong>On-demand:</strong> Manual run only</li>
+<li><strong>Sequential:</strong> Wait for previous run to complete before starting next</li>
+<li><strong>Operations quota:</strong> Each action consumes one operation; tracked per billing cycle</li>
+</ul>
+<h2>Data Mapping</h2>
+<ul>
+<li><strong>Formula editor:</strong> Built-in functions (text, math, date, array, crypto)</li>
+<li><strong>Variable picker:</strong> Click to insert output from any previous module</li>
+<li><strong>Iterator index:</strong> Access current item index in loops</li>
+<li><strong>Error variables:</strong> Access error details in error handler routes</li>
+<li><strong>Custom variables:</strong> Store and reuse values across module chain</li>
+</ul>
+<h2>Execution Model</h2>
+<ul>
+<li><strong>Real-time processing:</strong> Webhook-triggered scenarios execute immediately</li>
+<li><strong>Polling:</strong> Scheduled scenarios check for new data at set intervals</li>
+<li><strong>Parallel execution:</strong> Multiple scenarios can run simultaneously</li>
+<li><strong>Sequential guarantee:</strong> Individual scenario runs are sequential within that scenario</li>
+<li><strong>Rate limiting:</strong> Respects target app API limits with automatic retry</li>
+<li><strong>Data size limits:</strong> 50MB per execution; larger files handled via URL references</li>
+<li><strong>Execution timeout:</strong> 40 minutes max per single run</li>
+</ul>
+<h2>Pricing Model</h2>
+<table>
+<thead>
+<tr>
+<th>Plan</th>
+<th>Operations/mo</th>
+<th>Active Scenarios</th>
+<th>Price</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Free</td>
+<td>1,000</td>
+<td>2</td>
+<td>$0</td>
+</tr>
+<tr>
+<td>Core</td>
+<td>10,000</td>
+<td>Unlimited</td>
+<td>$9/mo</td>
+</tr>
+<tr>
+<td>Pro</td>
+<td>10,000+</td>
+<td>Unlimited</td>
+<td>$16/mo</td>
+</tr>
+<tr>
+<td>Teams</td>
+<td>Custom</td>
+<td>Unlimited</td>
+<td>$29/mo</td>
+</tr>
+<tr>
+<td>Enterprise</td>
+<td>Custom</td>
+<td>Unlimited</td>
+<td>Custom</td>
+</tr>
+</tbody></table>
+<h2>Error Handling Strategies</h2>
+<ul>
+<li><strong>Resume:</strong> Skip the failed bundle, continue with next</li>
+<li><strong>Commit:</strong> Process all successful bundles, stop on error</li>
+<li><strong>Rollback:</strong> Revert all changes if any bundle fails</li>
+<li><strong>Ignore:</strong> Suppress error, continue execution</li>
+<li><strong>Break:</strong> Pause scenario, allow manual resolution</li>
+</ul>
+<h2>Integration Count</h2>
+<ul>
+<li><strong>1,800+ apps</strong> available as modules</li>
+<li><strong>Categories:</strong> CRM, Marketing, E-commerce, Project Management, Finance, DevOps, Communication, AI/ML</li>
+<li><strong>Custom apps:</strong> Build private modules using Make SDK</li>
+</ul>
 
     </div>
   </article>

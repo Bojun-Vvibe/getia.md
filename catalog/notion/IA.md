@@ -195,6 +195,8 @@ Computed: formula | relation | rollup | unique_id
 
 ## User Flows
 
+
+
 ### Quick Capture
 ```
 ⌘K → Type page title → Enter → Start writing → Drag to organize later
@@ -227,8 +229,6 @@ Write note → Type [[ → Search and select page to link → Backlink auto-appe
 Database → New Template → Design layout (e.g., "Weekly Standup") → Team members click [+ New] → Select template → Pre-filled page created
 ```
 
-## URL / Route Structure
-
 ```
 /                              → Home (recently visited)
 /:workspaceSlug                → Workspace root
@@ -244,9 +244,11 @@ Database → New Template → Design layout (e.g., "Weekly Standup") → Team me
 /settings/billing              → Plans & billing
 /templates                     → Official template gallery
 /site/:domain                  → Notion Sites (published)
+
+## URL / Route Structure
+
 ```
 
-### Public URLs
 ```
 /:workspaceSlug/:pageId (when published)  → Public read-only page
 /api/v1/...                    → Notion API endpoints

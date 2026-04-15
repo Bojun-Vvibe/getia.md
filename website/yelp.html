@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Yelp</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Yelp is a local business discovery and review platform covering restaurants, home services, shopping, nightlife, and more. The IA is location-driven — the home screen centers on a search bar with location context, surfacing nearby businesses with user reviews as the primary trust signal. Yelp combines consumer-facing discovery with business-facing tools (advertising, reservations, waitlist, request-a-quote), creating a two-sided marketplace for local commerce.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>Yelp
 ├── Home
 │   ├── Search (business name, category, or service)
@@ -197,7 +197,7 @@
     ├── Friend Invitations
     └── External Applications
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <ul>
 <li><strong>Type</strong>: Top nav bar with search-first design (desktop), bottom tab bar (mobile)</li>
 <li><strong>Desktop Top Bar</strong>: Logo, Search (two fields: &quot;Find&quot; + &quot;Near&quot;), Write a Review, Restaurants, Home Services, Auto Services, More | Notifications, Messages, Profile</li>
@@ -206,12 +206,12 @@
 <li><strong>Business Page</strong>: Long-scroll single page with tabbed sections (Overview, Reviews, Photos, Menu)</li>
 <li><strong>Category Navigation</strong>: Browse categories → subcategories → filtered results</li>
 </ul>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Attributes</th>
+<th>Entity</th>
+<th>Key Attributes</th>
 <th>Relationships</th>
 </tr>
 </thead>
@@ -281,7 +281,7 @@
 <td>→ Business</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
+<h2>User Flows</h2>
 <h3>Finding a Restaurant</h3>
 <ol>
 <li>Home → Search &quot;sushi&quot; near &quot;San Francisco&quot;</li>
@@ -314,7 +314,7 @@
 <li>Accumulate check-ins → Unlock badges / contribute to Elite eligibility</li>
 <li>Leave tips for other visitors (&quot;Try the spicy tuna roll&quot;)</li>
 </ol>
-<h2>6. URL / Route Structure</h2>
+<h2>URL / Route Structure</h2>
 <pre><code>yelp.com/                                   # Homepage
 yelp.com/search?find_desc={query}&amp;find_loc={location}  # Search results
 yelp.com/biz/{business-slug}                # Business page
@@ -330,7 +330,7 @@ yelp.com/request_a_quote                    # Request a quote flow
 biz.yelp.com/                               # Business owner dashboard
 developers.yelp.com/                        # API / Yelp Fusion
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <ul>
 <li><strong>Dual Search</strong>: &quot;Find&quot; (business name, category, service) + &quot;Near&quot; (location)</li>
 <li><strong>Category Filters</strong>: Restaurants, Home Services, Auto, Shopping, Nightlife, Beauty, Health, Active Life</li>
@@ -343,7 +343,7 @@ developers.yelp.com/                        # API / Yelp Fusion
 <li><strong>Review Search</strong>: Search within a business&#39;s reviews by keyword</li>
 <li><strong>Review Highlights</strong>: AI-generated summary of common themes in reviews</li>
 </ul>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -372,7 +372,7 @@ developers.yelp.com/                        # API / Yelp Fusion
 <td>Server-rendered business and category pages heavily optimized for local SEO</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>

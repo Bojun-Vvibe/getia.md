@@ -79,17 +79,26 @@ miro.com
 
 ## User Flows
 
-### 1. Run a Brainstorming Workshop
-`Dashboard → Create Board from Template (e.g., Brainwriting) → Share link → Participants add stickies → Vote → Cluster → Capture outcomes`
 
-### 2. Build a User Journey Map
-`Board → Add Frame → Use Template or draw swim lanes → Add stickies for each stage → Connect with arrows → Add images/embeds → Share`
+### Run a Brainstorming Workshop
+```
+Dashboard → Create Board from Template (e.g., Brainwriting) → Share link → Participants add stickies → Vote → Cluster → Capture outcomes
+```
 
-### 3. Present from Board
-`Board → Create Frames for each "slide" → Enter Presentation Mode → Navigate frame-to-frame`
+### Build a User Journey Map
+```
+Board → Add Frame → Use Template or draw swim lanes → Add stickies for each stage → Connect with arrows → Add images/embeds → Share
+```
 
-### 4. Async Feedback
-`Board → Add sticky/shape → Select → Add Comment → Tag collaborator → Collaborator opens, replies, resolves`
+### Present from Board
+```
+Board → Create Frames for each "slide" → Enter Presentation Mode → Navigate frame-to-frame
+```
+
+### Async Feedback
+```
+Board → Add sticky/shape → Select → Add Comment → Tag collaborator → Collaborator opens, replies, resolves
+```
 
 ## URL / Route Structure
 
@@ -100,6 +109,20 @@ miro.com/app/board/{board_id}/?moveToWidget={id}  # Jump to specific object
 miro.com/app/settings/team/{team_id}/          # Team settings
 miro.com/miroverse/                            # Community templates
 miro.com/templates/                            # Official templates
+miro.com/app/board/{board_id}/?moveToWidget={id}  # Jump to specific object
+miro.com/app/settings/team/{team_id}/profile/    # Team profile settings
+miro.com/app/settings/team/{team_id}/members/    # Team members
+miro.com/app/settings/team/{team_id}/billing/    # Billing
+miro.com/app/settings/team/{team_id}/security/   # Security
+miro.com/app/projects/{project_id}/              # Project view
+miro.com/miroverse/{template_slug}/              # Community template detail
+miro.com/templates/{category}/                   # Template category
+miro.com/pricing/                                # Pricing
+miro.com/enterprise/                             # Enterprise info
+miro.com/marketplace/                            # App marketplace
+miro.com/blog/                                   # Blog
+miro.com/developers/                             # Developer platform
+miro.com/help/                                   # Help center
 ```
 
 ## Search & Filter
@@ -129,3 +152,76 @@ miro.com/templates/                            # Official templates
 | Commenter | Add/reply to comments, cannot edit canvas objects |
 | Viewer | View only, navigate frames, no editing or commenting |
 | Anonymous (link share) | View/edit depending on link permissions, no account required |
+
+## Canvas Object Types
+
+| Object | Description | Key Properties |
+|--------|-------------|----------------|
+| Sticky Note | Text card with color | text, color, size (S/M/L), author |
+| Shape | Geometric form | type (rect/circle/triangle/etc.), text, color, dimensions |
+| Text | Free-form text | content, font size, style, alignment |
+| Connector | Line between objects | start, end, type (straight/curved/elbow), label |
+| Frame | Container for grouping | title, dimensions, grid snap, presentation order |
+| Image | Uploaded or embedded | URL, dimensions, alt text |
+| Document | Embedded file | PDF, Google Doc, OneDrive, etc. |
+| Card | Structured content | title, description, assignee, due date, tags |
+| Table | Tabular data | rows, columns, cell content |
+| Mind Map | Hierarchical tree | nodes, auto-layout |
+| Pen Drawing | Freehand sketch | stroke, color, thickness |
+| Comment | Contextual discussion | position, thread, resolved status |
+
+## Facilitation Tools
+
+- **Timer:** Countdown timer visible to all participants (e.g., 5-min brainstorm)
+- **Voting:** Participants vote on stickies/shapes; results tallied and ranked
+- **Estimation:** Story point or effort estimation with hidden votes and reveal
+- **Attention Management:** Focus all participants on a specific area of the board
+- **Music:** Background music during workshops (Spotify integration)
+- **Talktrack:** Record audio narration over board content for async presentation
+
+## Keyboard Shortcuts
+
+| Action | Shortcut |
+|--------|----------|
+| Create sticky note | N |
+| Create text | T |
+| Draw shape | S |
+| Pen tool | P |
+| Select tool | V |
+| Comment | C |
+| Frame | F |
+| Zoom to fit | Ctrl/Cmd + 1 |
+| Search | Ctrl/Cmd + K |
+
+## Board Templates by Use Case
+
+| Category | Templates |
+|----------|-----------|
+| Brainstorming | Brainwriting, Mind Map, Affinity Diagram, Crazy 8s |
+| Strategy | SWOT, Business Model Canvas, Lean Canvas, OKR Planning |
+| UX/Design | User Journey Map, Empathy Map, Wireframe, Persona |
+| Agile | Sprint Planning, Retrospective, Kanban, Story Map |
+| Project Mgmt | RACI, Timeline, Gantt, Project Kickoff |
+| Education | Lesson Plan, Classroom Icebreaker, Group Activity |
+| Workshops | Icebreaker, Round Robin, Rose/Thorn/Bud, Fishbone |
+
+## Integration Ecosystem
+
+| Category | Integrations |
+|----------|-------------|
+| Design | Figma, Adobe XD, Sketch, InVision |
+| Project Management | Jira, Asana, Monday, Trello, ClickUp |
+| Communication | Slack, Microsoft Teams, Zoom, Google Meet |
+| Development | GitHub, GitLab, Confluence, Notion |
+| Cloud Storage | Google Drive, Dropbox, OneDrive, Box |
+| Data | Airtable, Google Sheets, Smartsheet |
+| Custom | REST API, Webhooks, SDK, iframe embeds |
+
+## Pricing
+
+| Plan | Boards | Team Members | Price |
+|------|--------|-------------|-------|
+| Free | 3 | Unlimited | $0 |
+| Starter | Unlimited | Limited | $8/member/mo |
+| Business | Unlimited | Unlimited | $16/member/mo |
+| Enterprise | Unlimited | Unlimited | Custom |

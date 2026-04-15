@@ -7,10 +7,10 @@ website: https://www.betterment.com
 
 # Information Architecture — Betterment
 
-## 1. Overview
+## Overview
 Betterment is a goal-based robo-advisor that helps users invest toward specific life goals (retirement, safety net, major purchase). The IA is organized around **goals as first-class objects** — each goal gets its own portfolio, allocation, and timeline. Betterment also offers a cash management account, 401(k) for businesses, and crypto portfolios. The platform emphasizes tax coordination across accounts and automated rebalancing.
 
-## 2. Site Map
+## Site Map
 
 ```
 betterment.com
@@ -58,9 +58,16 @@ betterment.com
 └── Auth
     ├── Log in
     └── Get started
+├── Tax Center
+│   ├── Tax Forms (1099, K-1)
+│   ├── Tax-Loss Harvesting Log
+│   └── Tax Impact Preview
+├── Referral Program
+│   ├── Invite Friends
+│   └── Referral Rewards
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 | Level | Type | Details |
 |-------|------|---------|
@@ -71,41 +78,50 @@ betterment.com
 
 **Key pattern**: Goal cards are the primary UI metaphor in the dashboard — each goal is a visual card showing progress toward target with its own allocation.
 
-## 4. Content Model
+## Content Model
 
-| Entity | Attributes |
-|--------|-----------|
-| Goal | name, type (retirement, safety net, custom), target amount, timeline, portfolio strategy, risk level |
-| Portfolio | strategy name, ETF allocations, risk score, performance, rebalancing log |
-| Tax-loss Harvest | primary security, replacement, harvest amount, wash-sale status |
-| Cash Reserve | balance, APY, FDIC coverage, linked accounts |
-| 401(k) Plan | employer, match formula, vesting schedule, participant count |
-| Blog Post | title, author, date, category, body, CTA |
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
+| Goal | name, type (retirement, safety net, custom), target amount, timeline, portfolio strategy, risk level | belongs to parent entity |
+| Portfolio | strategy name, ETF allocations, risk score, performance, rebalancing log | belongs to parent entity |
+| Tax-loss Harvest | primary security, replacement, harvest amount, wash-sale status | belongs to parent entity |
+| Cash Reserve | balance, APY, FDIC coverage, linked accounts | belongs to parent entity |
+| 401(k) Plan | employer, match formula, vesting schedule, participant count | belongs to parent entity |
+| Blog Post | title, author, date, category, body, CTA | belongs to User, has many Comments |
+| Deposit | amount, frequency, source_account, goal_id, status | belongs to Goal |
+| Withdrawal | amount, destination_account, goal_id, status | belongs to Goal |
+| Tax Form | type (1099-B/1099-DIV/K-1), year, document | belongs to User |
+| Allocation | etf_ticker, weight, asset_class | belongs to Portfolio |
 
-## 5. User Flows
+## User Flows
 
-### 5a. Create a goal
-1. Sign up / log in → "Add a goal" from dashboard
-2. Select goal type (Retirement, Safety Net, Major Purchase, General Investing, Education)
-3. Set target amount + target date
-4. Select portfolio strategy (Core, SRI, Smart Beta, etc.)
-5. Adjust risk level slider → preview allocation
-6. Fund initial deposit → enable auto-deposit → goal live
+### Create a goal
+```
+Sign up / log in → "Add a goal" from dashboard → Select goal type (Retirement, Safety Net, Major Purchase, General Investing, Education) → Set target amount + target date → Select portfolio strategy (Core, SRI, Smart Beta, etc.) → Adjust risk level slider → preview allocation → Fund initial deposit → enable auto-deposit → goal live
+```
 
-### 5b. Tax coordination
-1. Connect external accounts (401k, IRA, taxable)
-2. Betterment analyzes all holdings across accounts
-3. Recommends asset location (which assets in which account type for tax efficiency)
-4. User approves → rebalancing adjusts allocations across accounts
+### Tax coordination
+```
+Connect external accounts (401k, IRA, taxable) → Betterment analyzes all holdings across accounts → Recommends asset location (which assets in which account type for tax efficiency) → User approves → rebalancing adjusts allocations across accounts
+```
 
-### 5c. 401(k) employer setup
-1. HR visits Betterment at Work → "Request demo"
-2. Sales consultation → plan design
-3. Employer sets match rules, vesting schedule
-4. Employees invited → individual goal-based 401(k) experience
-5. Payroll integration → contributions automated
+### 401(k) employer setup
+```
+HR visits Betterment at Work → "Request demo" → Sales consultation → plan design → Employer sets match rules, vesting schedule → Employees invited → individual goal-based 401(k) experience → Payroll integration → contributions automated
+```
 
-## 6. URL / Route Structure
+### Auto-Deposit Setup
+```
+Dashboard → Goal → Auto-deposit → Set amount and frequency (weekly/biweekly/monthly) → Link bank account → Enable → Automatic investing begins
+                                                                                                                                                          ↘ Adjust or pause anytime
+```
+
+### Tax-Loss Harvesting
+```
+Betterment monitors portfolio daily → Market dip triggers harvest opportunity → Sell losing position → Buy tax-equivalent replacement → Harvest logged → Tax savings reflected in dashboard
+                                                                                                                                                                                      ↘ Wash-sale rule enforced automatically
+```
+## URL / Route Structure
 
 ```
 /                               → Home
@@ -127,9 +143,18 @@ betterment.com
 /help/{category}/{article}/     → Help article
 /app/goals/                     → Dashboard (auth)
 /app/goals/{goal-id}/           → Individual goal (auth)
+/app/cash-reserve/             → Cash Reserve account
+/app/checking/                 → Checking account
+/app/transfers/                → Transfer money
+/app/tax/                      → Tax impact preview
+/app/activity/                 → Activity log
+/app/settings/                 → Account settings
+/app/settings/security/        → Security settings
+/app/settings/linked-accounts/ → Linked external accounts
+/app/referrals/                → Referral program
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 | Feature | Behavior |
 |---------|----------|
@@ -139,7 +164,11 @@ betterment.com
 | Goal filtering | Dashboard filters by goal type, performance, funding status |
 | Calculator inputs | Interactive sliders for age, savings, expected return |
 
-## 8. Responsive Behavior
+- **Sort options**: By relevance, date created, date modified, alphabetical, popularity
+- **Autocomplete**: Type-ahead suggestions with recent searches and popular results
+- **Advanced search**: Boolean operators (AND, OR, NOT), field-specific filters, date ranges
+- **Recent searches**: Quick access to previous search queries
+## Responsive Behavior
 
 | Breakpoint | Adaptation |
 |-----------|------------|
@@ -148,7 +177,37 @@ betterment.com
 | Mobile (<768px) | Hamburger menu, stacked goal cards, simplified charts |
 | App (iOS/Android) | Tab bar (Home, Goals, Cash, Transfers, More), swipeable goal cards |
 
-## 9. Access Control
+
+### Platform-Specific Patterns
+- Touch targets: minimum 44x44pt on mobile for accessibility
+- Swipe gestures: swipe to delete, archive, or perform quick actions
+- Pull-to-refresh: standard refresh pattern on feeds and lists
+- Keyboard shortcuts: comprehensive shortcuts on desktop for power users
+- Dark mode: system-preference detection with manual override
+- Offline support: cached data available without network connectivity
+- Progressive loading: skeleton screens while content loads
+
+### Betterment-Specific UX Patterns
+- **Progressive disclosure**: Complex features hidden behind expandable sections
+- **Contextual actions**: Right-click menus and hover-revealed action buttons
+- **Inline editing**: Click-to-edit fields without navigating to a separate page
+- **Batch operations**: Multi-select with bulk actions (delete, move, archive, tag)
+- **Undo support**: Non-destructive actions with undo toast notifications
+- **Loading states**: Skeleton screens and progress indicators during async operations
+- **Empty states**: Helpful illustrations and CTAs when sections have no content
+- **Onboarding tooltips**: First-time user guidance highlighting key features
+
+### Accessibility
+- WCAG 2.1 AA compliance across all interactive elements
+- Semantic HTML with proper ARIA labels and landmarks
+- Keyboard navigation support for all core workflows
+- Screen reader compatibility tested with VoiceOver, NVDA, and JAWS
+- Color contrast ratios meeting minimum 4.5:1 for body text
+- Focus indicators visible on all interactive elements
+- Reduced motion option respecting `prefers-reduced-motion`
+- Resizable text up to 200% without content loss
+
+## Access Control
 
 | Role | Access |
 |------|--------|

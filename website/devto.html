@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Dev.to</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Dev.to is a community platform for software developers to write articles, share knowledge, discuss ideas, and discover tools. Built on the open-source <strong>Forem</strong> platform, the IA mirrors a social network with developer-centric content types: articles, discussions, listings (job posts, events, products), and organization pages. The design is intentionally simple, fast-loading, and accessible — reflecting the developer audience&#39;s values.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>dev.to
 ├── Home (Feed)
 │   ├── Relevant (personalized)
@@ -169,7 +169,7 @@
     ├── Log in (email, GitHub, Twitter)
     └── Create account
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <table>
 <thead>
 <tr>
@@ -210,79 +210,74 @@
 </tr>
 </tbody></table>
 <p><strong>Key pattern</strong>: The home feed dominates. Left sidebar provides secondary navigation. Articles use a floating reaction bar (inspired by social media) — reactions are visible and low-friction. Markdown-native writing encourages developer participation.</p>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
 <th>Entity</th>
-<th>Attributes</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>Article</td>
 <td>title, body (Markdown), cover image, tags (up to 4), author, published date, reading time, reactions (heart/unicorn/bookmark/fire), comments count, series</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Comment</td>
 <td>author, body (Markdown), parent comment (threaded), reactions, timestamp</td>
+<td>belongs to User and Post</td>
 </tr>
 <tr>
 <td>Tag</td>
 <td>name, description, rules, color, moderators, followers count, articles count</td>
+<td>many-to-many with Items</td>
 </tr>
 <tr>
 <td>User</td>
 <td>username, name, bio, avatar, location, links (GitHub, Twitter, website), badges, articles, followers, following</td>
+<td>has many Posts, Comments, Settings</td>
 </tr>
 <tr>
 <td>Organization</td>
 <td>name, slug, logo, description, members, articles</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Listing</td>
 <td>title, body, category (job/event/product/education/mentor/collab), tags, author, expiry</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Badge</td>
 <td>name, icon, description, award criteria</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Series</td>
 <td>name, articles (ordered), author</td>
+<td>belongs to parent entity</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
-<h3>5a. Read &amp; engage</h3>
-<ol>
-<li>Visit home → scroll feed (Relevant/Latest/Top)</li>
-<li>Click article → read → react (heart, unicorn, bookmark)</li>
-<li>Scroll to comments → reply (threaded Markdown)</li>
-<li>Follow author or tags for more relevant content</li>
-<li>Bookmark saved to reading list</li>
-</ol>
-<h3>5b. Write &amp; publish</h3>
-<ol>
-<li>Click &quot;Create Post&quot; → Markdown editor opens</li>
-<li>Write article with front matter (title, tags, cover image)</li>
-<li>Preview rendered article → edit</li>
-<li>Publish → appears in Latest feed</li>
-<li>If tagged, appears in tag feed → community reacts and comments</li>
-</ol>
-<h3>5c. Discover via tags</h3>
-<ol>
-<li>Browse popular tags (#javascript, #beginners, #tutorial)</li>
-<li>Follow tags → articles appear in &quot;Feed&quot; tab</li>
-<li>Tag page shows latest/top articles with that tag</li>
-<li>Discover related tags and community members</li>
-</ol>
-<h3>5d. Post a listing</h3>
-<ol>
-<li>Navigate to Listings → select category (Job, Event, Product, etc.)</li>
-<li>Write listing (Markdown) → add tags</li>
-<li>Publish (some categories require credits)</li>
-<li>Listing appears in Listings section and sidebar</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<h2>User Flows</h2>
+<h3>Read &amp; engage</h3>
+<pre><code>Visit home → scroll feed (Relevant/Latest/Top) → Click article → read → react (heart, unicorn, bookmark) → Scroll to comments → reply (threaded Markdown) → Follow author or tags for more relevant content → Bookmark saved to reading list
+</code></pre>
+<h3>Write &amp; publish</h3>
+<pre><code>Click &quot;Create Post&quot; → Markdown editor opens → Write article with front matter (title, tags, cover image) → Preview rendered article → edit → Publish → appears in Latest feed → If tagged, appears in tag feed → community reacts and comments
+</code></pre>
+<h3>Discover via tags</h3>
+<pre><code>Browse popular tags (#javascript, #beginners, #tutorial) → Follow tags → articles appear in &quot;Feed&quot; tab → Tag page shows latest/top articles with that tag → Discover related tags and community members
+</code></pre>
+<h3>Post a listing</h3>
+<pre><code>Navigate to Listings → select category (Job, Event, Product, etc.) → Write listing (Markdown) → add tags → Publish (some categories require credits) → Listing appears in Listings section and sidebar
+</code></pre>
+<h3>New User Onboarding</h3>
+<pre><code>Visit Dev.to → Sign Up (email/Google/SSO) → Complete profile → Guided setup wizard → Configure preferences → Explore key features → Start using the product
+                                                                                                                         ↘ Skip wizard → Land on dashboard
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code>/                           → Home feed
 /top/{period}               → Top posts (week/month/year/infinity)
 /latest                     → Latest posts
@@ -301,8 +296,12 @@
 /videos                     → Videos
 /about                      → About
 /code-of-conduct            → Code of Conduct
+settings  → Settings
+billing  → Billing &amp; subscription
+/settings/account                 → Account settings
+/dashboard                        → Creator dashboard
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <table>
 <thead>
 <tr>
@@ -339,7 +338,7 @@
 <td>Views, reactions, comments per post</td>
 </tr>
 </tbody></table>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -364,7 +363,28 @@
 <td>Installable progressive web app, offline reading for cached articles</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h3>Platform-Specific Patterns</h3>
+<ul>
+<li>Touch targets: minimum 44x44pt on mobile for accessibility</li>
+<li>Swipe gestures: swipe to delete, archive, or perform quick actions</li>
+<li>Pull-to-refresh: standard refresh pattern on feeds and lists</li>
+<li>Keyboard shortcuts: comprehensive shortcuts on desktop for power users</li>
+<li>Dark mode: system-preference detection with manual override</li>
+<li>Offline support: cached data available without network connectivity</li>
+<li>Progressive loading: skeleton screens while content loads</li>
+</ul>
+<h3>Accessibility</h3>
+<ul>
+<li>WCAG 2.1 AA compliance across all interactive elements</li>
+<li>Semantic HTML with proper ARIA labels and landmarks</li>
+<li>Keyboard navigation support for all core workflows</li>
+<li>Screen reader compatibility tested with VoiceOver, NVDA, and JAWS</li>
+<li>Color contrast ratios meeting minimum 4.5:1 for body text</li>
+<li>Focus indicators visible on all interactive elements</li>
+<li>Reduced motion option respecting <code>prefers-reduced-motion</code></li>
+<li>Resizable text up to 200% without content loss</li>
+</ul>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>

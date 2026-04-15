@@ -120,6 +120,10 @@ Canva is a template-first design tool for non-designers. The mental model is **p
 ### Element Types
 `text | image | shape | frame | grid | sticker | graphic | video | audio | chart | qr_code | mockup`
 
+| AuditLog | action, actor, target, timestamp, ip_address | belongs to Organization |
+| Notification | type, message, read, created_at, action_url | belongs to User |
+| Integration | name, type, status, credentials, last_synced | belongs to Workspace |
+| Webhook | url, events[], secret, active, last_triggered | belongs to Organization |
 ## User Flows
 
 ### Template to Design
@@ -142,6 +146,10 @@ Brand Kit → Upload logo + set colors + choose fonts → Any new design → App
 Design → Share → Publish to Social → Select platform (Instagram, Facebook) → Schedule or Publish Now
 ```
 
+### Manage Notifications
+```
+Settings → Notifications → Toggle email/push/in-app per category → Set frequency (instant/daily digest/weekly) → Save preferences
+```
 ## URL / Route Structure
 
 ```
@@ -159,6 +167,19 @@ Design → Share → Publish to Social → Select platform (Instagram, Facebook)
 /print                     → Print products
 /learn                     → Design School
 /settings                  → Settings
+account  → Account settings
+account/security  → Security settings
+billing  → Billing & subscription
+notifications  → Notification preferences
+help  → Help center
+help/{topic}  → Help article
+/apps                            → App marketplace
+/teams                            → Team management
+/account/billing                 → Billing
+/websites                        → Canva Websites
+/templates/:format/:category     → Filtered templates
+/design/create?type=:format      → Create new design
+/settings/connected-accounts     → Connected social accounts
 ```
 
 ## Search & Filter
@@ -169,6 +190,8 @@ Design → Share → Publish to Social → Select platform (Instagram, Facebook)
 | Elements | Type (photo/graphic/video/audio), Free/Pro | Relevant, Popular |
 | Projects | Type, Folder, Shared status | Modified, Name, Created |
 
+- **Autocomplete**: Type-ahead suggestions with recent searches and popular results
+- **Advanced search**: Boolean operators (AND, OR, NOT), field-specific filters, date ranges
 ## Responsive Behavior
 
 | Breakpoint | Layout |
@@ -177,6 +200,15 @@ Design → Share → Publish to Social → Select platform (Instagram, Facebook)
 | Tablet | Simplified editor, collapsible panels |
 | Mobile | Template browsing + basic editing, limited features |
 
+
+### Platform-Specific Patterns
+- Touch targets: minimum 44x44pt on mobile for accessibility
+- Swipe gestures: swipe to delete, archive, or perform quick actions
+- Pull-to-refresh: standard refresh pattern on feeds and lists
+- Keyboard shortcuts: comprehensive shortcuts on desktop for power users
+- Dark mode: system-preference detection with manual override
+- Offline support: cached data available without network connectivity
+- Progressive loading: skeleton screens while content loads
 ## Access Control
 
 | Tier | Templates | AI Features | Brand Kit | Storage | Team |
@@ -185,3 +217,13 @@ Design → Share → Publish to Social → Select platform (Instagram, Facebook)
 | Pro | Full (100M+) | Full Magic Studio | ✅ | 1TB | — |
 | Teams | Full | Full | ✅ + Brand Voice | 1TB/person | ✅ |
 | Enterprise | Full | Full | ✅ + approval flows | Unlimited | ✅ + SSO |
+
+
+### Security Features
+- Single Sign-On (SSO) support via SAML 2.0 and OIDC (Team/Enterprise)
+- Two-factor authentication (TOTP, SMS, hardware keys)
+- API token management with scoped permissions
+- Session management: configurable timeout, forced logout
+- Audit logging for security-sensitive actions
+- Data encryption at rest (AES-256) and in transit (TLS 1.3)
+- SOC 2 Type II compliance

@@ -262,6 +262,8 @@ Account Migration → Redirect + follower migration via ActivityPub Move activit
 
 ## User Flows
 
+
+
 ### Read Home Timeline
 ```
 Open App → Home Timeline → Scroll (chronological) → Favorite → Boost → Reply → Continue
@@ -301,6 +303,7 @@ Post → More (⋯) → Report → Select Category → Optional: Forward to Remo
 ```
 Settings → Appearance → Advanced Web Interface → Enable → Add Columns (Home, Notifications, #hashtag, List) → Pin → TweetDeck-style Workspace
 ```
+
 
 ## URL / Route Structure
 

@@ -7,10 +7,10 @@ website: https://www.upwork.com
 
 # Information Architecture — Upwork
 
-## 1. Overview
+## Overview
 Upwork is the world's largest freelance platform connecting businesses with independent professionals across development, design, writing, marketing, and more. Unlike Fiverr's gig model, Upwork uses a **proposal-based system** — clients post jobs, freelancers submit proposals, and work is tracked via contracts (hourly with time tracking or fixed-price with milestones). Key features include Connects (credits for proposals), the Work Diary (automated screenshots for hourly work), and Upwork's Payment Protection.
 
-## 2. Site Map
+## Site Map
 
 ```
 upwork.com
@@ -76,7 +76,7 @@ upwork.com
     └── Sign up (Client / Freelancer)
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 | Level | Type | Details |
 |-------|------|---------|
@@ -88,9 +88,9 @@ upwork.com
 
 **Key pattern**: Dual-sided navigation — the experience is fundamentally different for clients (hiring) vs. freelancers (finding work). Dashboard and nav items change based on the active role.
 
-## 4. Content Model
+## Content Model
 
-| Entity | Attributes |
+| Entity | Key Attributes | Relationships |
 |--------|-----------|
 | Job Post | title, description, skills, category, budget type (hourly/fixed), budget range, experience level (entry/intermediate/expert), duration, proposals count, client history |
 | Proposal | freelancer, cover letter, bid (rate or fixed price), estimated duration, attachments, Connects spent, boosted flag |
@@ -99,35 +99,35 @@ upwork.com
 | Work Diary | date, hours logged, screenshots (10-min intervals), activity level %, memo |
 | Milestone | name, amount, status (funded/in-progress/submitted/approved), due date |
 
-## 5. User Flows
+## User Flows
 
-### 5a. Client — Post job & hire
+### Client — Post job & hire
 1. Post a job → title, description, required skills, budget type
 2. Set experience level, project length, screening questions
 3. Job posted → freelancers submit proposals
 4. Review proposals → shortlist → interview via Upwork Messages
 5. Send offer (rate, weekly limit or milestones) → freelancer accepts → contract begins
 
-### 5b. Freelancer — Find work & propose
+### Freelancer — Find work & propose
 1. Browse job feed or use search → apply filters (category, budget, experience, client history)
 2. Submit proposal → cover letter + bid (costs Connects)
 3. Optional: Boost proposal for higher visibility (extra Connects)
 4. Client responds → interview/messaging → receive offer
 5. Accept contract → begin work (hourly: log via Work Diary; fixed: deliver milestones)
 
-### 5c. Hourly contract workflow
+### Hourly contract workflow
 1. Contract active → freelancer logs hours via desktop app (Work Diary)
 2. Screenshots + activity level captured every 10 minutes
 3. Client reviews diary weekly → auto-payment on Monday
 4. Dispute window for logged hours → Payment Protection covers tracked time
 
-### 5d. Fixed-price contract workflow
+### Fixed-price contract workflow
 1. Client funds milestone escrow
 2. Freelancer delivers work → submits milestone
 3. Client reviews → approves → funds released
 4. Repeat for remaining milestones → contract ends
 
-## 6. URL / Route Structure
+## URL / Route Structure
 
 ```
 /                               → Home
@@ -148,7 +148,7 @@ upwork.com
 /help/                          → Help center
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 | Feature | Behavior |
 |---------|----------|
@@ -159,7 +159,7 @@ upwork.com
 | Project Catalog | Browse pre-scoped projects by category and budget |
 | Profile search | Clients can search for specific freelancers by name or skill |
 
-## 8. Responsive Behavior
+## Responsive Behavior
 
 | Breakpoint | Adaptation |
 |-----------|------------|
@@ -168,7 +168,7 @@ upwork.com
 | Mobile (<768px) | Hamburger menu, single-column job/proposal list, simplified Work Diary |
 | App (iOS/Android) | Tab bar (Jobs/Talent, Contracts, Messages, Profile), push for proposals/messages |
 
-## 9. Access Control
+## Access Control
 
 | Role | Access |
 |------|--------|

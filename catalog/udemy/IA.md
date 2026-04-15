@@ -7,11 +7,11 @@ website: https://udemy.com
 
 # Information Architecture — Udemy
 
-## 1. Overview
+## Overview
 
 Udemy is the world's largest online course marketplace, with 200,000+ instructor-created courses spanning technology, business, design, personal development, and more. The IA is marketplace-driven — courses are products with pricing, ratings, reviews, and sales promotions. Unlike curated platforms, any qualified instructor can publish a course, creating a vast and diverse catalog. The platform emphasizes discoverability through categories, search, and frequent promotional pricing.
 
-## 2. Site Map
+## Site Map
 
 ```
 Udemy
@@ -114,7 +114,7 @@ Udemy
     └── Language / Currency
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 - **Type**: Top nav bar with category mega menu
 - **Desktop Top Bar**: Categories (mega dropdown), Search bar (prominent), Teach, My Learning, Cart, Wishlist, Notifications, Profile
@@ -123,9 +123,9 @@ Udemy
 - **Course Player**: Sidebar curriculum (desktop); top sheet curriculum (mobile); sticky progress bar
 - **Breadcrumb**: Category > Subcategory > Topic on browse pages
 
-## 4. Content Model
+## Content Model
 
-| Content Type | Attributes | Relationships |
+| Entity | Key Attributes | Relationships |
 |---|---|---|
 | Course | title, subtitle, description, objectives, requirements, instructor, price, sale price, rating, review count, student count, language, last updated, level, duration, certificate | → Sections, → Instructor, → Category |
 | Section | title, position, lecture count, duration | → Course, → Lectures |
@@ -139,7 +139,7 @@ Udemy
 | Coupon | code, discount, expiry, instructor-created | → Course |
 | Learning Path | name, description, courses (ordered), creator | → Courses |
 
-## 5. User Flows
+## User Flows
 
 ### Purchasing a Course
 1. Search or browse → Find course → View course detail page
@@ -163,7 +163,7 @@ Udemy
 5. Submit for review → Udemy quality team reviews → Approved → Published to marketplace
 6. Monitor analytics: enrollments, revenue, ratings, Q&A
 
-## 6. URL / Route Structure
+## URL / Route Structure
 
 ```
 udemy.com/                                  # Homepage
@@ -182,7 +182,7 @@ udemy.com/certificate/{credentialId}/       # Certificate verification
 business.udemy.com/                         # Udemy Business
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 - **Search Bar**: Autocomplete with courses, instructors, and topics; keyword search across titles, descriptions
 - **Category Browse**: 13 categories → subcategories → topics with course count
@@ -192,7 +192,7 @@ business.udemy.com/                         # Udemy Business
 - **Instructor Search**: Find all courses by a specific instructor
 - **Smart Recommendations**: Based on purchase history, browsing, and similar learners
 
-## 8. Responsive Behavior
+## Responsive Behavior
 
 | Breakpoint | Behavior |
 |---|---|
@@ -202,7 +202,7 @@ business.udemy.com/                         # Udemy Business
 | TV (Udemy app) | Lean-back viewing; simplified browse; large video player; no note-taking |
 | Offline (mobile) | Download lectures for offline viewing; progress syncs when back online |
 
-## 9. Access Control
+## Access Control
 
 | Role | Capabilities |
 |---|---|

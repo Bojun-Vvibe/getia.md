@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — WordPress</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>WordPress.com (by Automattic) is the hosted version of the world&#39;s most popular content management system, powering over 40% of all websites. The IA must serve an extraordinarily wide audience — from personal bloggers to enterprise publishers, small business sites to full e-commerce stores. Key features include the <strong>Gutenberg block editor</strong>, thousands of themes and plugins, Jetpack integration, and a tiered hosting model. The IA balances simplicity for beginners with depth for power users.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>wordpress.com
 ├── Home
 ├── Features
@@ -188,7 +188,7 @@ Site Admin (wp-admin / Calypso)
 │   └── Security (2FA)
 └── Plans &amp; Billing
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <table>
 <thead>
 <tr>
@@ -229,53 +229,20 @@ Site Admin (wp-admin / Calypso)
 </tr>
 </tbody></table>
 <p><strong>Key pattern</strong>: WordPress has TWO admin experiences — the modern Calypso interface (React-based, at wordpress.com) and the classic wp-admin. The Gutenberg block editor is shared across both, becoming the primary content creation and site editing tool.</p>
-<h2>4. Content Model</h2>
-<table>
-<thead>
-<tr>
-<th>Entity</th>
-<th>Attributes</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Post</td>
-<td>title, body (blocks/Gutenberg), excerpt, featured image, categories, tags, author, status (draft/published/scheduled/private), slug, format (standard/gallery/video/quote/link)</td>
-</tr>
-<tr>
-<td>Page</td>
-<td>title, body (blocks), template, parent page, order, slug</td>
-</tr>
-<tr>
-<td>Block</td>
-<td>type (paragraph, image, gallery, heading, list, columns, embed, custom), attributes, inner blocks</td>
-</tr>
-<tr>
-<td>Category</td>
-<td>name, slug, parent, description</td>
-</tr>
-<tr>
-<td>Tag</td>
-<td>name, slug</td>
-</tr>
-<tr>
-<td>Media</td>
-<td>file, title, alt text, caption, type (image/video/audio/document)</td>
-</tr>
-<tr>
-<td>Theme</td>
-<td>name, version, author, template, block patterns, style variations</td>
-</tr>
-<tr>
-<td>Plugin</td>
-<td>name, version, author, description, settings</td>
-</tr>
-<tr>
-<td>User</td>
-<td>username, email, role (admin/editor/author/contributor/subscriber), profile</td>
-</tr>
-</tbody></table>
-<h2>5. User Flows</h2>
-<h3>5a. Create a website</h3>
+<h2>Content Model</h2>
+<p>| Entity | Key Attributes | Relationships |
+|--------|-----------|
+| Post | title, body (blocks/Gutenberg), excerpt, featured image, categories, tags, author, status (draft/published/scheduled/private), slug, format (standard/gallery/video/quote/link) |
+| Page | title, body (blocks), template, parent page, order, slug |
+| Block | type (paragraph, image, gallery, heading, list, columns, embed, custom), attributes, inner blocks |
+| Category | name, slug, parent, description |
+| Tag | name, slug |
+| Media | file, title, alt text, caption, type (image/video/audio/document) |
+| Theme | name, version, author, template, block patterns, style variations |
+| Plugin | name, version, author, description, settings |
+| User | username, email, role (admin/editor/author/contributor/subscriber), profile |</p>
+<h2>User Flows</h2>
+<h3>Create a website</h3>
 <ol>
 <li>Sign up → choose site type (blog, business, portfolio, store)</li>
 <li>Pick a domain (free subdomain or custom)</li>
@@ -284,7 +251,7 @@ Site Admin (wp-admin / Calypso)
 <li>Add pages and posts → publish</li>
 <li>Optionally upgrade plan for more features</li>
 </ol>
-<h3>5b. Write a blog post (Gutenberg)</h3>
+<h3>Write a blog post (Gutenberg)</h3>
 <ol>
 <li>Posts → Add New → Gutenberg editor</li>
 <li>Add title → write content using blocks (paragraph, image, heading, list, embed)</li>
@@ -292,7 +259,7 @@ Site Admin (wp-admin / Calypso)
 <li>Set featured image, categories, tags, excerpt</li>
 <li>Preview → Publish (or schedule)</li>
 </ol>
-<h3>5c. Build with blocks (Site Editor)</h3>
+<h3>Build with blocks (Site Editor)</h3>
 <ol>
 <li>Appearance → Editor (full site editing)</li>
 <li>Edit templates (home, single post, archive, 404)</li>
@@ -300,7 +267,7 @@ Site Admin (wp-admin / Calypso)
 <li>Customize global styles (typography, colors)</li>
 <li>Save → entire site updated consistently</li>
 </ol>
-<h3>5d. Set up e-commerce</h3>
+<h3>Set up e-commerce</h3>
 <ol>
 <li>Upgrade to eCommerce plan → WooCommerce auto-installed</li>
 <li>Run WooCommerce setup wizard (store details, shipping, payments)</li>
@@ -308,7 +275,7 @@ Site Admin (wp-admin / Calypso)
 <li>Customize store pages → set up checkout</li>
 <li>Launch store → manage orders from admin</li>
 </ol>
-<h2>6. URL / Route Structure</h2>
+<h2>URL / Route Structure</h2>
 <pre><code># wordpress.com (marketing)
 /                               → Home
 /features/                      → Features overview
@@ -336,7 +303,7 @@ Site Admin (wp-admin / Calypso)
 /pages/                         → Page management (Calypso)
 /customize/                     → Customizer (Calypso)
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <table>
 <thead>
 <tr>
@@ -373,7 +340,7 @@ Site Admin (wp-admin / Calypso)
 <td>Discover posts by topic, search across WordPress.com network</td>
 </tr>
 </tbody></table>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -402,7 +369,7 @@ Site Admin (wp-admin / Calypso)
 <td>Optional AMP plugin for mobile-optimized pages</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>

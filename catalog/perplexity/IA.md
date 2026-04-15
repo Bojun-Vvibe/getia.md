@@ -45,8 +45,8 @@ perplexity.ai
 
 ## Content Model
 
-| Content Type | Structure | Ownership |
-|---|---|---|
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
 | Search Thread | Sequential question-answer pairs with citations, related questions | User-owned, shareable |
 | Answer | Markdown text with numbered inline citations, images, quick facts panel | Part of thread |
 | Source Card | URL, title, favicon, snippet from cited web page | System-generated |
@@ -58,26 +58,19 @@ perplexity.ai
 ## User Flows
 
 ### Standard Search
-1. User lands on `/` → types question in prominent search bar
-2. Selects Focus mode (optional): All, Academic, Writing, Wolfram|Alpha, YouTube, Reddit
-3. Perplexity searches web in real-time → shows "Searching..." with source URLs loading
-4. Answer streams in with inline citation numbers → source cards displayed in side panel
-5. Follow-up questions suggested below → user can continue the thread
-6. Thread auto-saved to Library
+```
+Lands on `/` → types question in prominent search bar → Selects Focus mode (optional): All, Academic, Writing, Wolfram|Alpha, YouTube, Reddit → Perplexity searches web in real-time → shows "Searching..." with source URLs loading → Answer streams in with inline citation numbers → source cards displayed in side panel → Follow-up questions suggested below → user can continue the thread → Thread auto-saved to Library
+```
 
 ### Pro Search (Multi-Step)
-1. User toggles "Pro" switch on search bar
-2. Perplexity may ask clarifying questions before searching
-3. Performs multi-step research: initial search → analysis → deeper searches → synthesis
-4. Shows reasoning steps and intermediate findings
-5. Final answer is more comprehensive with more sources
+```
+Toggles "Pro" switch on search bar → Perplexity may ask clarifying questions before searching → Performs multi-step research: initial search → analysis → deeper searches → synthesis → Shows reasoning steps and intermediate findings → Final answer is more comprehensive with more sources
+```
 
 ### Collection Research
-1. User creates a Collection with a topic name
-2. Runs multiple searches, adding relevant threads to the Collection
-3. Invites collaborators to the Collection
-4. Collection serves as a shared research knowledge base
-5. AI can reference previous threads in the Collection for context
+```
+Creates a Collection with a topic name → Runs multiple searches, adding relevant threads to the Collection → Invites collaborators to the Collection → Collection serves as a shared research knowledge base → AI can reference previous threads in the Collection for context
+```
 
 ## URL / Route Structure
 
@@ -130,3 +123,99 @@ Threads use short alphanumeric IDs. Collections and Spaces use UUIDs. Public pro
 - Sharing: Threads shareable via public link; Collections can have collaborators
 - API: Separate API key with usage-based billing
 - Data: Free tier conversations may be used for improvement; Pro has opt-out
+
+## Focus Modes
+
+| Mode | Source Restriction | Best For |
+|------|-------------------|----------|
+| All | Full web search | General questions, current events |
+| Academic | Scholar, PubMed, arXiv, Semantic Scholar | Research papers, scientific evidence |
+| Writing | No search (pure LLM) | Creative writing, drafting, brainstorming |
+| Wolfram Alpha | Wolfram computational engine | Math, data, computations, unit conversions |
+| YouTube | YouTube transcripts and content | Video content summary, tutorials |
+| Reddit | Reddit posts and comments | Community opinions, recommendations, experiences |
+
+## Answer Anatomy
+
+| Component | Description |
+|-----------|-------------|
+| Answer text | Markdown-formatted response with inline citation numbers |
+| Source cards | Clickable cards showing URL, title, and favicon of each cited source |
+| Quick facts | Key data points extracted and highlighted (dates, numbers, definitions) |
+| Images | Relevant images pulled from search results |
+| Follow-up questions | AI-suggested related queries for deeper exploration |
+| Related searches | Alternative phrasings and related topics |
+
+## Pro Search vs Standard
+
+| Feature | Standard | Pro Search |
+|---------|----------|------------|
+| Reasoning | Single-step | Multi-step with clarifying questions |
+| Sources | 5-10 | 15-30+ |
+| Model | Default (fast) | GPT-4o, Claude, or Sonar Large |
+| File upload | — | PDF, image, CSV analysis |
+| Depth | Quick answer | Comprehensive research report |
+| Daily limit (free) | Unlimited | 5/day |
+| Daily limit (Pro) | Unlimited | Unlimited |
+
+## API
+
+- **Endpoint:** `api.perplexity.ai/chat/completions`
+- **Models:** `sonar-small`, `sonar-medium`, `sonar-pro`
+- **Format:** OpenAI-compatible chat completions API
+- **Features:** Streaming, citations in response, search grounding
+- **Pricing:** Token-based; varies by model
+- **Authentication:** Bearer token (API key)
+
+## Privacy & Data
+
+- **Free tier:** Conversations may be used for model improvement
+- **Pro tier:** Opt-out available for training data usage
+- **Enterprise:** Full data privacy guarantees, no training
+- **Thread sharing:** Public links optional; private by default
+- **Account deletion:** Full data deletion on account removal
+
+## Thread Structure
+
+```
+User Question 1 → Sources Loading → AI Answer (with [1][2][3] citations) → Related Questions
+     ↓
+User Follow-up 2 → More Sources → AI Answer (context-aware, builds on Q1) → Related Questions
+     ↓
+User Follow-up 3 → Additional Sources → AI Answer (full thread context) → Related Questions
+```
+
+## Model Selection (Pro)
+
+| Model | Provider | Strengths |
+|-------|----------|-----------|
+| Sonar | Perplexity | Fastest, web-search optimized, always up-to-date |
+| GPT-4o | OpenAI | Strong reasoning, multimodal (image analysis) |
+| Claude 3.5 | Anthropic | Long-form analysis, careful nuance |
+| Sonar Pro | Perplexity | Multi-step research, comprehensive sourcing |
+
+## Spaces (Collaborative Research)
+
+- **Custom instructions:** Set AI behavior rules for the space (e.g., "always cite peer-reviewed sources")
+- **Shared threads:** All members see and contribute to research threads
+- **Knowledge base:** Upload files (PDFs, docs) as context for AI answers
+- **Team permissions:** Admin, editor, viewer roles
+- **Use cases:** Team research, project knowledge bases, shared analysis
+
+## Browser Extension
+
+- **Quick search:** Highlight text on any webpage → right-click → "Ask Perplexity"
+- **Page summary:** Summarize any webpage with one click
+- **Side panel:** Ask questions about the current page without leaving it
+- **Keyboard shortcut:** Trigger Perplexity search from any tab
+
+## Competitive Positioning
+
+| Feature | Perplexity | ChatGPT | Google Search |
+|---------|-----------|---------|---------------|
+| Real-time web search | ✅ (always) | ✅ (when enabled) | ✅ |
+| Inline citations | ✅ (every answer) | Sometimes | Links in results |
+| Follow-up context | ✅ (thread) | ✅ (conversation) | New search |
+| Focus modes | ✅ (6 modes) | — | — |
+| Ad-free | ✅ (Pro) | ✅ | Ads in results |
+| API | ✅ | ✅ | ✅ |

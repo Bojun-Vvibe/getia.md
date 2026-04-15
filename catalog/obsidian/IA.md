@@ -177,6 +177,8 @@ SORT file.mtime DESC
 
 ## User Flows
 
+
+
 ### Quick Capture
 ```
 ⌘N → New note → Start writing in Markdown → Link to related notes with [[ → File later by moving to folder
@@ -207,25 +209,22 @@ Open Canvas → Add note cards (existing or new) → Add text cards for annotati
 ⌘P → "Insert Templater template" → Select "Meeting Note" → Template auto-fills date, attendees field → Write notes → Dataview query on Project page auto-lists all meeting notes
 ```
 
-## URL / Route Structure
-
-Obsidian uses a custom protocol and local file paths rather than HTTP URLs:
-
 ```
 obsidian://open?vault=MyVault&file=Note%20Name     → Open note in vault
 obsidian://new?vault=MyVault&name=New%20Note       → Create new note
 obsidian://search?vault=MyVault&query=tag:project   → Open search with query
 obsidian://open?vault=MyVault&file=Canvas%20Name    → Open canvas
+
+## URL / Route Structure
+
 ```
 
-### Publish URLs (Obsidian Publish)
 ```
 https://publish.obsidian.md/:site/                  → Published site root
 https://publish.obsidian.md/:site/:notePath          → Published note
 https://:customDomain/:notePath                      → Custom domain
 ```
 
-### Local File Paths
 ```
 ~/MyVault/                          → Vault root
 ~/MyVault/Folder/Note.md            → Note file

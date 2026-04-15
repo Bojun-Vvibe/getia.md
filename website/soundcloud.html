@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — SoundCloud</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>SoundCloud is an audio platform for independent musicians, podcasters, and listeners. Its IA is built around the <strong>waveform player</strong> — a distinctive visual representation of audio that enables timed comments, making listening social. The platform uniquely supports emerging artists through direct upload, fan-powered royalties, and discovery tools. SoundCloud blends social networking (reposts, likes, following) with streaming and distribution.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>soundcloud.com
 ├── Home (Stream / Feed)
 ├── Discover
@@ -166,7 +166,7 @@
     ├── Log in
     └── Create account
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <table>
 <thead>
 <tr>
@@ -207,45 +207,18 @@
 </tr>
 </tbody></table>
 <p><strong>Key pattern</strong>: The persistent bottom player follows the user everywhere. Waveform visualization and timed comments are SoundCloud&#39;s signature — audio is always visual.</p>
-<h2>4. Content Model</h2>
-<table>
-<thead>
-<tr>
-<th>Entity</th>
-<th>Attributes</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Track</td>
-<td>title, artist, waveform, duration, genre, tags, description, plays, likes, reposts, comments (timed), buy link, downloadable flag, license</td>
-</tr>
-<tr>
-<td>Playlist</td>
-<td>name, creator, tracks, public/private, likes, reposts</td>
-</tr>
-<tr>
-<td>Album</td>
-<td>title, artist, tracks, release date, genre</td>
-</tr>
-<tr>
-<td>Artist Profile</td>
-<td>display name, avatar, header, bio, location, followers, following, tracks, reposts, links</td>
-</tr>
-<tr>
-<td>Comment</td>
-<td>user, text, timestamp (timed to waveform position), track</td>
-</tr>
-<tr>
-<td>Repost</td>
-<td>user, track/playlist, timestamp (appears in follower feeds)</td>
-</tr>
-<tr>
-<td>Station</td>
-<td>seed track/artist, auto-generated playlist</td>
-</tr>
-</tbody></table>
-<h2>5. User Flows</h2>
-<h3>5a. Listen &amp; discover</h3>
+<h2>Content Model</h2>
+<p>| Entity | Key Attributes | Relationships |
+|--------|-----------|
+| Track | title, artist, waveform, duration, genre, tags, description, plays, likes, reposts, comments (timed), buy link, downloadable flag, license |
+| Playlist | name, creator, tracks, public/private, likes, reposts |
+| Album | title, artist, tracks, release date, genre |
+| Artist Profile | display name, avatar, header, bio, location, followers, following, tracks, reposts, links |
+| Comment | user, text, timestamp (timed to waveform position), track |
+| Repost | user, track/playlist, timestamp (appears in follower feeds) |
+| Station | seed track/artist, auto-generated playlist |</p>
+<h2>User Flows</h2>
+<h3>Listen &amp; discover</h3>
 <ol>
 <li>Open Home → scroll Stream (new tracks from followed artists)</li>
 <li>Or visit Discover → browse charts/genres/playlists</li>
@@ -253,7 +226,7 @@
 <li>Like, repost, or add to playlist</li>
 <li>Artist radio/station auto-plays related tracks</li>
 </ol>
-<h3>5b. Upload a track</h3>
+<h3>Upload a track</h3>
 <ol>
 <li>Click Upload → drag &amp; drop audio file(s)</li>
 <li>Edit metadata (title, genre, tags, description, artwork)</li>
@@ -261,7 +234,7 @@
 <li>Set permissions (download, embed, comments)</li>
 <li>Publish → track appears on profile and in followers&#39; streams</li>
 </ol>
-<h3>5c. Monetization &amp; distribution</h3>
+<h3>Monetization &amp; distribution</h3>
 <ol>
 <li>Enable SoundCloud for Artists → verify artist profile</li>
 <li>Opt into fan-powered royalties → earn from Go+ subscriber plays</li>
@@ -269,14 +242,14 @@
 <li>View analytics (plays, listeners, geography, sources)</li>
 <li>Receive payouts</li>
 </ol>
-<h3>5d. Social interaction</h3>
+<h3>Social interaction</h3>
 <ol>
 <li>Browse a track → click on waveform at a specific timestamp</li>
 <li>Type a timed comment → appears at that point for future listeners</li>
 <li>Repost track → appears in your followers&#39; streams</li>
 <li>Follow artist → their new uploads appear in your Home stream</li>
 </ol>
-<h2>6. URL / Route Structure</h2>
+<h2>URL / Route Structure</h2>
 <pre><code>/                           → Home (Stream)
 /discover/                  → Discover
 /charts/{genre}/            → Genre chart
@@ -293,7 +266,7 @@
 /for-artists/               → Artist tools
 /help/                      → Help center
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <table>
 <thead>
 <tr>
@@ -326,7 +299,7 @@
 <td>Start radio from any track or artist</td>
 </tr>
 </tbody></table>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -355,7 +328,7 @@
 <td>Compact waveform player widget, customizable colors</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>

@@ -147,9 +147,9 @@ Desktop App (Electron)
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Structure</th>
-<th>Ownership</th>
+<th>Entity</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -193,40 +193,28 @@ Desktop App (Electron)
 <td>Auto-generated</td>
 </tr>
 </tbody></table>
+<h3>Entity Lifecycle</h3>
+<pre><code>created → active → updated → archived
+                  ↘ suspended → reactivated → active
+created → deleted (soft delete with recovery period)
+</code></pre>
 <h2>User Flows</h2>
 <h3>Cmd+K Inline Editing</h3>
-<ol>
-<li>User selects code block (or places cursor at insertion point)</li>
-<li>Presses Cmd+K → inline prompt bar appears</li>
-<li>Types instruction (e.g., &quot;add error handling&quot; or &quot;convert to async/await&quot;)</li>
-<li>Cursor generates diff preview — green/red inline changes</li>
-<li>User presses Enter to accept, Escape to reject, or edits the prompt</li>
-<li>Changes applied to file</li>
-</ol>
+<pre><code>User selects code block (or places cursor at insertion point) → Presses Cmd+K → inline prompt bar appears → Types instruction (e.g., &quot;add error handling&quot; or &quot;convert to async/await&quot;) → Cursor generates diff preview — green/red inline changes → User presses Enter to accept, Escape to reject, or edits the prompt → Changes applied to file
+</code></pre>
 <h3>Composer (Multi-File Agent)</h3>
-<ol>
-<li>User presses Cmd+I → Composer panel opens</li>
-<li>Types high-level task (e.g., &quot;add authentication to the API using JWT&quot;)</li>
-<li>Composer analyzes codebase context → creates a step-by-step plan</li>
-<li>Generates changes across multiple files simultaneously</li>
-<li>User reviews each file&#39;s diff → Accept All or accept individually</li>
-<li>Can run terminal commands (npm install, etc.) as part of the plan</li>
-</ol>
+<pre><code>User presses Cmd+I → Composer panel opens → Types high-level task (e.g., &quot;add authentication to the API using JWT&quot;) → Composer analyzes codebase context → creates a step-by-step plan → Generates changes across multiple files simultaneously → User reviews each file&#39;s diff → Accept All or accept individually → Can run terminal commands (npm install, etc.) as part of the plan
+</code></pre>
 <h3>Chat with Context</h3>
-<ol>
-<li>User opens Chat panel (Cmd+L)</li>
-<li>Types question — automatically includes current file as context</li>
-<li>Can explicitly add context: @filename, @symbol, @codebase (searches indexed codebase), @web</li>
-<li>AI responds with code suggestions, explanations, referenced files</li>
-<li>&quot;Apply&quot; button on code blocks inserts/replaces code in the active file</li>
-</ol>
+<pre><code>User opens Chat panel (Cmd+L) → Types question — automatically includes current file as context → Can explicitly add context: @filename, @symbol, @codebase (searches indexed codebase), @web → AI responds with code suggestions, explanations, referenced files → &quot;Apply&quot; button on code blocks inserts/replaces code in the active file
+</code></pre>
 <h3>Tab Autocomplete</h3>
-<ol>
-<li>User types code → Cursor predicts next edit (not just next token)</li>
-<li>Ghost text appears showing suggested completion</li>
-<li>Tab to accept, keep typing to refine, Escape to dismiss</li>
-<li>Can predict multi-line completions and even the next edit location</li>
-</ol>
+<pre><code>User types code → Cursor predicts next edit (not just next token) → Ghost text appears showing suggested completion → Tab to accept, keep typing to refine, Escape to dismiss → Can predict multi-line completions and even the next edit location
+</code></pre>
+<h3>New User Onboarding</h3>
+<pre><code>Visit Cursor → Sign Up (email/Google/SSO) → Complete profile → Guided setup wizard → Configure preferences → Explore key features → Start using the product
+                                                                                                                         ↘ Skip wizard → Land on dashboard
+</code></pre>
 <h2>URL / Route Structure</h2>
 <table>
 <thead>
@@ -269,14 +257,42 @@ Desktop App (Electron)
 </tr>
 </tbody></table>
 <p>Desktop app uses local file paths (not URLs). Web presence is marketing + account management only.</p>
+<h3>Additional Routes</h3>
+<pre><code>cursor.com/billing  → Billing &amp; subscription
+cursor.com/notifications  → Notification preferences
+cursor.com/help  → Help center
+cursor.com/help/{topic}  → Help article
+cursor.com/api  → API documentation
+cursor.com/search?q={query}  → Search results
+cursor.com/integrations  → Integrations
+cursor.com/admin  → Admin console
+cursor.com/admin/members  → Member management
+cursor.com/import  → Import data
+cursor.com/export  → Export data
+cursor.com/team  → Team management
+</code></pre>
 <h2>Search &amp; Filter</h2>
 <ul>
-<li><strong>Code search</strong>: VS Code&#39;s built-in search (Cmd+Shift+F) — regex, file-type filters, include/exclude patterns</li>
-<li><strong>Semantic search</strong>: @codebase in Chat/Composer uses vector embedding search over project files</li>
-<li><strong>Quick open</strong>: Cmd+P — fuzzy file name search</li>
-<li><strong>Symbol search</strong>: Cmd+T — search by function/class/variable name</li>
-<li><strong>Docs search</strong>: Documentation site has keyword search</li>
-<li><strong>No cloud search</strong>: All code stays local; no cloud-hosted workspace search</li>
+<li><p><strong>Code search</strong>: VS Code&#39;s built-in search (Cmd+Shift+F) — regex, file-type filters, include/exclude patterns</p>
+</li>
+<li><p><strong>Semantic search</strong>: @codebase in Chat/Composer uses vector embedding search over project files</p>
+</li>
+<li><p><strong>Quick open</strong>: Cmd+P — fuzzy file name search</p>
+</li>
+<li><p><strong>Symbol search</strong>: Cmd+T — search by function/class/variable name</p>
+</li>
+<li><p><strong>Docs search</strong>: Documentation site has keyword search</p>
+</li>
+<li><p><strong>No cloud search</strong>: All code stays local; no cloud-hosted workspace search</p>
+</li>
+<li><p><strong>Sort options</strong>: By relevance, date created, date modified, alphabetical, popularity</p>
+</li>
+<li><p><strong>Autocomplete</strong>: Type-ahead suggestions with recent searches and popular results</p>
+</li>
+<li><p><strong>Advanced search</strong>: Boolean operators (AND, OR, NOT), field-specific filters, date ranges</p>
+</li>
+<li><p><strong>Recent searches</strong>: Quick access to previous search queries</p>
+</li>
 </ul>
 <h2>Responsive Behavior</h2>
 <table>
@@ -304,6 +320,53 @@ Desktop App (Electron)
 <li>Minimum window size approximately 800x600</li>
 <li>Chat and Composer panels can be resized or toggled</li>
 <li>Multi-monitor support: editor windows can be detached</li>
+</ul>
+<h3>Cursor-Specific UX Patterns</h3>
+<ul>
+<li><strong>Progressive disclosure</strong>: Complex features hidden behind expandable sections</li>
+<li><strong>Contextual actions</strong>: Right-click menus and hover-revealed action buttons</li>
+<li><strong>Inline editing</strong>: Click-to-edit fields without navigating to a separate page</li>
+<li><strong>Batch operations</strong>: Multi-select with bulk actions (delete, move, archive, tag)</li>
+<li><strong>Undo support</strong>: Non-destructive actions with undo toast notifications</li>
+<li><strong>Loading states</strong>: Skeleton screens and progress indicators during async operations</li>
+<li><strong>Empty states</strong>: Helpful illustrations and CTAs when sections have no content</li>
+<li><strong>Onboarding tooltips</strong>: First-time user guidance highlighting key features</li>
+</ul>
+<h3>Accessibility</h3>
+<ul>
+<li>WCAG 2.1 AA compliance across all interactive elements</li>
+<li>Semantic HTML with proper ARIA labels and landmarks</li>
+<li>Keyboard navigation support for all core workflows</li>
+<li>Screen reader compatibility tested with VoiceOver, NVDA, and JAWS</li>
+<li>Color contrast ratios meeting minimum 4.5:1 for body text</li>
+<li>Focus indicators visible on all interactive elements</li>
+<li>Reduced motion option respecting <code>prefers-reduced-motion</code></li>
+<li>Resizable text up to 200% without content loss</li>
+</ul>
+<h3>API &amp; Integration Patterns</h3>
+<ul>
+<li><p>RESTful API with JSON request/response format</p>
+</li>
+<li><p>Webhook support for real-time event notifications</p>
+</li>
+<li><p>OAuth 2.0 for third-party application authorization</p>
+</li>
+<li><p>Rate limiting with clear headers (X-RateLimit-Remaining)</p>
+</li>
+<li><p>Pagination via cursor-based or offset-based parameters</p>
+</li>
+<li><p>Versioned API endpoints for backward compatibility</p>
+</li>
+<li><p>Comprehensive API documentation with interactive examples</p>
+</li>
+<li><p>SDKs available for popular languages (JavaScript, Python, Ruby, Go)</p>
+</li>
+<li><p>Tab completion uses AI to predict multi-line code changes</p>
+</li>
+<li><p>Composer mode enables multi-file edits from natural language instructions</p>
+</li>
+<li><p>Privacy mode allows using Cursor without sending code to external servers</p>
+</li>
 </ul>
 <h2>Access Control</h2>
 <table>

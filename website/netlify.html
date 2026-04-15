@@ -145,9 +145,9 @@ netlify.com (marketing)
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Structure</th>
-<th>Ownership</th>
+<th>Entity</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -193,38 +193,17 @@ netlify.com (marketing)
 </tbody></table>
 <h2>User Flows</h2>
 <h3>Deploy a New Site</h3>
-<ol>
-<li>User clicks &quot;Add New Site&quot; → &quot;Import from Git&quot;</li>
-<li>Connects GitHub/GitLab/Bitbucket → selects repository</li>
-<li>Configures: branch to deploy, build command, publish directory</li>
-<li>Clicks Deploy → build starts immediately</li>
-<li>Build log streams in real-time → site deployed to <code>{site-name}.netlify.app</code></li>
-<li>Subsequent Git pushes trigger automatic deploys</li>
-</ol>
+<pre><code>Clicks &quot;Add New Site&quot; → &quot;Import from Git&quot; → Connects GitHub/GitLab/Bitbucket → selects repository → Configures: branch to deploy, build command, publish directory → Clicks Deploy → build starts immediately → Build log streams in real-time → site deployed to `{site-name}.netlify.app` → Subsequent Git pushes trigger automatic deploys
+</code></pre>
 <h3>Deploy Preview Workflow</h3>
-<ol>
-<li>Developer opens a PR on GitHub</li>
-<li>Netlify automatically builds the PR branch</li>
-<li>Deploy preview URL posted as PR comment (unique URL per commit)</li>
-<li>Reviewer clicks link → sees the changes live</li>
-<li>PR merged → production deploy triggered automatically</li>
-</ol>
+<pre><code>Developer opens a PR on GitHub → Netlify automatically builds the PR branch → Deploy preview URL posted as PR comment (unique URL per commit) → Reviewer clicks link → sees the changes live → PR merged → production deploy triggered automatically
+</code></pre>
 <h3>Custom Domain Setup</h3>
-<ol>
-<li>User navigates to Site → Settings → Domain Management</li>
-<li>Adds custom domain → Netlify provides DNS records</li>
-<li>Option A: Use Netlify DNS (point nameservers) — automatic HTTPS via Let&#39;s Encrypt</li>
-<li>Option B: External DNS — add CNAME record manually</li>
-<li>HTTPS certificate provisioned automatically</li>
-</ol>
+<pre><code>Navigates to Site → Settings → Domain Management → Adds custom domain → Netlify provides DNS records → Option A: Use Netlify DNS (point nameservers) — automatic HTTPS via Let&#39;s Encrypt → Option B: External DNS — add CNAME record manually → HTTPS certificate provisioned automatically
+</code></pre>
 <h3>Serverless Functions</h3>
-<ol>
-<li>User creates <code>/netlify/functions/</code> directory in repo</li>
-<li>Writes function files (JS/TS) → each file becomes an API endpoint</li>
-<li>Deploys → functions available at <code>/.netlify/functions/{name}</code></li>
-<li>Monitor invocations and logs in Functions tab</li>
-<li>Environment variables accessible in function runtime</li>
-</ol>
+<pre><code>Creates `/netlify/functions/` directory in repo → Writes function files (JS/TS) → each file becomes an API endpoint → Deploys → functions available at `/.netlify/functions/{name}` → Monitor invocations and logs in Functions tab → Environment variables accessible in function runtime
+</code></pre>
 <h2>URL / Route Structure</h2>
 <table>
 <thead>
@@ -357,6 +336,197 @@ netlify.com (marketing)
 <li>Environment variables: Secret by default; not exposed in build logs</li>
 <li>Audit log: Available on Business+ plans — tracks all team member actions</li>
 </ul>
+<h2>Build &amp; Deploy Pipeline</h2>
+<pre><code>Git Push → Webhook Triggers Build → Install Dependencies → Run Build Command → Publish Output → Deploy to CDN → Atomic Deploy (instant switch) → Deploy URL Live
+</code></pre>
+<h2>Feature Comparison</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Starter (Free)</th>
+<th>Pro</th>
+<th>Business</th>
+<th>Enterprise</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Bandwidth</td>
+<td>100GB/mo</td>
+<td>1TB/mo</td>
+<td>1.5TB/mo</td>
+<td>Custom</td>
+</tr>
+<tr>
+<td>Build minutes</td>
+<td>300/mo</td>
+<td>25K/mo</td>
+<td>25K/mo</td>
+<td>Custom</td>
+</tr>
+<tr>
+<td>Serverless functions</td>
+<td>125K/mo</td>
+<td>125K/mo</td>
+<td>Unlimited</td>
+<td>Unlimited</td>
+</tr>
+<tr>
+<td>Edge functions</td>
+<td>Included</td>
+<td>Included</td>
+<td>Included</td>
+<td>Included</td>
+</tr>
+<tr>
+<td>Analytics</td>
+<td>—</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Password protection</td>
+<td>—</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>SAML SSO</td>
+<td>—</td>
+<td>—</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Audit log</td>
+<td>—</td>
+<td>—</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>SLA</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td>✅</td>
+</tr>
+</tbody></table>
+<h2>Deploy Contexts</h2>
+<ul>
+<li><strong>Production:</strong> Builds from the production branch (usually <code>main</code>)</li>
+<li><strong>Branch deploys:</strong> Builds from any branch; accessible at <code>branch-name--site.netlify.app</code></li>
+<li><strong>Deploy previews:</strong> Builds from PR; unique URL per commit; GitHub PR comment integration</li>
+<li><strong>Split testing:</strong> Traffic split between branches (A/B testing at deploy level)</li>
+<li><strong>Locked deploys:</strong> Pin a specific deploy as production; new deploys don&#39;t auto-publish</li>
+</ul>
+<h2>Edge Functions vs Serverless Functions</h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Edge Functions</th>
+<th>Serverless Functions</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Runtime</td>
+<td>Deno (V8 isolates)</td>
+<td>Node.js</td>
+</tr>
+<tr>
+<td>Location</td>
+<td>CDN edge (200+ locations)</td>
+<td>Single region</td>
+</tr>
+<tr>
+<td>Cold start</td>
+<td>&lt; 5ms</td>
+<td>100-500ms</td>
+</tr>
+<tr>
+<td>Use case</td>
+<td>URL rewrites, auth, A/B testing, geolocation</td>
+<td>API endpoints, form handling, database queries</td>
+</tr>
+<tr>
+<td>Timeout</td>
+<td>50ms CPU time</td>
+<td>10s (default), 26s (background)</td>
+</tr>
+<tr>
+<td>Invocations</td>
+<td>Unlimited</td>
+<td>125K-unlimited (by plan)</td>
+</tr>
+</tbody></table>
+<h2>DNS &amp; Domain Management</h2>
+<ul>
+<li><strong>Netlify DNS:</strong> Point nameservers; automatic SSL via Let&#39;s Encrypt</li>
+<li><strong>External DNS:</strong> CNAME or ALIAS record; automatic SSL</li>
+<li><strong>Custom domains:</strong> Up to 100 per site; primary + aliases</li>
+<li><strong>Branch subdomains:</strong> Automatic <code>{branch}--{site}.netlify.app</code></li>
+<li><strong>HTTPS:</strong> Free Let&#39;s Encrypt certificates; auto-renewal; force HTTPS redirect</li>
+<li><strong>HTTP headers:</strong> Custom security headers via <code>_headers</code> file or <code>netlify.toml</code></li>
+</ul>
+<h2>Build Configuration (<code>netlify.toml</code>)</h2>
+<pre><code class="language-toml">[build]
+  command = &quot;npm run build&quot;
+  publish = &quot;dist&quot;
+
+[build.environment]
+  NODE_VERSION = &quot;18&quot;
+
+[[redirects]]
+  from = &quot;/api/*&quot;
+  to = &quot;/.netlify/functions/:splat&quot;
+  status = 200
+
+[[headers]]
+  for = &quot;/*&quot;
+  [headers.values]
+    X-Frame-Options = &quot;DENY&quot;
+    Content-Security-Policy = &quot;default-src &#39;self&#39;&quot;
+</code></pre>
+<h2>CLI Commands</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>netlify deploy</code></td>
+<td>Deploy to draft URL</td>
+</tr>
+<tr>
+<td><code>netlify deploy --prod</code></td>
+<td>Deploy to production</td>
+</tr>
+<tr>
+<td><code>netlify dev</code></td>
+<td>Local development server with functions</td>
+</tr>
+<tr>
+<td><code>netlify link</code></td>
+<td>Link local directory to Netlify site</td>
+</tr>
+<tr>
+<td><code>netlify env:set KEY VALUE</code></td>
+<td>Set environment variable</td>
+</tr>
+<tr>
+<td><code>netlify logs:function</code></td>
+<td>Stream function logs</td>
+</tr>
+<tr>
+<td><code>netlify open</code></td>
+<td>Open site in browser</td>
+</tr>
+</tbody></table>
 
     </div>
   </article>

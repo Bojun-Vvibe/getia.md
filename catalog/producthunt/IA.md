@@ -7,11 +7,11 @@ website: https://producthunt.com
 
 # Information Architecture — Product Hunt
 
-## 1. Overview
+## Overview
 
 Product Hunt is a daily curation platform for discovering and launching new tech products, apps, tools, and services. The IA revolves around a daily leaderboard — products launched each day compete for upvotes, with a community of makers, investors, and early adopters providing feedback. The platform also hosts Collections, Discussions, and launch tools for founders to build pre-launch audiences.
 
-## 2. Site Map
+## Site Map
 
 ```
 Product Hunt
@@ -64,7 +64,7 @@ Product Hunt
 └── Advertise
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 - **Type**: Top nav bar (desktop), bottom tab bar (mobile)
 - **Desktop Top Bar**: Logo (home), Products, Launches, Discussions, Collections, Advertise | Search, Notifications, Profile
@@ -73,10 +73,10 @@ Product Hunt
 - **Product Detail**: Modal overlay on desktop; full-screen on mobile
 - **Topic Chips**: Horizontal scrollable topic filters on home and search
 
-## 4. Content Model
+## Content Model
 
-| Content Type | Attributes | Relationships |
-|---|---|---|
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
 | Product | name, tagline, description, URL, gallery (images/video), upvote count, comment count, maker(s), topic tags, launch date, featured badge | → Maker(s), → Topic(s), → Comments, → Collections |
 | Comment | text, author, timestamp, upvotes, replies, maker badge | → Product, → User |
 | Collection | name, description, curator, products list, follower count | → Products, → Curator |
@@ -86,29 +86,24 @@ Product Hunt
 | User Profile | name, headline, avatar, Twitter/website, maker history, upvote history, streak | → Products, → Collections |
 | Review | rating, text, author, helpful votes | → Product |
 
-## 5. User Flows
+## User Flows
 
 ### Discovering Products
-1. Visit home → See today's product launches ranked by upvotes
-2. Browse by topic chips (AI, Developer Tools, etc.) or time period
-3. Click product → View gallery, description, maker comments
-4. Upvote with one click → Leave a comment or question for the maker
-5. Click "Get it" → Redirect to product website
+```
+Visit home → See today's product launches ranked by upvotes → Browse by topic chips (AI, Developer Tools, etc.) or time period → Click product → View gallery, description, maker comments → Upvote with one click → Leave a comment or question for the maker → Click "Get it" → Redirect to product website
+```
 
 ### Launching a Product
-1. Creator sets up Ship page (pre-launch) → Collects email signups
-2. On launch day: Submit product with tagline, description, screenshots, video
-3. Product appears on daily leaderboard at midnight PT
-4. Maker responds to comments throughout the day → Engages community
-5. End of day → Final ranking determined; top products get featured badge
+```
+Creator sets up Ship page (pre-launch) → Collects email signups → On launch day: Submit product with tagline, description, screenshots, video → Product appears on daily leaderboard at midnight PT → Maker responds to comments throughout the day → Engages community → End of day → Final ranking determined; top products get featured badge
+```
 
 ### Curating Collections
-1. Click "Collections" → "New Collection"
-2. Add title and description → Search and add products
-3. Publish → Collection appears on profile and in Collections directory
-4. Community can follow the collection for updates
+```
+Click "Collections" → "New Collection" → Add title and description → Search and add products → Publish → Collection appears on profile and in Collections directory → Community can follow the collection for updates
+```
 
-## 6. URL / Route Structure
+## URL / Route Structure
 
 ```
 producthunt.com/                            # Today's launches
@@ -126,9 +121,22 @@ producthunt.com/newsletter                  # Newsletter signup
 producthunt.com/golden-kitty-awards         # Annual awards
 producthunt.com/advertise                   # Advertising info
 api.producthunt.com/v2/                     # GraphQL API
+producthunt.com/posts/{slug}                   # Product page
+producthunt.com/topics/{topic}                 # Topic page
+producthunt.com/categories/{category}          # Category page
+producthunt.com/collections/{slug}             # Collection
+producthunt.com/@{username}                    # User profile
+producthunt.com/@{username}/made               # Products maker made
+producthunt.com/ship                           # Ship (pre-launch pages)
+producthunt.com/discussions                    # Discussions forum
+producthunt.com/stories                        # Stories / articles
+producthunt.com/newsletters                    # Newsletter signup
+producthunt.com/teams                          # Teams feature
+producthunt.com/advertise                      # Advertising options
+producthunt.com/api                            # API documentation
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 - **Global Search**: Products, collections, makers, discussions, topics
 - **Topic Filters**: Filter home feed by product category
@@ -138,7 +146,7 @@ api.producthunt.com/v2/                     # GraphQL API
 - **Alternative Products**: "Alternatives to {product}" sections on product pages
 - **Newsletter Curation**: Daily/weekly email digest of top-ranked products
 
-## 8. Responsive Behavior
+## Responsive Behavior
 
 | Breakpoint | Behavior |
 |---|---|
@@ -147,7 +155,7 @@ api.producthunt.com/v2/                     # GraphQL API
 | Desktop (> 1024px) | Product list with preview on hover; product detail as modal overlay; right sidebar for trending/ads |
 | Email (Newsletter) | Responsive email template; top 5 products with thumbnails and upvote counts |
 
-## 9. Access Control
+## Access Control
 
 | Role | Capabilities |
 |---|---|
@@ -158,3 +166,60 @@ api.producthunt.com/v2/                     # GraphQL API
 | Moderator / Staff | Feature products, manage content, curate staff collections, moderate discussions |
 | Advertiser | Promote products as sponsored listings on the leaderboard |
 | API User | Query products, posts, collections via GraphQL API with OAuth token |
+
+## Launch Mechanics
+
+| Phase | Timing | Actions |
+|-------|--------|---------|
+| Pre-launch | Weeks before | Build Ship page, collect followers, prepare assets |
+| Launch day | 12:01 AM PT | Product goes live; 24-hour voting window begins |
+| Voting period | 24 hours | Community upvotes, comments, and asks questions |
+| Ranking | End of day | Products ranked by upvotes; top products earn badges |
+| Post-launch | Days after | Continued visibility in archives, topic pages |
+
+## Badge System
+
+| Badge | Criteria |
+|-------|---------|
+| #1 Product of the Day | Most upvotes on launch day |
+| Top 5 Product of the Day | Top 5 on launch day |
+| #1 Product of the Week | Highest-ranked daily winner in a week |
+| #1 Product of the Month | Highest-ranked weekly winner in a month |
+| Golden Kitty Award | Annual award voted by community |
+
+## Content Types
+
+| Type | Description |
+|------|-------------|
+| Product | Main entity; includes tagline, description, gallery, links, makers |
+| Discussion | Forum-style thread; Q&A, feedback, announcements |
+| Story | Long-form article from makers or community members |
+| Collection | Curated list of products around a theme |
+| Ship page | Pre-launch teaser with email signup |
+| Newsletter | Daily/weekly digest of top products |
+
+## Maker Tools
+
+- **Launch scheduler:** Pick a date for your launch
+- **Media kit:** Upload screenshots, video, logo, and description
+- **Maker's comment:** First comment from the maker explaining the product
+- **Metrics:** Track upvotes, comments, traffic from Product Hunt
+- **AMA (Ask Me Anything):** Interactive Q&A format in comments
+- **Ship landing page:** Free pre-launch page to collect interested users
+
+## API & Integrations
+
+- **GraphQL API:** Full access to products, collections, topics, users
+- **Webhooks:** Notifications for new launches, votes, comments
+- **Embeds:** Embed Product Hunt cards on external websites
+- **OAuth 2.0:** User authentication for third-party apps
+- **Post to PH:** Submit products programmatically (with approval)
+- **Rate limits:** 450 requests per 15 minutes
+
+## Growth & Engagement
+
+- **Daily email:** Morning digest of top launches
+- **Weekly newsletter:** Curated weekly roundup
+- **Mobile app:** Browse, upvote, and discuss on the go
+- **Browser extension:** See Product Hunt data on any website
+- **Community discussions:** Ask the community for feedback and recommendations

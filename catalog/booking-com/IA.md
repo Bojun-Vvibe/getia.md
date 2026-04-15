@@ -208,6 +208,15 @@ My Trips → Upcoming → Select Booking → [Cancel Booking] → Review Policy 
 Past Bookings → Select Stay → "How was your stay?" → Rate Categories (1-10) → Write Review → Submit → Published
 ```
 
+### New User Onboarding
+```
+Visit Booking.com → Sign Up (email/Google/SSO) → Complete profile → Guided setup wizard → Configure preferences → Explore key features → Start using the product
+                                                                                                                         ↘ Skip wizard → Land on dashboard
+```
+### Manage Notifications
+```
+Settings → Notifications → Toggle email/push/in-app per category → Set frequency (instant/daily digest/weekly) → Save preferences
+```
 ## URL / Route Structure
 
 ```
@@ -228,6 +237,12 @@ Past Bookings → Select Stay → "How was your stay?" → Rate Categories (1-10
 /wishlist                                  → Saved Properties
 /myaccount                                 → Account
 /help                                      → Help Center
+billing  → Billing & subscription
+notifications  → Notification preferences
+api  → API documentation
+/booking/{id}                     → Booking Confirmation
+/mytrips                           → My Trips
+/settings/preferences             → Travel Preferences
 ```
 
 ## Search & Filter

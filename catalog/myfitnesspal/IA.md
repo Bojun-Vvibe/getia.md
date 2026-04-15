@@ -160,6 +160,8 @@ Remaining = Budget − Food Calories + Exercise Calories
 
 ## User Flows
 
+
+
 ### Log a Meal
 ```
 Diary → Lunch → [+ Add Food] → Search "chicken breast" → Select → Adjust Serving (6 oz) → Log → Diary Updated → Remaining Calories Updated
@@ -179,6 +181,7 @@ More → Recipes → [Create] → "Homemade Chili" → Add Ingredients (search e
 ```
 Progress → Weight → [+ Add] → Enter Today's Weight → Save → Chart Updates → "You've lost 3 lbs this month"
 ```
+
 
 ## URL / Route Structure
 

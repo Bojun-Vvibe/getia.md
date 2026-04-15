@@ -231,6 +231,14 @@
 </tbody></table>
 <h3>Booking Status</h3>
 <p><code>pending → confirmed → completed → cancelled / rescheduled / no-show</code></p>
+<p>| AuditLog | action, actor, target, timestamp, ip_address | belongs to Organization |
+| Notification | type, message, read, created_at, action_url | belongs to User |
+| APIToken | name, key_hash, permissions[], created_at, last_used | belongs to User |</p>
+<h3>Item Lifecycle</h3>
+<pre><code>draft → active → in_progress → completed → archived
+                               ↘ blocked → unblocked → in_progress
+draft → deleted (soft delete, 30-day retention)
+</code></pre>
 <h2>User Flows</h2>
 <h3>Set Up Booking Page</h3>
 <pre><code>Event Types → Create → Set title, duration, location → Link schedule → Share URL → Ready for bookings
@@ -240,6 +248,13 @@
 </code></pre>
 <h3>Team Round-Robin</h3>
 <pre><code>Create Team Event → Type: Round Robin → Add members → Set distribution rules → Share team link → Auto-assigns to available member
+</code></pre>
+<h3>Manage Notifications</h3>
+<pre><code>Settings → Notifications → Toggle email/push/in-app per category → Set frequency (instant/daily digest/weekly) → Save preferences
+</code></pre>
+<h3>Search and Discover</h3>
+<pre><code>Global search → Type query → Results grouped by type → Click result → Navigate to item → Refine search with filters if needed
+                                                                                          ↘ No results → Suggested alternatives
 </code></pre>
 <h2>URL / Route Structure</h2>
 <pre><code>/bookings                  → Bookings list
@@ -256,6 +271,18 @@
 /booking/:uid              → Booking confirmation
 /reschedule/:uid           → Reschedule
 /cancel/:uid               → Cancel booking
+billing  → Billing &amp; subscription
+notifications  → Notification preferences
+help  → Help center
+help/{topic}  → Help article
+api  → API documentation
+search?q={query}  → Search results
+/settings/developer              → Developer settings
+/settings/billing                → Billing
+/settings/appearance             → Appearance &amp; branding
+/settings/calendars              → Connected calendars
+/teams/:id/members               → Team members
+/api/v1                          → API documentation
 </code></pre>
 <h2>Search &amp; Filter</h2>
 <table>
@@ -282,6 +309,11 @@
 <td>Name, Popular</td>
 </tr>
 </tbody></table>
+<ul>
+<li><strong>Autocomplete</strong>: Type-ahead suggestions with recent searches and popular results</li>
+<li><strong>Advanced search</strong>: Boolean operators (AND, OR, NOT), field-specific filters, date ranges</li>
+<li><strong>Recent searches</strong>: Quick access to previous search queries</li>
+</ul>
 <h2>Responsive Behavior</h2>
 <table>
 <thead>
@@ -307,6 +339,28 @@
 <ul>
 <li>Desktop: calendar grid left + time slots right</li>
 <li>Mobile: calendar top → time slots below, full-width</li>
+</ul>
+<h3>Cal.com-Specific UX Patterns</h3>
+<ul>
+<li><strong>Progressive disclosure</strong>: Complex features hidden behind expandable sections</li>
+<li><strong>Contextual actions</strong>: Right-click menus and hover-revealed action buttons</li>
+<li><strong>Inline editing</strong>: Click-to-edit fields without navigating to a separate page</li>
+<li><strong>Batch operations</strong>: Multi-select with bulk actions (delete, move, archive, tag)</li>
+<li><strong>Undo support</strong>: Non-destructive actions with undo toast notifications</li>
+<li><strong>Loading states</strong>: Skeleton screens and progress indicators during async operations</li>
+<li><strong>Empty states</strong>: Helpful illustrations and CTAs when sections have no content</li>
+<li><strong>Onboarding tooltips</strong>: First-time user guidance highlighting key features</li>
+</ul>
+<h3>Accessibility</h3>
+<ul>
+<li>WCAG 2.1 AA compliance across all interactive elements</li>
+<li>Semantic HTML with proper ARIA labels and landmarks</li>
+<li>Keyboard navigation support for all core workflows</li>
+<li>Screen reader compatibility tested with VoiceOver, NVDA, and JAWS</li>
+<li>Color contrast ratios meeting minimum 4.5:1 for body text</li>
+<li>Focus indicators visible on all interactive elements</li>
+<li>Reduced motion option respecting <code>prefers-reduced-motion</code></li>
+<li>Resizable text up to 200% without content loss</li>
 </ul>
 <h2>Access Control</h2>
 <table>
@@ -355,6 +409,16 @@
 <td>Full (SAML, OIDC, users)</td>
 </tr>
 </tbody></table>
+<h3>Security Features</h3>
+<ul>
+<li>Single Sign-On (SSO) support via SAML 2.0 and OIDC (Team/Enterprise)</li>
+<li>Two-factor authentication (TOTP, SMS, hardware keys)</li>
+<li>API token management with scoped permissions</li>
+<li>Session management: configurable timeout, forced logout</li>
+<li>Audit logging for security-sensitive actions</li>
+<li>Data encryption at rest (AES-256) and in transit (TLS 1.3)</li>
+<li>SOC 2 Type II compliance</li>
+</ul>
 
     </div>
   </article>

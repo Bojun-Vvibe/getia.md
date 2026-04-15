@@ -232,26 +232,18 @@ active → needs_attention (credentials changed) → update_mode → active
 
 ## User Flows
 
-### Developer: First Integration
 ```
 Sign Up → Get API Keys (Sandbox) → Create Link Token (server) → Open Link (client) → User Connects Bank → Exchange Token → Fetch Transactions → Build Feature
 ```
-
-### Consumer: Connect Bank Account
 ```
 [Inside fintech app] → "Connect Bank" → Plaid Link opens → Search "Chase" → Enter Credentials → SMS Code → Select Checking Account → "Connected!" → Back to App
 ```
-
-### Consumer: Manage Connected Apps
 ```
 my.plaid.com → See Connected Apps → "Venmo has access to Chase Checking" → [Disconnect] → Confirm → Data Access Revoked
 ```
-
-### Developer: Handle Disconnection
 ```
 Webhook: ITEM_ERROR → Dashboard: Error for Item → User opens app → App triggers update mode → User re-enters credentials → Connection restored
 ```
-
 ## URL / Route Structure
 
 ### Marketing + Docs

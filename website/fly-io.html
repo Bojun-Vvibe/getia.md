@@ -141,154 +141,135 @@
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Structure</th>
-<th>Ownership</th>
+<th>Entity</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>App</td>
 <td>Name, organization, regions, machines, volumes, secrets, networking config</td>
-<td>Org-owned</td>
+<td>belongs to Organization</td>
 </tr>
 <tr>
 <td>Machine</td>
 <td>ID, region, state (started/stopped/destroyed), image, CPU/memory config, checks</td>
-<td>Part of app</td>
+<td>belongs to app</td>
 </tr>
 <tr>
 <td>Volume</td>
 <td>ID, region, size, attached machine, snapshots</td>
-<td>Part of app</td>
+<td>belongs to app</td>
 </tr>
 <tr>
 <td>Secret</td>
 <td>Key-value pair, encrypted at rest, available to all machines</td>
-<td>Part of app</td>
+<td>belongs to app</td>
 </tr>
 <tr>
 <td>IP Address</td>
 <td>Type (v4 shared, v4 dedicated, v6), region (global Anycast)</td>
-<td>Part of app</td>
+<td>belongs to app</td>
 </tr>
 <tr>
 <td>Certificate</td>
 <td>Custom domain, DNS validation status, TLS cert status</td>
-<td>Part of app</td>
+<td>belongs to app</td>
 </tr>
 <tr>
 <td>Fly Postgres Cluster</td>
 <td>Postgres app with primary + replicas across regions</td>
-<td>Org-owned</td>
+<td>belongs to Organization</td>
 </tr>
 <tr>
 <td>Blueprint</td>
 <td>Deployment guide for specific stack (Rails, Django, Next.js, etc.)</td>
-<td>Fly.io-curated</td>
+<td>curated by Fly.io</td>
 </tr>
 <tr>
 <td>Organization</td>
 <td>Name, members, apps, billing, tokens</td>
-<td>Org-owned</td>
+<td>belongs to Organization</td>
 </tr>
 </tbody></table>
 <h2>User Flows</h2>
 <h3>Deploying an App (CLI-First)</h3>
-<ol>
-<li>Developer runs <code>fly launch</code> in project directory</li>
-<li>CLI auto-detects framework → generates <code>fly.toml</code> config and Dockerfile</li>
-<li>Selects organization, app name, regions</li>
-<li><code>fly deploy</code> builds Docker image → pushes to Fly registry → creates Machine(s)</li>
-<li>App deployed to selected region(s) with Anycast IP</li>
-<li>Subsequent deploys: <code>fly deploy</code> — builds and performs rolling update</li>
-</ol>
+<pre><code>Developer runs `fly launch` in project directory →
+  CLI auto-detects framework → generates `fly.toml` config and Dockerfile →
+  Selects organization, app name, regions →
+  `fly deploy` builds Docker image → pushes to Fly registry → creates Machine(s) →
+  App deployed to selected region(s) with Anycast IP →
+  Subsequent deploys: `fly deploy` — builds and performs rolling update
+</code></pre>
 <h3>Multi-Region Deployment</h3>
-<ol>
-<li>Developer deploys app to primary region (e.g., <code>iad</code>)</li>
-<li>Adds regions: <code>fly scale count 2 --region cdg,nrt</code> (Europe, Asia)</li>
-<li>Fly Proxy routes users to nearest region via Anycast</li>
-<li>For databases: sets up read replicas in additional regions</li>
-<li><code>fly regions list</code> shows current deployment topology</li>
-</ol>
+<pre><code>Developer deploys app to primary region (e.g., `iad`) →
+  Adds regions: `fly scale count 2 --region cdg,nrt` (Europe, Asia) →
+  Fly Proxy routes users to nearest region via Anycast →
+  For databases: sets up read replicas in additional regions →
+  `fly regions list` shows current deployment topology
+</code></pre>
 <h3>Machine Management</h3>
-<ol>
-<li>Navigate to Dashboard → App → Machines (or <code>fly machines list</code>)</li>
-<li>See all machines: ID, region, state, CPU/RAM, image version</li>
-<li>Start/stop individual machines for cost control</li>
-<li>Scale horizontally: add machines in specific regions</li>
-<li>Scale vertically: change CPU/memory per machine</li>
-</ol>
+<pre><code>Navigate to Dashboard → App → Machines (or `fly machines list`) →
+  See all machines: ID, region, state, CPU/RAM, image version →
+  Start/stop individual machines for cost control →
+  Scale horizontally: add machines in specific regions →
+  Scale vertically: change CPU/memory per machine
+</code></pre>
 <h3>Secrets Management</h3>
-<ol>
-<li>Developer runs <code>fly secrets set DATABASE_URL=postgres://...</code></li>
-<li>Secret encrypted and stored in Fly&#39;s vault</li>
-<li>All machines in the app can access via environment variable</li>
-<li>Setting a secret triggers a rolling restart of all machines</li>
-<li>Dashboard shows secret names (not values) — values only accessible at runtime</li>
-</ol>
+<pre><code>Developer runs `fly secrets set DATABASE_URL=postgres://...` →
+  Secret encrypted and stored in Fly&#39;s vault →
+  All machines in the app can access via environment variable →
+  Setting a secret triggers a rolling restart of all machines →
+  Dashboard shows secret names (not values) — values only accessible at runtime
+</code></pre>
 <h2>URL / Route Structure</h2>
-<table>
-<thead>
-<tr>
-<th>Pattern</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>fly.io/</code></td>
-<td>Marketing home</td>
-</tr>
-<tr>
-<td><code>fly.io/dashboard</code></td>
-<td>App list</td>
-</tr>
-<tr>
-<td><code>fly.io/dashboard/apps/{app_name}</code></td>
-<td>App overview</td>
-</tr>
-<tr>
-<td><code>fly.io/dashboard/apps/{app_name}/machines</code></td>
-<td>Machine list</td>
-</tr>
-<tr>
-<td><code>fly.io/dashboard/apps/{app_name}/machines/{id}</code></td>
-<td>Machine detail</td>
-</tr>
-<tr>
-<td><code>fly.io/dashboard/apps/{app_name}/monitoring</code></td>
-<td>Metrics and logs</td>
-</tr>
-<tr>
-<td><code>fly.io/dashboard/apps/{app_name}/networking</code></td>
-<td>IPs and certs</td>
-</tr>
-<tr>
-<td><code>fly.io/dashboard/apps/{app_name}/volumes</code></td>
-<td>Volumes</td>
-</tr>
-<tr>
-<td><code>fly.io/dashboard/apps/{app_name}/secrets</code></td>
-<td>Secrets</td>
-</tr>
-<tr>
-<td><code>fly.io/dashboard/orgs/{slug}/*</code></td>
-<td>Organization management</td>
-</tr>
-<tr>
-<td><code>fly.io/docs/*</code></td>
-<td>Documentation</td>
-</tr>
-</tbody></table>
+<pre><code>fly.io/                                       # Marketing home
+fly.io/dashboard                              # App list
+fly.io/dashboard/apps/{app_name}              # App overview
+fly.io/dashboard/apps/{app_name}/machines     # Machine list
+fly.io/dashboard/apps/{app_name}/machines/{id} # Machine detail
+fly.io/dashboard/apps/{app_name}/monitoring   # Metrics and logs
+fly.io/dashboard/apps/{app_name}/networking   # IPs and certs
+fly.io/dashboard/apps/{app_name}/volumes      # Volumes
+fly.io/dashboard/apps/{app_name}/secrets      # Secrets
+fly.io/dashboard/orgs/{slug}/*                # Organization management
+fly.io/docs/*                                 # Documentation
+fly.io/dashboard/apps/{app_name}/settings              # App settings
+fly.io/dashboard/apps/{app_name}/tokens                # Deploy tokens
+fly.io/dashboard/apps/{app_name}/activity              # Activity log
+fly.io/dashboard/personal/settings                     # Personal settings
+fly.io/dashboard/personal/tokens                       # Personal tokens
+fly.io/dashboard/orgs/{slug}/settings                  # Org settings
+fly.io/dashboard/orgs/{slug}/members                   # Org members
+fly.io/dashboard/orgs/{slug}/billing                   # Org billing
+fly.io/docs/reference/fly-launch/                      # fly launch reference
+fly.io/docs/blueprints/                                # Deployment blueprints
+fly.io/docs/machines/                                   # Machines API docs
+fly.io/status                                           # Status page
+</code></pre>
 <p>App names are globally unique slugs. Machine IDs are alphanumeric. Dashboard under <code>/dashboard</code> prefix.</p>
 <h2>Search &amp; Filter</h2>
 <ul>
-<li><strong>App search</strong>: Search apps by name on dashboard</li>
-<li><strong>Machine filtering</strong>: Filter by region, state (started, stopped), in dashboard</li>
-<li><strong>Log search</strong>: Filter logs by region, machine ID, time range; keyword search in log output</li>
-<li><strong>Docs search</strong>: Full-text documentation search (Algolia-powered)</li>
-<li><strong>CLI search</strong>: <code>fly apps list</code>, <code>fly machines list</code> with text-based filtering</li>
-<li><strong>No marketplace/template search</strong>: Blueprints are in docs, not a searchable marketplace</li>
-<li><strong>Metrics filtering</strong>: Time range, region, machine</li>
+<li><p><strong>App search</strong>: Search apps by name on dashboard</p>
+</li>
+<li><p><strong>Machine filtering</strong>: Filter by region, state (started, stopped), in dashboard</p>
+</li>
+<li><p><strong>Log search</strong>: Filter logs by region, machine ID, time range; keyword search in log output</p>
+</li>
+<li><p><strong>Docs search</strong>: Full-text documentation search (Algolia-powered)</p>
+</li>
+<li><p><strong>CLI search</strong>: <code>fly apps list</code>, <code>fly machines list</code> with text-based filtering</p>
+</li>
+<li><p><strong>No marketplace/template search</strong>: Blueprints are in docs, not a searchable marketplace</p>
+</li>
+<li><p><strong>Metrics filtering</strong>: Time range, region, machine</p>
+</li>
+<li><p><strong>Volume filtering</strong>: Filter volumes by region, attached machine, size</p>
+</li>
+<li><p><strong>Blueprint search</strong>: Search deployment guides by framework or language</p>
+</li>
+<li><p><strong>Activity log search</strong>: Search app activity by event type, date range</p>
+</li>
 </ul>
 <h2>Responsive Behavior</h2>
 <table>
@@ -319,6 +300,32 @@
 <li>Docs site is fully responsive with collapsible sidebar TOC</li>
 <li>Marketing site is fully responsive with mobile-first design</li>
 </ul>
+<h3>Platform-Specific UX</h3>
+<ul>
+<li>CLI-first philosophy means <code>flyctl</code> is the primary interface — dashboard is supplementary</li>
+<li>Machines can be started/stopped in milliseconds for scale-to-zero cost optimization</li>
+<li>Anycast networking routes users to the nearest region automatically via global IP</li>
+<li>WireGuard VPN tunnels provide secure access to private app networks during development</li>
+<li><code>fly.toml</code> configuration file centralizes app settings (services, ports, health checks, scaling)</li>
+<li>Blueprints in documentation provide framework-specific deployment guides (Rails, Django, Next.js, Elixir)</li>
+<li>Volume snapshots provide point-in-time backups for persistent storage</li>
+<li>Fly Postgres is a managed Postgres deployed as a Fly app with read replicas</li>
+<li>Machine API enables programmatic lifecycle management for infrastructure-as-code workflows</li>
+<li>Deploy tokens are scoped per-app for CI/CD integration without full account access</li>
+<li>Metrics dashboard shows CPU, memory, bandwidth, and request latency per machine and region</li>
+</ul>
+<h3>CLI Commands (Primary Interface)</h3>
+<pre><code>fly launch     # Auto-detect framework, generate config, deploy
+fly deploy     # Build and deploy from current directory
+fly scale      # Adjust machine count and size
+fly machines   # List, start, stop, destroy machines
+fly logs       # Stream application logs
+fly secrets    # Manage environment secrets
+fly ssh        # SSH into running machines
+fly proxy      # Proxy local port to remote machine
+fly volumes    # Manage persistent storage volumes
+fly status     # Show app status and machine info
+</code></pre>
 <h2>Access Control</h2>
 <table>
 <thead>

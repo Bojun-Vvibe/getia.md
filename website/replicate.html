@@ -135,9 +135,9 @@
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Structure</th>
-<th>Ownership</th>
+<th>Entity</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -178,37 +178,17 @@
 </tbody></table>
 <h2>User Flows</h2>
 <h3>Discovering &amp; Running a Model</h3>
-<ol>
-<li>User browses Explore or searches for a capability (e.g., &quot;background removal&quot;)</li>
-<li>Clicks model → lands on playground with pre-filled example inputs</li>
-<li>Adjusts inputs (upload image, set parameters) → clicks &quot;Run&quot;</li>
-<li>Output renders (image, text, audio, video) in ~seconds to minutes</li>
-<li>&quot;API&quot; tab shows exact curl/Python/JS code to replicate the call programmatically</li>
-</ol>
+<pre><code>Browses Explore or searches for a capability (e.g., &quot;background removal&quot;) → Clicks model → lands on playground with pre-filled example inputs → Adjusts inputs (upload image, set parameters) → clicks &quot;Run&quot; → Output renders (image, text, audio, video) in ~seconds to minutes → &quot;API&quot; tab shows exact curl/Python/JS code to replicate the call programmatically
+</code></pre>
 <h3>Deploying a Model to Production</h3>
-<ol>
-<li>User identifies a model they want to use at scale</li>
-<li>Creates a Deployment with hardware selection (CPU, GPU type) and scaling config</li>
-<li>Deployment gets a dedicated endpoint URL with guaranteed capacity</li>
-<li>Autoscales between min and max replicas based on traffic</li>
-<li>Monitors via Dashboard — latency, throughput, cost</li>
-</ol>
+<pre><code>Identifies a model they want to use at scale → Creates a Deployment with hardware selection (CPU, GPU type) and scaling config → Deployment gets a dedicated endpoint URL with guaranteed capacity → Autoscales between min and max replicas based on traffic → Monitors via Dashboard — latency, throughput, cost
+</code></pre>
 <h3>Publishing a Custom Model</h3>
-<ol>
-<li>User packages model using Cog (Docker-based ML packaging tool)</li>
-<li>Defines input/output schema in <code>predict.py</code></li>
-<li>Pushes to Replicate: <code>cog push r8.im/{username}/{model_name}</code></li>
-<li>Model appears on their profile with auto-generated playground</li>
-<li>Can be public (discoverable) or private</li>
-</ol>
+<pre><code>Packages model using Cog (Docker-based ML packaging tool) → Defines input/output schema in `predict.py` → Pushes to Replicate: `cog push r8.im/{username}/{model_name}` → Model appears on their profile with auto-generated playground → Can be public (discoverable) or private
+</code></pre>
 <h3>Fine-Tuning</h3>
-<ol>
-<li>User selects a base model that supports training (e.g., SDXL, Llama)</li>
-<li>Uploads training data (images for SDXL, text for LLMs)</li>
-<li>Configures hyperparameters → starts training job</li>
-<li>Training creates a new model version → testable in playground immediately</li>
-<li>Deploy the fine-tuned version via API or Deployment</li>
-</ol>
+<pre><code>Selects a base model that supports training (e.g., SDXL, Llama) → Uploads training data (images for SDXL, text for LLMs) → Configures hyperparameters → starts training job → Training creates a new model version → testable in playground immediately → Deploy the fine-tuned version via API or Deployment
+</code></pre>
 <h2>URL / Route Structure</h2>
 <table>
 <thead>
@@ -335,6 +315,134 @@
 <li>API tokens: Bearer token authentication; tokens scoped to user/org</li>
 <li>Model visibility: Public (free to run, anyone can see) or Private (only owner can access)</li>
 <li>Rate limits: Concurrent prediction limits based on plan</li>
+</ul>
+<h2>Model Categories</h2>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Popular Models</th>
+<th>Use Cases</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Image Generation</td>
+<td>Stable Diffusion, SDXL, Flux</td>
+<td>Art, product photos, design</td>
+</tr>
+<tr>
+<td>Image Editing</td>
+<td>InstructPix2Pix, ControlNet</td>
+<td>Photo editing, style transfer</td>
+</tr>
+<tr>
+<td>Language</td>
+<td>Llama, Mistral, Mixtral</td>
+<td>Chat, summarization, code</td>
+</tr>
+<tr>
+<td>Audio</td>
+<td>Whisper, MusicGen, Bark</td>
+<td>Transcription, music, speech</td>
+</tr>
+<tr>
+<td>Video</td>
+<td>Stable Video Diffusion, AnimateDiff</td>
+<td>Video generation, animation</td>
+</tr>
+<tr>
+<td>Vision</td>
+<td>BLIP, LLaVA, SAM</td>
+<td>Image captioning, segmentation</td>
+</tr>
+<tr>
+<td>Upscaling</td>
+<td>Real-ESRGAN, SwinIR</td>
+<td>Image enhancement, super-resolution</td>
+</tr>
+<tr>
+<td>3D</td>
+<td>Point-E, Shap-E</td>
+<td>3D model generation</td>
+</tr>
+</tbody></table>
+<h2>API Usage</h2>
+<pre><code class="language-python">import replicate
+
+output = replicate.run(
+    &quot;stability-ai/sdxl:version_hash&quot;,
+    input={
+        &quot;prompt&quot;: &quot;a cyberpunk cityscape at sunset&quot;,
+        &quot;negative_prompt&quot;: &quot;blurry, low quality&quot;,
+        &quot;width&quot;: 1024,
+        &quot;height&quot;: 1024,
+        &quot;num_outputs&quot;: 1
+    }
+)
+print(output)  # URL to generated image
+</code></pre>
+<h2>Deployment Options</h2>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+<th>Best For</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Serverless</td>
+<td>Pay-per-prediction; cold starts possible</td>
+<td>Occasional/variable usage</td>
+</tr>
+<tr>
+<td>Custom Deployment</td>
+<td>Dedicated GPU; always warm</td>
+<td>Production, low-latency</td>
+</tr>
+<tr>
+<td>Fine-tuning</td>
+<td>Train model on custom data</td>
+<td>Brand-specific outputs</td>
+</tr>
+</tbody></table>
+<h2>Pricing</h2>
+<ul>
+<li><strong>Pay-per-second:</strong> Billed by GPU-second of computation</li>
+<li><strong>GPU types:</strong> CPU, T4, A40, A100 (40GB/80GB), H100</li>
+<li><strong>No minimum:</strong> Start at $0; pay only for what you use</li>
+<li><strong>Custom deployments:</strong> Fixed hourly rate for dedicated GPU</li>
+<li><strong>Free tier:</strong> Some community models offer free predictions</li>
+</ul>
+<h2>Cog (Model Packaging)</h2>
+<pre><code>cog.yaml → defines GPU, Python dependencies, model weights
+predict.py → defines predict() function with typed inputs/outputs
+cog push → builds Docker image, pushes to Replicate
+</code></pre>
+<h2>Model Publishing</h2>
+<ul>
+<li><strong>Cog packaging:</strong> Define model with <code>cog.yaml</code> and <code>predict.py</code></li>
+<li><strong>Version management:</strong> Each push creates a new version; pin to specific versions</li>
+<li><strong>Hardware selection:</strong> Choose GPU type per model (CPU, T4, A40, A100, H100)</li>
+<li><strong>README:</strong> Markdown documentation with usage examples</li>
+<li><strong>Schema:</strong> Auto-generated API schema from typed predict function</li>
+<li><strong>Visibility:</strong> Public (listed on Explore) or Private (your account only)</li>
+</ul>
+<h2>Webhook &amp; Async Predictions</h2>
+<ul>
+<li><strong>Webhook URL:</strong> Receive prediction results at your endpoint when complete</li>
+<li><strong>Polling:</strong> Check prediction status via GET request</li>
+<li><strong>Streaming:</strong> Stream output tokens for language models in real-time</li>
+<li><strong>Cancellation:</strong> Cancel in-progress predictions to save credits</li>
+</ul>
+<h2>Community Models</h2>
+<ul>
+<li><strong>Open source models:</strong> Most models on Replicate are open source (Llama, Stable Diffusion, Whisper)</li>
+<li><strong>Model leaderboard:</strong> Popular models ranked by prediction count</li>
+<li><strong>Version pinning:</strong> Always pin to a specific version hash for production stability</li>
+<li><strong>Fork models:</strong> Fork and customize community models with your own fine-tuning</li>
+<li><strong>Model collections:</strong> Curated groups by category (image generation, audio, language)</li>
+<li><strong>Community contributions:</strong> Anyone can push models via Cog</li>
 </ul>
 
     </div>

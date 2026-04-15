@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — InVision</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>InVision is a digital product design platform that pioneered <strong>clickable prototyping</strong> from static screens and later expanded into collaborative whiteboarding (Freehand) and design system management (DSM). While the company has scaled down its product suite, the IA reflects its historical role as a design collaboration hub — connecting designers, developers, and stakeholders through prototypes, design specs, and real-time collaboration boards. Key products include prototyping, Freehand, and DSM.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>invisionapp.com
 ├── Home
 ├── Product
@@ -200,7 +200,7 @@ InVision App (Web)
     ├── Notifications
     └── Preferences
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <table>
 <thead>
 <tr>
@@ -236,85 +236,87 @@ InVision App (Web)
 </tr>
 </tbody></table>
 <p><strong>Key pattern</strong>: InVision uses a mode-switching paradigm in prototypes — Build (add interactions), Preview (test), Comment (feedback), Inspect (handoff) — each mode shows the same screens with different overlays.</p>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
 <th>Entity</th>
-<th>Attributes</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>Project (Prototype)</td>
 <td>name, type, screens, hotspots, comments, collaborators, space, status</td>
+<td>has Chapters, → Voices, belongs to User</td>
 </tr>
 <tr>
 <td>Screen</td>
 <td>image, name, sort order, hotspots, fixed elements, transition effects</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Hotspot</td>
 <td>position (x, y, w, h), target screen, gesture (tap, swipe, hover), transition (slide, fade, etc.)</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Comment</td>
 <td>author, screen, position (x, y), text, status (open/resolved), replies, timestamp</td>
+<td>belongs to Post, → Author</td>
 </tr>
 <tr>
 <td>Freehand Board</td>
 <td>name, elements, collaborators, template source, space</td>
+<td>has Articles, belongs to User/Team</td>
 </tr>
 <tr>
 <td>Freehand Element</td>
 <td>type (sticky, shape, drawing, text, image, embed), position, style</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>DSM Component</td>
 <td>name, description, design preview, code snippet, design tokens, version</td>
+<td>used by Pages, has Variants</td>
 </tr>
 <tr>
 <td>Design Token</td>
 <td>category (color, typography, spacing), name, value, platform (web/iOS/Android)</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Space</td>
 <td>name, projects, members, permissions</td>
+<td>belongs to parent entity</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
+<h2>User Flows</h2>
 <h3>5a. Create a prototype</h3>
-<ol>
-<li>New Project → upload screen designs (PNG/JPG from Sketch, Figma, etc.)</li>
-<li>Enter Build mode → draw hotspots on interactive elements</li>
-<li>Link hotspots to target screens → set transition animation</li>
-<li>Preview mode → click through prototype on device frame</li>
-<li>Share link → stakeholders comment directly on screens</li>
-</ol>
+<pre><code>New Project → upload screen designs (PNG/JPG from Sketch, Figma, etc.) →
+  Enter Build mode → draw hotspots on interactive elements →
+  Link hotspots to target screens → set transition animation →
+  Preview mode → click through prototype on device frame →
+  Share link → stakeholders comment directly on screens
+</code></pre>
 <h3>5b. Freehand brainstorming session</h3>
-<ol>
-<li>Create new Freehand → choose template (or blank)</li>
-<li>Share link with team → real-time cursors visible</li>
-<li>Add sticky notes, drawings, diagrams, wireframes</li>
-<li>Vote on ideas (dot voting) → use timer for timeboxing</li>
-<li>Export as PDF or continue iterating</li>
-</ol>
+<pre><code>Create new Freehand → choose template (or blank) → Share link with team → real-time cursors visible →
+  Add sticky notes, drawings, diagrams, wireframes →
+  Vote on ideas (dot voting) → use timer for timeboxing → Export as PDF or continue iterating
+</code></pre>
 <h3>5c. Design system management (DSM)</h3>
-<ol>
-<li>Set up DSM → add components from design tool</li>
-<li>Add design tokens (colors, fonts, spacing)</li>
-<li>Write documentation for each component</li>
-<li>Add code snippets (HTML/CSS, React, Swift)</li>
-<li>Team references DSM as single source of truth</li>
-</ol>
+<pre><code>Set up DSM → add components from design tool → Add design tokens (colors, fonts, spacing) →
+  Write documentation for each component → Add code snippets (HTML/CSS, React, Swift) →
+  Team references DSM as single source of truth
+</code></pre>
 <h3>5d. Developer handoff (Inspect)</h3>
-<ol>
-<li>Developer opens shared prototype → Inspect mode</li>
-<li>Click any element → view specs (dimensions, spacing, colors, fonts)</li>
-<li>Copy generated code (CSS, Swift, Android)</li>
-<li>Download assets (images, icons in multiple resolutions)</li>
-<li>Leave comments for questions → designer responds</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<pre><code>Developer opens shared prototype → Inspect mode →
+  Click any element → view specs (dimensions, spacing, colors, fonts) →
+  Copy generated code (CSS, Swift, Android) →
+  Download assets (images, icons in multiple resolutions) →
+  Leave comments for questions → designer responds
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code># invisionapp.com (marketing)
 /                               → Home
 /freehand/                      → Freehand product
@@ -337,8 +339,9 @@ InVision App (Web)
 /dsm/{org-slug}/                → DSM library
 /dsm/{org-slug}/{component}/    → Component detail
 /settings/                      → Team settings
+projects.invisionapp.com/d/{documentId}              # Prototype document
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <table>
 <thead>
 <tr>
@@ -375,7 +378,7 @@ InVision App (Web)
 <td>Find screens within prototype by name</td>
 </tr>
 </tbody></table>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -404,7 +407,7 @@ InVision App (Web)
 <td>Touch-optimized for tablets, supports Apple Pencil</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>

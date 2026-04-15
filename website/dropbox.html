@@ -257,6 +257,13 @@
 <h3>Paper Doc</h3>
 <pre><code>Paper → Create Doc → Write with rich text → @mention teammate → Add task list → Share → Collaborate in real-time
 </code></pre>
+<h3>New User Onboarding</h3>
+<pre><code>Visit Dropbox → Sign Up (email/Google/SSO) → Complete profile → Guided setup wizard → Configure preferences → Explore key features → Start using the product
+                                                                                                                         ↘ Skip wizard → Land on dashboard
+</code></pre>
+<h3>Manage Notifications</h3>
+<pre><code>Settings → Notifications → Toggle email/push/in-app per category → Set frequency (instant/daily digest/weekly) → Save preferences
+</code></pre>
 <h2>URL / Route Structure</h2>
 <pre><code>/home                      → Home
 /all-files                 → All Files
@@ -273,6 +280,16 @@
 /transfer                  → Transfers
 /settings                  → Settings
 /admin                     → Admin console
+account  → Account settings
+account/security  → Security settings
+billing  → Billing &amp; subscription
+notifications  → Notification preferences
+help  → Help center
+/sharing                          → Shared links &amp; folders
+/events                           → Activity feed
+/deleted-files                    → Deleted files
+/account                          → Account settings
+/account/plan                     → Plan &amp; billing
 </code></pre>
 <h2>Search &amp; Filter</h2>
 <table>
@@ -299,6 +316,11 @@
 <td>Modified, Name</td>
 </tr>
 </tbody></table>
+<ul>
+<li><strong>Autocomplete</strong>: Type-ahead suggestions with recent searches and popular results</li>
+<li><strong>Advanced search</strong>: Boolean operators (AND, OR, NOT), field-specific filters, date ranges</li>
+<li><strong>Recent searches</strong>: Quick access to previous search queries</li>
+</ul>
 <h2>Responsive Behavior</h2>
 <table>
 <thead>
@@ -320,6 +342,38 @@
 <td>Bottom tabs (Home, Files, Shared, Search), list view only</td>
 </tr>
 </tbody></table>
+<h3>Platform-Specific Patterns</h3>
+<ul>
+<li>Touch targets: minimum 44x44pt on mobile for accessibility</li>
+<li>Swipe gestures: swipe to delete, archive, or perform quick actions</li>
+<li>Pull-to-refresh: standard refresh pattern on feeds and lists</li>
+<li>Keyboard shortcuts: comprehensive shortcuts on desktop for power users</li>
+<li>Dark mode: system-preference detection with manual override</li>
+<li>Offline support: cached data available without network connectivity</li>
+<li>Progressive loading: skeleton screens while content loads</li>
+</ul>
+<h3>Dropbox-Specific UX Patterns</h3>
+<ul>
+<li><strong>Progressive disclosure</strong>: Complex features hidden behind expandable sections</li>
+<li><strong>Contextual actions</strong>: Right-click menus and hover-revealed action buttons</li>
+<li><strong>Inline editing</strong>: Click-to-edit fields without navigating to a separate page</li>
+<li><strong>Batch operations</strong>: Multi-select with bulk actions (delete, move, archive, tag)</li>
+<li><strong>Undo support</strong>: Non-destructive actions with undo toast notifications</li>
+<li><strong>Loading states</strong>: Skeleton screens and progress indicators during async operations</li>
+<li><strong>Empty states</strong>: Helpful illustrations and CTAs when sections have no content</li>
+<li><strong>Onboarding tooltips</strong>: First-time user guidance highlighting key features</li>
+</ul>
+<h3>Accessibility</h3>
+<ul>
+<li>WCAG 2.1 AA compliance across all interactive elements</li>
+<li>Semantic HTML with proper ARIA labels and landmarks</li>
+<li>Keyboard navigation support for all core workflows</li>
+<li>Screen reader compatibility tested with VoiceOver, NVDA, and JAWS</li>
+<li>Color contrast ratios meeting minimum 4.5:1 for body text</li>
+<li>Focus indicators visible on all interactive elements</li>
+<li>Reduced motion option respecting <code>prefers-reduced-motion</code></li>
+<li>Resizable text up to 200% without content loss</li>
+</ul>
 <h2>Access Control</h2>
 <table>
 <thead>
@@ -365,6 +419,16 @@
 <td>✅</td>
 </tr>
 </tbody></table>
+<h3>Security Features</h3>
+<ul>
+<li>Single Sign-On (SSO) support via SAML 2.0 and OIDC (Team/Enterprise)</li>
+<li>Two-factor authentication (TOTP, SMS, hardware keys)</li>
+<li>API token management with scoped permissions</li>
+<li>Session management: configurable timeout, forced logout</li>
+<li>Audit logging for security-sensitive actions</li>
+<li>Data encryption at rest (AES-256) and in transit (TLS 1.3)</li>
+<li>SOC 2 Type II compliance</li>
+</ul>
 
     </div>
   </article>

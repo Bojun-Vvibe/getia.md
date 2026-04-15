@@ -160,9 +160,9 @@ developers.cloudflare.com (Documentation)
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Structure</th>
-<th>Ownership</th>
+<th>Entity</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -213,40 +213,21 @@ developers.cloudflare.com (Documentation)
 </tbody></table>
 <h2>User Flows</h2>
 <h3>Adding a Website (Zone)</h3>
-<ol>
-<li>User clicks &quot;Add a Site&quot; → enters domain name</li>
-<li>Cloudflare scans existing DNS records → imports them</li>
-<li>User selects plan (Free, Pro, Business, Enterprise)</li>
-<li>Cloudflare provides two nameservers → user updates at registrar</li>
-<li>DNS propagation completes → Cloudflare activates zone</li>
-<li>SSL certificate auto-provisioned → HTTPS enabled</li>
-<li>User configures caching, security, and performance settings</li>
-</ol>
+<pre><code>User clicks &quot;Add a Site&quot; → enters domain name → Cloudflare scans existing DNS records → imports them → User selects plan (Free, Pro, Business, Enterprise) → Cloudflare provides two nameservers → user updates at registrar → DNS propagation completes → Cloudflare activates zone → SSL certificate auto-provisioned → HTTPS enabled → User configures caching, security, and performance settings
+</code></pre>
 <h3>Deploying a Worker</h3>
-<ol>
-<li>User navigates to Workers &amp; Pages → &quot;Create&quot; → &quot;Create Worker&quot;</li>
-<li>Online editor opens with Hello World template</li>
-<li>Edits code → tests with built-in preview (sends test requests)</li>
-<li>Deploys to Cloudflare&#39;s global edge network (200+ cities)</li>
-<li>Configures triggers: HTTP route, cron schedule, or queue consumer</li>
-<li>Binds resources: KV namespace, R2 bucket, D1 database, environment variables</li>
-</ol>
+<pre><code>User navigates to Workers &amp; Pages → &quot;Create&quot; → &quot;Create Worker&quot; → Online editor opens with Hello World template → Edits code → tests with built-in preview (sends test requests) → Deploys to Cloudflare&#39;s global edge network (200+ cities) → Configures triggers: HTTP route, cron schedule, or queue consumer → Binds resources: KV namespace, R2 bucket, D1 database, environment variables
+</code></pre>
 <h3>Pages Deployment</h3>
-<ol>
-<li>User connects GitHub/GitLab repo</li>
-<li>Configures build settings (framework preset auto-detected for Next.js, Nuxt, Astro, etc.)</li>
-<li>Every push triggers a build → deployed to <code>{project}.pages.dev</code></li>
-<li>PRs get deploy previews with unique URLs</li>
-<li>Custom domain and redirects configured in project settings</li>
-</ol>
+<pre><code>User connects GitHub/GitLab repo → Configures build settings (framework preset auto-detected for Next.js, Nuxt, Astro, etc.) → Every push triggers a build → deployed to `{project}.pages.dev` → PRs get deploy previews with unique URLs → Custom domain and redirects configured in project settings
+</code></pre>
 <h3>Zero Trust Access</h3>
-<ol>
-<li>Admin navigates to Zero Trust → Access → Applications</li>
-<li>Creates an application (self-hosted app behind Cloudflare)</li>
-<li>Defines access policy: identity provider (Okta, Azure AD, etc.) + rules (email domain, group, IP)</li>
-<li>Users accessing the app are prompted for authentication</li>
-<li>Cloudflare proxies authenticated requests to the origin server</li>
-</ol>
+<pre><code>Admin navigates to Zero Trust → Access → Applications → Creates an application (self-hosted app behind Cloudflare) → Defines access policy: identity provider (Okta, Azure AD, etc.) + rules (email domain, group, IP) → Users accessing the app are prompted for authentication → Cloudflare proxies authenticated requests to the origin server
+</code></pre>
+<h3>New User Onboarding</h3>
+<pre><code>Visit Cloudflare → Sign Up (email/Google/SSO) → Complete profile → Guided setup wizard → Configure preferences → Explore key features → Start using the product
+                                                                                                                         ↘ Skip wizard → Land on dashboard
+</code></pre>
 <h2>URL / Route Structure</h2>
 <table>
 <thead>
@@ -297,16 +278,44 @@ developers.cloudflare.com (Documentation)
 </tr>
 </tbody></table>
 <p>Account ID is a hex string. Zone name is the domain. Nested routing reflects the deep product hierarchy.</p>
+<h3>Additional Routes</h3>
+<pre><code>dash.cloudflare.com/settings  → Settings
+dash.cloudflare.com/billing  → Billing &amp; subscription
+dash.cloudflare.com/notifications  → Notification preferences
+dash.cloudflare.com/help  → Help center
+dash.cloudflare.com/help/{topic}  → Help article
+dash.cloudflare.com/search?q={query}  → Search results
+dash.cloudflare.com/integrations  → Integrations
+dash.cloudflare.com/admin  → Admin console
+dash.cloudflare.com/admin/members  → Member management
+dash.cloudflare.com/import  → Import data
+</code></pre>
 <h2>Search &amp; Filter</h2>
 <ul>
-<li><strong>Zone search</strong>: Search zones by domain name on account home</li>
-<li><strong>DNS record search</strong>: Filter records by type, name, or content within a zone</li>
-<li><strong>Worker search</strong>: Search workers by name</li>
-<li><strong>R2 object search</strong>: Search objects by key prefix within a bucket</li>
-<li><strong>Analytics filters</strong>: Date range, cache status, country, status code, host</li>
-<li><strong>Firewall event filtering</strong>: Date range, action taken, rule ID, client IP, country, ASN</li>
-<li><strong>Docs search</strong>: Full-text search across all documentation (Algolia-powered)</li>
-<li><strong>Audit log search</strong>: Filter by user, action type, resource, date range</li>
+<li><p><strong>Zone search</strong>: Search zones by domain name on account home</p>
+</li>
+<li><p><strong>DNS record search</strong>: Filter records by type, name, or content within a zone</p>
+</li>
+<li><p><strong>Worker search</strong>: Search workers by name</p>
+</li>
+<li><p><strong>R2 object search</strong>: Search objects by key prefix within a bucket</p>
+</li>
+<li><p><strong>Analytics filters</strong>: Date range, cache status, country, status code, host</p>
+</li>
+<li><p><strong>Firewall event filtering</strong>: Date range, action taken, rule ID, client IP, country, ASN</p>
+</li>
+<li><p><strong>Docs search</strong>: Full-text search across all documentation (Algolia-powered)</p>
+</li>
+<li><p><strong>Audit log search</strong>: Filter by user, action type, resource, date range</p>
+</li>
+<li><p><strong>Sort options</strong>: By relevance, date created, date modified, alphabetical, popularity</p>
+</li>
+<li><p><strong>Autocomplete</strong>: Type-ahead suggestions with recent searches and popular results</p>
+</li>
+<li><p><strong>Advanced search</strong>: Boolean operators (AND, OR, NOT), field-specific filters, date ranges</p>
+</li>
+<li><p><strong>Recent searches</strong>: Quick access to previous search queries</p>
+</li>
 </ul>
 <h2>Responsive Behavior</h2>
 <table>
@@ -339,6 +348,28 @@ developers.cloudflare.com (Documentation)
 <li>Worker code editor is desktop-only (redirects to Wrangler CLI recommendation on mobile)</li>
 <li>Settings forms stack vertically with full-width inputs</li>
 <li>Zero Trust dashboard is complex enough to warrant desktop-only use</li>
+</ul>
+<h3>Cloudflare-Specific UX Patterns</h3>
+<ul>
+<li><strong>Progressive disclosure</strong>: Complex features hidden behind expandable sections</li>
+<li><strong>Contextual actions</strong>: Right-click menus and hover-revealed action buttons</li>
+<li><strong>Inline editing</strong>: Click-to-edit fields without navigating to a separate page</li>
+<li><strong>Batch operations</strong>: Multi-select with bulk actions (delete, move, archive, tag)</li>
+<li><strong>Undo support</strong>: Non-destructive actions with undo toast notifications</li>
+<li><strong>Loading states</strong>: Skeleton screens and progress indicators during async operations</li>
+<li><strong>Empty states</strong>: Helpful illustrations and CTAs when sections have no content</li>
+<li><strong>Onboarding tooltips</strong>: First-time user guidance highlighting key features</li>
+</ul>
+<h3>Accessibility</h3>
+<ul>
+<li>WCAG 2.1 AA compliance across all interactive elements</li>
+<li>Semantic HTML with proper ARIA labels and landmarks</li>
+<li>Keyboard navigation support for all core workflows</li>
+<li>Screen reader compatibility tested with VoiceOver, NVDA, and JAWS</li>
+<li>Color contrast ratios meeting minimum 4.5:1 for body text</li>
+<li>Focus indicators visible on all interactive elements</li>
+<li>Reduced motion option respecting <code>prefers-reduced-motion</code></li>
+<li>Resizable text up to 200% without content loss</li>
 </ul>
 <h2>Access Control</h2>
 <table>

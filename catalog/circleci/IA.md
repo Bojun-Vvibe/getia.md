@@ -58,8 +58,8 @@ app.circleci.com
 
 ## Content Model
 
-| Content Type | Structure | Ownership |
-|---|---|---|
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
 | Pipeline | Trigger (push, PR, schedule, API), pipeline number, commit, branch, workflows | Auto-triggered |
 | Workflow | Name, jobs (DAG), status, duration, retries | Part of pipeline |
 | Job | Name, executor (docker/vm), steps, output, artifacts, test results, resource class | Part of workflow |
@@ -71,39 +71,41 @@ app.circleci.com
 | Test Result | JUnit XML parsed results — pass/fail, duration, flaky detection | Part of job |
 | Insight | Aggregated metrics — success rate, duration (p50/p95), throughput, credit usage | Analytics |
 
+
+### Build/Pipeline Lifecycle
+```
+triggered → queued → running → success → deployed
+                              ↘ failed → retried → success
+triggered → cancelled (by user or timeout)
+running → timed_out → failed
+```
 ## User Flows
 
 ### Pipeline Triggered by Code Push
-1. Developer pushes code to GitHub/GitLab/Bitbucket
-2. CircleCI triggers Pipeline → reads `.circleci/config.yml`
-3. Workflow(s) start → jobs execute in defined order/parallelism
-4. Dashboard updates in real-time — job status badges (running, success, failed)
-5. Workflow graph shows DAG with colored nodes
-6. Click a job → see step-by-step output, test results, artifacts
+```
+Developer pushes code to GitHub/GitLab/Bitbucket → CircleCI triggers Pipeline → reads `.circleci/config.yml` → Workflow(s) start → jobs execute in defined order/parallelism → Dashboard updates in real-time — job status badges (running, success, failed) → Workflow graph shows DAG with colored nodes → Click a job → see step-by-step output, test results, artifacts
+```
 
 ### Investigating a Failed Build
-1. Developer sees red pipeline on dashboard
-2. Clicks Pipeline → Workflow graph shows which job(s) failed
-3. Clicks failed job → scrolls to the failing step
-4. Reads error output → identifies issue (test failure, build error, timeout)
-5. Can SSH into the executor for interactive debugging (if enabled)
-6. Fixes code → pushes → new pipeline runs
+```
+Developer sees red pipeline on dashboard → Clicks Pipeline → Workflow graph shows which job(s) failed → Clicks failed job → scrolls to the failing step → Reads error output → identifies issue (test failure, build error, timeout) → Can SSH into the executor for interactive debugging (if enabled) → Fixes code → pushes → new pipeline runs
+```
 
 ### Insights & Optimization
-1. Team lead navigates to Insights → selects project
-2. Views workflow metrics: success rate trend, duration trend (p50, p95), throughput
-3. Identifies slowest workflows and most common failure points
-4. Drills into test metrics → sees flaky tests (tests that intermittently fail)
-5. Optimizes config: adds caching, parallelism, or resource class upgrades
-6. Measures improvement in next sprint's metrics
+```
+Team lead navigates to Insights → selects project → Views workflow metrics: success rate trend, duration trend (p50, p95), throughput → Identifies slowest workflows and most common failure points → Drills into test metrics → sees flaky tests (tests that intermittently fail) → Optimizes config: adds caching, parallelism, or resource class upgrades → Measures improvement in next sprint's metrics
+```
 
 ### Using an Orb
-1. Developer browses Orb Registry → finds relevant orb (e.g., `circleci/slack`)
-2. Reads orb documentation: available commands, jobs, and parameters
-3. Adds orb reference to config: `orbs: slack: circleci/slack@4.12.0`
-4. Uses orb commands in workflow: `slack/notify` job after deployment
-5. Orb auto-updates with version pinning
+```
+Developer browses Orb Registry → finds relevant orb (e.g., `circleci/slack`) → Reads orb documentation: available commands, jobs, and parameters → Adds orb reference to config: `orbs: slack: circleci/slack@4.12.0` → Uses orb commands in workflow: `slack/notify` job after deployment → Orb auto-updates with version pinning
+```
 
+### New User Onboarding
+```
+Visit CircleCI → Sign Up (email/Google/SSO) → Complete profile → Guided setup wizard → Configure preferences → Explore key features → Start using the product
+                                                                                                                         ↘ Skip wizard → Land on dashboard
+```
 ## URL / Route Structure
 
 | Pattern | Description |
@@ -120,6 +122,31 @@ app.circleci.com
 
 Deep hierarchical URLs reflecting Pipeline → Workflow → Job hierarchy. VCS type (github, bitbucket) in path.
 
+### Additional Routes
+
+```
+app.circleci.com/account  → Account settings
+app.circleci.com/account/security  → Security settings
+app.circleci.com/billing  → Billing & subscription
+app.circleci.com/notifications  → Notification preferences
+app.circleci.com/help  → Help center
+app.circleci.com/help/{topic}  → Help article
+app.circleci.com/api  → API documentation
+app.circleci.com/search?q={query}  → Search results
+app.circleci.com/integrations  → Integrations
+app.circleci.com/admin  → Admin console
+app.circleci.com/projects                                           # All projects
+app.circleci.com/organization/{id}/settings                          # Org settings
+app.circleci.com/organization/{id}/runners                           # Self-hosted runners
+app.circleci.com/organization/{id}/usage                             # Usage & billing
+app.circleci.com/account/personal                                   # Personal settings
+app.circleci.com/account/tokens                                     # API tokens
+app.circleci.com/account/notifications                              # Notification prefs
+app.circleci.com/insights/{vcs}/{org}/{project}/tests               # Test metrics
+app.circleci.com/project/{vcs}/{org}/{project}/settings/env-vars     # Environment variables
+app.circleci.com/project/{vcs}/{org}/{project}/settings/ssh-keys     # SSH keys
+```
+
 ## Search & Filter
 
 - **Pipeline filtering**: Filter by branch (critical), status (success, failed, running), trigger type
@@ -130,6 +157,10 @@ Deep hierarchical URLs reflecting Pipeline → Workflow → Job hierarchy. VCS t
 - **Test search**: Search test results by test name, filter by status (failed, flaky)
 - **No cross-project pipeline search**: Each project's pipelines are independent
 
+- **Sort options**: By relevance, date created, date modified, alphabetical, popularity
+- **Autocomplete**: Type-ahead suggestions with recent searches and popular results
+- **Advanced search**: Boolean operators (AND, OR, NOT), field-specific filters, date ranges
+- **Recent searches**: Quick access to previous search queries
 ## Responsive Behavior
 
 | Breakpoint | Behavior |
@@ -144,6 +175,42 @@ Deep hierarchical URLs reflecting Pipeline → Workflow → Job hierarchy. VCS t
 - Job output logs are monospace with horizontal scroll
 - Insights charts resize and may reduce data density on mobile
 - Orb registry cards reflow from grid to single-column
+
+
+### CircleCI-Specific UX Patterns
+- **Progressive disclosure**: Complex features hidden behind expandable sections
+- **Contextual actions**: Right-click menus and hover-revealed action buttons
+- **Inline editing**: Click-to-edit fields without navigating to a separate page
+- **Batch operations**: Multi-select with bulk actions (delete, move, archive, tag)
+- **Undo support**: Non-destructive actions with undo toast notifications
+- **Loading states**: Skeleton screens and progress indicators during async operations
+- **Empty states**: Helpful illustrations and CTAs when sections have no content
+- **Onboarding tooltips**: First-time user guidance highlighting key features
+
+### Accessibility
+- WCAG 2.1 AA compliance across all interactive elements
+- Semantic HTML with proper ARIA labels and landmarks
+- Keyboard navigation support for all core workflows
+- Screen reader compatibility tested with VoiceOver, NVDA, and JAWS
+- Color contrast ratios meeting minimum 4.5:1 for body text
+- Focus indicators visible on all interactive elements
+- Reduced motion option respecting `prefers-reduced-motion`
+- Resizable text up to 200% without content loss
+
+
+### API & Integration Patterns
+- RESTful API with JSON request/response format
+- Webhook support for real-time event notifications
+- OAuth 2.0 for third-party application authorization
+- Rate limiting with clear headers (X-RateLimit-Remaining)
+- Pagination via cursor-based or offset-based parameters
+- Versioned API endpoints for backward compatibility
+- Comprehensive API documentation with interactive examples
+- SDKs available for popular languages (JavaScript, Python, Ruby, Go)
+
+
+- Docker layer caching significantly reduces build times for container-based workflows
+- Test splitting distributes tests across parallel containers for faster feedback
 
 ## Access Control
 

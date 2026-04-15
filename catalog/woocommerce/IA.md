@@ -7,10 +7,10 @@ website: https://woocommerce.com
 
 # Information Architecture — WooCommerce
 
-## 1. Overview
+## Overview
 WooCommerce is a free, open-source e-commerce plugin for WordPress that turns any WordPress site into an online store. The IA of woocommerce.com itself serves as a **hub for the ecosystem** — plugin downloads, extensions marketplace, documentation, and community. The actual store IA is infinitely customizable by each merchant. WooCommerce's architecture supports self-hosted stores, 800+ extensions, multiple payment gateways, and deep integration with the WordPress ecosystem.
 
-## 2. Site Map
+## Site Map
 
 ```
 woocommerce.com
@@ -80,7 +80,7 @@ woocommerce.com
     └── Get started
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 | Level | Type | Details |
 |-------|------|---------|
@@ -92,9 +92,9 @@ woocommerce.com
 
 **Key pattern**: The site is an ecosystem hub — not the product itself. Merchants interact with WooCommerce through their own WordPress admin. The website drives discovery (extensions, themes), education (docs), and community.
 
-## 4. Content Model
+## Content Model
 
-| Entity | Attributes |
+| Entity | Key Attributes | Relationships |
 |--------|-----------|
 | Extension | name, developer, description, price (free/paid), rating, reviews, version, compatibility, screenshots |
 | Theme | name, developer, price, demo URL, features, compatibility |
@@ -113,35 +113,35 @@ woocommerce.com
 | Coupon | code, discount type (% / fixed / free shipping), conditions, usage limits, expiry |
 | Category | name, slug, parent, description, image, display type |
 
-## 5. User Flows
+## User Flows
 
-### 5a. Merchant — Set up a store
+### Merchant — Set up a store
 1. Install WordPress → install WooCommerce plugin
 2. Run setup wizard (store details, industry, products, shipping, payments, tax)
 3. Add products (name, price, images, categories, inventory)
 4. Configure payment gateway (WooPayments, Stripe, PayPal)
 5. Choose theme → customize appearance → launch store
 
-### 5b. Merchant — Add extensions
+### Merchant — Add extensions
 1. Browse Extensions Store on woocommerce.com
 2. Find extension (e.g., Subscriptions, Bookings, Memberships)
 3. Purchase / download → install on WordPress site
 4. Configure extension settings in WP Admin → activate
 
-### 5c. Customer — Purchase (on merchant's store)
+### Customer — Purchase (on merchant's store)
 1. Browse products → filter by category, price, attributes
 2. Add to cart → view cart
 3. Checkout → billing/shipping info → select payment method
 4. Order confirmation → email receipt
 5. Track order → receive shipment
 
-### 5d. Developer — Build extension
+### Developer — Build extension
 1. Visit Develop section → read extension development docs
 2. Use WooCommerce CLI + REST API for development
 3. Test with WooCommerce test suite
 4. Submit to Extensions Store (or distribute independently)
 
-## 6. URL / Route Structure
+## URL / Route Structure
 
 ```
 # woocommerce.com
@@ -171,7 +171,7 @@ woocommerce.com
 /my-account/orders/             → Order history
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 | Feature | Behavior |
 |---------|----------|
@@ -181,7 +181,7 @@ woocommerce.com
 | Blog search | Keyword, category, date |
 | Merchant store (default) | Product search, category filter, price filter, attribute filter (size, color), sort (price, date, popularity, rating) |
 
-## 8. Responsive Behavior
+## Responsive Behavior
 
 | Breakpoint | Adaptation |
 |-----------|------------|
@@ -191,7 +191,7 @@ woocommerce.com
 | WooCommerce Mobile App | Store management — orders, products, analytics (not customer-facing) |
 | Merchant stores | Responsive behavior depends on chosen theme; Storefront (default) is fully responsive |
 
-## 9. Access Control
+## Access Control
 
 | Role | Access |
 |------|--------|

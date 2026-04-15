@@ -7,10 +7,10 @@ website: https://www.gumroad.com
 
 # Information Architecture — Gumroad
 
-## 1. Overview
+## Overview
 Gumroad is a minimalist platform for creators to sell digital products — e-books, courses, software, music, templates, memberships — directly to their audience. The IA is radically simple: a creator gets a product page, a checkout flow, and a dashboard. No storefronts to design, no complex catalogs. Gumroad's philosophy is "start selling in minutes" with features like simple checkout links, pay-what-you-want pricing, email delivery, and subscription/membership support.
 
-## 2. Site Map
+## Site Map
 
 ```
 gumroad.com
@@ -78,7 +78,7 @@ gumroad.com
     └── Start selling
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 | Level | Type | Details |
 |-------|------|---------|
@@ -90,41 +90,63 @@ gumroad.com
 
 **Key pattern**: Extreme minimalism. The product page IS the storefront. Creators share direct links — no need for a full website. One URL = one product = one checkout.
 
-## 4. Content Model
+## Content Model
 
-| Entity | Attributes |
-|--------|-----------|
-| Product | name, description (rich text), cover image, preview, price (fixed/PWYW/tiered), files/content, category, tags, ratings |
-| Variant | name, price, description (e.g., different tiers of a course) |
-| Subscription | product, interval (monthly/annually), price, subscriber count |
-| Creator | name, bio, avatar, products, followers, social links, payout info |
-| Sale | product, customer, amount, discount code, timestamp, payout status |
-| Review | customer, rating (1-5 stars), comment, product |
-| Workflow | trigger (purchase, refund), actions (email, webhook, content unlock) |
+| Entity | Key Attributes | Relationships |
+|---|---|---|
+| Product | name, description (rich text), cover image, preview, price (fixed/PWYW/tiered), files/content, category, tags, ratings | has Variants, has Reviews, belongs to Creator |
+| Variant | name, price, description (e.g., different tiers of a course) | belongs to Product |
+| Subscription | product, interval (monthly/annually), price, subscriber count | belongs to Product, → Subscriber |
+| Creator | name, bio, avatar, products, followers, social links, payout info | has Products, has Followers |
+| Sale | product, customer, amount, discount code, timestamp, payout status | → Product, → Customer |
+| Review | customer, rating (1-5 stars), comment, product | belongs to Gig/Seller, → Buyer |
+| Workflow | trigger (purchase, refund), actions (email, webhook, content unlock) | → Product, triggered by Events |
 
-## 5. User Flows
+## User Flows
 
 ### 5a. Creator — Sell a product
-1. Sign up → "New Product" → choose type (digital, course, membership, physical)
-2. Upload content files, set cover image, write description
-3. Set pricing (fixed, pay-what-you-want with minimum, tiered variants)
-4. Configure delivery (instant download, drip content, email)
-5. Get product URL → share anywhere (social, email, website embed)
+
+```
+Sign up → "New Product" → choose type (digital, course, membership, physical) →
+  Upload content files, set cover image, write description →
+  Set pricing (fixed, pay-what-you-want with minimum, tiered variants) →
+  Configure delivery (instant download, drip content, email) →
+  Get product URL → share anywhere (social, email, website embed)
+```
+
 
 ### 5b. Buyer — Purchase
-1. Click product link → view product page
-2. Select variant (if applicable) → set price (if PWYW)
-3. Enter email + payment → checkout (overlay or full page)
-4. Receive email with download link / access
-5. Optionally leave a review
+
+```
+Click product link → view product page → Select variant (if applicable) → set price (if PWYW) →
+  Enter email + payment → checkout (overlay or full page) →
+  Receive email with download link / access → Optionally leave a review
+```
+
 
 ### 5c. Creator — Membership
-1. Create membership product → set monthly/annual pricing
-2. Define member-only content (posts, files, community)
-3. Members subscribe → recurring billing
-4. Creator posts updates → members notified via email
 
-## 6. URL / Route Structure
+```
+Create membership product → set monthly/annual pricing →
+  Define member-only content (posts, files, community) → Members subscribe → recurring billing →
+  Creator posts updates → members notified via email
+```
+
+
+
+### Email Marketing
+
+```
+Dashboard → Email → New Post/Update → Write content → Select audience (all customers / product-specific) → Schedule or send immediately → Track opens and clicks
+```
+
+### Affiliate Program Setup
+
+```
+Dashboard → Affiliates → Enable for product → Set commission rate (%) → Generate affiliate signup link → Affiliates register → Track referrals and payouts
+```
+
+## URL / Route Structure
 
 ```
 /                           → Home
@@ -144,9 +166,22 @@ gumroad.com
 /dashboard/customers/       → Email list (auth)
 /dashboard/payouts/         → Payout history (auth)
 /library/                   → Buyer's purchased products (auth)
+/discover/{category}/{subcategory}/  # Subcategory browse
+/discover/top/                       # Top products
+/discover/new/                       # New releases
+/{creator}/follow/                   # Follow creator
+/dashboard/products/{id}/edit/       # Edit product
+/dashboard/products/{id}/analytics/  # Product analytics
+/dashboard/products/{id}/content/    # Product content files
+/dashboard/affiliates/               # Affiliate management
+/dashboard/workflows/                # Workflow automations
+/dashboard/email/                    # Email campaigns
+/dashboard/settings/                 # Account settings
+/dashboard/settings/profile/         # Profile settings
+/dashboard/settings/payout/          # Payout settings
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 | Feature | Behavior |
 |---------|----------|
@@ -157,7 +192,10 @@ gumroad.com
 | Dashboard search | Filter sales by product, date, customer |
 | Customer search | Search email list, filter by product purchased |
 
-## 8. Responsive Behavior
+- **Product content search**: Search within product descriptions and titles
+- **Email campaign filtering**: Filter past campaigns by product, date, open rate
+- **Affiliate tracking**: Search affiliates by name, product, performance
+## Responsive Behavior
 
 | Breakpoint | Adaptation |
 |-----------|------------|
@@ -166,7 +204,14 @@ gumroad.com
 | Mobile (<768px) | Single-column, full-width product cards, bottom-sheet checkout, simplified dashboard |
 | Embedded | Checkout overlay widget embeddable on any website |
 
-## 9. Access Control
+
+### Platform-Specific UX
+- Product page IS the storefront — no separate website needed, just share the URL
+- Pay-what-you-want pricing with minimum lets buyers set their own price
+- Overlay checkout embeds directly on any website via Gumroad.js widget
+- Workflow automations trigger actions (emails, webhooks) on purchase, refund, or subscription events
+
+## Access Control
 
 | Role | Access |
 |------|--------|

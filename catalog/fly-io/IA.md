@@ -60,64 +60,93 @@ fly.io (marketing + dashboard)
 
 ## Content Model
 
-| Content Type | Structure | Ownership |
+| Entity | Key Attributes | Relationships |
 |---|---|---|
-| App | Name, organization, regions, machines, volumes, secrets, networking config | Org-owned |
-| Machine | ID, region, state (started/stopped/destroyed), image, CPU/memory config, checks | Part of app |
-| Volume | ID, region, size, attached machine, snapshots | Part of app |
-| Secret | Key-value pair, encrypted at rest, available to all machines | Part of app |
-| IP Address | Type (v4 shared, v4 dedicated, v6), region (global Anycast) | Part of app |
-| Certificate | Custom domain, DNS validation status, TLS cert status | Part of app |
-| Fly Postgres Cluster | Postgres app with primary + replicas across regions | Org-owned |
-| Blueprint | Deployment guide for specific stack (Rails, Django, Next.js, etc.) | Fly.io-curated |
-| Organization | Name, members, apps, billing, tokens | Org-owned |
+| App | Name, organization, regions, machines, volumes, secrets, networking config | belongs to Organization |
+| Machine | ID, region, state (started/stopped/destroyed), image, CPU/memory config, checks | belongs to app |
+| Volume | ID, region, size, attached machine, snapshots | belongs to app |
+| Secret | Key-value pair, encrypted at rest, available to all machines | belongs to app |
+| IP Address | Type (v4 shared, v4 dedicated, v6), region (global Anycast) | belongs to app |
+| Certificate | Custom domain, DNS validation status, TLS cert status | belongs to app |
+| Fly Postgres Cluster | Postgres app with primary + replicas across regions | belongs to Organization |
+| Blueprint | Deployment guide for specific stack (Rails, Django, Next.js, etc.) | curated by Fly.io |
+| Organization | Name, members, apps, billing, tokens | belongs to Organization |
 
 ## User Flows
 
 ### Deploying an App (CLI-First)
-1. Developer runs `fly launch` in project directory
-2. CLI auto-detects framework → generates `fly.toml` config and Dockerfile
-3. Selects organization, app name, regions
-4. `fly deploy` builds Docker image → pushes to Fly registry → creates Machine(s)
-5. App deployed to selected region(s) with Anycast IP
-6. Subsequent deploys: `fly deploy` — builds and performs rolling update
+
+```
+Developer runs `fly launch` in project directory →
+  CLI auto-detects framework → generates `fly.toml` config and Dockerfile →
+  Selects organization, app name, regions →
+  `fly deploy` builds Docker image → pushes to Fly registry → creates Machine(s) →
+  App deployed to selected region(s) with Anycast IP →
+  Subsequent deploys: `fly deploy` — builds and performs rolling update
+```
+
 
 ### Multi-Region Deployment
-1. Developer deploys app to primary region (e.g., `iad`)
-2. Adds regions: `fly scale count 2 --region cdg,nrt` (Europe, Asia)
-3. Fly Proxy routes users to nearest region via Anycast
-4. For databases: sets up read replicas in additional regions
-5. `fly regions list` shows current deployment topology
+
+```
+Developer deploys app to primary region (e.g., `iad`) →
+  Adds regions: `fly scale count 2 --region cdg,nrt` (Europe, Asia) →
+  Fly Proxy routes users to nearest region via Anycast →
+  For databases: sets up read replicas in additional regions →
+  `fly regions list` shows current deployment topology
+```
+
 
 ### Machine Management
-1. Navigate to Dashboard → App → Machines (or `fly machines list`)
-2. See all machines: ID, region, state, CPU/RAM, image version
-3. Start/stop individual machines for cost control
-4. Scale horizontally: add machines in specific regions
-5. Scale vertically: change CPU/memory per machine
+
+```
+Navigate to Dashboard → App → Machines (or `fly machines list`) →
+  See all machines: ID, region, state, CPU/RAM, image version →
+  Start/stop individual machines for cost control →
+  Scale horizontally: add machines in specific regions →
+  Scale vertically: change CPU/memory per machine
+```
+
 
 ### Secrets Management
-1. Developer runs `fly secrets set DATABASE_URL=postgres://...`
-2. Secret encrypted and stored in Fly's vault
-3. All machines in the app can access via environment variable
-4. Setting a secret triggers a rolling restart of all machines
-5. Dashboard shows secret names (not values) — values only accessible at runtime
+
+```
+Developer runs `fly secrets set DATABASE_URL=postgres://...` →
+  Secret encrypted and stored in Fly's vault →
+  All machines in the app can access via environment variable →
+  Setting a secret triggers a rolling restart of all machines →
+  Dashboard shows secret names (not values) — values only accessible at runtime
+```
+
 
 ## URL / Route Structure
 
-| Pattern | Description |
-|---|---|
-| `fly.io/` | Marketing home |
-| `fly.io/dashboard` | App list |
-| `fly.io/dashboard/apps/{app_name}` | App overview |
-| `fly.io/dashboard/apps/{app_name}/machines` | Machine list |
-| `fly.io/dashboard/apps/{app_name}/machines/{id}` | Machine detail |
-| `fly.io/dashboard/apps/{app_name}/monitoring` | Metrics and logs |
-| `fly.io/dashboard/apps/{app_name}/networking` | IPs and certs |
-| `fly.io/dashboard/apps/{app_name}/volumes` | Volumes |
-| `fly.io/dashboard/apps/{app_name}/secrets` | Secrets |
-| `fly.io/dashboard/orgs/{slug}/*` | Organization management |
-| `fly.io/docs/*` | Documentation |
+
+```
+fly.io/                                       # Marketing home
+fly.io/dashboard                              # App list
+fly.io/dashboard/apps/{app_name}              # App overview
+fly.io/dashboard/apps/{app_name}/machines     # Machine list
+fly.io/dashboard/apps/{app_name}/machines/{id} # Machine detail
+fly.io/dashboard/apps/{app_name}/monitoring   # Metrics and logs
+fly.io/dashboard/apps/{app_name}/networking   # IPs and certs
+fly.io/dashboard/apps/{app_name}/volumes      # Volumes
+fly.io/dashboard/apps/{app_name}/secrets      # Secrets
+fly.io/dashboard/orgs/{slug}/*                # Organization management
+fly.io/docs/*                                 # Documentation
+fly.io/dashboard/apps/{app_name}/settings              # App settings
+fly.io/dashboard/apps/{app_name}/tokens                # Deploy tokens
+fly.io/dashboard/apps/{app_name}/activity              # Activity log
+fly.io/dashboard/personal/settings                     # Personal settings
+fly.io/dashboard/personal/tokens                       # Personal tokens
+fly.io/dashboard/orgs/{slug}/settings                  # Org settings
+fly.io/dashboard/orgs/{slug}/members                   # Org members
+fly.io/dashboard/orgs/{slug}/billing                   # Org billing
+fly.io/docs/reference/fly-launch/                      # fly launch reference
+fly.io/docs/blueprints/                                # Deployment blueprints
+fly.io/docs/machines/                                   # Machines API docs
+fly.io/status                                           # Status page
+```
 
 App names are globally unique slugs. Machine IDs are alphanumeric. Dashboard under `/dashboard` prefix.
 
@@ -131,6 +160,9 @@ App names are globally unique slugs. Machine IDs are alphanumeric. Dashboard und
 - **No marketplace/template search**: Blueprints are in docs, not a searchable marketplace
 - **Metrics filtering**: Time range, region, machine
 
+- **Volume filtering**: Filter volumes by region, attached machine, size
+- **Blueprint search**: Search deployment guides by framework or language
+- **Activity log search**: Search app activity by event type, date range
 ## Responsive Behavior
 
 | Breakpoint | Behavior |
@@ -145,6 +177,35 @@ App names are globally unique slugs. Machine IDs are alphanumeric. Dashboard und
 - Log stream is monospace with auto-scroll (works on mobile)
 - Docs site is fully responsive with collapsible sidebar TOC
 - Marketing site is fully responsive with mobile-first design
+
+
+### Platform-Specific UX
+- CLI-first philosophy means `flyctl` is the primary interface — dashboard is supplementary
+- Machines can be started/stopped in milliseconds for scale-to-zero cost optimization
+- Anycast networking routes users to the nearest region automatically via global IP
+- WireGuard VPN tunnels provide secure access to private app networks during development
+- `fly.toml` configuration file centralizes app settings (services, ports, health checks, scaling)
+- Blueprints in documentation provide framework-specific deployment guides (Rails, Django, Next.js, Elixir)
+- Volume snapshots provide point-in-time backups for persistent storage
+- Fly Postgres is a managed Postgres deployed as a Fly app with read replicas
+- Machine API enables programmatic lifecycle management for infrastructure-as-code workflows
+- Deploy tokens are scoped per-app for CI/CD integration without full account access
+- Metrics dashboard shows CPU, memory, bandwidth, and request latency per machine and region
+
+
+### CLI Commands (Primary Interface)
+```
+fly launch     # Auto-detect framework, generate config, deploy
+fly deploy     # Build and deploy from current directory
+fly scale      # Adjust machine count and size
+fly machines   # List, start, stop, destroy machines
+fly logs       # Stream application logs
+fly secrets    # Manage environment secrets
+fly ssh        # SSH into running machines
+fly proxy      # Proxy local port to remote machine
+fly volumes    # Manage persistent storage volumes
+fly status     # Show app status and machine info
+```
 
 ## Access Control
 

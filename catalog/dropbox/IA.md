@@ -119,6 +119,15 @@ File Requests → Create → Name + destination folder → Generate link → Sen
 Paper → Create Doc → Write with rich text → @mention teammate → Add task list → Share → Collaborate in real-time
 ```
 
+### New User Onboarding
+```
+Visit Dropbox → Sign Up (email/Google/SSO) → Complete profile → Guided setup wizard → Configure preferences → Explore key features → Start using the product
+                                                                                                                         ↘ Skip wizard → Land on dashboard
+```
+### Manage Notifications
+```
+Settings → Notifications → Toggle email/push/in-app per category → Set frequency (instant/daily digest/weekly) → Save preferences
+```
 ## URL / Route Structure
 
 ```
@@ -137,6 +146,16 @@ Paper → Create Doc → Write with rich text → @mention teammate → Add task
 /transfer                  → Transfers
 /settings                  → Settings
 /admin                     → Admin console
+account  → Account settings
+account/security  → Security settings
+billing  → Billing & subscription
+notifications  → Notification preferences
+help  → Help center
+/sharing                          → Shared links & folders
+/events                           → Activity feed
+/deleted-files                    → Deleted files
+/account                          → Account settings
+/account/plan                     → Plan & billing
 ```
 
 ## Search & Filter
@@ -147,6 +166,9 @@ Paper → Create Doc → Write with rich text → @mention teammate → Add task
 | Folder | Type, Date | Name, Modified, Size, Type |
 | Paper | Created by, Date | Modified, Name |
 
+- **Autocomplete**: Type-ahead suggestions with recent searches and popular results
+- **Advanced search**: Boolean operators (AND, OR, NOT), field-specific filters, date ranges
+- **Recent searches**: Quick access to previous search queries
 ## Responsive Behavior
 
 | Breakpoint | Layout |
@@ -154,6 +176,36 @@ Paper → Create Doc → Write with rich text → @mention teammate → Add task
 | Desktop | Sidebar + file grid/list + detail panel |
 | Tablet | Collapsed sidebar, file grid |
 | Mobile | Bottom tabs (Home, Files, Shared, Search), list view only |
+
+
+### Platform-Specific Patterns
+- Touch targets: minimum 44x44pt on mobile for accessibility
+- Swipe gestures: swipe to delete, archive, or perform quick actions
+- Pull-to-refresh: standard refresh pattern on feeds and lists
+- Keyboard shortcuts: comprehensive shortcuts on desktop for power users
+- Dark mode: system-preference detection with manual override
+- Offline support: cached data available without network connectivity
+- Progressive loading: skeleton screens while content loads
+
+### Dropbox-Specific UX Patterns
+- **Progressive disclosure**: Complex features hidden behind expandable sections
+- **Contextual actions**: Right-click menus and hover-revealed action buttons
+- **Inline editing**: Click-to-edit fields without navigating to a separate page
+- **Batch operations**: Multi-select with bulk actions (delete, move, archive, tag)
+- **Undo support**: Non-destructive actions with undo toast notifications
+- **Loading states**: Skeleton screens and progress indicators during async operations
+- **Empty states**: Helpful illustrations and CTAs when sections have no content
+- **Onboarding tooltips**: First-time user guidance highlighting key features
+
+### Accessibility
+- WCAG 2.1 AA compliance across all interactive elements
+- Semantic HTML with proper ARIA labels and landmarks
+- Keyboard navigation support for all core workflows
+- Screen reader compatibility tested with VoiceOver, NVDA, and JAWS
+- Color contrast ratios meeting minimum 4.5:1 for body text
+- Focus indicators visible on all interactive elements
+- Reduced motion option respecting `prefers-reduced-motion`
+- Resizable text up to 200% without content loss
 
 ## Access Control
 
@@ -163,3 +215,13 @@ Paper → Create Doc → Write with rich text → @mention teammate → Add task
 | Editor | ✅ | ✅ | ✅ | Own | — |
 | Owner | ✅ | ✅ | ✅ | ✅ | — |
 | Team Admin | ✅ | ✅ | ✅ | ✅ | ✅ |
+
+
+### Security Features
+- Single Sign-On (SSO) support via SAML 2.0 and OIDC (Team/Enterprise)
+- Two-factor authentication (TOTP, SMS, hardware keys)
+- API token management with scoped permissions
+- Session management: configurable timeout, forced logout
+- Audit logging for security-sensitive actions
+- Data encryption at rest (AES-256) and in transit (TLS 1.3)
+- SOC 2 Type II compliance

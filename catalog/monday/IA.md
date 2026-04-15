@@ -71,17 +71,26 @@ monday.com
 
 ## User Flows
 
-### 1. Create a Board from Template
-`+ New → Board → Choose template (or blank) → Name board → Set workspace → Customize columns`
 
-### 2. Set Up an Automation
-`Board → Automations → + Add Automation → Select recipe (e.g., "When status changes, notify someone") → Configure → Activate`
+### Create a Board from Template
+```
++ New → Board → Choose template (or blank) → Name board → Set workspace → Customize columns
+```
 
-### 3. Build a Cross-Board Dashboard
-`+ New → Dashboard → Add Widget → Select board(s) + column(s) → Choose chart type → Arrange layout`
+### Set Up an Automation
+```
+Board → Automations → + Add Automation → Select recipe (e.g., "When status changes, notify someone") → Configure → Activate
+```
 
-### 4. Track Personal Work
-`My Work → View items assigned to me across all boards → Filter by date/status → Click item to open detail`
+### Build a Cross-Board Dashboard
+```
++ New → Dashboard → Add Widget → Select board(s) + column(s) → Choose chart type → Arrange layout
+```
+
+### Track Personal Work
+```
+My Work → View items assigned to me across all boards → Filter by date/status → Click item to open detail
+```
 
 ## URL / Route Structure
 
@@ -93,6 +102,20 @@ monday.com
 {slug}.monday.com/docs/{id}                          # Document
 {slug}.monday.com/workspaces/{id}                    # Workspace landing
 {slug}.monday.com/inbox                              # Notifications
+{slug}.monday.com/automations                          # Automations center
+{slug}.monday.com/integrations                         # Integrations center
+{slug}.monday.com/apps                                 # Apps marketplace
+{slug}.monday.com/docs/{id}                            # Document
+{slug}.monday.com/settings                             # Account settings
+{slug}.monday.com/settings/users                       # User management
+{slug}.monday.com/settings/billing                     # Billing
+{slug}.monday.com/settings/security                    # Security
+{slug}.monday.com/settings/api                         # API settings
+{slug}.monday.com/search                               # Global search
+monday.com/pricing                                     # Pricing page
+monday.com/crm                                         # monday CRM
+monday.com/dev                                         # monday dev
+monday.com/marketplace                                 # App marketplace
 ```
 
 ## Search & Filter
@@ -121,3 +144,84 @@ monday.com
 | Guest | Access only to boards explicitly shared, limited features |
 | Board Owner | Manage board permissions, columns, automations |
 | Board Subscriber | Receive notifications without editing |
+
+## Column Types
+
+| Category | Column Types |
+|----------|-------------|
+| Basic | Status, Text, Numbers, Date, People, Timeline, Checkbox |
+| Advanced | Formula, Mirror (cross-board), Dependency, Time Tracking |
+| Media | Files, Link, Phone, Email, Location |
+| Integration | Dropdown, Rating, Tags, Color Picker, Vote |
+
+## View Types
+
+| View | Description | Best For |
+|------|-------------|----------|
+| Main Table | Spreadsheet-like rows and columns | Default data entry and management |
+| Kanban | Cards grouped by Status column | Visual workflow tracking |
+| Timeline | Gantt-style horizontal bars | Project scheduling |
+| Calendar | Date-based card layout | Deadline tracking |
+| Chart | Bar, pie, line visualizations | Reporting and dashboards |
+| Files Gallery | Grid of attached files | Asset management |
+| Map | Location-pinned items | Geographic data |
+| Workload | Resource allocation view | Capacity planning |
+
+## Automation Recipes
+
+- **When status changes to X, notify person Y**
+- **When date arrives, move item to group Z**
+- **When item created, assign to person and set status**
+- **Every time period, create an item**
+- **When column changes, push date by N days**
+- **When status changes, send email/Slack message**
+- **Custom automations with conditions and multiple actions**
+
+## Product Suite
+
+| Product | Purpose |
+|---------|---------|
+| monday work management | Project and task management with customizable boards |
+| monday CRM | Sales pipeline, contacts, deals tracking |
+| monday dev | Sprint planning, bug tracking, roadmaps for dev teams |
+| monday service | Ticketing, SLA management, customer support workflows |
+
+## Integrations
+
+- **Communication:** Slack, Microsoft Teams, Outlook, Gmail, Zoom
+- **Project tools:** Jira, Asana, Trello, GitHub, GitLab
+- **Cloud storage:** Google Drive, Dropbox, OneDrive, Box
+- **CRM:** Salesforce, HubSpot, Copper
+- **Marketing:** Mailchimp, Facebook Ads, LinkedIn
+- **Finance:** QuickBooks, Stripe, PayPal
+- **Custom:** Zapier, Make (Integromat), API, Webhooks
+
+## API & Developer Platform
+
+- **REST API:** CRUD operations on boards, items, columns, groups
+- **GraphQL API:** Flexible queries for complex data retrieval
+- **Webhooks:** Real-time event notifications (item created, status changed)
+- **SDK:** JavaScript/TypeScript SDK for custom app development
+- **App Framework:** Build apps with custom views, widgets, and integrations
+- **Marketplace:** Publish and distribute custom apps to monday.com users
+- **OAuth 2.0:** Secure authentication for third-party integrations
+- **Rate limits:** 5,000 requests/minute (complexity-based)
+
+## Reporting & Analytics
+
+| Widget | Data Source | Visualization |
+|--------|-----------|---------------|
+| Chart | Board data | Bar, line, pie, doughnut |
+| Numbers | Board columns | Single metric with trend |
+| Table | Board data | Filtered/sorted table |
+| Battery | Status column | Completion percentage |
+| Timeline | Timeline column | Gantt chart |
+| Workload | People + timeline | Resource allocation |
+
+## Board Permissions
+
+| Board Type | Visibility | Who Can Edit |
+|------------|-----------|-------------|
+| Main Board | All workspace members | Board subscribers |
+| Shareable Board | Anyone with link | Invited editors |
+| Private Board | Creator + invited members | Invited editors |

@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Cash App</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Cash App by Block (formerly Square) is a mobile-first financial platform combining P2P payments, Bitcoin trading, stock investing, the Cash Card (customizable Visa debit), Boost instant rewards, and direct deposit. The IA is minimal and action-oriented, reflecting Cash App&#39;s design philosophy of reducing financial friction. The website primarily drives app downloads; the app itself is the product.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>cash.app
 ├── Home
 ├── Features
@@ -130,7 +130,7 @@
     ├── Log in (phone/email)
     └── Sign up
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <table>
 <thead>
 <tr>
@@ -161,74 +161,79 @@
 </tr>
 </tbody></table>
 <p><strong>Key pattern</strong>: The website is ultra-minimal — almost a single-page experience funneling to the app. Navigation in-app is icon-driven with the $ symbol as the central action hub.</p>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
 <th>Entity</th>
-<th>Attributes</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>Transaction</td>
 <td>sender, recipient, amount, note, status, timestamp</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>$Cashtag Profile</td>
 <td>display name, $cashtag, avatar, QR code</td>
+<td>belongs to User/Folder</td>
 </tr>
 <tr>
 <td>Cash Card</td>
 <td>design, Boosts enabled, last 4, status</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Boost</td>
 <td>merchant/category, reward (% or $), duration, activation status</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Bitcoin Holding</td>
 <td>amount (BTC/sats), USD value, buy/sell history</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Stock Holding</td>
 <td>ticker, shares (fractional), value, buy/sell history</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Direct Deposit</td>
 <td>routing number, account number, pay schedule</td>
+<td>belongs to parent entity</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
-<h3>5a. Send money</h3>
-<ol>
-<li>Open app → tap $ on home screen</li>
-<li>Enter dollar amount</li>
-<li>Tap &quot;Pay&quot; → search by $cashtag, phone, or email</li>
-<li>Add note (optional) → confirm</li>
-<li>Instant transfer from balance or linked bank</li>
-</ol>
-<h3>5b. Buy Bitcoin</h3>
-<ol>
-<li>Navigate to Investing tab → Bitcoin</li>
-<li>Tap &quot;Buy&quot; → enter USD amount</li>
-<li>Review exchange rate → confirm</li>
-<li>BTC added to wallet → option to withdraw to external wallet</li>
-</ol>
-<h3>5c. Activate Boost</h3>
-<ol>
-<li>Go to Card tab → browse available Boosts</li>
-<li>Tap a Boost (e.g., &quot;10% off at Chipotle&quot;) → &quot;Add Boost&quot;</li>
-<li>Use Cash Card at that merchant → discount applied instantly</li>
-<li>One active Boost at a time → swap anytime</li>
-</ol>
-<h3>5d. Cash App Pay (merchant)</h3>
-<ol>
-<li>Merchant integrates Cash App Pay button</li>
-<li>Customer taps Cash App Pay at checkout</li>
-<li>Redirected to Cash App → approve payment</li>
-<li>Confirmation → return to merchant</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<p>| AuditLog | action, actor, target, timestamp, ip_address | belongs to Organization |
+| Notification | type, message, read, created_at, action_url | belongs to User |
+| Integration | name, type, status, credentials, last_synced | belongs to Workspace |
+| Webhook | url, events[], secret, active, last_triggered | belongs to Organization |</p>
+<h3>Transaction Lifecycle</h3>
+<pre><code>initiated → pending → processing → completed → settled
+                                  ↘ failed → retry → completed
+initiated → cancelled
+completed → disputed → resolved (refunded or upheld)
+</code></pre>
+<h2>User Flows</h2>
+<h3>Send money</h3>
+<pre><code>Open app → tap $ on home screen → Enter dollar amount → Tap &quot;Pay&quot; → search by $cashtag, phone, or email → Add note (optional) → confirm → Instant transfer from balance or linked bank
+</code></pre>
+<h3>Buy Bitcoin</h3>
+<pre><code>Navigate to Investing tab → Bitcoin → Tap &quot;Buy&quot; → enter USD amount → Review exchange rate → confirm → BTC added to wallet → option to withdraw to external wallet
+</code></pre>
+<h3>Activate Boost</h3>
+<pre><code>Go to Card tab → browse available Boosts → Tap a Boost (e.g., &quot;10% off at Chipotle&quot;) → &quot;Add Boost&quot; → Use Cash Card at that merchant → discount applied instantly → One active Boost at a time → swap anytime
+</code></pre>
+<h3>Cash App Pay (merchant)</h3>
+<pre><code>Merchant integrates Cash App Pay button → Customer taps Cash App Pay at checkout → Redirected to Cash App → approve payment → Confirmation → return to merchant
+</code></pre>
+<h3>New User Onboarding</h3>
+<pre><code>Visit Cash App → Sign Up (email/Google/SSO) → Complete profile → Guided setup wizard → Configure preferences → Explore key features → Start using the product
+                                                                                                                         ↘ Skip wizard → Land on dashboard
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code>/                           → Home (minimal landing)
 /app/                       → App download redirect
 /$cashtag/                  → Public cashtag profile
@@ -242,8 +247,22 @@
 /help/{category}/           → Help category
 /help/{category}/{article}/ → Help article
 /legal/                     → Legal index
+settings  → Settings
+billing  → Billing &amp; subscription
+notifications  → Notification preferences
+api  → API documentation
+search?q={query}  → Search results
+integrations  → Integrations
+admin  → Admin console
+/pay/                             → Cash App Pay (merchant)
+/boost/                           → Boost rewards info
+/app/card/                        → Card management (deep link)
+/app/investing/                   → Investing (deep link)
+/app/bitcoin/                     → Bitcoin (deep link)
+/app/banking/                     → Banking (deep link)
+/referral/                        → Referral program
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <table>
 <thead>
 <tr>
@@ -276,7 +295,12 @@
 <td>By type (sent/received), date, amount</td>
 </tr>
 </tbody></table>
-<h2>8. Responsive Behavior</h2>
+<ul>
+<li><strong>Sort options</strong>: By relevance, date created, date modified, alphabetical, popularity</li>
+<li><strong>Autocomplete</strong>: Type-ahead suggestions with recent searches and popular results</li>
+<li><strong>Advanced search</strong>: Boolean operators (AND, OR, NOT), field-specific filters, date ranges</li>
+</ul>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -301,7 +325,50 @@
 <td>Full product experience — payments, card, investing, banking</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h3>Platform-Specific Patterns</h3>
+<ul>
+<li>Touch targets: minimum 44x44pt on mobile for accessibility</li>
+<li>Swipe gestures: swipe to delete, archive, or perform quick actions</li>
+<li>Pull-to-refresh: standard refresh pattern on feeds and lists</li>
+<li>Keyboard shortcuts: comprehensive shortcuts on desktop for power users</li>
+<li>Dark mode: system-preference detection with manual override</li>
+<li>Offline support: cached data available without network connectivity</li>
+<li>Progressive loading: skeleton screens while content loads</li>
+</ul>
+<h3>Cash App-Specific UX Patterns</h3>
+<ul>
+<li><strong>Progressive disclosure</strong>: Complex features hidden behind expandable sections</li>
+<li><strong>Contextual actions</strong>: Right-click menus and hover-revealed action buttons</li>
+<li><strong>Inline editing</strong>: Click-to-edit fields without navigating to a separate page</li>
+<li><strong>Batch operations</strong>: Multi-select with bulk actions (delete, move, archive, tag)</li>
+<li><strong>Undo support</strong>: Non-destructive actions with undo toast notifications</li>
+<li><strong>Loading states</strong>: Skeleton screens and progress indicators during async operations</li>
+<li><strong>Empty states</strong>: Helpful illustrations and CTAs when sections have no content</li>
+<li><strong>Onboarding tooltips</strong>: First-time user guidance highlighting key features</li>
+</ul>
+<h3>Accessibility</h3>
+<ul>
+<li>WCAG 2.1 AA compliance across all interactive elements</li>
+<li>Semantic HTML with proper ARIA labels and landmarks</li>
+<li>Keyboard navigation support for all core workflows</li>
+<li>Screen reader compatibility tested with VoiceOver, NVDA, and JAWS</li>
+<li>Color contrast ratios meeting minimum 4.5:1 for body text</li>
+<li>Focus indicators visible on all interactive elements</li>
+<li>Reduced motion option respecting <code>prefers-reduced-motion</code></li>
+<li>Resizable text up to 200% without content loss</li>
+</ul>
+<h3>API &amp; Integration Patterns</h3>
+<ul>
+<li>RESTful API with JSON request/response format</li>
+<li>Webhook support for real-time event notifications</li>
+<li>OAuth 2.0 for third-party application authorization</li>
+<li>Rate limiting with clear headers (X-RateLimit-Remaining)</li>
+<li>Pagination via cursor-based or offset-based parameters</li>
+<li>Versioned API endpoints for backward compatibility</li>
+<li>Comprehensive API documentation with interactive examples</li>
+<li>SDKs available for popular languages (JavaScript, Python, Ruby, Go)</li>
+</ul>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>
@@ -334,6 +401,16 @@
 <td>Fraud detection, compliance, account review</td>
 </tr>
 </tbody></table>
+<h3>Security Features</h3>
+<ul>
+<li>Single Sign-On (SSO) support via SAML 2.0 and OIDC (Team/Enterprise)</li>
+<li>Two-factor authentication (TOTP, SMS, hardware keys)</li>
+<li>API token management with scoped permissions</li>
+<li>Session management: configurable timeout, forced logout</li>
+<li>Audit logging for security-sensitive actions</li>
+<li>Data encryption at rest (AES-256) and in transit (TLS 1.3)</li>
+<li>SOC 2 Type II compliance</li>
+</ul>
 
     </div>
   </article>

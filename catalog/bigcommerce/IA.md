@@ -7,10 +7,10 @@ website: https://www.bigcommerce.com
 
 # Information Architecture — BigCommerce
 
-## 1. Overview
+## Overview
 BigCommerce is an enterprise-grade SaaS e-commerce platform offering hosted storefronts, headless commerce via API, multi-storefront capabilities, and an extensive app marketplace. The IA serves three audiences: **merchants** evaluating the platform, **developers** building integrations, and **partners/agencies** reselling or implementing BigCommerce. Unlike self-hosted WooCommerce, BigCommerce is fully managed — hosting, security, and updates are handled by the platform.
 
-## 2. Site Map
+## Site Map
 
 ```
 bigcommerce.com
@@ -82,7 +82,7 @@ bigcommerce.com
     └── Start free trial
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 | Level | Type | Details |
 |-------|------|---------|
@@ -95,56 +95,54 @@ bigcommerce.com
 
 **Key pattern**: The marketing site is comparison-oriented (vs. Shopify, vs. WooCommerce), with ROI calculators and migration guides. The developer docs are a separate subdomain with their own IA.
 
-## 4. Content Model
+## Content Model
 
-| Entity | Attributes |
-|--------|-----------|
-| Product (Platform Feature) | name, description, benefits, screenshots, related features |
-| App (Marketplace) | name, developer, description, price, rating, reviews, category, compatibility |
-| Case Study | merchant, industry, challenge, solution, results, quote, URL |
-| Plan | name (Standard/Plus/Pro/Enterprise), price, features, limits |
-| Blog Post | title, author, date, category, body, CTA |
-| API Endpoint | resource, methods, parameters, examples, versioning |
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
+| Product (Platform Feature) | name, description, benefits, screenshots, related features | belongs to parent entity |
+| App (Marketplace) | name, developer, description, price, rating, reviews, category, compatibility | belongs to parent entity |
+| Case Study | merchant, industry, challenge, solution, results, quote, URL | belongs to parent entity |
+| Plan | name (Standard/Plus/Pro/Enterprise), price, features, limits | belongs to parent entity |
+| Blog Post | title, author, date, category, body, CTA | belongs to User, has many Comments |
+| API Endpoint | resource, methods, parameters, examples, versioning | belongs to parent entity |
 
 ### Merchant Store Content Model
 
-| Entity | Attributes |
-|--------|-----------|
-| Product | name, SKU, price, variants (size/color), images, description, categories, brand, custom fields, inventory |
-| Category | name, description, image, parent, sort order |
-| Order | number, customer, items, total, status, payment, shipping, channel |
-| Customer | name, email, addresses, groups, order history, account |
-| Storefront | name, domain, channel, locale, currency |
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
+| Product | name, SKU, price, variants (size/color), images, description, categories, brand, custom fields, inventory | belongs to parent entity |
+| Category | name, description, image, parent, sort order | has many Items |
+| Order | number, customer, items, total, status, payment, shipping, channel | belongs to User, has many Items |
+| Customer | name, email, addresses, groups, order history, account | belongs to parent entity |
+| Storefront | name, domain, channel, locale, currency | belongs to parent entity |
 
-## 5. User Flows
+## User Flows
 
-### 5a. Merchant — Evaluate & sign up
-1. Land on home → explore Product features or Solutions by industry
-2. View pricing → compare plans → start free trial
-3. Onboarding wizard → store name, industry, products
-4. Add products, configure payments, choose theme
-5. Customize with Page Builder → launch store
+### Merchant — Evaluate & sign up
+```
+Land on home → explore Product features or Solutions by industry → View pricing → compare plans → start free trial → Onboarding wizard → store name, industry, products → Add products, configure payments, choose theme → Customize with Page Builder → launch store
+```
 
-### 5b. Merchant — Multi-storefront
-1. Create primary store → go to Channel Manager
-2. Add new storefront → assign domain, locale, currency
-3. Share product catalog or create storefront-specific products
-4. Unique themes per storefront → launch multiple brands from one dashboard
+### Merchant — Multi-storefront
+```
+Create primary store → go to Channel Manager → Add new storefront → assign domain, locale, currency → Share product catalog or create storefront-specific products → Unique themes per storefront → launch multiple brands from one dashboard
+```
 
-### 5c. Developer — Headless build
-1. Visit developer docs → Storefront API / GraphQL reference
-2. Choose frontend framework (Next.js, Gatsby, etc.)
-3. Use BigCommerce as backend (products, cart, checkout API)
-4. Build custom frontend → connect via API keys
-5. Deploy independently → BigCommerce handles commerce logic
+### Developer — Headless build
+```
+Visit developer docs → Storefront API / GraphQL reference → Choose frontend framework (Next.js, Gatsby, etc.) → Use BigCommerce as backend (products, cart, checkout API) → Build custom frontend → connect via API keys → Deploy independently → BigCommerce handles commerce logic
+```
 
-### 5d. Partner — Agency implementation
-1. Join Partner Program → access resources, training
-2. Client engagement → migrate or build store on BigCommerce
-3. Use Stencil CLI for theme development, API for custom integrations
-4. Launch client store → ongoing management via Control Panel
+### Partner — Agency implementation
+```
+Join Partner Program → access resources, training → Client engagement → migrate or build store on BigCommerce → Use Stencil CLI for theme development, API for custom integrations → Launch client store → ongoing management via Control Panel
+```
 
-## 6. URL / Route Structure
+### Manage Notifications
+```
+Settings → Notifications → Toggle email/push/in-app per category → Set frequency (instant/daily digest/weekly) → Save preferences
+```
+## URL / Route Structure
 
 ```
 # Marketing site
@@ -175,9 +173,17 @@ bigcommerce.com
 /cart.php                       → Cart
 /checkout/                      → Checkout
 /account.php                    → Customer account
+/about/                        → Company info
+/careers/                       → Careers page
+/trust/                         → Trust & security
+/resources/webinars/            → Webinars
+/resources/guides/              → Guides & reports
+/community/                     → Community forum
+/university/                    → BigCommerce University
+/status/                        → System status page
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 | Feature | Behavior |
 |---------|----------|
@@ -187,7 +193,10 @@ bigcommerce.com
 | Developer docs search | API endpoint search, guide keyword search |
 | Merchant store (built-in) | Product search, category facets, price/brand/attribute filters, sort options |
 
-## 8. Responsive Behavior
+- **Autocomplete**: Type-ahead suggestions with recent searches and popular results
+- **Advanced search**: Boolean operators (AND, OR, NOT), field-specific filters, date ranges
+- **Recent searches**: Quick access to previous search queries
+## Responsive Behavior
 
 | Breakpoint | Adaptation |
 |-----------|------------|
@@ -197,7 +206,16 @@ bigcommerce.com
 | Control Panel | Responsive admin — works on tablet, limited on phone |
 | Merchant storefronts | Responsive themes (Cornerstone default is fully responsive) |
 
-## 9. Access Control
+
+### Platform-Specific Patterns
+- Touch targets: minimum 44x44pt on mobile for accessibility
+- Swipe gestures: swipe to delete, archive, or perform quick actions
+- Pull-to-refresh: standard refresh pattern on feeds and lists
+- Keyboard shortcuts: comprehensive shortcuts on desktop for power users
+- Dark mode: system-preference detection with manual override
+- Offline support: cached data available without network connectivity
+- Progressive loading: skeleton screens while content loads
+## Access Control
 
 | Role | Access |
 |------|--------|

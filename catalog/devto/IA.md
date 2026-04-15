@@ -7,10 +7,10 @@ website: https://dev.to
 
 # Information Architecture — Dev.to
 
-## 1. Overview
+## Overview
 Dev.to is a community platform for software developers to write articles, share knowledge, discuss ideas, and discover tools. Built on the open-source **Forem** platform, the IA mirrors a social network with developer-centric content types: articles, discussions, listings (job posts, events, products), and organization pages. The design is intentionally simple, fast-loading, and accessible — reflecting the developer audience's values.
 
-## 2. Site Map
+## Site Map
 
 ```
 dev.to
@@ -89,7 +89,7 @@ dev.to
     └── Create account
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 | Level | Type | Details |
 |-------|------|---------|
@@ -102,48 +102,47 @@ dev.to
 
 **Key pattern**: The home feed dominates. Left sidebar provides secondary navigation. Articles use a floating reaction bar (inspired by social media) — reactions are visible and low-friction. Markdown-native writing encourages developer participation.
 
-## 4. Content Model
+## Content Model
 
-| Entity | Attributes |
-|--------|-----------|
-| Article | title, body (Markdown), cover image, tags (up to 4), author, published date, reading time, reactions (heart/unicorn/bookmark/fire), comments count, series |
-| Comment | author, body (Markdown), parent comment (threaded), reactions, timestamp |
-| Tag | name, description, rules, color, moderators, followers count, articles count |
-| User | username, name, bio, avatar, location, links (GitHub, Twitter, website), badges, articles, followers, following |
-| Organization | name, slug, logo, description, members, articles |
-| Listing | title, body, category (job/event/product/education/mentor/collab), tags, author, expiry |
-| Badge | name, icon, description, award criteria |
-| Series | name, articles (ordered), author |
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
+| Article | title, body (Markdown), cover image, tags (up to 4), author, published date, reading time, reactions (heart/unicorn/bookmark/fire), comments count, series | belongs to parent entity |
+| Comment | author, body (Markdown), parent comment (threaded), reactions, timestamp | belongs to User and Post |
+| Tag | name, description, rules, color, moderators, followers count, articles count | many-to-many with Items |
+| User | username, name, bio, avatar, location, links (GitHub, Twitter, website), badges, articles, followers, following | has many Posts, Comments, Settings |
+| Organization | name, slug, logo, description, members, articles | belongs to parent entity |
+| Listing | title, body, category (job/event/product/education/mentor/collab), tags, author, expiry | belongs to parent entity |
+| Badge | name, icon, description, award criteria | belongs to parent entity |
+| Series | name, articles (ordered), author | belongs to parent entity |
 
-## 5. User Flows
+## User Flows
 
-### 5a. Read & engage
-1. Visit home → scroll feed (Relevant/Latest/Top)
-2. Click article → read → react (heart, unicorn, bookmark)
-3. Scroll to comments → reply (threaded Markdown)
-4. Follow author or tags for more relevant content
-5. Bookmark saved to reading list
+### Read & engage
+```
+Visit home → scroll feed (Relevant/Latest/Top) → Click article → read → react (heart, unicorn, bookmark) → Scroll to comments → reply (threaded Markdown) → Follow author or tags for more relevant content → Bookmark saved to reading list
+```
 
-### 5b. Write & publish
-1. Click "Create Post" → Markdown editor opens
-2. Write article with front matter (title, tags, cover image)
-3. Preview rendered article → edit
-4. Publish → appears in Latest feed
-5. If tagged, appears in tag feed → community reacts and comments
+### Write & publish
+```
+Click "Create Post" → Markdown editor opens → Write article with front matter (title, tags, cover image) → Preview rendered article → edit → Publish → appears in Latest feed → If tagged, appears in tag feed → community reacts and comments
+```
 
-### 5c. Discover via tags
-1. Browse popular tags (#javascript, #beginners, #tutorial)
-2. Follow tags → articles appear in "Feed" tab
-3. Tag page shows latest/top articles with that tag
-4. Discover related tags and community members
+### Discover via tags
+```
+Browse popular tags (#javascript, #beginners, #tutorial) → Follow tags → articles appear in "Feed" tab → Tag page shows latest/top articles with that tag → Discover related tags and community members
+```
 
-### 5d. Post a listing
-1. Navigate to Listings → select category (Job, Event, Product, etc.)
-2. Write listing (Markdown) → add tags
-3. Publish (some categories require credits)
-4. Listing appears in Listings section and sidebar
+### Post a listing
+```
+Navigate to Listings → select category (Job, Event, Product, etc.) → Write listing (Markdown) → add tags → Publish (some categories require credits) → Listing appears in Listings section and sidebar
+```
 
-## 6. URL / Route Structure
+### New User Onboarding
+```
+Visit Dev.to → Sign Up (email/Google/SSO) → Complete profile → Guided setup wizard → Configure preferences → Explore key features → Start using the product
+                                                                                                                         ↘ Skip wizard → Land on dashboard
+```
+## URL / Route Structure
 
 ```
 /                           → Home feed
@@ -164,9 +163,13 @@ dev.to
 /videos                     → Videos
 /about                      → About
 /code-of-conduct            → Code of Conduct
+settings  → Settings
+billing  → Billing & subscription
+/settings/account                 → Account settings
+/dashboard                        → Creator dashboard
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 | Feature | Behavior |
 |---------|----------|
@@ -178,7 +181,7 @@ dev.to
 | Reading list | Personal bookmarks, searchable |
 | Dashboard analytics | Views, reactions, comments per post |
 
-## 8. Responsive Behavior
+## Responsive Behavior
 
 | Breakpoint | Adaptation |
 |-----------|------------|
@@ -187,7 +190,27 @@ dev.to
 | Mobile (<768px) | Single column, hamburger nav, bottom-anchored reactions, simplified sidebar |
 | PWA | Installable progressive web app, offline reading for cached articles |
 
-## 9. Access Control
+
+### Platform-Specific Patterns
+- Touch targets: minimum 44x44pt on mobile for accessibility
+- Swipe gestures: swipe to delete, archive, or perform quick actions
+- Pull-to-refresh: standard refresh pattern on feeds and lists
+- Keyboard shortcuts: comprehensive shortcuts on desktop for power users
+- Dark mode: system-preference detection with manual override
+- Offline support: cached data available without network connectivity
+- Progressive loading: skeleton screens while content loads
+
+### Accessibility
+- WCAG 2.1 AA compliance across all interactive elements
+- Semantic HTML with proper ARIA labels and landmarks
+- Keyboard navigation support for all core workflows
+- Screen reader compatibility tested with VoiceOver, NVDA, and JAWS
+- Color contrast ratios meeting minimum 4.5:1 for body text
+- Focus indicators visible on all interactive elements
+- Reduced motion option respecting `prefers-reduced-motion`
+- Resizable text up to 200% without content loss
+
+## Access Control
 
 | Role | Access |
 |------|--------|

@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Webflow</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Webflow is a visual web development platform that combines a drag-and-drop designer with the full power of HTML, CSS, and JavaScript — producing clean, semantic code without requiring developers to write it. The IA serves <strong>designers</strong> (visual builder, interactions, CMS), <strong>developers</strong> (custom code, APIs, logic), <strong>marketers</strong> (CMS, SEO, forms), and <strong>enterprises</strong> (hosting, security, collaboration). Webflow University (education) is a major content pillar alongside the product.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>webflow.com
 ├── Home
 ├── Product
@@ -194,7 +194,7 @@ Webflow Designer (App)
     ├── Integrations
     └── Backups
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <table>
 <thead>
 <tr>
@@ -235,49 +235,19 @@ Webflow Designer (App)
 </tr>
 </tbody></table>
 <p><strong>Key pattern</strong>: The Designer is a full IDE experience in the browser — left panel for structure, right panel for styling, top bar for responsive preview. The website itself uses Webflow-built marketing (eating their own dog food).</p>
-<h2>4. Content Model</h2>
-<table>
-<thead>
-<tr>
-<th>Entity</th>
-<th>Attributes</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Site (Project)</td>
-<td>name, subdomain/custom domain, plan, collaborators, published status</td>
-</tr>
-<tr>
-<td>Page</td>
-<td>name, slug, SEO settings, custom code, template</td>
-</tr>
-<tr>
-<td>CMS Collection</td>
-<td>name, fields (text, image, rich text, reference, multi-reference, date, switch, color, etc.)</td>
-</tr>
-<tr>
-<td>CMS Item</td>
-<td>collection, field values, slug, published status, draft</td>
-</tr>
-<tr>
-<td>Component</td>
-<td>name, properties (configurable per instance), slots</td>
-</tr>
-<tr>
-<td>Interaction</td>
-<td>trigger (scroll, click, hover, load), animation steps, easing, targets</td>
-</tr>
-<tr>
-<td>Form</td>
-<td>name, fields, action (email, webhook, Zapier), submissions</td>
-</tr>
-<tr>
-<td>Ecommerce Product</td>
-<td>name, slug, price, images, SKU, categories, variants, tax, shipping</td>
-</tr>
-</tbody></table>
-<h2>5. User Flows</h2>
-<h3>5a. Build a website</h3>
+<h2>Content Model</h2>
+<p>| Entity | Key Attributes | Relationships |
+|--------|-----------|
+| Site (Project) | name, subdomain/custom domain, plan, collaborators, published status |
+| Page | name, slug, SEO settings, custom code, template |
+| CMS Collection | name, fields (text, image, rich text, reference, multi-reference, date, switch, color, etc.) |
+| CMS Item | collection, field values, slug, published status, draft |
+| Component | name, properties (configurable per instance), slots |
+| Interaction | trigger (scroll, click, hover, load), animation steps, easing, targets |
+| Form | name, fields, action (email, webhook, Zapier), submissions |
+| Ecommerce Product | name, slug, price, images, SKU, categories, variants, tax, shipping |</p>
+<h2>User Flows</h2>
+<h3>Build a website</h3>
 <ol>
 <li>Sign up → choose template or start blank</li>
 <li>Designer opens → drag elements to canvas</li>
@@ -286,7 +256,7 @@ Webflow Designer (App)
 <li>Preview across breakpoints → adjust responsive design</li>
 <li>Publish to webflow.io subdomain or custom domain</li>
 </ol>
-<h3>5b. CMS-driven blog</h3>
+<h3>CMS-driven blog</h3>
 <ol>
 <li>Create CMS Collection (e.g., &quot;Blog Posts&quot;) → define fields</li>
 <li>Add CMS items (articles with title, body, image, author, date)</li>
@@ -294,7 +264,7 @@ Webflow Designer (App)
 <li>Create Collection List on pages → display post cards</li>
 <li>Publish → new CMS items auto-populate pages</li>
 </ol>
-<h3>5c. Add interactions</h3>
+<h3>Add interactions</h3>
 <ol>
 <li>Select element → open Interactions panel</li>
 <li>Choose trigger (scroll into view, mouse hover, page load, click)</li>
@@ -302,14 +272,14 @@ Webflow Designer (App)
 <li>Set timing, easing, delay</li>
 <li>Preview → interaction plays on trigger</li>
 </ol>
-<h3>5d. Client handoff</h3>
+<h3>Client handoff</h3>
 <ol>
 <li>Designer builds site → invites client to workspace</li>
 <li>Client accesses CMS Editor (simplified view — edit content only)</li>
 <li>Client updates text, images, CMS items — cannot break design</li>
 <li>Changes publish via &quot;Publish&quot; button or auto-publish</li>
 </ol>
-<h2>6. URL / Route Structure</h2>
+<h2>URL / Route Structure</h2>
 <pre><code># webflow.com (marketing)
 /                               → Home
 /product/                       → Product overview
@@ -339,7 +309,7 @@ Webflow Designer (App)
 /{page-slug}                    → Static page
 /{collection-slug}/{item-slug}  → CMS item page
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <table>
 <thead>
 <tr>
@@ -376,7 +346,7 @@ Webflow Designer (App)
 <td>Keyword → categorized support articles</td>
 </tr>
 </tbody></table>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -405,7 +375,7 @@ Webflow Designer (App)
 <td>Responsive per designer&#39;s breakpoint configurations</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>

@@ -7,10 +7,10 @@ website: https://www.poshmark.com
 
 # Information Architecture — Poshmark
 
-## 1. Overview
+## Overview
 Poshmark is a social commerce marketplace for new and secondhand fashion, home, and beauty. Its differentiator is the **social selling model** — Posh Parties (themed live shopping events), sharing listings to boost visibility, bundles for multi-item purchases, and an offer/counter-offer negotiation system. The IA treats every user as both a buyer and a seller, with the closet (profile) as the storefront and sharing as the primary growth mechanic.
 
-## 2. Site Map
+## Site Map
 
 ```
 poshmark.com
@@ -77,7 +77,7 @@ poshmark.com
     └── Sign up
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 | Level | Type | Details |
 |-------|------|---------|
@@ -89,46 +89,40 @@ poshmark.com
 
 **Key pattern**: "Share" is a primary action — sharing your own or others' listings to followers and parties is how items get visibility. The feed is a social timeline of shared listings.
 
-## 4. Content Model
+## Content Model
 
-| Entity | Attributes |
-|--------|-----------|
-| Listing | photos (up to 16), title, description, size, brand, category, original price, listing price, condition, likes, comments, shares |
-| Closet (User) | username, avatar, bio, cover photo, listings count, followers, following, Love Notes, Posh Ambassador status |
-| Offer | listing, buyer, amount, counter-amount, expiration (24h), status |
-| Bundle | seller, buyer, items list, bundle discount, offer, shipping |
-| Posh Party | theme, date/time, host(s), listed items, duration |
-| Love Note (Review) | buyer, seller, listing, rating, comment, photo |
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
+| Listing | photos (up to 16), title, description, size, brand, category, original price, listing price, condition, likes, comments, shares | — |
+| Closet (User) | username, avatar, bio, cover photo, listings count, followers, following, Love Notes, Posh Ambassador status | — |
+| Offer | listing, buyer, amount, counter-amount, expiration (24h), status | — |
+| Bundle | seller, buyer, items list, bundle discount, offer, shipping | — |
+| Posh Party | theme, date/time, host(s), listed items, duration | — |
+| Love Note (Review) | buyer, seller, listing, rating, comment, photo | — |
 
-## 5. User Flows
+## User Flows
 
-### 5a. Buy with offer
-1. Browse/search → find listing → "Make an Offer"
-2. Enter offer amount (must meet minimum % of listing price)
-3. Seller receives → Accept / Counter / Decline within 24h
-4. If accepted → buyer charged → seller ships with prepaid label
-5. Item delivered → buyer accepts or opens case → seller paid after 3 days
+### Buy with offer
+```
+Browse/search → find listing → "Make an Offer" → Enter offer amount (must meet minimum % of listing price) → Seller receives → Accept / Counter / Decline within 24h → If accepted → buyer charged → seller ships with prepaid label → Item delivered → buyer accepts or opens case → seller paid after 3 days
+```
 
-### 5b. Create a bundle
-1. Visit a seller's closet → add multiple items to bundle
-2. Seller sees bundle → offers bundle discount
-3. Buyer can also make an offer on the bundle
-4. Single checkout, single shipping for all items
+### Create a bundle
+```
+Visit a seller's closet → add multiple items to bundle → Seller sees bundle → offers bundle discount → Buyer can also make an offer on the bundle → Single checkout, single shipping for all items
+```
 
-### 5c. Posh Party participation
-1. View upcoming parties → join a themed party (e.g., "Date Night Style")
-2. Share eligible listings to the party
-3. Browse party listings → like, share, buy
-4. Host picks "Host Picks" — featured listings get extra visibility
+### Posh Party participation
+```
+View upcoming parties → join a themed party (e.g., "Date Night Style") → Share eligible listings to the party → Browse party listings → like, share, buy → Host picks "Host Picks" — featured listings get extra visibility
+```
 
-### 5d. Sell an item
-1. Tap "Sell" → photo first (up to 16 photos)
-2. Fill in brand, size, category, condition, price
-3. Publish → share to feed, parties, followers
-4. Buyer purchases → prepaid USPS label generated → ship within 3 days
-5. Earnings credited to Posh balance after buyer accepts
+### Sell an item
+```
+Tap "Sell" → photo first (up to 16 photos) → Fill in brand, size, category, condition, price → Publish → share to feed, parties, followers → Buyer purchases → prepaid USPS label generated → ship within 3 days → Earnings credited to Posh balance after buyer accepts
+```
 
-## 6. URL / Route Structure
+## URL / Route Structure
 
 ```
 /                           → Home feed
@@ -146,9 +140,19 @@ poshmark.com
 /account/offers/            → My offers (auth)
 /account/earnings/          → My earnings (auth)
 /help/                      → Help center
+poshmark.com/feed                             # Social feed
+poshmark.com/discover                         # Discover page
+poshmark.com/search?query={q}&type=listings   # Search with filters
+poshmark.com/search?query={q}&type=people     # Search users
+poshmark.com/category/{dept}/{cat}            # Category browse
+poshmark.com/brand/{brand-name}/{category}    # Brand + category
+poshmark.com/closet/{username}/love-notes     # Seller reviews
+poshmark.com/account/stats                    # Posh Stats
+poshmark.com/account/offers/active            # Active offers
+poshmark.com/account/bundles                  # Bundles dashboard
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 | Feature | Behavior |
 |---------|----------|
@@ -159,7 +163,7 @@ poshmark.com
 | Saved search | Push alerts when new matching listings posted |
 | My Closet filter | Available, sold, drafts, price drops needed |
 
-## 8. Responsive Behavior
+## Responsive Behavior
 
 | Breakpoint | Adaptation |
 |-----------|------------|
@@ -168,7 +172,7 @@ poshmark.com
 | Mobile (<768px) | 2-column grid, bottom-sheet filters, sticky sell button |
 | App (iOS/Android) | Bottom tabs, swipe-to-share, camera-first sell, party notifications |
 
-## 9. Access Control
+## Access Control
 
 | Role | Access |
 |------|--------|
@@ -179,3 +183,43 @@ poshmark.com
 | Seller | Earnings dashboard, shipping labels, Posh Stats analytics |
 | Internal Moderator | Listing review, counterfeit detection, dispute resolution |
 | Authentication Team | Posh Authenticate for luxury items ($500+) |
+
+## Social Commerce Mechanics
+
+| Feature | How It Works | Impact |
+|---------|-------------|--------|
+| Sharing | Share listings to your followers' feeds | More visibility = more sales |
+| Posh Parties | Themed virtual shopping events (e.g., "Nike Party") | Targeted buyers see your listings |
+| Bundles | Buyer adds multiple items from one seller | Higher order value, single shipping |
+| Offer System | Buyer proposes lower price; seller counters | 24-hour negotiation window |
+| Likes | Bookmark listings; seller sees who liked | Seller can send "Offer to Likers" discount |
+| Comments | Q&A on listings | Build trust, clarify details |
+
+## Posh Ambassador Program
+
+- **Requirements:** 5,000+ community shares, 15+ sales, 4.5+ rating, fast shipping
+- **Benefits:** Verified badge, increased visibility, party hosting eligibility
+- **Mentoring:** Assigned new users to guide through first sales
+- **Community status:** Recognized as trusted, experienced seller
+
+## Fee Structure
+
+| Fee | Amount |
+|-----|--------|
+| Selling commission | 20% (items $15+) or flat $2.95 (items under $15) |
+| Shipping | $7.67 flat rate (buyer pays); Priority Mail |
+| Discounted shipping | Seller can offer reduced shipping (absorbs cost) |
+| Posh Authenticate | Free for luxury items over $500 |
+| Direct deposit | Free |
+| Instant transfer | $0.25 per transfer |
+
+## Posh Party Format
+
+| Element | Description |
+|---------|-------------|
+| Theme | Category or brand focus (e.g., "Best in Shoes", "Nike Party", "Date Night") |
+| Duration | Typically 2 hours |
+| Frequency | Multiple parties daily |
+| Host | 1-4 community hosts (Posh Ambassadors) |
+| Host Picks | Hosts select standout listings for extra visibility |
+| Participation | Share eligible listings to the party feed |

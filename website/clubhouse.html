@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Clubhouse</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Clubhouse is a drop-in audio conversation platform where users join live rooms to listen, speak, and network. The IA centers on real-time audio rooms organized by topics and clubs, with a hallway-style feed that surfaces active and upcoming conversations. The ephemeral nature of live rooms (now supplemented by replays) creates urgency, while clubs and following graphs provide persistent community structure.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>Clubhouse
 ├── Hallway (Home Feed)
 │   ├── Live Rooms (happening now)
@@ -137,7 +137,7 @@
     ├── Privacy
     └── Linked Accounts
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <ul>
 <li><strong>Type</strong>: Bottom tab bar (mobile-first)</li>
 <li><strong>Bottom Tabs</strong>: Hallway (home), Search/Explore, Notifications, Messages, Profile</li>
@@ -146,12 +146,12 @@
 <li><strong>Room Navigation</strong>: Minimize room to floating pill at top while browsing other screens</li>
 <li><strong>Topic Chips</strong>: Tappable interest tags in Explore to filter rooms by topic</li>
 </ul>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Attributes</th>
+<th>Entity</th>
+<th>Key Attributes</th>
 <th>Relationships</th>
 </tr>
 </thead>
@@ -191,45 +191,80 @@
 <td>→ User(s)</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
+<p>| AuditLog | action, actor, target, timestamp, ip_address | belongs to Organization |
+| Notification | type, message, read, created_at, action_url | belongs to User |
+| Integration | name, type, status, credentials, last_synced | belongs to Workspace |
+| Webhook | url, events[], secret, active, last_triggered | belongs to Organization |</p>
+<h3>Content Lifecycle</h3>
+<pre><code>created → published → visible → archived
+                     ↘ reported → under_review → restored / removed
+created → draft (saved but not published)
+published → edited (version history maintained)
+</code></pre>
+<h2>User Flows</h2>
 <h3>Joining a Live Room</h3>
-<ol>
-<li>Open app → Hallway shows active rooms with speaker avatars and listener count</li>
-<li>Tap room card → Immediately dropped into room as listener (audio plays)</li>
-<li>Raise hand icon → Moderator can invite to stage → Unmute and speak</li>
-<li>Leave quietly at any time by tapping &quot;Leave&quot; button</li>
-</ol>
+<pre><code>Open app → Hallway shows active rooms with speaker avatars and listener count → Tap room card → Immediately dropped into room as listener (audio plays) → Raise hand icon → Moderator can invite to stage → Unmute and speak → Leave quietly at any time by tapping &quot;Leave&quot; button
+</code></pre>
 <h3>Scheduling a Room</h3>
-<ol>
-<li>Tap &quot;Start a Room&quot; → Choose &quot;Schedule for later&quot;</li>
-<li>Set title, topic, date/time, co-hosts, club (optional)</li>
-<li>Share event link → Followers receive notification before start</li>
-<li>At scheduled time, creator opens room → Attendees get ping to join</li>
-</ol>
+<pre><code>Tap &quot;Start a Room&quot; → Choose &quot;Schedule for later&quot; → Set title, topic, date/time, co-hosts, club (optional) → Share event link → Followers receive notification before start → At scheduled time, creator opens room → Attendees get ping to join
+</code></pre>
 <h3>Exploring Topics</h3>
-<ol>
-<li>Tap Explore → Browse topic categories (Tech, Music, Health, etc.)</li>
-<li>Tap topic → See live rooms, upcoming events, and clubs under that topic</li>
-<li>Follow topic → Hallway prioritizes rooms matching followed topics</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<pre><code>Tap Explore → Browse topic categories (Tech, Music, Health, etc.) → Tap topic → See live rooms, upcoming events, and clubs under that topic → Follow topic → Hallway prioritizes rooms matching followed topics
+</code></pre>
+<h3>New User Onboarding</h3>
+<pre><code>Visit Clubhouse → Sign Up (email/Google/SSO) → Complete profile → Guided setup wizard → Configure preferences → Explore key features → Start using the product
+                                                                                                                         ↘ Skip wizard → Land on dashboard
+</code></pre>
+<h3>Search and Discover</h3>
+<pre><code>Global search → Type query → Results grouped by type → Click result → Navigate to item → Refine search with filters if needed
+                                                                                          ↘ No results → Suggested alternatives
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code>joinclubhouse.com/                          # Landing page / download
 joinclubhouse.com/room/{roomId}             # Room deeplink (opens in app)
 joinclubhouse.com/club/{clubSlug}           # Club profile
 joinclubhouse.com/event/{eventId}           # Scheduled event
 joinclubhouse.com/@{username}               # User profile
 joinclubhouse.com/topic/{topicSlug}         # Topic page
+joinclubhouse.com/settings  # Settings
+joinclubhouse.com/billing  # Billing &amp; subscription
+joinclubhouse.com/notifications  # Notification preferences
+joinclubhouse.com/help  # Help center
+joinclubhouse.com/help/{topic}  # Help article
+joinclubhouse.com/api  # API documentation
+joinclubhouse.com/search?q={query}  # Search results
+joinclubhouse.com/integrations  # Integrations
+joinclubhouse.com/admin  # Admin console
+joinclubhouse.com/admin/members  # Member management
+joinclubhouse.com/import  # Import data
+joinclubhouse.com/export  # Export data
+joinclubhouse.com/changelog  # Changelog
+joinclubhouse.com/team  # Team management
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <ul>
-<li><strong>Universal Search</strong>: People, clubs, topics, rooms</li>
-<li><strong>Hallway Filters</strong>: &quot;For You&quot; (algorithmic) vs. following-based feed</li>
-<li><strong>Topic Browsing</strong>: Explore tab organized by category with horizontal scroll</li>
-<li><strong>Club Discovery</strong>: Search clubs by name or browse by topic</li>
-<li><strong>Language Filter</strong>: Filter rooms by spoken language</li>
-<li><strong>No Full-Text Audio Search</strong>: Audio content is not transcribed for search (replays are browse-only)</li>
+<li><p><strong>Universal Search</strong>: People, clubs, topics, rooms</p>
+</li>
+<li><p><strong>Hallway Filters</strong>: &quot;For You&quot; (algorithmic) vs. following-based feed</p>
+</li>
+<li><p><strong>Topic Browsing</strong>: Explore tab organized by category with horizontal scroll</p>
+</li>
+<li><p><strong>Club Discovery</strong>: Search clubs by name or browse by topic</p>
+</li>
+<li><p><strong>Language Filter</strong>: Filter rooms by spoken language</p>
+</li>
+<li><p><strong>No Full-Text Audio Search</strong>: Audio content is not transcribed for search (replays are browse-only)</p>
+</li>
+<li><p><strong>Sort options</strong>: By relevance, date created, date modified, alphabetical, popularity</p>
+</li>
+<li><p><strong>Autocomplete</strong>: Type-ahead suggestions with recent searches and popular results</p>
+</li>
+<li><p><strong>Advanced search</strong>: Boolean operators (AND, OR, NOT), field-specific filters, date ranges</p>
+</li>
+<li><p><strong>Recent searches</strong>: Quick access to previous search queries</p>
+</li>
 </ul>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -254,7 +289,62 @@ joinclubhouse.com/topic/{topicSlug}         # Topic page
 <td>Not a primary platform; web-based listening added for accessibility</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h3>Platform-Specific Patterns</h3>
+<ul>
+<li>Touch targets: minimum 44x44pt on mobile for accessibility</li>
+<li>Swipe gestures: swipe to delete, archive, or perform quick actions</li>
+<li>Pull-to-refresh: standard refresh pattern on feeds and lists</li>
+<li>Keyboard shortcuts: comprehensive shortcuts on desktop for power users</li>
+<li>Dark mode: system-preference detection with manual override</li>
+<li>Offline support: cached data available without network connectivity</li>
+<li>Progressive loading: skeleton screens while content loads</li>
+</ul>
+<h3>Clubhouse-Specific UX Patterns</h3>
+<ul>
+<li><strong>Progressive disclosure</strong>: Complex features hidden behind expandable sections</li>
+<li><strong>Contextual actions</strong>: Right-click menus and hover-revealed action buttons</li>
+<li><strong>Inline editing</strong>: Click-to-edit fields without navigating to a separate page</li>
+<li><strong>Batch operations</strong>: Multi-select with bulk actions (delete, move, archive, tag)</li>
+<li><strong>Undo support</strong>: Non-destructive actions with undo toast notifications</li>
+<li><strong>Loading states</strong>: Skeleton screens and progress indicators during async operations</li>
+<li><strong>Empty states</strong>: Helpful illustrations and CTAs when sections have no content</li>
+<li><strong>Onboarding tooltips</strong>: First-time user guidance highlighting key features</li>
+</ul>
+<h3>Accessibility</h3>
+<ul>
+<li>WCAG 2.1 AA compliance across all interactive elements</li>
+<li>Semantic HTML with proper ARIA labels and landmarks</li>
+<li>Keyboard navigation support for all core workflows</li>
+<li>Screen reader compatibility tested with VoiceOver, NVDA, and JAWS</li>
+<li>Color contrast ratios meeting minimum 4.5:1 for body text</li>
+<li>Focus indicators visible on all interactive elements</li>
+<li>Reduced motion option respecting <code>prefers-reduced-motion</code></li>
+<li>Resizable text up to 200% without content loss</li>
+</ul>
+<h3>API &amp; Integration Patterns</h3>
+<ul>
+<li><p>RESTful API with JSON request/response format</p>
+</li>
+<li><p>Webhook support for real-time event notifications</p>
+</li>
+<li><p>OAuth 2.0 for third-party application authorization</p>
+</li>
+<li><p>Rate limiting with clear headers (X-RateLimit-Remaining)</p>
+</li>
+<li><p>Pagination via cursor-based or offset-based parameters</p>
+</li>
+<li><p>Versioned API endpoints for backward compatibility</p>
+</li>
+<li><p>Comprehensive API documentation with interactive examples</p>
+</li>
+<li><p>SDKs available for popular languages (JavaScript, Python, Ruby, Go)</p>
+</li>
+<li><p>Rooms can transition from open to closed mid-conversation for private discussions</p>
+</li>
+<li><p>Emoji reactions (confetti, fire, etc.) provide non-verbal audience engagement signals</p>
+</li>
+</ul>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>

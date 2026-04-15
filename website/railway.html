@@ -136,9 +136,9 @@
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Structure</th>
-<th>Ownership</th>
+<th>Entity</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -184,39 +184,17 @@
 </tbody></table>
 <h2>User Flows</h2>
 <h3>Deploying from GitHub</h3>
-<ol>
-<li>User clicks &quot;New Project&quot; → &quot;Deploy from GitHub Repo&quot;</li>
-<li>Connects GitHub → selects repository</li>
-<li>Railway auto-detects language/framework → configures build (Nixpacks)</li>
-<li>Service appears as a card on the project canvas</li>
-<li>Deployment starts automatically → build + deploy logs stream in real-time</li>
-<li>Public URL generated (or custom domain configurable)</li>
-<li>Subsequent pushes to the configured branch trigger automatic deploys</li>
-</ol>
+<pre><code>Clicks &quot;New Project&quot; → &quot;Deploy from GitHub Repo&quot; → Connects GitHub → selects repository → Railway auto-detects language/framework → configures build (Nixpacks) → Service appears as a card on the project canvas → Deployment starts automatically → build + deploy logs stream in real-time → Public URL generated (or custom domain configurable) → Subsequent pushes to the configured branch trigger automatic deploys
+</code></pre>
 <h3>Adding a Database</h3>
-<ol>
-<li>On the project canvas → right-click or &quot;New&quot; → &quot;Database&quot;</li>
-<li>Selects database type (Postgres, Redis, MySQL, MongoDB)</li>
-<li>Database service appears as a card on the canvas</li>
-<li>Connection string auto-populated as variable → reference from app service using <code>${{Postgres.DATABASE_URL}}</code></li>
-<li>Database is accessible immediately — no configuration needed</li>
-</ol>
+<pre><code>On the project canvas → right-click or &quot;New&quot; → &quot;Database&quot; → Selects database type (Postgres, Redis, MySQL, MongoDB) → Database service appears as a card on the canvas → Connection string auto-populated as variable → reference from app service using `${{Postgres.DATABASE_URL}}` → Database is accessible immediately — no configuration needed
+</code></pre>
 <h3>Multi-Environment Workflow</h3>
-<ol>
-<li>User creates environments (production, staging, development) in Project Settings</li>
-<li>Each environment has independent service deployments and variables</li>
-<li>Environment selector in top bar switches the canvas view</li>
-<li>Deploy to staging first → test → promote to production</li>
-<li>Variables can differ per environment (different API keys, database URLs)</li>
-</ol>
+<pre><code>Creates environments (production, staging, development) in Project Settings → Each environment has independent service deployments and variables → Environment selector in top bar switches the canvas view → Deploy to staging first → test → promote to production → Variables can differ per environment (different API keys, database URLs)
+</code></pre>
 <h3>Template Deployment</h3>
-<ol>
-<li>User browses template gallery (e.g., &quot;Next.js + Postgres + Redis&quot;)</li>
-<li>Clicks &quot;Deploy&quot; → configures variables (API keys, secrets)</li>
-<li>Railway provisions all services defined in the template</li>
-<li>Canvas shows the complete topology with connected services</li>
-<li>User customizes by connecting their own GitHub repo</li>
-</ol>
+<pre><code>Browses template gallery (e.g., &quot;Next.js + Postgres + Redis&quot;) → Clicks &quot;Deploy&quot; → configures variables (API keys, secrets) → Railway provisions all services defined in the template → Canvas shows the complete topology with connected services → Customizes by connecting their own GitHub repo
+</code></pre>
 <h2>URL / Route Structure</h2>
 <table>
 <thead>
@@ -357,6 +335,197 @@
 <li>Public networking: Services can have public URLs or be private (service-to-service only)</li>
 <li>Token-based CI: API tokens for deploying from CI/CD pipelines</li>
 </ul>
+<h2>Service Types</h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Web service</td>
+<td>HTTP server exposed via public URL</td>
+<td>Express, Next.js, Rails, Django</td>
+</tr>
+<tr>
+<td>Worker</td>
+<td>Background process, no public URL</td>
+<td>Queue consumers, cron jobs</td>
+</tr>
+<tr>
+<td>Database</td>
+<td>Managed database service</td>
+<td>PostgreSQL, MySQL, Redis, MongoDB</td>
+</tr>
+<tr>
+<td>Cron job</td>
+<td>Scheduled task execution</td>
+<td>Daily reports, cleanup scripts</td>
+</tr>
+<tr>
+<td>Docker</td>
+<td>Custom Docker container</td>
+<td>Any containerized application</td>
+</tr>
+</tbody></table>
+<h2>Deployment Pipeline</h2>
+<pre><code>Git Push (or Docker Push) → Build (Nixpacks auto-detect or Dockerfile) → Health Check → Deploy → Route Traffic → Previous Deploy Available for Rollback
+</code></pre>
+<h2>Infrastructure Features</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Nixpacks</td>
+<td>Auto-detect language and build (Node, Python, Go, Rust, etc.)</td>
+</tr>
+<tr>
+<td>Dockerfile support</td>
+<td>Custom Dockerfiles for full control</td>
+</tr>
+<tr>
+<td>Environment variables</td>
+<td>Per-service, per-environment variable management</td>
+</tr>
+<tr>
+<td>Private networking</td>
+<td>Services communicate via private network (no public exposure)</td>
+</tr>
+<tr>
+<td>Volumes</td>
+<td>Persistent storage attached to services</td>
+</tr>
+<tr>
+<td>Scaling</td>
+<td>Horizontal (multiple instances) and vertical (CPU/RAM)</td>
+</tr>
+<tr>
+<td>Custom domains</td>
+<td>Map custom domains with automatic SSL</td>
+</tr>
+<tr>
+<td>Health checks</td>
+<td>HTTP or TCP health checks for zero-downtime deploys</td>
+</tr>
+<tr>
+<td>Rollbacks</td>
+<td>One-click rollback to any previous deployment</td>
+</tr>
+<tr>
+<td>Cron schedules</td>
+<td>Schedule jobs with cron expressions</td>
+</tr>
+</tbody></table>
+<h2>Pricing Model</h2>
+<table>
+<thead>
+<tr>
+<th>Plan</th>
+<th>Usage</th>
+<th>Price</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Trial</td>
+<td>$5 credit</td>
+<td>Free</td>
+</tr>
+<tr>
+<td>Hobby</td>
+<td>$5/mo + usage</td>
+<td>From $5/mo</td>
+</tr>
+<tr>
+<td>Pro</td>
+<td>Team features + usage</td>
+<td>$20/seat/mo</td>
+</tr>
+<tr>
+<td>Enterprise</td>
+<td>Custom</td>
+<td>Custom</td>
+</tr>
+</tbody></table>
+<h2>CLI</h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>railway login</code></td>
+<td>Authenticate with Railway</td>
+</tr>
+<tr>
+<td><code>railway init</code></td>
+<td>Initialize project</td>
+</tr>
+<tr>
+<td><code>railway up</code></td>
+<td>Deploy current directory</td>
+</tr>
+<tr>
+<td><code>railway logs</code></td>
+<td>View service logs</td>
+</tr>
+<tr>
+<td><code>railway variables</code></td>
+<td>Manage environment variables</td>
+</tr>
+<tr>
+<td><code>railway run {cmd}</code></td>
+<td>Run command with Railway env vars</td>
+</tr>
+<tr>
+<td><code>railway shell</code></td>
+<td>Open shell with Railway env vars</td>
+</tr>
+</tbody></table>
+<h2>Template Marketplace</h2>
+<ul>
+<li><strong>One-click deploy:</strong> Templates for popular frameworks and stacks</li>
+<li><strong>Categories:</strong> Web apps, APIs, databases, bots, tools</li>
+<li><strong>Popular templates:</strong> Next.js, Express, Django, FastAPI, Strapi, Ghost, Umami</li>
+<li><strong>Community contributions:</strong> Anyone can publish templates</li>
+<li><strong>Starter repos:</strong> GitHub repos pre-configured for Railway deployment</li>
+</ul>
+<h2>Networking</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Public domain</td>
+<td><code>{service}.up.railway.app</code> (auto-generated)</td>
+</tr>
+<tr>
+<td>Custom domains</td>
+<td>Map your own domain with automatic SSL</td>
+</tr>
+<tr>
+<td>Private networking</td>
+<td>Internal DNS between services (e.g., <code>db.railway.internal</code>)</td>
+</tr>
+<tr>
+<td>TCP proxy</td>
+<td>Expose non-HTTP services (databases, Redis) via TCP</td>
+</tr>
+<tr>
+<td>Static IPs</td>
+<td>Fixed outbound IPs for allowlisting (Pro plan)</td>
+</tr>
+</tbody></table>
 
     </div>
   </article>

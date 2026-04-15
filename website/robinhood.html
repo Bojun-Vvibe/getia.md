@@ -286,22 +286,19 @@
 <h3>Order Status</h3>
 <p><code>queued → placed → partially_filled → filled → cancelled → rejected</code></p>
 <h2>User Flows</h2>
-<h3>First-Time Buy (Signature Flow)</h3>
+<h3>Buy Stock (Dollar-Based)</h3>
 <pre><code>Search → Find AAPL → Asset Page → [Buy] → Dollars or Shares → Enter $50 → Review → Swipe Up → Confetti → Position Appears on Home
 </code></pre>
 <h3>Set Price Alert</h3>
 <pre><code>Asset Page → [...] → Set Alert → Above/Below → Enter Price → Save → Push Notification When Triggered
 </code></pre>
-<h3>Dollar-Cost Average</h3>
+<h3>Set Up Recurring Investment</h3>
 <pre><code>Asset Page → [...] → Recurring Investment → Amount ($10) → Frequency (Weekly) → Start → Auto-buys Every Week
 </code></pre>
-<h3>Crypto Transfer</h3>
+<h3>Send Crypto</h3>
 <pre><code>Crypto Asset → Send → Enter Address → Amount → Review → 2FA Confirm → Sent
 </code></pre>
 <h2>URL / Route Structure</h2>
-<blockquote>
-<p>Note: Robinhood is primarily a native mobile app. Web routes mirror mobile screens.</p>
-</blockquote>
 <pre><code>/                              → Portfolio Home
 /stocks/:symbol                → Stock Detail
 /crypto/:symbol                → Crypto Detail

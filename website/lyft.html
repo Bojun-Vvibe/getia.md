@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Lyft</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Lyft is a ride-hailing and micromobility platform connecting riders with drivers, bikes, and scooters. The IA is trip-centric — the home screen is a map with a destination input field, and the entire experience flows toward getting from A to B as quickly as possible. Secondary features include ride scheduling, shared rides, Lyft Pink membership, and a driver-side app with earnings tracking. The platform also operates bikeshare and scooter programs in select cities.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>Lyft
 ├── Home (Map + Ride Request)
 │   ├── Where to? (destination input)
@@ -177,7 +177,7 @@
     ├── Bikes &amp; Scooters
     └── Safety
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <ul>
 <li><strong>Type</strong>: Map-centric home + bottom sheet + hamburger menu</li>
 <li><strong>Home Screen</strong>: Full-screen map + &quot;Where to?&quot; input (bottom sheet)</li>
@@ -186,12 +186,12 @@
 <li><strong>In-Ride</strong>: Full-screen map with persistent driver info bar and safety actions</li>
 <li><strong>Driver App</strong>: Bottom tab bar — Home (map), Earnings, Rewards, Account</li>
 </ul>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Attributes</th>
+<th>Entity</th>
+<th>Key Attributes</th>
 <th>Relationships</th>
 </tr>
 </thead>
@@ -246,33 +246,17 @@
 <td>→ Profile</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
+<h2>User Flows</h2>
 <h3>Requesting a Ride</h3>
-<ol>
-<li>Open app → Map shows current location → Tap &quot;Where to?&quot;</li>
-<li>Enter destination (search, saved, recent) → Bottom sheet slides up</li>
-<li>View ride options: Lyft ($12, 5 min), XL ($18, 4 min), Shared ($8, 8 min)</li>
-<li>Select ride type → Confirm pickup location → &quot;Request Lyft&quot;</li>
-<li>Matched with driver → See driver name, photo, car, ETA</li>
-<li>Driver arrives → Get in → Live trip tracking → Arrive at destination</li>
-<li>Rate driver → Add tip → Receipt generated</li>
-</ol>
+<pre><code>Open app → Map shows current location → Tap &quot;Where to?&quot; → Enter destination (search, saved, recent) → Bottom sheet slides up → View ride options: Lyft ($12, 5 min), XL ($18, 4 min), Shared ($8, 8 min) → Select ride type → Confirm pickup location → &quot;Request Lyft&quot; → Matched with driver → See driver name, photo, car, ETA → Driver arrives → Get in → Live trip tracking → Arrive at destination → Rate driver → Add tip → Receipt generated
+</code></pre>
 <h3>Scheduling a Ride</h3>
-<ol>
-<li>Tap &quot;Where to?&quot; → Enter destination → Select ride type</li>
-<li>Tap clock icon → Choose date and time (up to 7 days ahead)</li>
-<li>Confirm → Receive confirmation notification</li>
-<li>15 minutes before: reminder notification → Driver matched → Pickup at scheduled time</li>
-</ol>
+<pre><code>Tap &quot;Where to?&quot; → Enter destination → Select ride type → Tap clock icon → Choose date and time (up to 7 days ahead) → Confirm → Receive confirmation notification → 15 minutes before: reminder notification → Driver matched → Pickup at scheduled time
+</code></pre>
 <h3>Using Bikes/Scooters</h3>
-<ol>
-<li>Home map → Switch to Bikes/Scooters view</li>
-<li>See available vehicles nearby on map</li>
-<li>Walk to vehicle → Scan QR code to unlock</li>
-<li>Ride → Park in designated zone → End ride in app</li>
-<li>Charge calculated by time + distance → Receipt generated</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<pre><code>Home map → Switch to Bikes/Scooters view → See available vehicles nearby on map → Walk to vehicle → Scan QR code to unlock → Ride → Park in designated zone → End ride in app → Charge calculated by time + distance → Receipt generated
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code>lyft.com/                                   # Marketing homepage
 lyft.com/rider                              # Rider info
 lyft.com/driver                             # Driver signup
@@ -284,8 +268,17 @@ lyft.com/safety                             # Safety page
 lyft.com/rider/receipt?ride={rideId}        # Receipt (web)
 lyft.com/invite/{referralCode}              # Referral link
 lyft.com/help                               # Help center
+lyft.com/pricing                            # Price estimate tool
+lyft.com/rewards                            # Rewards program
+lyft.com/help                               # Help center
+lyft.com/help/{category}/{article}          # Help article
+lyft.com/careers                            # Careers page
+lyft.com/blog                               # Company blog
+lyft.com/cities                             # Available cities
+lyft.com/cities/{city}                      # City-specific page
+lyft.com/round-up-and-donate                # Round up donations
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <ul>
 <li><strong>Destination Search</strong>: Address autocomplete (powered by Google Maps/Mapbox), recent destinations, saved places</li>
 <li><strong>Ride Type Filter</strong>: After destination entry, filter by ride type (standard, XL, Lux, Shared, Wait &amp; Save)</li>
@@ -295,7 +288,7 @@ lyft.com/help                               # Help center
 <li><strong>Help Center Search</strong>: Keyword search across FAQ and support articles</li>
 <li><strong>No Route Search</strong>: Single origin-destination model; no multi-stop browsing</li>
 </ul>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -324,7 +317,7 @@ lyft.com/help                               # Help center
 <td>No desktop ride app; web used for account management and Lyft Business admin</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>
@@ -365,6 +358,76 @@ lyft.com/help                               # Help center
 <td>Account deactivated; cannot request or accept rides</td>
 </tr>
 </tbody></table>
+<h2>Key Metrics &amp; Signals</h2>
+<ul>
+<li><strong>Surge pricing indicator:</strong> Color-coded map zones showing current demand levels</li>
+<li><strong>ETA accuracy:</strong> Predicted vs actual pickup time tracked per ride</li>
+<li><strong>Driver rating threshold:</strong> Drivers below 4.8 risk deactivation</li>
+<li><strong>Ride completion rate:</strong> Percentage of requested rides completed</li>
+<li><strong>Wait &amp; Save discount:</strong> Dynamic pricing offering lower fares for flexible pickup times</li>
+</ul>
+<h2>Platform-Specific Features</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Rider App</th>
+<th>Driver App</th>
+<th>Web</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Request ride</td>
+<td>Yes</td>
+<td>—</td>
+<td>Price estimate only</td>
+</tr>
+<tr>
+<td>Schedule ride</td>
+<td>Yes</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Earnings dashboard</td>
+<td>—</td>
+<td>Yes</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Ride history</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Payment management</td>
+<td>Yes</td>
+<td>—</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Business profile</td>
+<td>Yes</td>
+<td>—</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Bike/scooter unlock</td>
+<td>Yes</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody></table>
+<h2>Ride Matching Algorithm</h2>
+<ul>
+<li><strong>Proximity:</strong> Closest available driver weighted by ETA</li>
+<li><strong>Direction:</strong> Preference for drivers already heading toward pickup</li>
+<li><strong>Shared rides:</strong> Detour optimization for pooled passengers</li>
+<li><strong>Surge zones:</strong> Dynamic pricing based on real-time demand/supply ratio</li>
+<li><strong>Driver preferences:</strong> Vehicle type, language, accessibility needs</li>
+<li><strong>Scheduled rides:</strong> Pre-matched 15 minutes before scheduled time</li>
+</ul>
 
     </div>
   </article>

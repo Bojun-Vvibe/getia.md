@@ -155,6 +155,8 @@ confirmed → modified → seated → completed → reviewed
 
 ## User Flows
 
+
+
 ### Find and Book
 ```
 Home → Search (Tonight, 7:00 PM, 2 people, Near Me) → Results → See Available Slots → Tap "7:15 PM" on "Sotto 13" → Seating: Outdoor → Special: Anniversary → [Complete Reservation] → Confirmation → Add to Calendar
@@ -169,6 +171,7 @@ Complete Reservations → Earn 100 Points per Booking → Accumulate 2,000 → R
 ```
 Past Reservations → "How was Sotto 13?" → Rate Food/Service/Ambiance → Noise Level → Write Review → "Would you recommend?" → Submit → Earn Points
 ```
+
 
 ## URL / Route Structure
 

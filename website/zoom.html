@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Zoom</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Zoom is a unified communications platform anchored by video conferencing, expanded into team chat, phone, webinars, virtual events, and collaborative workspaces (Zoom Rooms). The IA is organized around communication modalities — Meet, Chat, Phone, Whiteboard — with a persistent left sidebar and calendar-driven meeting entry points. The platform serves individual users, teams, and enterprises with a scalable permission model.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>Zoom
 ├── Home (Dashboard)
 │   ├── Upcoming Meetings
@@ -171,7 +171,7 @@
     ├── Support
     └── Developer (APIs / SDKs)
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <ul>
 <li><strong>Type</strong>: Left sidebar (desktop app), top nav (web portal)</li>
 <li><strong>Desktop App Sidebar</strong>: Home, Team Chat, Phone, Meetings, Contacts, Whiteboards, More (Notes, Apps)</li>
@@ -180,12 +180,12 @@
 <li><strong>In-Meeting Controls</strong>: Bottom toolbar — Mute, Video, Security, Participants, Chat, Share Screen, Record, Reactions, More</li>
 <li><strong>Web Portal</strong>: Top nav — Solutions, Pricing, Plans, Contact Sales, Resources; separate from desktop app</li>
 </ul>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Attributes</th>
+<th>Entity</th>
+<th>Key Attributes</th>
 <th>Relationships</th>
 </tr>
 </thead>
@@ -235,7 +235,7 @@
 <td>→ Meeting, → Recording</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
+<h2>User Flows</h2>
 <h3>Joining a Meeting</h3>
 <ol>
 <li>Receive meeting link via email/calendar/chat → Click link</li>
@@ -258,7 +258,7 @@
 <li>Host reviews and shares summary with participants via chat or email</li>
 <li>Smart chapters divide recording into navigable sections</li>
 </ol>
-<h2>6. URL / Route Structure</h2>
+<h2>URL / Route Structure</h2>
 <pre><code>zoom.us/                                   # Marketing homepage
 zoom.us/join                               # Join meeting by ID
 zoom.us/j/{meetingId}                      # Meeting join link
@@ -275,7 +275,7 @@ zoom.us/pricing                            # Plan comparison
 zoom.us/docs/                              # Developer docs
 marketplace.zoom.us/                       # Zoom Apps marketplace
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <ul>
 <li><strong>Contact Search</strong>: Search by name, email across company directory and external contacts</li>
 <li><strong>Chat Search</strong>: Full-text search across channels and DMs; filter by date, sender, channel</li>
@@ -285,7 +285,7 @@ marketplace.zoom.us/                       # Zoom Apps marketplace
 <li><strong>Marketplace Search</strong>: Browse and search Zoom Apps by category</li>
 <li><strong>Admin Search</strong>: User lookup, usage reports by date range, room search</li>
 </ul>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -314,7 +314,7 @@ marketplace.zoom.us/                       # Zoom Apps marketplace
 <td>Touch panel for controls; large display for gallery/speaker view; designed for conference rooms</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>

@@ -7,10 +7,10 @@ website: https://www.fiverr.com
 
 # Information Architecture — Fiverr
 
-## 1. Overview
+## Overview
 Fiverr is a freelance services marketplace where sellers offer productized services called **gigs** — fixed-scope deliverables with tiered pricing packages. The IA is buyer-centric: categories, search, and recommendations are optimized for clients finding talent. Key differentiators include the gig-based model (vs. hourly bidding), Fiverr Pro (vetted premium talent), Fiverr Business (team collaboration), and a resolution center for dispute management.
 
-## 2. Site Map
+## Site Map
 
 ```
 fiverr.com
@@ -75,7 +75,7 @@ fiverr.com
     └── Join (sign up)
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 | Level | Type | Details |
 |-------|------|---------|
@@ -87,41 +87,49 @@ fiverr.com
 
 **Key pattern**: The search bar and category mega-menu are the primary discovery mechanisms. Gig pages use a comparison table for packages — a unique pattern in freelance marketplaces.
 
-## 4. Content Model
+## Content Model
 
-| Entity | Attributes |
-|--------|-----------|
-| Gig | title, gallery (images + intro video), description, category, subcategory, tags, packages (3 tiers), extras, delivery time, revisions, FAQ |
-| Package | tier (Basic/Standard/Premium), name, description, price, delivery days, revisions, features checklist |
-| Seller | username, avatar, bio, country, languages, skills, member since, level, rating, reviews count, response time |
-| Order | gig, package, extras, buyer, seller, requirements, delivery, revisions, status, timeline |
-| Review | buyer, rating (1-5), comment, timestamp, seller response |
-| Portfolio Item | title, images/video, category, associated gig |
+| Entity | Key Attributes | Relationships |
+|---|---|---|
+| Gig | title, gallery (images + intro video), description, category, subcategory, tags, packages (3 tiers), extras, delivery time, revisions, FAQ | → Seller, has Packages, has Reviews |
+| Package | tier (Basic/Standard/Premium), name, description, price, delivery days, revisions, features checklist | belongs to Gig |
+| Seller | username, avatar, bio, country, languages, skills, member since, level, rating, reviews count, response time | has Gigs, has Reviews |
+| Order | gig, package, extras, buyer, seller, requirements, delivery, revisions, status, timeline | belongs to Gig, → Buyer, → Seller |
+| Review | buyer, rating (1-5), comment, timestamp, seller response | belongs to Gig/Seller, → Buyer |
+| Portfolio Item | title, images/video, category, associated gig | belongs to Seller, → Gig |
 
-## 5. User Flows
+## User Flows
 
 ### 5a. Buyer — Find & order a gig
-1. Search or browse category → view gig results (grid/list)
-2. Open gig page → compare Basic/Standard/Premium packages
-3. Select package → add extras (faster delivery, extra revisions)
-4. Proceed to order → fill in buyer requirements (brief)
-5. Pay → seller begins work → delivery → approve or request revision
+
+```
+Search or browse category → view gig results (grid/list) →
+  Open gig page → compare Basic/Standard/Premium packages →
+  Select package → add extras (faster delivery, extra revisions) →
+  Proceed to order → fill in buyer requirements (brief) →
+  Pay → seller begins work → delivery → approve or request revision
+```
+
 
 ### 5b. Seller — Create a gig
-1. "Become a Seller" → complete profile (skills, languages, bio)
-2. Create gig → title, category, tags
-3. Define 3 packages (scope, price, delivery time, revisions)
-4. Upload gallery (images, intro video)
-5. Write description, FAQ → publish
-6. Promote via social or Fiverr's promoted gigs
+
+```
+"Become a Seller" → complete profile (skills, languages, bio) → Create gig → title, category, tags →
+  Define 3 packages (scope, price, delivery time, revisions) → Upload gallery (images, intro video) →
+  Write description, FAQ → publish → Promote via social or Fiverr's promoted gigs
+```
+
 
 ### 5c. Custom order
-1. Buyer contacts seller via inbox → discusses requirements
-2. Seller creates a custom offer (price, scope, delivery time)
-3. Buyer reviews → accepts → order created
-4. Standard delivery/revision flow
 
-## 6. URL / Route Structure
+```
+Buyer contacts seller via inbox → discusses requirements →
+  Seller creates a custom offer (price, scope, delivery time) →
+  Buyer reviews → accepts → order created → Standard delivery/revision flow
+```
+
+
+## URL / Route Structure
 
 ```
 /                               → Home
@@ -139,9 +147,20 @@ fiverr.com
 /help/                          → Help center
 /community/                     → Forum
 /resources/                     → Blog / Academy
+/gig/create/                   # Create new gig
+/gig/{gig-id}/manage/          # Manage gig
+/users/{username}/seller_dashboard/  # Seller dashboard
+/users/{username}/analytics/    # Seller analytics
+/users/{username}/earnings/     # Earnings overview
+/reviews/                       # Reviews management
+/resolution_center/             # Dispute resolution
+/settings/account/              # Account settings
+/settings/security/             # Security settings
+/settings/notifications/        # Notification preferences
+/support/                       # Support center
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 | Feature | Behavior |
 |---------|----------|
@@ -152,7 +171,10 @@ fiverr.com
 | Saved gigs | Bookmark for later, organized in lists |
 | Buyer requests | Sellers can browse buyer requests and submit offers |
 
-## 8. Responsive Behavior
+- **Review search**: Search reviews by keyword or rating
+- **Earnings filtering**: Filter earnings by period, gig, status
+- **Order history search**: Search past orders by buyer, gig, date
+## Responsive Behavior
 
 | Breakpoint | Adaptation |
 |-----------|------------|
@@ -161,7 +183,31 @@ fiverr.com
 | Mobile (<768px) | Single column, bottom-sheet filters, swipeable package tabs, sticky order bar |
 | App (iOS/Android) | Bottom tabs (Home, Search, Orders, Inbox, Profile), push for order updates |
 
-## 9. Access Control
+
+### Platform-Specific UX
+- Three-tier package comparison table is Fiverr's signature UI pattern for gig pricing
+- Seller response time and delivery stats are prominently displayed as trust signals
+- Custom offers enable direct negotiation outside the standard gig packages
+- Buyer Requirements form collects the brief before the seller begins work
+- Resolution Center provides structured dispute escalation with Fiverr as mediator
+- Seller levels (New → Level 1 → Level 2 → Top Rated) unlock progressively more features
+- Promoted Gigs allow sellers to boost visibility through an auction-based ad system
+- Fiverr's review system is one-directional: only buyers review sellers (no seller reviews of buyers)
+- Portfolio section lets sellers showcase past work samples beyond gig gallery images
+- Fiverr Business adds team collaboration, consolidated invoicing, and dedicated account management
+- Order activity timeline shows all communications, deliveries, and revisions in chronological order
+
+### Integration Points
+- Fiverr API enables programmatic order management and gig data access
+- Fiverr Workspace (formerly AND CO) provides invoicing and contract management
+- Integrations with payment processors support PayPal, credit cards, and Apple Pay
+
+
+- Quick response indicator shows sellers' average response time to new inquiries
+- Mobile app provides push notifications for new orders, messages, and delivery deadlines
+- Gig SEO relies on 5 tags per gig and keyword-optimized titles and descriptions
+
+## Access Control
 
 | Role | Access |
 |------|--------|

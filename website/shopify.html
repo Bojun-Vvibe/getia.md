@@ -460,20 +460,18 @@
 payment: pending → authorized → paid → partially_refunded → refunded
 </code></pre>
 <h2>User Flows</h2>
-<h3>Customer: Browse to Purchase</h3>
+<h3>Customer Purchase</h3>
 <pre><code>Home → Browse Collection → Filter (size, color) → Product Detail → Select Variant → Add to Cart → Cart Drawer → Checkout → Shop Pay (1-click) → Order Confirmation → Email Confirmation → Track Order
 </code></pre>
-<h3>Merchant: Process Order</h3>
+<h3>Fulfill an Order</h3>
 <pre><code>Orders (new order notification) → Order Detail → Review items → Create fulfillment → Add tracking number → Mark as fulfilled → Customer gets shipping email → Delivered
 </code></pre>
-<h3>Merchant: Add Product</h3>
+<h3>Add New Product</h3>
 <pre><code>Products → Add Product → Title, description → Upload images → Set price, compare-at → Create variants (S/M/L × Red/Blue) → Set inventory per location → SEO → Organize (collections, tags) → Active → Publish
 </code></pre>
-<h3>Merchant: Customize Storefront</h3>
+<h3>Customize Theme</h3>
 <pre><code>Online Store → Themes → Customize → Section-based editor → Drag sections (hero, featured collection, image with text) → Configure blocks within sections → Change colors/fonts → Preview on mobile → Publish
 </code></pre>
-<h2>URL / Route Structure</h2>
-<h3>Storefront</h3>
 <pre><code>/                              → Home
 /collections                   → All Collections
 /collections/:handle           → Collection Page
@@ -492,8 +490,9 @@ payment: pending → authorized → paid → partially_refunded → refunded
 /blogs/:blog/:article          → Blog Article
 /pages/:handle                 → Static Page
 /policies/:handle              → Policy Page
+
+## URL / Route Structure
 </code></pre>
-<h3>Admin</h3>
 <pre><code>/admin                         → Home
 /admin/orders                  → Orders
 /admin/orders/:id              → Order Detail

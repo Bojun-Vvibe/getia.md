@@ -7,11 +7,11 @@ website: https://behance.net
 
 # Information Architecture — Behance
 
-## 1. Overview
+## Overview
 
 Behance is Adobe's creative portfolio platform for showcasing and discovering professional design, illustration, photography, and other creative work. The IA is organized around Projects (multi-image case studies), Moodboards, and Live Streams, with deep integration into the Adobe Creative Cloud ecosystem. The platform serves as both a public portfolio and a professional discovery tool for recruiters and art directors.
 
-## 2. Site Map
+## Site Map
 
 ```
 Behance
@@ -75,7 +75,7 @@ Behance
     └── Connected Apps
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 - **Type**: Top nav bar (desktop), bottom tab bar (mobile app)
 - **Desktop Top Bar**: Behance logo (home), Explore, Live, Jobs, Hire Freelancers | Search, Notifications, Upload, Profile
@@ -84,10 +84,10 @@ Behance
 - **Project Viewing**: Long vertical scroll through project images (case study format)
 - **Adobe Ecosystem Links**: Deep links to Creative Cloud, Adobe Portfolio, Adobe Stock
 
-## 4. Content Model
+## Content Model
 
-| Content Type | Attributes | Relationships |
-|---|---|---|
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
 | Project | cover image, images/videos (ordered), title, description, creative fields, tags, tools used, appreciations, views, comments, published date, license | → Owner, → Creative Fields, → Tags |
 | Moodboard | name, description, saved items (projects, images, external references), visibility | → User, → Projects |
 | Live Stream | title, streamer, scheduled time, status (live/replay), viewer count, category | → User, → Creative Field |
@@ -97,29 +97,41 @@ Behance
 | Asset | image, license type, Adobe Stock metadata | → Adobe Stock |
 | Team/Company | name, logo, members, projects | → Projects, → Job Listings |
 
-## 5. User Flows
+
+### Content Lifecycle
+```
+created → published → visible → archived
+                     ↘ reported → under_review → restored / removed
+created → draft (saved but not published)
+published → edited (version history maintained)
+```
+## User Flows
 
 ### Publishing a Project
-1. Click "Create a Project" → Upload images/videos in sequence
-2. Arrange order → Add captions, descriptions for each module
-3. Set cover image → Add title, creative fields, tags, tools used
-4. Set visibility (public, private, draft) → Publish
-5. Project appears in followers' feeds, field galleries, and search
+```
+Click "Create a Project" → Upload images/videos in sequence → Arrange order → Add captions, descriptions for each module → Set cover image → Add title, creative fields, tags, tools used → Set visibility (public, private, draft) → Publish → Project appears in followers' feeds, field galleries, and search
+```
 
 ### Discovering Work
-1. Visit Explore → Browse by creative field or "For You" recommendations
-2. Scroll project grid → Click to open full case study (long vertical scroll)
-3. Appreciate (like) → Save to Moodboard for reference
-4. Follow creator for future projects
+```
+Visit Explore → Browse by creative field or "For You" recommendations → Scroll project grid → Click to open full case study (long vertical scroll) → Appreciate (like) → Save to Moodboard for reference → Follow creator for future projects
+```
 
 ### Building a Portfolio
-1. Upload multiple projects showcasing different skills
-2. Set profile bio, work experience, tools/skills
-3. Enable "Available for Freelance" badge
-4. Optionally connect Adobe Portfolio for a custom domain portfolio site
-5. Projects auto-sync from Behance to Adobe Portfolio
+```
+Upload multiple projects showcasing different skills → Set profile bio, work experience, tools/skills → Enable "Available for Freelance" badge → Optionally connect Adobe Portfolio for a custom domain portfolio site → Projects auto-sync from Behance to Adobe Portfolio
+```
 
-## 6. URL / Route Structure
+### New User Onboarding
+```
+Visit Behance → Sign Up (email/Google/SSO) → Complete profile → Guided setup wizard → Configure preferences → Explore key features → Start using the product
+                                                                                                                         ↘ Skip wizard → Land on dashboard
+```
+### Manage Notifications
+```
+Settings → Notifications → Toggle email/push/in-app per category → Set frequency (instant/daily digest/weekly) → Save preferences
+```
+## URL / Route Structure
 
 ```
 behance.net/                                # Home / discover
@@ -135,9 +147,16 @@ behance.net/joblist                         # Job board
 behance.net/joblist/{id}                    # Job detail
 behance.net/hire                            # Hire freelancers
 myportfolio.com/ (or custom domain)         # Adobe Portfolio (connected)
+myportfolio.com/settings  # Settings
+myportfolio.com/billing  # Billing & subscription
+myportfolio.com/notifications  # Notification preferences
+myportfolio.com/help  # Help center
+myportfolio.com/help/{topic}  # Help article
+myportfolio.com/api  # API documentation
+myportfolio.com/integrations  # Integrations
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 - **Global Search**: Projects, people, moodboards, assets, live streams
 - **Creative Field Filter**: 20+ fields (Graphic Design, Photography, Motion, etc.)
@@ -148,7 +167,9 @@ myportfolio.com/ (or custom domain)         # Adobe Portfolio (connected)
 - **Availability Filter**: Show only "Available for Freelance" profiles
 - **Adobe Stock Integration**: Search stock assets alongside community projects
 
-## 8. Responsive Behavior
+- **Autocomplete**: Type-ahead suggestions with recent searches and popular results
+- **Advanced search**: Boolean operators (AND, OR, NOT), field-specific filters, date ranges
+## Responsive Behavior
 
 | Breakpoint | Behavior |
 |---|---|
@@ -158,7 +179,37 @@ myportfolio.com/ (or custom domain)         # Adobe Portfolio (connected)
 | Desktop (> 1024px) | 3-4 column project grid; sticky top nav; project detail as full-width scroll with floating action bar |
 | Large Desktop (> 1440px) | 5+ column grid; wider project detail; expanded sidebar (tools, tags, related) |
 
-## 9. Access Control
+
+### Platform-Specific Patterns
+- Touch targets: minimum 44x44pt on mobile for accessibility
+- Swipe gestures: swipe to delete, archive, or perform quick actions
+- Pull-to-refresh: standard refresh pattern on feeds and lists
+- Keyboard shortcuts: comprehensive shortcuts on desktop for power users
+- Dark mode: system-preference detection with manual override
+- Offline support: cached data available without network connectivity
+- Progressive loading: skeleton screens while content loads
+
+### Behance-Specific UX Patterns
+- **Progressive disclosure**: Complex features hidden behind expandable sections
+- **Contextual actions**: Right-click menus and hover-revealed action buttons
+- **Inline editing**: Click-to-edit fields without navigating to a separate page
+- **Batch operations**: Multi-select with bulk actions (delete, move, archive, tag)
+- **Undo support**: Non-destructive actions with undo toast notifications
+- **Loading states**: Skeleton screens and progress indicators during async operations
+- **Empty states**: Helpful illustrations and CTAs when sections have no content
+- **Onboarding tooltips**: First-time user guidance highlighting key features
+
+### Accessibility
+- WCAG 2.1 AA compliance across all interactive elements
+- Semantic HTML with proper ARIA labels and landmarks
+- Keyboard navigation support for all core workflows
+- Screen reader compatibility tested with VoiceOver, NVDA, and JAWS
+- Color contrast ratios meeting minimum 4.5:1 for body text
+- Focus indicators visible on all interactive elements
+- Reduced motion option respecting `prefers-reduced-motion`
+- Resizable text up to 200% without content loss
+
+## Access Control
 
 | Role | Capabilities |
 |---|---|

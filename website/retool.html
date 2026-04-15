@@ -141,9 +141,9 @@
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Structure</th>
-<th>Ownership</th>
+<th>Entity</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -189,42 +189,17 @@
 </tbody></table>
 <h2>User Flows</h2>
 <h3>Building a CRUD App</h3>
-<ol>
-<li>Developer creates new app → blank canvas opens</li>
-<li>Creates Resource: connects to PostgreSQL database (host, credentials)</li>
-<li>Adds a SQL query: <code>SELECT * FROM users WHERE active = true</code></li>
-<li>Drags Table component onto canvas → binds <code>data</code> property to query results</li>
-<li>Enables inline editing on table → adds &quot;Save Changes&quot; button</li>
-<li>Button triggers an update query: <code>UPDATE users SET name = {{table1.changesetObject.name}} WHERE id = {{table1.selectedRow.id}}</code></li>
-<li>Adds Form component for creating new users → connected to INSERT query</li>
-<li>Deploys app → shares URL with team</li>
-</ol>
+<pre><code>Developer creates new app → blank canvas opens → Creates Resource: connects to PostgreSQL database (host, credentials) → Adds a SQL query: `SELECT * FROM users WHERE active = true` → Drags Table component onto canvas → binds `data` property to query results → Enables inline editing on table → adds &quot;Save Changes&quot; button → Button triggers an update query: `UPDATE users SET name = {{table1.changesetObject.name}} WHERE id = {{table1.selectedRow.id}}` → Adds Form component for creating new users → connected to INSERT query → Deploys app → shares URL with team
+</code></pre>
 <h3>Connecting to Data Sources</h3>
-<ol>
-<li>Admin navigates to Resources → &quot;Create New&quot;</li>
-<li>Selects resource type from 60+ integrations (PostgreSQL, MySQL, MongoDB, REST API, Stripe, Snowflake, etc.)</li>
-<li>Enters connection details (host, port, credentials, SSL)</li>
-<li>Tests connection → saves</li>
-<li>Resource available to all apps in the organization</li>
-<li>Permissions: restrict which groups can use which resources</li>
-</ol>
+<pre><code>Admin navigates to Resources → &quot;Create New&quot; → Selects resource type from 60+ integrations (PostgreSQL, MySQL, MongoDB, REST API, Stripe, Snowflake, etc.) → Enters connection details (host, port, credentials, SSL) → Tests connection → saves → Resource available to all apps in the organization → Permissions: restrict which groups can use which resources
+</code></pre>
 <h3>Workflow Automation</h3>
-<ol>
-<li>Developer creates Workflow → selects trigger (schedule: every hour, or webhook)</li>
-<li>Adds steps: Query (fetch data) → JS Transform (process) → Condition (if/else) → Query (write result)</li>
-<li>Each step can use different data sources</li>
-<li>Tests workflow with sample data</li>
-<li>Deploys → workflow runs automatically on trigger</li>
-<li>Monitors execution history for failures</li>
-</ol>
+<pre><code>Developer creates Workflow → selects trigger (schedule: every hour, or webhook) → Adds steps: Query (fetch data) → JS Transform (process) → Condition (if/else) → Query (write result) → Each step can use different data sources → Tests workflow with sample data → Deploys → workflow runs automatically on trigger → Monitors execution history for failures
+</code></pre>
 <h3>Version Control &amp; Deployment</h3>
-<ol>
-<li>Developer edits app in edit mode → changes are auto-saved as draft</li>
-<li>Clicks &quot;Deploy&quot; → creates a new version (snapshot)</li>
-<li>End-users see the deployed version (not the draft)</li>
-<li>Can roll back to any previous version</li>
-<li>Git sync: optionally sync app JSON to GitHub for version control</li>
-</ol>
+<pre><code>Developer edits app in edit mode → changes are auto-saved as draft → Clicks &quot;Deploy&quot; → creates a new version (snapshot) → End-users see the deployed version (not the draft) → Can roll back to any previous version → Git sync: optionally sync app JSON to GitHub for version control
+</code></pre>
 <h2>URL / Route Structure</h2>
 <table>
 <thead>
@@ -355,6 +330,173 @@
 <li>Environment variables: Secret values stored as Retool-managed environment variables</li>
 <li>Self-hosted option: Run Retool on your own infrastructure for full data control</li>
 <li>SOC 2 Type II, HIPAA compliant (Enterprise)</li>
+</ul>
+<h2>Component Library</h2>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Components</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Layout</td>
+<td>Container, Tabs, Modal, Drawer, Columns, Form</td>
+</tr>
+<tr>
+<td>Input</td>
+<td>Text Input, Number, Date, Select, Multiselect, Checkbox, Radio, Slider, File Upload</td>
+</tr>
+<tr>
+<td>Display</td>
+<td>Table, Text, Stat, JSON Viewer, Image, PDF Viewer, Map, Chart</td>
+</tr>
+<tr>
+<td>Action</td>
+<td>Button, Form, Wizard (multi-step), Link</td>
+</tr>
+<tr>
+<td>Data</td>
+<td>Table (with inline editing, sorting, filtering, pagination), List View, JSON Explorer</td>
+</tr>
+<tr>
+<td>Charts</td>
+<td>Line, Bar, Pie, Scatter, Area (Plotly-based)</td>
+</tr>
+<tr>
+<td>Advanced</td>
+<td>Code Editor, Rich Text Editor, Timer, iFrame, Custom Component</td>
+</tr>
+</tbody></table>
+<h2>Data Source Integrations</h2>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Sources</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Databases</td>
+<td>PostgreSQL, MySQL, MongoDB, Redis, Snowflake, BigQuery, DynamoDB, Elasticsearch</td>
+</tr>
+<tr>
+<td>APIs</td>
+<td>REST, GraphQL, gRPC, SOAP</td>
+</tr>
+<tr>
+<td>SaaS</td>
+<td>Stripe, Twilio, SendGrid, Slack, GitHub, Salesforce, HubSpot</td>
+</tr>
+<tr>
+<td>Cloud</td>
+<td>AWS S3, Google Cloud Storage, Azure Blob</td>
+</tr>
+<tr>
+<td>Auth</td>
+<td>LDAP, SAML SSO, Google OAuth, Okta</td>
+</tr>
+</tbody></table>
+<h2>Query Types</h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SQL</td>
+<td>Write raw SQL against connected databases</td>
+</tr>
+<tr>
+<td>REST API</td>
+<td>Configure HTTP requests with method, URL, headers, body</td>
+</tr>
+<tr>
+<td>GraphQL</td>
+<td>Write GraphQL queries and mutations</td>
+</tr>
+<tr>
+<td>JavaScript</td>
+<td>Custom logic, data transformation, API orchestration</td>
+</tr>
+<tr>
+<td>Retool Database</td>
+<td>Built-in PostgreSQL database (no external setup needed)</td>
+</tr>
+<tr>
+<td>Workflow</td>
+<td>Multi-step automation triggered by events</td>
+</tr>
+</tbody></table>
+<h2>App Building Flow</h2>
+<pre><code>Create App → Drag Components onto Canvas → Connect Data Source → Write Query → Bind Query Results to Table → Add Event Handlers → Test → Deploy → Share with Team
+</code></pre>
+<h2>Permission Model</h2>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Build Apps</th>
+<th>View Apps</th>
+<th>Manage Resources</th>
+<th>Admin</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Admin</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Editor</td>
+<td>✅</td>
+<td>✅</td>
+<td>Own resources</td>
+<td>—</td>
+</tr>
+<tr>
+<td>User</td>
+<td>—</td>
+<td>✅ (assigned apps)</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Viewer</td>
+<td>—</td>
+<td>✅ (read-only)</td>
+<td>—</td>
+<td>—</td>
+</tr>
+</tbody></table>
+<h2>Workflows (Automation)</h2>
+<ul>
+<li><strong>Trigger types:</strong> Webhook, cron schedule, manual, resource query</li>
+<li><strong>Blocks:</strong> Query, JavaScript, conditional, loop, response</li>
+<li><strong>Error handling:</strong> Try-catch blocks with retry logic</li>
+<li><strong>Scheduling:</strong> Cron expressions for recurring automation</li>
+<li><strong>Monitoring:</strong> Execution logs with input/output for each run</li>
+</ul>
+<h2>Retool Database</h2>
+<ul>
+<li><strong>Built-in PostgreSQL:</strong> No external database setup needed for simple apps</li>
+<li><strong>Schema editor:</strong> Visual table creation and column management</li>
+<li><strong>GUI editor:</strong> Spreadsheet-like data editing directly in Retool</li>
+<li><strong>API access:</strong> Query Retool Database from external applications</li>
+<li><strong>Import/Export:</strong> CSV import for bulk data loading</li>
+<li><strong>Relationships:</strong> Foreign keys and joins between tables</li>
+<li><strong>Permissions:</strong> Row-level security policies</li>
+</ul>
+<h2>Mobile Apps</h2>
+<ul>
+<li><strong>Retool Mobile:</strong> Build native iOS/Android apps with the same drag-and-drop builder</li>
+<li><strong>Native components:</strong> Camera, barcode scanner, GPS, push notifications</li>
+<li><strong>Offline support:</strong> Cache data and queue writes when offline</li>
+<li><strong>App Store distribution:</strong> Wrap in Retool Mobile container or build standalone</li>
 </ul>
 
     </div>

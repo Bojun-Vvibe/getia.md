@@ -7,10 +7,10 @@ website: https://webflow.com
 
 # Information Architecture — Webflow
 
-## 1. Overview
+## Overview
 Webflow is a visual web development platform that combines a drag-and-drop designer with the full power of HTML, CSS, and JavaScript — producing clean, semantic code without requiring developers to write it. The IA serves **designers** (visual builder, interactions, CMS), **developers** (custom code, APIs, logic), **marketers** (CMS, SEO, forms), and **enterprises** (hosting, security, collaboration). Webflow University (education) is a major content pillar alongside the product.
 
-## 2. Site Map
+## Site Map
 
 ```
 webflow.com
@@ -114,7 +114,7 @@ Webflow Designer (App)
     └── Backups
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 | Level | Type | Details |
 |-------|------|---------|
@@ -127,9 +127,9 @@ Webflow Designer (App)
 
 **Key pattern**: The Designer is a full IDE experience in the browser — left panel for structure, right panel for styling, top bar for responsive preview. The website itself uses Webflow-built marketing (eating their own dog food).
 
-## 4. Content Model
+## Content Model
 
-| Entity | Attributes |
+| Entity | Key Attributes | Relationships |
 |--------|-----------|
 | Site (Project) | name, subdomain/custom domain, plan, collaborators, published status |
 | Page | name, slug, SEO settings, custom code, template |
@@ -140,9 +140,9 @@ Webflow Designer (App)
 | Form | name, fields, action (email, webhook, Zapier), submissions |
 | Ecommerce Product | name, slug, price, images, SKU, categories, variants, tax, shipping |
 
-## 5. User Flows
+## User Flows
 
-### 5a. Build a website
+### Build a website
 1. Sign up → choose template or start blank
 2. Designer opens → drag elements to canvas
 3. Style with visual CSS panel (classes, flexbox, grid)
@@ -150,27 +150,27 @@ Webflow Designer (App)
 5. Preview across breakpoints → adjust responsive design
 6. Publish to webflow.io subdomain or custom domain
 
-### 5b. CMS-driven blog
+### CMS-driven blog
 1. Create CMS Collection (e.g., "Blog Posts") → define fields
 2. Add CMS items (articles with title, body, image, author, date)
 3. Create Collection Template page → bind dynamic content
 4. Create Collection List on pages → display post cards
 5. Publish → new CMS items auto-populate pages
 
-### 5c. Add interactions
+### Add interactions
 1. Select element → open Interactions panel
 2. Choose trigger (scroll into view, mouse hover, page load, click)
 3. Define animation (opacity, transform, position, size, color)
 4. Set timing, easing, delay
 5. Preview → interaction plays on trigger
 
-### 5d. Client handoff
+### Client handoff
 1. Designer builds site → invites client to workspace
 2. Client accesses CMS Editor (simplified view — edit content only)
 3. Client updates text, images, CMS items — cannot break design
 4. Changes publish via "Publish" button or auto-publish
 
-## 6. URL / Route Structure
+## URL / Route Structure
 
 ```
 # webflow.com (marketing)
@@ -203,7 +203,7 @@ Webflow Designer (App)
 /{collection-slug}/{item-slug}  → CMS item page
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 | Feature | Behavior |
 |---------|----------|
@@ -215,7 +215,7 @@ Webflow Designer (App)
 | CMS | Search/filter collection items by field values |
 | Help search | Keyword → categorized support articles |
 
-## 8. Responsive Behavior
+## Responsive Behavior
 
 | Breakpoint | Adaptation |
 |-----------|------------|
@@ -225,7 +225,7 @@ Webflow Designer (App)
 | Designer breakpoints | 4 built-in: Desktop (default) → Tablet (991px) → Mobile Landscape (767px) → Mobile Portrait (478px) |
 | Published sites | Responsive per designer's breakpoint configurations |
 
-## 9. Access Control
+## Access Control
 
 | Role | Access |
 |------|--------|

@@ -141,9 +141,9 @@
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Structure</th>
-<th>Ownership</th>
+<th>Entity</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -154,12 +154,12 @@
 <tr>
 <td>Targeting Rule</td>
 <td>Context attributes (email, plan, country, etc.), operator, values, rollout percentage, variation to serve</td>
-<td>Part of flag</td>
+<td>belongs to flag</td>
 </tr>
 <tr>
 <td>Variation</td>
 <td>Named value — the actual value served to the application (e.g., true/false, &quot;v1&quot;/&quot;v2&quot;)</td>
-<td>Part of flag</td>
+<td>belongs to flag</td>
 </tr>
 <tr>
 <td>Segment</td>
@@ -199,107 +199,81 @@
 </tbody></table>
 <h2>User Flows</h2>
 <h3>Creating and Rolling Out a Feature Flag</h3>
-<ol>
-<li>Developer creates a flag: key (<code>enable-new-checkout</code>), name, boolean type</li>
-<li>Flag defaults to <code>false</code> in all environments</li>
-<li>Wraps new feature code with flag check: <code>if (ldClient.variation(&#39;enable-new-checkout&#39;)))</code></li>
-<li>Deploys code — feature is off for all users</li>
-<li>Product manager opens flag → Targeting tab → enables for internal team (segment: &quot;employees&quot;)</li>
-<li>Monitors feedback → adds 10% rollout to production users</li>
-<li>Gradually increases to 50%, 100% → flag becomes permanent → remove flag from code</li>
-</ol>
+<pre><code>Developer creates a flag: key (`enable-new-checkout`), name, boolean type →
+  Flag defaults to `false` in all environments → Wraps new feature code with flag check: `if... →
+  Deploys code — feature is off for all users →
+  Product manager opens flag → Targeting tab → enables for internal team... →
+  Monitors feedback → adds 10% rollout to production users →
+  Gradually increases to 50%, 100% → flag becomes permanent → remove flag from...
+</code></pre>
 <h3>Targeted Rollout with Segments</h3>
-<ol>
-<li>User creates Segment: &quot;beta-users&quot; with rules (email contains &quot;@beta.com&quot; OR attribute &quot;plan&quot; = &quot;enterprise&quot;)</li>
-<li>Opens flag → Targeting → adds targeting rule: Segment &quot;beta-users&quot; → serve <code>true</code></li>
-<li>All matching users see the new feature</li>
-<li>Segment is reusable — apply to multiple flags</li>
-</ol>
+<pre><code>User creates Segment: &quot;beta-users&quot; with rules (email contains &quot;@beta.com&quot; OR... →
+  Opens flag → Targeting → adds targeting rule: Segment &quot;beta-users&quot; → serve... →
+  All matching users see the new feature → Segment is reusable — apply to multiple flags
+</code></pre>
 <h3>A/B Experiment</h3>
-<ol>
-<li>User creates Metric: &quot;checkout-conversion&quot; (custom event from app)</li>
-<li>Creates Experiment: links flag (<code>checkout-variant</code>) with metric</li>
-<li>Flag has 3 variations: &quot;control&quot;, &quot;variant-a&quot;, &quot;variant-b&quot;</li>
-<li>Sets rollout: 34% each variation</li>
-<li>Experiment runs → statistical analysis shows which variant performs best</li>
-<li>Winning variant rolled out to 100%</li>
-</ol>
+<pre><code>User creates Metric: &quot;checkout-conversion&quot; (custom event from app) →
+  Creates Experiment: links flag (`checkout-variant`) with metric →
+  Flag has 3 variations: &quot;control&quot;, &quot;variant-a&quot;, &quot;variant-b&quot; → Sets rollout: 34% each variation →
+  Experiment runs → statistical analysis shows which variant performs best →
+  Winning variant rolled out to 100%
+</code></pre>
 <h3>Release Pipeline</h3>
-<ol>
-<li>Team creates Release Pipeline with stages: Dev → Staging → Canary → Production</li>
-<li>Links flag changes to each stage</li>
-<li>Start release → flag enabled in Dev automatically</li>
-<li>Promote to Staging → approval gate (requires team lead approval)</li>
-<li>Promote to Canary (5% of production) → monitor metrics</li>
-<li>Promote to Production (100%) — full rollout complete</li>
-</ol>
+<pre><code>Team creates Release Pipeline with stages: Dev → Staging → Canary → Production →
+  Links flag changes to each stage → Start release → flag enabled in Dev automatically →
+  Promote to Staging → approval gate (requires team lead approval) →
+  Promote to Canary (5% of production) → monitor metrics →
+  Promote to Production (100%) — full rollout complete
+</code></pre>
 <h2>URL / Route Structure</h2>
-<table>
-<thead>
-<tr>
-<th>Pattern</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>/</code></td>
-<td>Dashboard</td>
-</tr>
-<tr>
-<td><code>/{project_key}/flags</code></td>
-<td>Flag list</td>
-</tr>
-<tr>
-<td><code>/{project_key}/flags/{flag_key}</code></td>
-<td>Flag detail</td>
-</tr>
-<tr>
-<td><code>/{project_key}/flags/{flag_key}/targeting</code></td>
-<td>Targeting rules</td>
-</tr>
-<tr>
-<td><code>/{project_key}/segments/{segment_key}</code></td>
-<td>Segment detail</td>
-</tr>
-<tr>
-<td><code>/{project_key}/contexts</code></td>
-<td>Context explorer</td>
-</tr>
-<tr>
-<td><code>/{project_key}/experiments/{key}</code></td>
-<td>Experiment detail</td>
-</tr>
-<tr>
-<td><code>/{project_key}/releases/{id}</code></td>
-<td>Release pipeline</td>
-</tr>
-<tr>
-<td><code>/settings/projects</code></td>
-<td>Project management</td>
-</tr>
-<tr>
-<td><code>/settings/members</code></td>
-<td>Team members</td>
-</tr>
-<tr>
-<td><code>/settings/integrations</code></td>
-<td>Integrations</td>
-</tr>
-<tr>
-<td><code>/changelog</code></td>
-<td>Audit log</td>
-</tr>
-</tbody></table>
+<pre><code>/                                             # Dashboard
+/{project_key}/flags                          # Flag list
+/{project_key}/flags/{flag_key}               # Flag detail
+/{project_key}/flags/{flag_key}/targeting     # Targeting rules
+/{project_key}/segments/{segment_key}         # Segment detail
+/{project_key}/contexts                       # Context explorer
+/{project_key}/experiments/{key}              # Experiment detail
+/{project_key}/releases/{id}                  # Release pipeline
+/settings/projects                            # Project management
+/settings/members                             # Team members
+/settings/integrations                        # Integrations
+/changelog                                    # Audit log
+/{project_key}/flags/{flag_key}/variations        # Flag variations
+/{project_key}/flags/{flag_key}/activity           # Flag audit log
+/{project_key}/flags/{flag_key}/settings           # Flag settings
+/{project_key}/flags/{flag_key}/insights           # Flag insights/analytics
+/{project_key}/flags/{flag_key}/code-references    # Code references
+/{project_key}/metrics/{metric_key}                # Metric detail
+/settings/environments                             # Environment management
+/settings/webhooks                                 # Webhook config
+/settings/access-tokens                            # API tokens
+/settings/security                                 # Security/SSO settings
+/settings/billing                                  # Billing/plan
+/settings/teams                                    # Team management
+</code></pre>
 <p>Project and flag keys are developer-defined slugs (e.g., <code>my-app</code>, <code>enable-dark-mode</code>). Environment key is a query parameter or part of the UI state, not the URL.</p>
 <h2>Search &amp; Filter</h2>
 <ul>
-<li><strong>Flag search</strong>: Search flags by key, name, or tag; filter by status (on/off), tags, maintainer</li>
-<li><strong>Flag list filtering</strong>: Filter by archived, temporary/permanent, recently changed, stale (not evaluated)</li>
-<li><strong>Context search</strong>: Search individual contexts by key or attributes</li>
-<li><strong>Segment search</strong>: Search segments by key or name</li>
-<li><strong>Audit log search</strong>: Filter by member, flag, project, environment, date range, action type</li>
-<li><strong>Code references</strong>: Search codebase for flag references (integrated with GitHub/GitLab)</li>
-<li><strong>Tag system</strong>: Flags and segments can be tagged for categorization (e.g., &quot;frontend&quot;, &quot;mobile&quot;, &quot;experiment&quot;)</li>
+<li><p><strong>Flag search</strong>: Search flags by key, name, or tag; filter by status (on/off), tags, maintainer</p>
+</li>
+<li><p><strong>Flag list filtering</strong>: Filter by archived, temporary/permanent, recently changed, stale (not evaluated)</p>
+</li>
+<li><p><strong>Context search</strong>: Search individual contexts by key or attributes</p>
+</li>
+<li><p><strong>Segment search</strong>: Search segments by key or name</p>
+</li>
+<li><p><strong>Audit log search</strong>: Filter by member, flag, project, environment, date range, action type</p>
+</li>
+<li><p><strong>Code references</strong>: Search codebase for flag references (integrated with GitHub/GitLab)</p>
+</li>
+<li><p><strong>Tag system</strong>: Flags and segments can be tagged for categorization (e.g., &quot;frontend&quot;, &quot;mobile&quot;, &quot;experiment&quot;)</p>
+</li>
+<li><p><strong>Experiment results filtering</strong>: Filter experiment data by date range, significance level, metric</p>
+</li>
+<li><p><strong>Release pipeline tracking</strong>: Filter releases by status (active, completed), environment</p>
+</li>
+<li><p><strong>Integration log search</strong>: Search webhook delivery history and integration events</p>
+</li>
 </ul>
 <h2>Responsive Behavior</h2>
 <table>
@@ -333,6 +307,29 @@
 <li>Experiment results charts resize responsively</li>
 <li>Audit log table scrolls horizontally on narrow screens</li>
 </ul>
+<h3>Platform-Specific UX</h3>
+<ul>
+<li>Inline flag toggles in the flag list enable quick on/off without opening detail pages</li>
+<li>Environment selector in the top bar is persistent — all views reflect the selected environment</li>
+<li>Targeting rules builder uses nested conditions with AND/OR logic and percentage rollouts</li>
+<li>Code references integration shows where each flag is used in the codebase (GitHub/GitLab)</li>
+<li>Stale flag detection identifies flags that haven&#39;t been evaluated recently for cleanup</li>
+<li>Prerequisites system links flags — a flag can require another flag to be on before it can be enabled</li>
+<li>Approval workflows in production environments require designated approvers before flag changes</li>
+<li>Contexts (evolution of &quot;users&quot;) support multi-dimensional targeting (user, device, organization, etc.)</li>
+<li>Flag insights show evaluation counts, variation distribution, and targeting rule effectiveness</li>
+<li>Release pipelines define staged rollout plans across environments with approval gates</li>
+</ul>
+<h3>Flag Lifecycle</h3>
+<pre><code>created → deployed_in_code → enabled_for_internal → gradual_rollout → fully_on → permanent (remove flag from code)
+                                                                                  → kill_switch (turn off in emergency)
+</code></pre>
+<h3>Targeting Rule Evaluation Order</h3>
+<pre><code>1. Individual targeting (specific context keys)
+2. Custom targeting rules (evaluated top-to-bottom, first match wins)
+3. Default rule (percentage rollout or single variation)
+4. Off variation (when flag is globally off)
+</code></pre>
 <h2>Access Control</h2>
 <table>
 <thead>

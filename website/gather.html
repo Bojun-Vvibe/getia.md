@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Gather</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Gather is a virtual office platform that uses 2D spatial video to recreate the spontaneous interactions of a physical office. The IA combines a customizable pixel-art map (the &quot;space&quot;) with proximity-based audio/video — conversations activate as avatars walk near each other, and fade as they walk away. The platform bridges the gap between Slack-style async chat and Zoom-style scheduled meetings by enabling ambient, always-on presence.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>Gather
 ├── Space (Virtual Office)
 │   ├── Map (2D pixel-art layout)
@@ -145,7 +145,7 @@
     ├── Blog
     └── Support
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <ul>
 <li><strong>Type</strong>: Spatial (2D movement) + bottom toolbar</li>
 <li><strong>Primary Navigation</strong>: Move avatar with arrow keys / WASD; walk to areas/people to interact</li>
@@ -155,7 +155,7 @@
 <li><strong>Right-click Menu</strong>: On objects (interact, configure) or people (follow, message, invite to room)</li>
 <li><strong>Room Entry</strong>: Walk into enclosed area → automatic private room (audio/video isolated from main space)</li>
 </ul>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
@@ -210,33 +210,33 @@
 <td>→ Mapmaker</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
+<h2>User Flows</h2>
 <h3>Spontaneous Conversation</h3>
-<ol>
-<li>Open Gather → Avatar appears at assigned desk in virtual office</li>
-<li>See colleague&#39;s avatar nearby → Walk over (arrow keys)</li>
-<li>Proximity video activates as you get close → Start talking</li>
-<li>Walk away → Video fades out naturally</li>
-<li>No scheduling, no links — just walk and talk</li>
-</ol>
+<pre><code>Open Gather → Avatar appears at assigned desk in virtual office →
+  See colleague&#39;s avatar nearby → Walk over (arrow keys) →
+  Proximity video activates as you get close → Start talking → Walk away → Video fades out naturally →
+  No scheduling, no links — just walk and talk
+</code></pre>
 <h3>Setting Up a Virtual Office</h3>
-<ol>
-<li>Create new Space → Choose template (small office, large campus, custom)</li>
-<li>Open Mapmaker → Drag-and-drop tiles, walls, furniture, objects</li>
-<li>Define private rooms, meeting areas, social zones</li>
-<li>Add interactive objects: whiteboards, embedded links, games</li>
-<li>Set spawn point → Invite team via link</li>
-<li>Members create avatars → Join space → Assigned to desks</li>
-</ol>
+<pre><code>Create new Space → Choose template (small office, large campus, custom) →
+  Open Mapmaker → Drag-and-drop tiles, walls, furniture, objects →
+  Define private rooms, meeting areas, social zones →
+  Add interactive objects: whiteboards, embedded links, games →
+  Set spawn point → Invite team via link → Members create avatars → Join space → Assigned to desks
+</code></pre>
 <h3>Hosting a Virtual Event</h3>
-<ol>
-<li>Create Space from event template (conference hall, expo floor)</li>
-<li>Configure: stage area (spotlight mode), breakout rooms, info boards</li>
-<li>Share link → Guests join with avatars</li>
-<li>Keynote: speaker in spotlight area → broadcasts to all</li>
-<li>Networking: attendees walk around and chat spatially</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<pre><code>Create Space from event template (conference hall, expo floor) →
+  Configure: stage area (spotlight mode), breakout rooms, info boards →
+  Share link → Guests join with avatars → Keynote: speaker in spotlight area → broadcasts to all →
+  Networking: attendees walk around and chat spatially
+</code></pre>
+<h3>Quick Meeting</h3>
+<pre><code>Click colleague&#39;s avatar → Select &#39;Follow&#39; → Walk to private room together → Proximity video activates → Meeting begins → Walk out when done
+</code></pre>
+<h3>Scheduled Meeting Integration</h3>
+<pre><code>Create Google Calendar event → Link to Gather room → Participants get notification → Join Gather at meeting time → Avatars auto-teleport to meeting room → Meeting starts
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code>gather.town/                                # Marketing homepage
 gather.town/pricing                         # Pricing page
 app.gather.town/app/{spaceId}               # Space (virtual office)
@@ -246,17 +246,42 @@ app.gather.town/invite/{inviteCode}         # Space invite link
 gather.town/templates                       # Space templates
 gather.town/blog                            # Blog
 gather.town/use-cases/{useCase}             # Use case pages
+app.gather.town/app/{spaceId}/settings    # Space settings
+app.gather.town/app/{spaceId}/members     # Member management
+app.gather.town/app/{spaceId}/calendar     # Calendar view
+app.gather.town/dashboard/spaces            # Spaces list
+app.gather.town/dashboard/billing           # Billing
+app.gather.town/dashboard/analytics         # Usage analytics
+app.gather.town/dashboard/settings          # Organization settings
+gather.town/product                         # Product page
+gather.town/use-cases/remote-teams          # Remote teams use case
+gather.town/use-cases/events                # Events use case
+gather.town/use-cases/education             # Education use case
+gather.town/support                         # Support page
+gather.town/api                             # API documentation
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <ul>
-<li><strong>Participant Search</strong>: Find people in space by name → click to locate on map</li>
-<li><strong>Object Search</strong>: In Mapmaker, search object library by category (furniture, tech, decor, games)</li>
-<li><strong>Template Browse</strong>: Filter by use case (office, event, education), size, theme</li>
-<li><strong>Chat Search</strong>: Search chat history within space</li>
-<li><strong>No Content Search</strong>: Gather is a spatial presence tool, not a content repository; search is limited to people and objects</li>
-<li><strong>Status Filter</strong>: Filter participant list by online/away/busy/desk status</li>
+<li><p><strong>Participant Search</strong>: Find people in space by name → click to locate on map</p>
+</li>
+<li><p><strong>Object Search</strong>: In Mapmaker, search object library by category (furniture, tech, decor, games)</p>
+</li>
+<li><p><strong>Template Browse</strong>: Filter by use case (office, event, education), size, theme</p>
+</li>
+<li><p><strong>Chat Search</strong>: Search chat history within space</p>
+</li>
+<li><p><strong>No Content Search</strong>: Gather is a spatial presence tool, not a content repository; search is limited to people and objects</p>
+</li>
+<li><p><strong>Status Filter</strong>: Filter participant list by online/away/busy/desk status</p>
+</li>
+<li><p><strong>Map element search</strong>: In Mapmaker, search objects by type or keyword</p>
+</li>
+<li><p><strong>Space member search</strong>: Filter members by role or online status</p>
+</li>
+<li><p><strong>Template category filter</strong>: Filter templates by use case, capacity, theme</p>
+</li>
 </ul>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -285,7 +310,29 @@ gather.town/use-cases/{useCase}             # Use case pages
 <td>Desktop-only; drag-and-drop editor requires mouse/keyboard</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h3>Platform-Specific UX</h3>
+<ul>
+<li>Proximity-based audio/video is the core differentiator — conversations fade in/out based on avatar distance</li>
+<li>Private rooms are defined by map boundaries — walking in activates room-scoped audio isolation</li>
+<li>Desk assignments give members persistent locations with customizable decorations</li>
+<li>Interactive objects (whiteboards, embedded links, games) add functionality to the spatial environment</li>
+<li>Mapmaker provides a pixel-art tile editor for customizing every aspect of the space layout</li>
+<li>Spawn points determine where new visitors appear when entering the space</li>
+<li>Calendar integration auto-moves avatars to meeting rooms when scheduled events begin</li>
+<li>Status indicators (Available, Away, Do Not Disturb) affect proximity interaction behavior</li>
+<li>Emotes provide non-verbal communication through avatar animations and effects</li>
+<li>Minimap provides a bird&#39;s-eye view of the entire space with teleport-on-click functionality</li>
+<li>Guest access via invite links enables temporary visitors for events and meetings</li>
+</ul>
+<h3>Interaction Types</h3>
+<pre><code>Proximity Chat: Walk near → Audio/video activates automatically
+Private Room:   Walk into enclosed area → Room-scoped audio isolation
+Spotlight:      Event mode → Speaker broadcasts to all attendees
+Do Not Disturb: Status set → Proximity interactions disabled
+Follow Mode:    Follow colleague → Your avatar tracks their movement
+Portal:         Step on portal tile → Teleport to another area/space
+</code></pre>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>

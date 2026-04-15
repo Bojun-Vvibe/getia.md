@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Pocket</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Pocket (by Mozilla) is a read-it-later service that lets users save articles, videos, and web pages for offline consumption. The IA is intentionally minimal — a <strong>save → organize → read</strong> pipeline. Pocket differentiates through its recommendation engine (surfacing curated articles), tagging system, and distraction-free reading mode that strips away website clutter. It serves as both a personal reading library and a content discovery platform.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>getpocket.com
 ├── Home (marketing)
 ├── My List (Auth — core experience)
@@ -147,7 +147,7 @@
     ├── Log in
     └── Sign up
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <table>
 <thead>
 <tr>
@@ -188,66 +188,55 @@
 </tr>
 </tbody></table>
 <p><strong>Key pattern</strong>: The reading view is purposefully distraction-free — no ads, no sidebar, no related articles. The focus is entirely on the content. Tags replace folders as the organizational paradigm.</p>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
 <th>Entity</th>
-<th>Attributes</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>Saved Item</td>
 <td>URL, title, excerpt, thumbnail, domain/source, date saved, tags, favorite flag, status (unread/archived), estimated read time, type (article/video)</td>
+<td>—</td>
 </tr>
 <tr>
 <td>Tag</td>
 <td>name, items count, user-defined</td>
+<td>—</td>
 </tr>
 <tr>
 <td>Highlight</td>
 <td>text selection, item, color, note</td>
+<td>—</td>
 </tr>
 <tr>
 <td>Recommendation</td>
 <td>title, URL, excerpt, source, topic, curator note</td>
+<td>—</td>
 </tr>
 <tr>
 <td>Collection</td>
 <td>title, description, items (ordered), curator</td>
+<td>—</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
-<h3>5a. Save &amp; read</h3>
-<ol>
-<li>Browse the web → click Pocket extension or share-to-Pocket</li>
-<li>Article saved → appears in My List</li>
-<li>Optionally add tags for organization</li>
-<li>Open in Pocket → distraction-free reader view</li>
-<li>Archive when finished (or delete)</li>
-</ol>
-<h3>5b. Tag &amp; organize</h3>
-<ol>
-<li>View My List → select item(s) → &quot;Tag&quot;</li>
-<li>Type tag name(s) → apply (Premium: auto-suggested tags)</li>
-<li>Browse by tag in sidebar → filtered view of saved items</li>
-<li>Bulk actions: tag, archive, delete, favorite</li>
-</ol>
-<h3>5c. Discover &amp; save</h3>
-<ol>
-<li>Visit Discover tab → browse curated recommendations</li>
-<li>Filter by topic (Technology, Science, Food, etc.)</li>
-<li>Read article preview → save to My List for later</li>
-<li>Articles surfaced by editorial team + algorithmic recommendations</li>
-</ol>
-<h3>5d. Listen (TTS)</h3>
-<ol>
-<li>Open saved article → tap &quot;Listen&quot; button</li>
-<li>Text-to-speech reads article aloud</li>
-<li>Control speed, play/pause → listen while commuting</li>
-<li>Syncs position across devices</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<h2>User Flows</h2>
+<h3>Save &amp; read</h3>
+<pre><code>Browse the web → click Pocket extension or share-to-Pocket → Article saved → appears in My List → Optionally add tags for organization → Open in Pocket → distraction-free reader view → Archive when finished (or delete)
+</code></pre>
+<h3>Tag &amp; organize</h3>
+<pre><code>View My List → select item(s) → &quot;Tag&quot; → Type tag name(s) → apply (Premium: auto-suggested tags) → Browse by tag in sidebar → filtered view of saved items → Bulk actions: tag, archive, delete, favorite
+</code></pre>
+<h3>Discover &amp; save</h3>
+<pre><code>Visit Discover tab → browse curated recommendations → Filter by topic (Technology, Science, Food, etc.) → Read article preview → save to My List for later → Articles surfaced by editorial team + algorithmic recommendations
+</code></pre>
+<h3>Listen (TTS)</h3>
+<pre><code>Open saved article → tap &quot;Listen&quot; button → Text-to-speech reads article aloud → Control speed, play/pause → listen while commuting → Syncs position across devices
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code>/                           → Marketing home
 /saves/                     → My List (auth)
 /saves/archive/             → Archived items
@@ -262,8 +251,17 @@
 /premium/                   → Pocket Premium
 /apps/                      → Download apps
 /help/                      → Help center
+getpocket.com/saves/tags/                     # All tags view
+getpocket.com/saves/search                    # Search saved items
+getpocket.com/explore/trending                # Trending articles
+getpocket.com/explore/{topic}                 # Topic recommendations
+getpocket.com/collections                     # Editorial collections
+getpocket.com/settings                        # Account settings
+getpocket.com/settings/account                # Account details
+getpocket.com/settings/notifications          # Notification preferences
+getpocket.com/premium                         # Pocket Premium
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <table>
 <thead>
 <tr>
@@ -296,7 +294,7 @@
 <td>By topic, popularity, trending</td>
 </tr>
 </tbody></table>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -325,7 +323,7 @@
 <td>Offline reading, TTS, dark mode, widget for quick save</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>
@@ -360,6 +358,158 @@
 <tr>
 <td>Internal</td>
 <td>Recommendation engine tuning, content moderation</td>
+</tr>
+</tbody></table>
+<h2>Reading Experience</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Reader view</td>
+<td>Distraction-free rendering; strips ads, nav, sidebars</td>
+</tr>
+<tr>
+<td>Dark mode</td>
+<td>Dark background with light text</td>
+</tr>
+<tr>
+<td>Sepia mode</td>
+<td>Warm tones for comfortable reading</td>
+</tr>
+<tr>
+<td>Font selection</td>
+<td>Sans-serif, serif, or custom font choices</td>
+</tr>
+<tr>
+<td>Font size</td>
+<td>Adjustable text size for readability</td>
+</tr>
+<tr>
+<td>Line spacing</td>
+<td>Comfortable spacing adjustment</td>
+</tr>
+<tr>
+<td>Text-to-speech</td>
+<td>Listen to articles with adjustable speed</td>
+</tr>
+<tr>
+<td>Offline access</td>
+<td>Articles cached for reading without internet</td>
+</tr>
+<tr>
+<td>Highlighting</td>
+<td>Select text to highlight; unlimited on Premium</td>
+</tr>
+</tbody></table>
+<h2>Save Methods</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Browser extension</td>
+<td>Click Pocket icon in toolbar</td>
+</tr>
+<tr>
+<td>Share sheet (mobile)</td>
+<td>Share from any app → Pocket</td>
+</tr>
+<tr>
+<td>Email</td>
+<td>Send URL to <a href="mailto:add@getpocket.com">add@getpocket.com</a></td>
+</tr>
+<tr>
+<td>URL direct</td>
+<td>getpocket.com/save?url={URL}</td>
+</tr>
+<tr>
+<td>IFTTT / Zapier</td>
+<td>Automated saving from RSS, Twitter, etc.</td>
+</tr>
+<tr>
+<td>Kobo e-reader</td>
+<td>Built-in Pocket integration on Kobo devices</td>
+</tr>
+<tr>
+<td>Firefox</td>
+<td>Native Pocket integration in Firefox browser</td>
+</tr>
+<tr>
+<td>API</td>
+<td>Programmatic saving via REST API</td>
+</tr>
+</tbody></table>
+<h2>Content Discovery</h2>
+<ul>
+<li><strong>Pocket Hits:</strong> Weekly email digest of most-saved articles across all Pocket users</li>
+<li><strong>Best of Web:</strong> Editorially curated outstanding long-form articles</li>
+<li><strong>Topic feeds:</strong> Technology, Science, Self-Improvement, Food, Entertainment, Business</li>
+<li><strong>Trending:</strong> Most-saved articles in the last 24-48 hours</li>
+<li><strong>Sponsored content:</strong> Clearly labeled recommendations from publishers</li>
+<li><strong>Algorithmic suggestions:</strong> Based on your reading history and saved topics</li>
+</ul>
+<h2>Firefox Integration</h2>
+<ul>
+<li><strong>Built into Firefox:</strong> No extension needed; Pocket button in toolbar</li>
+<li><strong>Recommended stories:</strong> Pocket recommendations on Firefox new tab page</li>
+<li><strong>Firefox account sync:</strong> Single sign-on with Firefox/Mozilla account</li>
+<li><strong>Reading view:</strong> Firefox Reader View uses similar rendering to Pocket</li>
+</ul>
+<h2>Pocket Premium vs Free</h2>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Free</th>
+<th>Premium ($4.99/mo)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Save articles</td>
+<td>Unlimited</td>
+<td>Unlimited</td>
+</tr>
+<tr>
+<td>Tags</td>
+<td>✅</td>
+<td>✅ + auto-suggested tags</td>
+</tr>
+<tr>
+<td>Highlights per article</td>
+<td>3</td>
+<td>Unlimited</td>
+</tr>
+<tr>
+<td>Full-text search</td>
+<td>Title only</td>
+<td>Full article text</td>
+</tr>
+<tr>
+<td>Permanent library</td>
+<td>No (if source deleted)</td>
+<td>Yes (archived copy)</td>
+</tr>
+<tr>
+<td>Ad-free Discover</td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Font options</td>
+<td>2</td>
+<td>7</td>
+</tr>
+<tr>
+<td>Backup</td>
+<td>No</td>
+<td>Yes</td>
 </tr>
 </tbody></table>
 

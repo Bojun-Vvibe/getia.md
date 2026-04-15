@@ -134,6 +134,14 @@
     ├── People
     ├── Billing
     └── Templates
+├── Templates
+│   ├── Project Templates
+│   ├── To-do List Templates
+│   └── Message Category Templates
+├── Integrations
+│   ├── Email Forwarding (post via email)
+│   ├── Calendar (iCal/Google)
+│   └── Third-party (Zapier, webhooks)
 </code></pre>
 <h2>Navigation Model</h2>
 <ul>
@@ -207,16 +215,52 @@
 <td>scopes, positions (uphill/downhill)</td>
 <td>→ To-do Lists</td>
 </tr>
+<tr>
+<td>Ping</td>
+<td>text, sender, recipient(s), thread</td>
+<td>→ Users</td>
+</tr>
+<tr>
+<td>Booking</td>
+<td>name, description, project</td>
+<td>belongs to Schedule</td>
+</tr>
+<tr>
+<td>Template</td>
+<td>type (project/todolist), structure</td>
+<td>belongs to Account</td>
+</tr>
+<tr>
+<td>Comment</td>
+<td>text, author, attachments, created_at</td>
+<td>belongs to Message/Todo/Event</td>
+</tr>
+<tr>
+<td>Notification</td>
+<td>type, subject, read_status</td>
+<td>belongs to User</td>
+</tr>
 </tbody></table>
 <h2>User Flows</h2>
-<h3>1. Kick Off a Project</h3>
-<p><code>Home → + New Project → Name, description, people → Choose tools → Post intro on Message Board → Create To-do Lists → Set Schedule milestones</code></p>
-<h3>2. Post an Update</h3>
-<p><code>Project → Message Board → + New Message → Choose category (Announcement/FYI/Pitch/Heartbeat) → Write → Notify → Team comments</code></p>
-<h3>3. Track Progress with Hill Charts</h3>
-<p><code>Project → To-dos → Hill Chart → Drag scopes uphill (figuring out) → Over the hill → Downhill (execution) → Compare snapshots over time</code></p>
-<h3>4. Daily Check-in</h3>
-<p><code>Automatic Check-in fires (e.g., &quot;What did you work on today?&quot;) → Respond in-app or via email → Team sees all responses in one thread</code></p>
+<h3>Kick Off a Project</h3>
+<pre><code>Home → + New Project → Name, description, people → Choose tools → Post intro on Message Board → Create To-do Lists → Set Schedule milestones
+</code></pre>
+<h3>Post an Update</h3>
+<pre><code>Project → Message Board → + New Message → Choose category (Announcement/FYI/Pitch/Heartbeat) → Write → Notify → Team comments
+</code></pre>
+<h3>Track Progress with Hill Charts</h3>
+<pre><code>Project → To-dos → Hill Chart → Drag scopes uphill (figuring out) → Over the hill → Downhill (execution) → Compare snapshots over time
+</code></pre>
+<h3>Daily Check-in</h3>
+<pre><code>Automatic Check-in fires (e.g., &quot;What did you work on today?&quot;) → Respond in-app or via email → Team sees all responses in one thread
+</code></pre>
+<h3>Client Collaboration</h3>
+<pre><code>Admin → People → Invite Client → Assign to project → Choose visible tools (hide Campfire, show Message Board + Docs) → Client sees only allowed tools
+                                                                                                                                                        ↘ Client can comment on messages and access shared documents
+</code></pre>
+<h3>Lineup Planning</h3>
+<pre><code>Lineup → View projects on timeline → Drag to adjust scope → Hill Charts → Drag scopes uphill/downhill → Snapshot progress → Compare to last week&#39;s snapshot → Identify stuck scopes
+</code></pre>
 <h2>URL / Route Structure</h2>
 <pre><code>3.basecamp.com/{account_id}/                           # Home
 3.basecamp.com/{account_id}/projects/{project_id}      # Project overview
@@ -227,14 +271,57 @@
 3.basecamp.com/{account_id}/buckets/{id}/vaults/{id}    # Docs &amp; Files
 3.basecamp.com/{account_id}/reports/todos               # My Assignments
 3.basecamp.com/{account_id}/lineup                      # Lineup
+3.basecamp.com/{account_id}/                           # Home
+3.basecamp.com/{account_id}/projects                   # All projects
+3.basecamp.com/{account_id}/projects/{project_id}      # Project overview
+3.basecamp.com/{account_id}/buckets/{id}/messages       # Message Board
+3.basecamp.com/{account_id}/buckets/{id}/messages/{id}  # Message detail
+3.basecamp.com/{account_id}/buckets/{id}/todolists      # To-dos
+3.basecamp.com/{account_id}/buckets/{id}/todos/{id}     # To-do item
+3.basecamp.com/{account_id}/buckets/{id}/chats/{id}     # Campfire
+3.basecamp.com/{account_id}/buckets/{id}/schedules/{id} # Schedule
+3.basecamp.com/{account_id}/buckets/{id}/schedule_entries/{id} # Event detail
+3.basecamp.com/{account_id}/buckets/{id}/vaults/{id}    # Docs &amp; Files
+3.basecamp.com/{account_id}/buckets/{id}/documents/{id} # Document
+3.basecamp.com/{account_id}/buckets/{id}/uploads/{id}   # File detail
+3.basecamp.com/{account_id}/buckets/{id}/card_tables/{id} # Card Table
+3.basecamp.com/{account_id}/buckets/{id}/questionnaires/{id} # Check-in
+3.basecamp.com/{account_id}/reports/todos               # My Assignments
+3.basecamp.com/{account_id}/lineup                      # Lineup
+3.basecamp.com/{account_id}/activity                    # Activity feed
+3.basecamp.com/{account_id}/pings                       # Direct messages
+3.basecamp.com/{account_id}/pings/{id}                  # Ping conversation
+3.basecamp.com/{account_id}/my/bookmarks                # Bookmarks
+3.basecamp.com/{account_id}/my/schedule                 # My Schedule
+3.basecamp.com/{account_id}/my/drafts                   # My Drafts
+3.basecamp.com/{account_id}/adminland                   # Admin settings
 </code></pre>
 <h2>Search &amp; Filter</h2>
 <ul>
-<li><strong>Find (global search):</strong> Full-text across messages, to-dos, documents, comments, and campfire chats</li>
-<li><strong>Scoped search:</strong> Filter by project, person, type (message/to-do/document/event)</li>
-<li><strong>Activity feed:</strong> Filter by project or person; &quot;Overdue&quot; filter for to-dos</li>
-<li><strong>Hey! menu:</strong> Catch Up feature lets you defer notifications to read later</li>
-<li><strong>No custom filters or saved views</strong> — consistent with Basecamp&#39;s simplicity philosophy</li>
+<li><p><strong>Find (global search):</strong> Full-text across messages, to-dos, documents, comments, and campfire chats</p>
+</li>
+<li><p><strong>Scoped search:</strong> Filter by project, person, type (message/to-do/document/event)</p>
+</li>
+<li><p><strong>Activity feed:</strong> Filter by project or person; &quot;Overdue&quot; filter for to-dos</p>
+</li>
+<li><p><strong>Hey! menu:</strong> Catch Up feature lets you defer notifications to read later</p>
+</li>
+<li><p><strong>No custom filters or saved views</strong> — consistent with Basecamp&#39;s simplicity philosophy</p>
+</li>
+<li><p><strong>Project filter</strong>: Filter by active/archived/trashed projects</p>
+</li>
+<li><p><strong>Person activity</strong>: View all activity by a specific person across all projects</p>
+</li>
+<li><p><strong>Overdue to-dos</strong>: Dedicated filter showing all overdue items across projects</p>
+</li>
+<li><p><strong>Sort options</strong>: By relevance, date created, date modified, alphabetical, popularity</p>
+</li>
+<li><p><strong>Autocomplete</strong>: Type-ahead suggestions with recent searches and popular results</p>
+</li>
+<li><p><strong>Advanced search</strong>: Boolean operators (AND, OR, NOT), field-specific filters, date ranges</p>
+</li>
+<li><p><strong>Recent searches</strong>: Quick access to previous search queries</p>
+</li>
 </ul>
 <h2>Responsive Behavior</h2>
 <table>
@@ -261,6 +348,27 @@
 <td>Reply to most notifications via email; content posted back to Basecamp</td>
 </tr>
 </tbody></table>
+<h3>Platform-Specific Patterns</h3>
+<ul>
+<li>Touch targets: minimum 44x44pt on mobile for accessibility</li>
+<li>Swipe gestures: swipe to delete, archive, or perform quick actions</li>
+<li>Pull-to-refresh: standard refresh pattern on feeds and lists</li>
+<li>Keyboard shortcuts: comprehensive shortcuts on desktop for power users</li>
+<li>Dark mode: system-preference detection with manual override</li>
+<li>Offline support: cached data available without network connectivity</li>
+<li>Progressive loading: skeleton screens while content loads</li>
+</ul>
+<h3>Basecamp-Specific UX Patterns</h3>
+<ul>
+<li><strong>Progressive disclosure</strong>: Complex features hidden behind expandable sections</li>
+<li><strong>Contextual actions</strong>: Right-click menus and hover-revealed action buttons</li>
+<li><strong>Inline editing</strong>: Click-to-edit fields without navigating to a separate page</li>
+<li><strong>Batch operations</strong>: Multi-select with bulk actions (delete, move, archive, tag)</li>
+<li><strong>Undo support</strong>: Non-destructive actions with undo toast notifications</li>
+<li><strong>Loading states</strong>: Skeleton screens and progress indicators during async operations</li>
+<li><strong>Empty states</strong>: Helpful illustrations and CTAs when sections have no content</li>
+<li><strong>Onboarding tooltips</strong>: First-time user guidance highlighting key features</li>
+</ul>
 <h2>Access Control</h2>
 <table>
 <thead>
@@ -294,6 +402,16 @@
 <td>Share a message/document as read-only public URL</td>
 </tr>
 </tbody></table>
+<h3>Security Features</h3>
+<ul>
+<li>Single Sign-On (SSO) support via SAML 2.0 and OIDC (Team/Enterprise)</li>
+<li>Two-factor authentication (TOTP, SMS, hardware keys)</li>
+<li>API token management with scoped permissions</li>
+<li>Session management: configurable timeout, forced logout</li>
+<li>Audit logging for security-sensitive actions</li>
+<li>Data encryption at rest (AES-256) and in transit (TLS 1.3)</li>
+<li>SOC 2 Type II compliance</li>
+</ul>
 
     </div>
   </article>

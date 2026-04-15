@@ -53,8 +53,8 @@ hub.docker.com
 
 ## Content Model
 
-| Content Type | Structure | Ownership |
-|---|---|---|
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
 | Repository | Name, description, README, tags (image versions), pull count, star count, visibility | User/Org-owned |
 | Image Tag | Tag name (latest, 1.0, alpine), digest, OS/architecture, compressed size, pushed date | Part of repository |
 | Official Image | Docker-maintained, security-scanned, documented, follows best practices | Docker-maintained |
@@ -64,37 +64,40 @@ hub.docker.com
 | Automated Build | Git repo link, build rules, build history, triggers | Part of repository (legacy) |
 | Webhook | URL endpoint, events (push), target repositories | Part of repository |
 
+
+### Build/Pipeline Lifecycle
+```
+triggered → queued → running → success → deployed
+                              ↘ failed → retried → success
+triggered → cancelled (by user or timeout)
+running → timed_out → failed
+```
 ## User Flows
 
 ### Finding and Pulling an Image
-1. User searches for an image (e.g., "nginx" or "postgres")
-2. Results show Official Images first, then Verified Publishers, then community images
-3. Clicks image → reads Overview (README with usage instructions)
-4. Checks Tags tab → finds desired version and architecture
-5. Copies pull command: `docker pull nginx:1.25-alpine`
-6. Runs in terminal → image downloaded from Docker Hub
+```
+User searches for an image (e.g., "nginx" or "postgres") → Results show Official Images first, then Verified Publishers, then community images → Clicks image → reads Overview (README with usage instructions) → Checks Tags tab → finds desired version and architecture → Copies pull command: `docker pull nginx:1.25-alpine` → Runs in terminal → image downloaded from Docker Hub
+```
 
 ### Publishing an Image
-1. User creates repository on Docker Hub (name, description, visibility)
-2. Builds image locally: `docker build -t username/myapp:1.0 .`
-3. Logs in: `docker login`
-4. Pushes: `docker push username/myapp:1.0`
-5. Image appears in repository → writes README with usage instructions
-6. Community can search, discover, and pull the image
+```
+User creates repository on Docker Hub (name, description, visibility) → Builds image locally: `docker build -t username/myapp:1.0 .` → Logs in: `docker login` → Pushes: `docker push username/myapp:1.0` → Image appears in repository → writes README with usage instructions → Community can search, discover, and pull the image
+```
 
 ### Organization Management
-1. Admin creates organization → invites members
-2. Creates teams with specific repository access (read, write, admin)
-3. Assigns repositories to teams
-4. Sets up automated scanning and vulnerability alerts
-5. Manages billing and seat count
+```
+Admin creates organization → invites members → Creates teams with specific repository access (read, write, admin) → Assigns repositories to teams → Sets up automated scanning and vulnerability alerts → Manages billing and seat count
+```
 
 ### Image Vulnerability Scanning
-1. Docker Scout scans images on push (or on-demand)
-2. Vulnerability report shows CVEs by severity (Critical, High, Medium, Low)
-3. Recommendations for base image updates to fix vulnerabilities
-4. Policy compliance tracking (no critical CVEs, etc.)
+```
+Docker Scout scans images on push (or on-demand) → Vulnerability report shows CVEs by severity (Critical, High, Medium, Low) → Recommendations for base image updates to fix vulnerabilities → Policy compliance tracking (no critical CVEs, etc.)
+```
 
+### Manage Notifications
+```
+Settings → Notifications → Toggle email/push/in-app per category → Set frequency (instant/daily digest/weekly) → Save preferences
+```
 ## URL / Route Structure
 
 | Pattern | Description |
@@ -114,6 +117,31 @@ hub.docker.com
 
 Notable: Official images use `/_/` prefix (no namespace). Community images use `/r/{namespace}/`. User profiles use `/u/`.
 
+### Additional Routes
+
+```
+billing  → Billing & subscription
+notifications  → Notification preferences
+help  → Help center
+help/{topic}  → Help article
+api  → API documentation
+integrations  → Integrations
+admin  → Admin console
+/r/{namespace}/{repo}                → Repository detail
+/r/{namespace}/{repo}/tags            → Image tags
+/r/{namespace}/{repo}/builds          → Automated builds
+/r/{namespace}/{repo}/collaborators   → Collaborators
+/r/{namespace}/{repo}/webhooks        → Webhooks
+/r/{namespace}/{repo}/scans           → Vulnerability scans
+/orgs/{org}                           → Organization
+/orgs/{org}/members                   → Organization members
+/orgs/{org}/teams                     → Teams
+/orgs/{org}/billing                   → Billing
+/settings                             → Account settings
+/settings/security                    → Security settings
+/explore                              → Explore images
+```
+
 ## Search & Filter
 
 - **Image search**: Full-text search across image names, descriptions, README content
@@ -123,6 +151,8 @@ Notable: Official images use `/_/` prefix (no namespace). Community images use `
 - **Explore categories**: Databases, Web Servers, Languages, DevOps, Security, etc.
 - **Organization repo search**: Search repositories within an organization by name
 
+- **Autocomplete**: Type-ahead suggestions with recent searches and popular results
+- **Advanced search**: Boolean operators (AND, OR, NOT), field-specific filters, date ranges
 ## Responsive Behavior
 
 | Breakpoint | Behavior |
@@ -136,6 +166,70 @@ Notable: Official images use `/_/` prefix (no namespace). Community images use `
 - Tag table (multi-column with OS/arch, size, digest) has horizontal scroll on mobile
 - README content uses responsive markdown rendering (images scale, code blocks scroll)
 - Pull command copy button remains accessible
+
+
+### Docker Hub-Specific UX Patterns
+- **Progressive disclosure**: Complex features hidden behind expandable sections
+- **Contextual actions**: Right-click menus and hover-revealed action buttons
+- **Inline editing**: Click-to-edit fields without navigating to a separate page
+- **Batch operations**: Multi-select with bulk actions (delete, move, archive, tag)
+- **Undo support**: Non-destructive actions with undo toast notifications
+- **Loading states**: Skeleton screens and progress indicators during async operations
+- **Empty states**: Helpful illustrations and CTAs when sections have no content
+- **Onboarding tooltips**: First-time user guidance highlighting key features
+
+### Accessibility
+- WCAG 2.1 AA compliance across all interactive elements
+- Semantic HTML with proper ARIA labels and landmarks
+- Keyboard navigation support for all core workflows
+- Screen reader compatibility tested with VoiceOver, NVDA, and JAWS
+- Color contrast ratios meeting minimum 4.5:1 for body text
+- Focus indicators visible on all interactive elements
+- Reduced motion option respecting `prefers-reduced-motion`
+- Resizable text up to 200% without content loss
+
+
+### API & Integration Patterns
+- RESTful API with JSON request/response format
+- Webhook support for real-time event notifications
+- OAuth 2.0 for third-party application authorization
+- Rate limiting with clear headers (X-RateLimit-Remaining)
+- Pagination via cursor-based or offset-based parameters
+- Versioned API endpoints for backward compatibility
+- Comprehensive API documentation with interactive examples
+- SDKs available for popular languages (JavaScript, Python, Ruby, Go)
+
+
+### Automated Build Pipeline
+```
+Connect GitHub/GitLab repository → Configure automated builds → Set build rules (branch/tag patterns) → Push code → Docker Hub builds image automatically → Image tagged and pushed to repository → Webhook notifications sent
+                                                                                                                                                             ↘ Build fails → View build logs → Fix Dockerfile → Push again
+```
+
+### Vulnerability Scanning
+```
+Push image to Docker Hub → Docker Scout automatically scans for vulnerabilities → View CVE report with severity ratings → Recommended base image updates → Apply fixes → Rebuild → Re-scan confirms remediation
+```
+
+### Organization Management
+```
+Create organization → Invite team members → Create teams → Assign repository permissions per team → Set up SSO (Business plan) → Configure image access policies → Audit access logs
+```
+
+### Container Registry Workflow
+```
+Developer runs `docker push` → Image layers uploaded → Manifest created → Available for `docker pull` worldwide → Rate limits applied per plan tier → Content trust (signing) optional for verified publishers
+```
+
+### Docker Scout Integration
+```
+Enable Docker Scout → Continuous monitoring of all repository images → Policy evaluation against security baselines → Supply chain attestation tracking → SBOM generation → Compliance reporting
+```
+
+### Repository Webhook Configuration
+```
+Repository → Webhooks → Add webhook URL → Select events (push, build, scan) → Test webhook → Receive POST payload on events → Integrate with CI/CD pipelines or Slack notifications
+```
 
 ## Access Control
 

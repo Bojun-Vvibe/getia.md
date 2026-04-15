@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Upwork</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Upwork is the world&#39;s largest freelance platform connecting businesses with independent professionals across development, design, writing, marketing, and more. Unlike Fiverr&#39;s gig model, Upwork uses a <strong>proposal-based system</strong> — clients post jobs, freelancers submit proposals, and work is tracked via contracts (hourly with time tracking or fixed-price with milestones). Key features include Connects (credits for proposals), the Work Diary (automated screenshots for hourly work), and Upwork&#39;s Payment Protection.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>upwork.com
 ├── Home
 ├── Find Talent (Client)
@@ -156,7 +156,7 @@
     ├── Log in
     └── Sign up (Client / Freelancer)
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <table>
 <thead>
 <tr>
@@ -192,41 +192,17 @@
 </tr>
 </tbody></table>
 <p><strong>Key pattern</strong>: Dual-sided navigation — the experience is fundamentally different for clients (hiring) vs. freelancers (finding work). Dashboard and nav items change based on the active role.</p>
-<h2>4. Content Model</h2>
-<table>
-<thead>
-<tr>
-<th>Entity</th>
-<th>Attributes</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>Job Post</td>
-<td>title, description, skills, category, budget type (hourly/fixed), budget range, experience level (entry/intermediate/expert), duration, proposals count, client history</td>
-</tr>
-<tr>
-<td>Proposal</td>
-<td>freelancer, cover letter, bid (rate or fixed price), estimated duration, attachments, Connects spent, boosted flag</td>
-</tr>
-<tr>
-<td>Freelancer Profile</td>
-<td>title, overview, skills, hourly rate, availability, portfolio, work history, JSS (Job Success Score), Top Rated badge, earnings</td>
-</tr>
-<tr>
-<td>Contract</td>
-<td>job, freelancer, client, type (hourly/fixed), rate/budget, milestones, Work Diary, messages, status</td>
-</tr>
-<tr>
-<td>Work Diary</td>
-<td>date, hours logged, screenshots (10-min intervals), activity level %, memo</td>
-</tr>
-<tr>
-<td>Milestone</td>
-<td>name, amount, status (funded/in-progress/submitted/approved), due date</td>
-</tr>
-</tbody></table>
-<h2>5. User Flows</h2>
-<h3>5a. Client — Post job &amp; hire</h3>
+<h2>Content Model</h2>
+<p>| Entity | Key Attributes | Relationships |
+|--------|-----------|
+| Job Post | title, description, skills, category, budget type (hourly/fixed), budget range, experience level (entry/intermediate/expert), duration, proposals count, client history |
+| Proposal | freelancer, cover letter, bid (rate or fixed price), estimated duration, attachments, Connects spent, boosted flag |
+| Freelancer Profile | title, overview, skills, hourly rate, availability, portfolio, work history, JSS (Job Success Score), Top Rated badge, earnings |
+| Contract | job, freelancer, client, type (hourly/fixed), rate/budget, milestones, Work Diary, messages, status |
+| Work Diary | date, hours logged, screenshots (10-min intervals), activity level %, memo |
+| Milestone | name, amount, status (funded/in-progress/submitted/approved), due date |</p>
+<h2>User Flows</h2>
+<h3>Client — Post job &amp; hire</h3>
 <ol>
 <li>Post a job → title, description, required skills, budget type</li>
 <li>Set experience level, project length, screening questions</li>
@@ -234,7 +210,7 @@
 <li>Review proposals → shortlist → interview via Upwork Messages</li>
 <li>Send offer (rate, weekly limit or milestones) → freelancer accepts → contract begins</li>
 </ol>
-<h3>5b. Freelancer — Find work &amp; propose</h3>
+<h3>Freelancer — Find work &amp; propose</h3>
 <ol>
 <li>Browse job feed or use search → apply filters (category, budget, experience, client history)</li>
 <li>Submit proposal → cover letter + bid (costs Connects)</li>
@@ -242,21 +218,21 @@
 <li>Client responds → interview/messaging → receive offer</li>
 <li>Accept contract → begin work (hourly: log via Work Diary; fixed: deliver milestones)</li>
 </ol>
-<h3>5c. Hourly contract workflow</h3>
+<h3>Hourly contract workflow</h3>
 <ol>
 <li>Contract active → freelancer logs hours via desktop app (Work Diary)</li>
 <li>Screenshots + activity level captured every 10 minutes</li>
 <li>Client reviews diary weekly → auto-payment on Monday</li>
 <li>Dispute window for logged hours → Payment Protection covers tracked time</li>
 </ol>
-<h3>5d. Fixed-price contract workflow</h3>
+<h3>Fixed-price contract workflow</h3>
 <ol>
 <li>Client funds milestone escrow</li>
 <li>Freelancer delivers work → submits milestone</li>
 <li>Client reviews → approves → funds released</li>
 <li>Repeat for remaining milestones → contract ends</li>
 </ol>
-<h2>6. URL / Route Structure</h2>
+<h2>URL / Route Structure</h2>
 <pre><code>/                               → Home
 /hire/                          → Find talent landing
 /hire/{category}/               → Category talent browse
@@ -274,7 +250,7 @@
 /community/                     → Forums
 /help/                          → Help center
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <table>
 <thead>
 <tr>
@@ -307,7 +283,7 @@
 <td>Clients can search for specific freelancers by name or skill</td>
 </tr>
 </tbody></table>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -332,7 +308,7 @@
 <td>Tab bar (Jobs/Talent, Contracts, Messages, Profile), push for proposals/messages</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>

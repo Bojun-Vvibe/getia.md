@@ -133,30 +133,30 @@
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Structure</th>
-<th>Ownership</th>
+<th>Entity</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>Model Repo</td>
 <td>Model card (README.md), weights files, config, tokenizer, Git history, discussions</td>
-<td>User/Org-owned</td>
+<td>belongs to Organization</td>
 </tr>
 <tr>
 <td>Model Card</td>
 <td>YAML frontmatter (task, library, license, metrics) + Markdown body</td>
-<td>Part of repo</td>
+<td>belongs to repo</td>
 </tr>
 <tr>
 <td>Dataset Repo</td>
 <td>Dataset card, data files (Parquet/CSV/JSON), viewer, Git history</td>
-<td>User/Org-owned</td>
+<td>belongs to Organization</td>
 </tr>
 <tr>
 <td>Space</td>
 <td>Gradio/Streamlit/Docker app with code, Dockerfile, README</td>
-<td>User/Org-owned</td>
+<td>belongs to Organization</td>
 </tr>
 <tr>
 <td>Collection</td>
@@ -181,92 +181,81 @@
 </tbody></table>
 <h2>User Flows</h2>
 <h3>Finding &amp; Using a Model</h3>
-<ol>
-<li>User navigates to <code>/models</code> → browses or searches (e.g., &quot;text-to-image&quot;)</li>
-<li>Filters by task (Text Generation), library (PyTorch), language, trending</li>
-<li>Clicks model card → reads description, metrics, usage examples</li>
-<li>Options: (a) Download weights, (b) Use Inference API widget on page, (c) Deploy to Inference Endpoint</li>
-<li>Can open Discussion tab to ask questions or report issues</li>
-</ol>
+<pre><code>User navigates to `/models` → browses or searches (e.g., &quot;text-to-image&quot;) →
+  Filters by task (Text Generation), library (PyTorch), language, trending →
+  Clicks model card → reads description, metrics, usage examples →
+  Options: (a) Download weights, (b) Use Inference API widget on page, (c) Deploy... →
+  Can open Discussion tab to ask questions or report issues
+</code></pre>
 <h3>Creating a Space</h3>
-<ol>
-<li>User clicks &quot;New Space&quot; → selects SDK (Gradio, Streamlit, Docker, Static)</li>
-<li>Names the Space, sets hardware (CPU, GPU), visibility</li>
-<li>Uploads code or connects Git repo → Space builds and deploys automatically</li>
-<li>Live demo is accessible at <code>{username}/{space_name}</code> URL</li>
-<li>Community can duplicate (fork) the Space</li>
-</ol>
+<pre><code>User clicks &quot;New Space&quot; → selects SDK (Gradio, Streamlit, Docker, Static) →
+  Names the Space, sets hardware (CPU, GPU), visibility →
+  Uploads code or connects Git repo → Space builds and deploys automatically →
+  Live demo is accessible at `{username}/{space_name}` URL →
+  Community can duplicate (fork) the Space
+</code></pre>
 <h3>Model Upload &amp; Publishing</h3>
-<ol>
-<li>User creates new model repo via web or <code>huggingface_hub</code> CLI</li>
-<li>Uploads model weights, tokenizer, config files via Git LFS</li>
-<li>Writes model card with YAML metadata (task, library, license, metrics)</li>
-<li>Model auto-indexed in Hub search; appears in relevant task/library filters</li>
-<li>Community can like, discuss, and submit PRs to improve the card</li>
-</ol>
+<pre><code>User creates new model repo via web or `huggingface_hub` CLI →
+  Uploads model weights, tokenizer, config files via Git LFS →
+  Writes model card with YAML metadata (task, library, license, metrics) →
+  Model auto-indexed in Hub search; appears in relevant task/library filters →
+  Community can like, discuss, and submit PRs to improve the card
+</code></pre>
+<h3>Deploying an Inference Endpoint</h3>
+<pre><code>Model page → Deploy → Select Inference Endpoints → Choose cloud provider and region → Select hardware (GPU type) → Configure scaling → Deploy → Get API endpoint URL → Integrate into application
+</code></pre>
+<h3>Contributing to a Model via Pull Request</h3>
+<pre><code>Model page → Community tab → New Discussion or Pull Request → Fork repo → Make changes (improve model card, add files) → Submit PR → Maintainer reviews → Merge
+</code></pre>
 <h2>URL / Route Structure</h2>
-<table>
-<thead>
-<tr>
-<th>Pattern</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>/models</code></td>
-<td>Model Hub listing</td>
-</tr>
-<tr>
-<td><code>/{org_or_user}/{model_name}</code></td>
-<td>Model card page</td>
-</tr>
-<tr>
-<td><code>/{org_or_user}/{model_name}/tree/main</code></td>
-<td>File browser</td>
-</tr>
-<tr>
-<td><code>/{org_or_user}/{model_name}/discussions</code></td>
-<td>Community discussions</td>
-</tr>
-<tr>
-<td><code>/datasets/{org_or_user}/{dataset_name}</code></td>
-<td>Dataset page</td>
-</tr>
-<tr>
-<td><code>/spaces/{org_or_user}/{space_name}</code></td>
-<td>Running Space</td>
-</tr>
-<tr>
-<td><code>/papers/{arxiv_id}</code></td>
-<td>Paper discussion</td>
-</tr>
-<tr>
-<td><code>/docs/{library}/{page}</code></td>
-<td>Library documentation</td>
-</tr>
-<tr>
-<td><code>/tasks/{task_slug}</code></td>
-<td>Task taxonomy page</td>
-</tr>
-<tr>
-<td><code>/{username}</code></td>
-<td>User profile</td>
-</tr>
-<tr>
-<td><code>/collections/{user}/{slug}-{id}</code></td>
-<td>Collection page</td>
-</tr>
-</tbody></table>
+<pre><code>/models                                       # Model Hub listing
+/{org_or_user}/{model_name}                   # Model card page
+/{org_or_user}/{model_name}/tree/main         # File browser
+/{org_or_user}/{model_name}/discussions       # Community discussions
+/datasets/{org_or_user}/{dataset_name}        # Dataset page
+/spaces/{org_or_user}/{space_name}            # Running Space
+/papers/{arxiv_id}                            # Paper discussion
+/docs/{library}/{page}                        # Library documentation
+/tasks/{task_slug}                            # Task taxonomy page
+/{username}                                   # User profile
+/collections/{user}/{slug}-{id}               # Collection page
+/{org_or_user}/{model_name}/blob/main/{file}     # View specific file
+/{org_or_user}/{model_name}/resolve/main/{file}   # Download file directly
+/{org_or_user}/{model_name}/settings               # Repo settings
+/spaces/{org_or_user}/{space_name}/settings        # Space settings
+/new-model                                          # Create model repo
+/new-dataset                                        # Create dataset repo
+/new-space                                          # Create Space
+/new-collection                                     # Create collection
+/settings/profile                                   # Profile settings
+/settings/tokens                                    # API tokens
+/settings/organizations                             # Org management
+/inference-endpoints/new                             # Create inference endpoint
+/pricing                                             # Pricing plans
+</code></pre>
 <p>GitHub-inspired URL structure with <code>org/repo</code> convention. Models live at root path; datasets and Spaces are prefixed.</p>
 <h2>Search &amp; Filter</h2>
 <ul>
-<li><strong>Global search</strong>: Searches across models, datasets, Spaces, users, organizations, papers</li>
-<li><strong>Model filters</strong>: Task (30+ types), Library (PyTorch, TF, JAX, etc.), Language (100+), License, Model size, Dataset used, Gated/ungated</li>
-<li><strong>Dataset filters</strong>: Task, Language, Size, Format, License, Modality</li>
-<li><strong>Spaces filters</strong>: SDK, Hardware, Running status, Likes</li>
-<li><strong>Sort options</strong>: Trending, Most Downloads, Most Likes, Recently Updated, Recently Created</li>
-<li><strong>Tags</strong>: Extensive tag system for models (e.g., <code>text-generation</code>, <code>gguf</code>, <code>4-bit</code>, <code>chat</code>)</li>
-<li><strong>Dataset viewer</strong>: In-browser preview of dataset rows with column filtering</li>
+<li><p><strong>Global search</strong>: Searches across models, datasets, Spaces, users, organizations, papers</p>
+</li>
+<li><p><strong>Model filters</strong>: Task (30+ types), Library (PyTorch, TF, JAX, etc.), Language (100+), License, Model size, Dataset used, Gated/ungated</p>
+</li>
+<li><p><strong>Dataset filters</strong>: Task, Language, Size, Format, License, Modality</p>
+</li>
+<li><p><strong>Spaces filters</strong>: SDK, Hardware, Running status, Likes</p>
+</li>
+<li><p><strong>Sort options</strong>: Trending, Most Downloads, Most Likes, Recently Updated, Recently Created</p>
+</li>
+<li><p><strong>Tags</strong>: Extensive tag system for models (e.g., <code>text-generation</code>, <code>gguf</code>, <code>4-bit</code>, <code>chat</code>)</p>
+</li>
+<li><p><strong>Dataset viewer</strong>: In-browser preview of dataset rows with column filtering</p>
+</li>
+<li><p><strong>Paper search</strong>: Search arxiv papers by title, author, or topic on the Papers page</p>
+</li>
+<li><p><strong>Collection browsing</strong>: Browse curated collections by theme or creator</p>
+</li>
+<li><p><strong>Organization search</strong>: Find organizations by name or domain focus</p>
+</li>
 </ul>
 <h2>Responsive Behavior</h2>
 <table>
@@ -299,6 +288,43 @@
 <li>Code blocks in model cards have horizontal scroll</li>
 <li>File browser adapts to narrower widths with truncated paths</li>
 </ul>
+<h3>Platform-Specific UX</h3>
+<ul>
+<li>Model cards use YAML frontmatter for structured metadata (task, library, license, metrics, language)</li>
+<li>Inference API widget on every model page allows instant testing without code</li>
+<li>Dataset viewer provides in-browser preview of dataset rows with column filtering and search</li>
+<li>Spaces run as containerized web apps — supporting Gradio, Streamlit, and Docker SDKs</li>
+<li>Git LFS handles large model weight files (often multi-GB) seamlessly</li>
+<li>Discussion and PR system mirrors GitHub — enabling community contributions to model cards and data</li>
+<li>ZeroGPU (Pro feature) provides on-demand GPU access for Spaces without dedicated hardware</li>
+<li>Collection feature enables curating themed sets of models, datasets, and Spaces</li>
+<li>Papers page adds community discussion layer on top of daily arxiv papers</li>
+<li>Organization pages aggregate team repositories with role-based access control</li>
+<li>Gated models require explicit access requests with optional form fields and approval workflows</li>
+<li>Model comparison tools allow side-by-side evaluation of different models on the same inputs</li>
+</ul>
+<h3>Ecosystem Libraries</h3>
+<ul>
+<li>Transformers: Core library for model loading, fine-tuning, and inference</li>
+<li>Diffusers: Stable Diffusion and image generation pipelines</li>
+<li>Datasets: Efficient data loading and processing with streaming support</li>
+<li>TGI (Text Generation Inference): Optimized serving for LLMs</li>
+<li>PEFT: Parameter-efficient fine-tuning (LoRA, QLoRA)</li>
+<li>Accelerate: Multi-GPU and distributed training utilities</li>
+</ul>
+<h3>Model Card YAML Frontmatter</h3>
+<pre><code class="language-yaml">language: en
+license: apache-2.0
+tags:
+  - text-generation
+  - pytorch
+datasets:
+  - openwebtext
+metrics:
+  - perplexity
+library_name: transformers
+pipeline_tag: text-generation
+</code></pre>
 <h2>Access Control</h2>
 <table>
 <thead>

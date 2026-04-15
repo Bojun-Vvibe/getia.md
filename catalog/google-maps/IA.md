@@ -217,6 +217,14 @@ Visit Restaurant → Place Detail → [Write a Review] → Rate 4★ → Write T
 /maps/contrib                  → Contribute
 /maps/embed                    → Embed API
 /maps/offline                  → Offline Maps
+/maps/place/:place_id/menu     # Restaurant menu
+/maps/place/:place_id/qa       # Questions & answers
+/maps/settings                  # Settings page
+/maps/localguides               # Local Guides program
+/maps/localguides/profile       # Local Guide profile
+/maps/rpc/action                # API actions
+/maps/reserve                   # Restaurant reservations
+/maps/share                     # Share location
 ```
 
 ## Search & Filter

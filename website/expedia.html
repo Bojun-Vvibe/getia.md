@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Expedia</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Expedia is a full-service online travel agency (OTA) enabling booking of flights, hotels, vacation rentals, car rentals, cruises, and bundled packages. The IA is transaction-driven — every surface is designed to move users from search to booking. The platform differentiates through its One Key rewards program (unifying Expedia, Hotels.com, and Vrbo), bundle discounts (&quot;Save when you book together&quot;), and price tracking with alerts. The experience is optimized for comparison shopping across hundreds of providers.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>Expedia
 ├── Home
 │   ├── Search Module
@@ -199,7 +199,7 @@
     ├── Destinations
     └── Cabin Selection
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <ul>
 <li><strong>Type</strong>: Top nav bar with tabbed search module</li>
 <li><strong>Desktop Top Bar</strong>: Logo, &quot;Español&quot; toggle, Support, Trips, Sign In | One Key callout</li>
@@ -209,7 +209,7 @@
 <li><strong>Booking Flow</strong>: Linear stepper — Select → Details → Payment → Confirmation</li>
 <li><strong>Cross-sell</strong>: After hotel booking, suggest flights/cars/activities (&quot;Complete your trip&quot;)</li>
 </ul>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
@@ -274,34 +274,29 @@
 <td>→ Bookings</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
+<h2>User Flows</h2>
 <h3>Booking a Hotel</h3>
-<ol>
-<li>Home → &quot;Stays&quot; tab → Enter destination, dates, guests</li>
-<li>Search → Results page with map and list</li>
-<li>Filter: Star rating, price range, guest rating, amenities, neighborhood, cancellation</li>
-<li>Sort: Recommended, Price (low-high), Guest Rating, Distance</li>
-<li>Click hotel → View photos, amenities, room types</li>
-<li>Select room → Choose rate (refundable vs. non-refundable)</li>
-<li>Checkout → Enter traveler info → Payment → Apply One Key Cash → Confirm</li>
-<li>Receive confirmation email → Booking appears in Trips</li>
-</ol>
+<pre><code>Home → &quot;Stays&quot; tab → Enter destination, dates, guests → Search → Results page with map and list →
+  Filter: Star rating, price range, guest rating, amenities, neighborhood,... →
+  Sort: Recommended, Price (low-high), Guest Rating, Distance →
+  Click hotel → View photos, amenities, room types →
+  Select room → Choose rate (refundable vs. non-refundable) →
+  Checkout → Enter traveler info → Payment → Apply One Key Cash → Confirm →
+  Receive confirmation email → Booking appears in Trips
+</code></pre>
 <h3>Booking a Package (Flight + Hotel)</h3>
-<ol>
-<li>Home → &quot;Packages&quot; tab → Enter origin, destination, dates, guests</li>
-<li>Select flight (outbound) → Select flight (return) → View package hotels</li>
-<li>Each hotel shows &quot;Member Price&quot; and &quot;Bundle Savings: $X&quot;</li>
-<li>Select hotel + room → View total package price</li>
-<li>Checkout → Potential savings of 10-30% vs. separate bookings</li>
-</ol>
+<pre><code>Home → &quot;Packages&quot; tab → Enter origin, destination, dates, guests →
+  Select flight (outbound) → Select flight (return) → View package hotels →
+  Each hotel shows &quot;Member Price&quot; and &quot;Bundle Savings: $X&quot; →
+  Select hotel + room → View total package price →
+  Checkout → Potential savings of 10-30% vs. separate bookings
+</code></pre>
 <h3>Using Price Tracking</h3>
-<ol>
-<li>Search for a flight or hotel → Don&#39;t book yet</li>
-<li>Click &quot;Track Price&quot; or bell icon on result</li>
-<li>Receive email/push notification when price drops</li>
-<li>If price drops after booking (within policy), receive automatic credit/refund</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<pre><code>Search for a flight or hotel → Don&#39;t book yet → Click &quot;Track Price&quot; or bell icon on result →
+  Receive email/push notification when price drops →
+  If price drops after booking (within policy), receive automatic credit/refund
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code>expedia.com/                                # Homepage
 expedia.com/Hotels                          # Hotel search
 expedia.com/Hotel-Search?destination={dest}&amp;checkIn={date}&amp;checkOut={date}  # Hotel results
@@ -317,8 +312,13 @@ expedia.com/rewards                         # One Key Rewards
 expedia.com/deals                           # Deals &amp; promotions
 expedia.com/service/                        # Help center
 expedia.com/account                         # Account settings
+expedia.com/lp/{landing-page}              # Marketing landing pages
+expedia.com/coupons                         # Coupon codes page
+expedia.com/loyalty                         # One Key loyalty program
+expedia.com/p/info-other/travel-advisory    # Travel advisories
+expedia.com/Group-Rate                      # Group booking
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <ul>
 <li><strong>Multi-Product Search</strong>: Separate search forms for stays, flights, cars, packages, activities, cruises</li>
 <li><strong>Hotel Filters</strong>: Price range, star rating, guest rating, amenities (pool, WiFi, parking, breakfast), property type (hotel, resort, B&amp;B), neighborhood, cancellation policy, payment (pay later), VIP Access</li>
@@ -329,7 +329,7 @@ expedia.com/account                         # Account settings
 <li><strong>Map Search</strong>: Interactive map for hotels; zoom/pan to search area</li>
 <li><strong>Bundle Suggestions</strong>: Cross-sell cards suggesting related products to add to trip</li>
 </ul>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -354,7 +354,7 @@ expedia.com/account                         # Account settings
 <td>Tabbed search module; results with filter sidebar + map; wide property detail with photo gallery</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>

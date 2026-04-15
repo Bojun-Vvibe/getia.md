@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Betterment</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Betterment is a goal-based robo-advisor that helps users invest toward specific life goals (retirement, safety net, major purchase). The IA is organized around <strong>goals as first-class objects</strong> — each goal gets its own portfolio, allocation, and timeline. Betterment also offers a cash management account, 401(k) for businesses, and crypto portfolios. The platform emphasizes tax coordination across accounts and automated rebalancing.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>betterment.com
 ├── Home
 ├── Investing
@@ -139,8 +139,15 @@
 └── Auth
     ├── Log in
     └── Get started
+├── Tax Center
+│   ├── Tax Forms (1099, K-1)
+│   ├── Tax-Loss Harvesting Log
+│   └── Tax Impact Preview
+├── Referral Program
+│   ├── Invite Friends
+│   └── Referral Rewards
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <table>
 <thead>
 <tr>
@@ -171,65 +178,85 @@
 </tr>
 </tbody></table>
 <p><strong>Key pattern</strong>: Goal cards are the primary UI metaphor in the dashboard — each goal is a visual card showing progress toward target with its own allocation.</p>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
 <th>Entity</th>
-<th>Attributes</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>Goal</td>
 <td>name, type (retirement, safety net, custom), target amount, timeline, portfolio strategy, risk level</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Portfolio</td>
 <td>strategy name, ETF allocations, risk score, performance, rebalancing log</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Tax-loss Harvest</td>
 <td>primary security, replacement, harvest amount, wash-sale status</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Cash Reserve</td>
 <td>balance, APY, FDIC coverage, linked accounts</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>401(k) Plan</td>
 <td>employer, match formula, vesting schedule, participant count</td>
+<td>belongs to parent entity</td>
 </tr>
 <tr>
 <td>Blog Post</td>
 <td>title, author, date, category, body, CTA</td>
+<td>belongs to User, has many Comments</td>
+</tr>
+<tr>
+<td>Deposit</td>
+<td>amount, frequency, source_account, goal_id, status</td>
+<td>belongs to Goal</td>
+</tr>
+<tr>
+<td>Withdrawal</td>
+<td>amount, destination_account, goal_id, status</td>
+<td>belongs to Goal</td>
+</tr>
+<tr>
+<td>Tax Form</td>
+<td>type (1099-B/1099-DIV/K-1), year, document</td>
+<td>belongs to User</td>
+</tr>
+<tr>
+<td>Allocation</td>
+<td>etf_ticker, weight, asset_class</td>
+<td>belongs to Portfolio</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
-<h3>5a. Create a goal</h3>
-<ol>
-<li>Sign up / log in → &quot;Add a goal&quot; from dashboard</li>
-<li>Select goal type (Retirement, Safety Net, Major Purchase, General Investing, Education)</li>
-<li>Set target amount + target date</li>
-<li>Select portfolio strategy (Core, SRI, Smart Beta, etc.)</li>
-<li>Adjust risk level slider → preview allocation</li>
-<li>Fund initial deposit → enable auto-deposit → goal live</li>
-</ol>
-<h3>5b. Tax coordination</h3>
-<ol>
-<li>Connect external accounts (401k, IRA, taxable)</li>
-<li>Betterment analyzes all holdings across accounts</li>
-<li>Recommends asset location (which assets in which account type for tax efficiency)</li>
-<li>User approves → rebalancing adjusts allocations across accounts</li>
-</ol>
-<h3>5c. 401(k) employer setup</h3>
-<ol>
-<li>HR visits Betterment at Work → &quot;Request demo&quot;</li>
-<li>Sales consultation → plan design</li>
-<li>Employer sets match rules, vesting schedule</li>
-<li>Employees invited → individual goal-based 401(k) experience</li>
-<li>Payroll integration → contributions automated</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<h2>User Flows</h2>
+<h3>Create a goal</h3>
+<pre><code>Sign up / log in → &quot;Add a goal&quot; from dashboard → Select goal type (Retirement, Safety Net, Major Purchase, General Investing, Education) → Set target amount + target date → Select portfolio strategy (Core, SRI, Smart Beta, etc.) → Adjust risk level slider → preview allocation → Fund initial deposit → enable auto-deposit → goal live
+</code></pre>
+<h3>Tax coordination</h3>
+<pre><code>Connect external accounts (401k, IRA, taxable) → Betterment analyzes all holdings across accounts → Recommends asset location (which assets in which account type for tax efficiency) → User approves → rebalancing adjusts allocations across accounts
+</code></pre>
+<h3>401(k) employer setup</h3>
+<pre><code>HR visits Betterment at Work → &quot;Request demo&quot; → Sales consultation → plan design → Employer sets match rules, vesting schedule → Employees invited → individual goal-based 401(k) experience → Payroll integration → contributions automated
+</code></pre>
+<h3>Auto-Deposit Setup</h3>
+<pre><code>Dashboard → Goal → Auto-deposit → Set amount and frequency (weekly/biweekly/monthly) → Link bank account → Enable → Automatic investing begins
+                                                                                                                                                          ↘ Adjust or pause anytime
+</code></pre>
+<h3>Tax-Loss Harvesting</h3>
+<pre><code>Betterment monitors portfolio daily → Market dip triggers harvest opportunity → Sell losing position → Buy tax-equivalent replacement → Harvest logged → Tax savings reflected in dashboard
+                                                                                                                                                                                      ↘ Wash-sale rule enforced automatically
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code>/                               → Home
 /investing/                     → Investing overview
 /portfolio/core/                → Core portfolio strategy
@@ -249,8 +276,17 @@
 /help/{category}/{article}/     → Help article
 /app/goals/                     → Dashboard (auth)
 /app/goals/{goal-id}/           → Individual goal (auth)
+/app/cash-reserve/             → Cash Reserve account
+/app/checking/                 → Checking account
+/app/transfers/                → Transfer money
+/app/tax/                      → Tax impact preview
+/app/activity/                 → Activity log
+/app/settings/                 → Account settings
+/app/settings/security/        → Security settings
+/app/settings/linked-accounts/ → Linked external accounts
+/app/referrals/                → Referral program
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <table>
 <thead>
 <tr>
@@ -279,7 +315,13 @@
 <td>Interactive sliders for age, savings, expected return</td>
 </tr>
 </tbody></table>
-<h2>8. Responsive Behavior</h2>
+<ul>
+<li><strong>Sort options</strong>: By relevance, date created, date modified, alphabetical, popularity</li>
+<li><strong>Autocomplete</strong>: Type-ahead suggestions with recent searches and popular results</li>
+<li><strong>Advanced search</strong>: Boolean operators (AND, OR, NOT), field-specific filters, date ranges</li>
+<li><strong>Recent searches</strong>: Quick access to previous search queries</li>
+</ul>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -304,7 +346,39 @@
 <td>Tab bar (Home, Goals, Cash, Transfers, More), swipeable goal cards</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h3>Platform-Specific Patterns</h3>
+<ul>
+<li>Touch targets: minimum 44x44pt on mobile for accessibility</li>
+<li>Swipe gestures: swipe to delete, archive, or perform quick actions</li>
+<li>Pull-to-refresh: standard refresh pattern on feeds and lists</li>
+<li>Keyboard shortcuts: comprehensive shortcuts on desktop for power users</li>
+<li>Dark mode: system-preference detection with manual override</li>
+<li>Offline support: cached data available without network connectivity</li>
+<li>Progressive loading: skeleton screens while content loads</li>
+</ul>
+<h3>Betterment-Specific UX Patterns</h3>
+<ul>
+<li><strong>Progressive disclosure</strong>: Complex features hidden behind expandable sections</li>
+<li><strong>Contextual actions</strong>: Right-click menus and hover-revealed action buttons</li>
+<li><strong>Inline editing</strong>: Click-to-edit fields without navigating to a separate page</li>
+<li><strong>Batch operations</strong>: Multi-select with bulk actions (delete, move, archive, tag)</li>
+<li><strong>Undo support</strong>: Non-destructive actions with undo toast notifications</li>
+<li><strong>Loading states</strong>: Skeleton screens and progress indicators during async operations</li>
+<li><strong>Empty states</strong>: Helpful illustrations and CTAs when sections have no content</li>
+<li><strong>Onboarding tooltips</strong>: First-time user guidance highlighting key features</li>
+</ul>
+<h3>Accessibility</h3>
+<ul>
+<li>WCAG 2.1 AA compliance across all interactive elements</li>
+<li>Semantic HTML with proper ARIA labels and landmarks</li>
+<li>Keyboard navigation support for all core workflows</li>
+<li>Screen reader compatibility tested with VoiceOver, NVDA, and JAWS</li>
+<li>Color contrast ratios meeting minimum 4.5:1 for body text</li>
+<li>Focus indicators visible on all interactive elements</li>
+<li>Reduced motion option respecting <code>prefers-reduced-motion</code></li>
+<li>Resizable text up to 200% without content loss</li>
+</ul>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>

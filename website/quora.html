@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Quora</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Quora is a knowledge-sharing Q&amp;A platform where questions are answered by a community of experts, enthusiasts, and everyday users. The IA is organized around Questions, Answers, Topics, and Spaces (community groups). Content is evergreen — answers accumulate upvotes over years — making Quora both a real-time discussion forum and a durable knowledge base. Quora also hosts Poe, its AI chatbot aggregator platform.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>Quora
 ├── Home Feed (personalized)
 │   ├── Answers from followed topics/people
@@ -150,7 +150,7 @@
     ├── Languages
     └── Content Preferences
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <ul>
 <li><strong>Type</strong>: Top nav bar with left sidebar (desktop), bottom tab bar (mobile)</li>
 <li><strong>Desktop Top Bar</strong>: Quora logo (home), Search bar, Add Question, Notifications, Profile avatar</li>
@@ -159,12 +159,12 @@
 <li><strong>Question Page</strong>: Answer list sorted by upvotes; &quot;Related Questions&quot; sidebar</li>
 <li><strong>Topic Navigation</strong>: Topic page → related topics tree → questions within topic</li>
 </ul>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Attributes</th>
+<th>Entity</th>
+<th>Key Attributes</th>
 <th>Relationships</th>
 </tr>
 </thead>
@@ -209,30 +209,17 @@
 <td>→ Answers, → Questions, → Spaces</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
+<h2>User Flows</h2>
 <h3>Asking a Question</h3>
-<ol>
-<li>Click &quot;Add Question&quot; → Type question → Autocomplete suggests existing similar questions</li>
-<li>If duplicate found → Redirect to existing question</li>
-<li>If new → Add topic tags → Submit</li>
-<li>Optionally request answers from specific users or topic experts</li>
-<li>Question appears in topic feeds and followers&#39; home feeds</li>
-</ol>
+<pre><code>Click &quot;Add Question&quot; → Type question → Autocomplete suggests existing similar questions → If duplicate found → Redirect to existing question → If new → Add topic tags → Submit → Optionally request answers from specific users or topic experts → Question appears in topic feeds and followers&#39; home feeds
+</code></pre>
 <h3>Answering a Question</h3>
-<ol>
-<li>Home feed shows &quot;Questions for You&quot; based on expertise/interests</li>
-<li>Or browse &quot;Answer&quot; tab → Curated answer requests</li>
-<li>Click question → Write answer with rich text editor (formatting, images, links)</li>
-<li>Submit → Answer ranked by upvotes among other answers</li>
-</ol>
+<pre><code>Home feed shows &quot;Questions for You&quot; based on expertise/interests → Or browse &quot;Answer&quot; tab → Curated answer requests → Click question → Write answer with rich text editor (formatting, images, links) → Submit → Answer ranked by upvotes among other answers
+</code></pre>
 <h3>Exploring Spaces</h3>
-<ol>
-<li>Discover Spaces via home feed, search, or sidebar</li>
-<li>Join Space → See posts from Space members</li>
-<li>Contribute posts → Admins may moderate submissions</li>
-<li>Paid Spaces require subscription to view premium content</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<pre><code>Discover Spaces via home feed, search, or sidebar → Join Space → See posts from Space members → Contribute posts → Admins may moderate submissions → Paid Spaces require subscription to view premium content
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code>quora.com/                                  # Home feed
 quora.com/search?q={query}                  # Search results
 quora.com/{question-slug}                   # Question page
@@ -244,8 +231,21 @@ quora.com/spaces/{spaceSlug}                # Space page
 quora.com/q/{spaceSlug}/{postId}            # Space post
 quora.com/about                             # About Quora
 poe.com/                                    # Poe AI platform (separate domain)
+quora.com/topic/{topic}                       # Topic page
+quora.com/search?q={query}                    # Search results
+quora.com/profile/{username}                  # User profile
+quora.com/profile/{username}/answers          # User&#39;s answers
+quora.com/spaces/{space}                      # Space (community)
+quora.com/create                              # Create question
+quora.com/create_space                        # Create space
+quora.com/messages                            # Direct messages
+quora.com/notifications                       # Notifications
+quora.com/stats                               # Creator stats
+quora.com/monetization                        # Quora Partner Program
+quora.com/settings                            # Account settings
+quora.com/settings/privacy                    # Privacy settings
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <ul>
 <li><strong>Global Search</strong>: Full-text search across questions, answers, people, topics, Spaces</li>
 <li><strong>Autocomplete</strong>: Question deduplication — suggests existing questions matching typed query</li>
@@ -255,7 +255,7 @@ poe.com/                                    # Poe AI platform (separate domain)
 <li><strong>Feed Tuning</strong>: Upvote/downvote and &quot;Not interested&quot; signals to tune home feed</li>
 <li><strong>Space Content</strong>: Searchable within specific Spaces</li>
 </ul>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -280,7 +280,7 @@ poe.com/                                    # Poe AI platform (separate domain)
 <td>Questions and top answers rendered server-side for search engine indexing</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>
@@ -325,6 +325,115 @@ poe.com/                                    # Poe AI platform (separate domain)
 <td>Cannot interact with blocking user; banned users lose write access platform-wide</td>
 </tr>
 </tbody></table>
+<h2>Content Model</h2>
+<table>
+<thead>
+<tr>
+<th>Entity</th>
+<th>Key Attributes</th>
+<th>Relationships</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Question</td>
+<td>title, details, topics[], anonymous flag, followers count, answer count</td>
+<td>→ Answers, Topics, Asker</td>
+</tr>
+<tr>
+<td>Answer</td>
+<td>body (rich text), upvotes, downvotes, views, shares, author, date, position</td>
+<td>→ Question, Author, Comments</td>
+</tr>
+<tr>
+<td>Topic</td>
+<td>name, description, followers count, related topics</td>
+<td>→ Questions (many-to-many)</td>
+</tr>
+<tr>
+<td>Space</td>
+<td>name, description, icon, rules, moderators, followers, posts</td>
+<td>→ Questions, Answers, Members</td>
+</tr>
+<tr>
+<td>User</td>
+<td>name, bio, credentials[], topics followed, answer count, follower count</td>
+<td>→ Answers, Questions, Spaces</td>
+</tr>
+<tr>
+<td>Comment</td>
+<td>text, author, upvotes, replies</td>
+<td>→ Answer (thread)</td>
+</tr>
+<tr>
+<td>Blog Post</td>
+<td>title, body, author, publish date</td>
+<td>→ User, Topics</td>
+</tr>
+<tr>
+<td>Credential</td>
+<td>text (e.g., &quot;Software Engineer at Google&quot;), topic</td>
+<td>→ User</td>
+</tr>
+</tbody></table>
+<h2>Quora Spaces</h2>
+<ul>
+<li><strong>Community hubs:</strong> Topic-specific communities (like subreddits but on Quora)</li>
+<li><strong>Moderation:</strong> Space admins approve posts, set rules, manage members</li>
+<li><strong>Content types:</strong> Questions, answers, posts (article-style), shared links</li>
+<li><strong>Monetization:</strong> Space admins can earn from Quora+ subscriptions</li>
+<li><strong>Discovery:</strong> Spaces appear in topic feeds and search results</li>
+</ul>
+<h2>Monetization</h2>
+<table>
+<thead>
+<tr>
+<th>Program</th>
+<th>Who</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Quora Partner Program</td>
+<td>Question askers</td>
+<td>Earn money when questions generate ad revenue</td>
+</tr>
+<tr>
+<td>Quora+</td>
+<td>Writers</td>
+<td>Subscribers pay; writers earn based on engagement</td>
+</tr>
+<tr>
+<td>Spaces Monetization</td>
+<td>Space admins</td>
+<td>Earn from Quora+ subscribers in their space</td>
+</tr>
+<tr>
+<td>Poe (AI platform)</td>
+<td>Developers</td>
+<td>Build and monetize AI bots on Quora&#39;s Poe platform</td>
+</tr>
+</tbody></table>
+<h2>Feed Algorithm</h2>
+<ul>
+<li><strong>Personalization:</strong> Based on followed topics, followed users, reading history, upvote patterns</li>
+<li><strong>Answer ranking:</strong> Combination of upvotes, author credentials, recency, engagement rate</li>
+<li><strong>No chronological option:</strong> Feed is purely algorithmic</li>
+<li><strong>Digest email:</strong> Weekly email with top answers from followed topics</li>
+</ul>
+<h2>Answer Quality Signals</h2>
+<ul>
+<li><strong>Credentials:</strong> Author&#39;s relevant expertise displayed under answer</li>
+<li><strong>Upvote ratio:</strong> Ratio of upvotes to views indicates quality</li>
+<li><strong>Request-to-answer:</strong> Questions can be directed to specific experts</li>
+<li><strong>Moderation:</strong> Community reporting + algorithmic content quality scoring</li>
+<li><strong>Collapsed answers:</strong> Low-quality or off-topic answers auto-collapsed</li>
+</ul>
+<h2>Content Guidelines</h2>
+<ul>
+<li><strong>Be Nice, Be Respectful (BNBR):</strong> Core policy — civil discourse required</li>
+<li><strong>Credential system:</strong> Authors add topic-specific credentials for credibility</li>
+<li><strong>Duplicate detection:</strong> AI identifies duplicate questions; answers merged</li>
+</ul>
 
     </div>
   </article>

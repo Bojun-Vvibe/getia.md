@@ -91,9 +91,9 @@
   <article class="detail-content">
     <div class="detail-content-inner">
       <h1>Information Architecture — Peloton</h1>
-<h2>1. Overview</h2>
+<h2>Overview</h2>
 <p>Peloton is a connected fitness platform combining hardware (bikes, treads, rowers, Guide) with a vast library of live and on-demand classes. The IA centers on class discovery and workout tracking, with a real-time leaderboard creating competitive motivation. The experience spans hardware screens, mobile app, and web — all unified by a profile that tracks lifetime metrics, achievements, and social connections.</p>
-<h2>2. Site Map</h2>
+<h2>Site Map</h2>
 <pre><code>Peloton
 ├── Home
 │   ├── Continue (in-progress programs)
@@ -172,7 +172,7 @@
     ├── Blog / Community
     └── Corporate Wellness
 </code></pre>
-<h2>3. Navigation Model</h2>
+<h2>Navigation Model</h2>
 <ul>
 <li><strong>Type</strong>: Bottom tab bar (mobile), sidebar (bike/tread screen)</li>
 <li><strong>Bike/Tread Screen</strong>: Bottom tab — Home, Classes, Schedule, Profile; top bar with search and settings</li>
@@ -182,12 +182,12 @@
 <li><strong>Live Schedule</strong>: Calendar view with time-based class grid; tap to book/join</li>
 <li><strong>Stack</strong>: Queue multiple classes to play back-to-back</li>
 </ul>
-<h2>4. Content Model</h2>
+<h2>Content Model</h2>
 <table>
 <thead>
 <tr>
-<th>Content Type</th>
-<th>Attributes</th>
+<th>Entity</th>
+<th>Key Attributes</th>
 <th>Relationships</th>
 </tr>
 </thead>
@@ -237,31 +237,17 @@
 <td>→ Classes</td>
 </tr>
 </tbody></table>
-<h2>5. User Flows</h2>
+<h2>User Flows</h2>
 <h3>Taking an On-Demand Class</h3>
-<ol>
-<li>Browse Classes → Filter by type (Cycling), duration (30 min), instructor</li>
-<li>Tap class → View playlist, difficulty, ratings, friends who took it</li>
-<li>Clip in / Start → Full-screen instructor video + real-time metrics</li>
-<li>During class: monitor output vs. leaderboard; receive high fives; hit targets</li>
-<li>Post-class: view workout summary, PR badges, share to feed</li>
-</ol>
+<pre><code>Browse Classes → Filter by type (Cycling), duration (30 min), instructor → Tap class → View playlist, difficulty, ratings, friends who took it → Clip in / Start → Full-screen instructor video + real-time metrics → During class: monitor output vs. leaderboard; receive high fives; hit targets → Post-class: view workout summary, PR badges, share to feed
+</code></pre>
 <h3>Joining a Live Class</h3>
-<ol>
-<li>Schedule tab → Browse upcoming live classes by time</li>
-<li>Tap class → &quot;Book&quot; → Added to My Schedule with reminder</li>
-<li>At class time: Join → Live leaderboard with thousands of riders</li>
-<li>Instructor shouts out milestones (100th ride, birthday) → Community energy</li>
-<li>Post-class: replay available as on-demand within hours</li>
-</ol>
+<pre><code>Schedule tab → Browse upcoming live classes by time → Tap class → &quot;Book&quot; → Added to My Schedule with reminder → At class time: Join → Live leaderboard with thousands of riders → Instructor shouts out milestones (100th ride, birthday) → Community energy → Post-class: replay available as on-demand within hours
+</code></pre>
 <h3>Stacking Classes</h3>
-<ol>
-<li>Browse Classes → Tap &quot;Add to Stack&quot; on multiple classes</li>
-<li>View Stack queue → Reorder if needed</li>
-<li>Start Stack → Classes play consecutively with brief transition</li>
-<li>Total metrics tracked across the entire stack</li>
-</ol>
-<h2>6. URL / Route Structure</h2>
+<pre><code>Browse Classes → Tap &quot;Add to Stack&quot; on multiple classes → View Stack queue → Reorder if needed → Start Stack → Classes play consecutively with brief transition → Total metrics tracked across the entire stack
+</code></pre>
+<h2>URL / Route Structure</h2>
 <pre><code>onepeloton.com/                             # Marketing homepage
 onepeloton.com/classes                      # Class library (web)
 onepeloton.com/classes/{classId}            # Class detail
@@ -275,8 +261,18 @@ members.onepeloton.com/                     # Member web app
 members.onepeloton.com/profile/{username}   # Member profile
 members.onepeloton.com/classes              # Class browse (logged in)
 api.onepeloton.com/                         # API
+onepeloton.com/classes/{category}              # Category browse (cycling, strength, etc.)
+onepeloton.com/challenges                      # Active challenges
+onepeloton.com/programs/{slug}                 # Program detail
+onepeloton.com/blog                            # Blog / community
+onepeloton.com/corporate-wellness              # Corporate wellness
+onepeloton.com/about                           # About page
+members.onepeloton.com/schedule                # Live schedule
+members.onepeloton.com/challenges              # Challenges (member)
+members.onepeloton.com/profile/{username}/workouts  # Workout history
+members.onepeloton.com/settings                # Account settings
 </code></pre>
-<h2>7. Search &amp; Filter</h2>
+<h2>Search &amp; Filter</h2>
 <ul>
 <li><strong>Class Search</strong>: Keyword search across titles, instructors, playlists</li>
 <li><strong>Category Filter</strong>: Cycling, Strength, Yoga, Running, Meditation, etc.</li>
@@ -288,7 +284,7 @@ api.onepeloton.com/                         # API
 <li><strong>Bookmark/Stack</strong>: Save classes for later or queue for back-to-back</li>
 <li><strong>Friends Filter</strong>: &quot;Taken by friends&quot; to see what your network is doing</li>
 </ul>
-<h2>8. Responsive Behavior</h2>
+<h2>Responsive Behavior</h2>
 <table>
 <thead>
 <tr>
@@ -321,7 +317,7 @@ api.onepeloton.com/                         # API
 <td>Lean-back class browse; full-screen video; remote control navigation</td>
 </tr>
 </tbody></table>
-<h2>9. Access Control</h2>
+<h2>Access Control</h2>
 <table>
 <thead>
 <tr>
@@ -358,6 +354,58 @@ api.onepeloton.com/                         # API
 <td>Access via employer program; usage reported to employer (aggregated)</td>
 </tr>
 </tbody></table>
+<h2>Class Discovery Filters</h2>
+<table>
+<thead>
+<tr>
+<th>Filter</th>
+<th>Options</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Category</td>
+<td>Cycling, Running, Strength, Yoga, Meditation, Stretching, Cardio, Boxing, Rowing, Outdoor, Pilates, Barre</td>
+</tr>
+<tr>
+<td>Duration</td>
+<td>5, 10, 15, 20, 30, 45, 60, 75, 90 minutes</td>
+</tr>
+<tr>
+<td>Instructor</td>
+<td>40+ instructors by name</td>
+</tr>
+<tr>
+<td>Difficulty</td>
+<td>Beginner, Intermediate, Advanced</td>
+</tr>
+<tr>
+<td>Music Genre</td>
+<td>Pop, Rock, Hip Hop, EDM, Country, Latin, R&amp;B, Classical, Indie</td>
+</tr>
+<tr>
+<td>Subtitles</td>
+<td>English, Spanish, German subtitles/captions</td>
+</tr>
+<tr>
+<td>Equipment</td>
+<td>None, weights, resistance bands, yoga block</td>
+</tr>
+<tr>
+<td>Class Type</td>
+<td>Live DJ, Live, Encore, On-demand</td>
+</tr>
+</tbody></table>
+<h2>Metrics &amp; Leaderboard</h2>
+<ul>
+<li><strong>Output (kJ):</strong> Total energy produced; primary competitive metric for cycling</li>
+<li><strong>Cadence (RPM):</strong> Pedal speed; instructor calls target ranges</li>
+<li><strong>Resistance (%):</strong> Difficulty level on the bike; 0-100 scale</li>
+<li><strong>Heart Rate (BPM):</strong> Requires Bluetooth HR monitor; shown in 5 color-coded zones</li>
+<li><strong>Strive Score:</strong> Heart rate zone-based effort score (like Orangetheory)</li>
+<li><strong>Leaderboard:</strong> Real-time ranking against all riders in class (on-demand or live)</li>
+<li><strong>Personal Best:</strong> PR badges when you beat your previous best output for that duration</li>
+<li><strong>Here Now:</strong> See friends currently in the same live class</li>
+</ul>
 
     </div>
   </article>

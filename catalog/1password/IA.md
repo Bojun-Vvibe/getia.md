@@ -158,6 +158,16 @@ Item Detail → Share → Create link (set expiry + view limit) → Copy link �
 Settings → Travel Mode → Enable → Only "safe for travel" vaults visible → Cross border → Disable Travel Mode → All vaults return
 ```
 
+### SSH Key Authentication
+```
+Developer Tools → SSH Agent → Add Key from Vault → Configure Git/SSH client → Authenticate via 1Password biometrics → SSH session established
+                                                                              ↘ Denied → Re-authenticate
+```
+
+### Emergency Recovery
+```
+Family Organizer → Members → Select Member → Initiate Recovery → Member confirms via Emergency Kit → Account recovered → New master password set
+```
 ## URL / Route Structure
 
 ```
@@ -174,6 +184,13 @@ Settings → Travel Mode → Enable → Only "safe for travel" vaults visible �
 /family                    → Family/Team management
 /developer                 → Developer tools
 /import                    → Import
+/export                       → Export data
+/account                      → Account settings
+/account/billing              → Billing & subscription
+/account/security             → Security settings
+/sharing                      → Shared items
+/sharing/:linkId             → Share link detail
+/travel-mode                  → Travel mode settings
 ```
 
 ## Search & Filter

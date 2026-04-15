@@ -40,64 +40,101 @@ aistudio.google.com
 
 ## Content Model
 
-| Content Type | Structure | Ownership |
+| Entity | Key Attributes | Relationships |
 |---|---|---|
-| Freeform Prompt | Single text/multimodal input → single response, with model config | User-owned |
-| Structured Prompt | Input/output column definitions + few-shot examples + test input | User-owned |
-| Chat Prompt | System instruction + multi-turn conversation, with model config | User-owned |
-| Prompt Template | Pre-built prompt with description, use case, example inputs | Google-curated |
-| Tuned Model | Base model + training data + hyperparameters + tuning metrics | User-owned |
-| API Key | Key string tied to Google Cloud project | User-owned |
-| Safety Settings | Per-category thresholds (harassment, hate, sexual, dangerous) | Part of prompt config |
+| Freeform Prompt | Single text/multimodal input → single response, with model config | belongs to User |
+| Structured Prompt | Input/output column definitions + few-shot examples + test input | belongs to User |
+| Chat Prompt | System instruction + multi-turn conversation, with model config | belongs to User |
+| Prompt Template | Pre-built prompt with description, use case, example inputs | curated by Google |
+| Tuned Model | Base model + training data + hyperparameters + tuning metrics | belongs to User |
+| API Key | Key string tied to Google Cloud project | belongs to User |
+| Safety Settings | Per-category thresholds (harassment, hate, sexual, dangerous) | belongs to prompt config |
 
 ## User Flows
 
 ### Freeform Prompt Prototyping
-1. User clicks "New Prompt" → Freeform mode opens
-2. Selects model (Gemini 2.5 Pro, Flash, etc.)
-3. Types prompt — can include text, paste images, upload files, record audio
-4. Adjusts parameters in right panel (temperature, max tokens)
-5. Clicks "Run" → response appears below
-6. Clicks "Get Code" → generates Python, JavaScript, Kotlin, Swift, or curl code
-7. Saves prompt to Library for later iteration
+
+```
+User clicks "New Prompt" → Freeform mode opens → Selects model (Gemini 2.5 Pro, Flash, etc.) →
+  Types prompt — can include text, paste images, upload files, record audio →
+  Adjusts parameters in right panel (temperature, max tokens) →
+  Clicks "Run" → response appears below →
+  Clicks "Get Code" → generates Python, JavaScript, Kotlin, Swift, or curl code →
+  Saves prompt to Library for later iteration
+```
+
 
 ### Structured Prompt (Few-Shot)
-1. User selects "Structured" mode
-2. Defines input and output columns (e.g., "Product Description" → "Marketing Copy")
-3. Adds few-shot examples in table format
-4. Enters test input → model generates based on pattern
-5. Can add system instructions for additional guidance
-6. Export as API code or save to Library
+
+```
+User selects "Structured" mode →
+  Defines input and output columns (e.g., "Product Description" → "Marketing... →
+  Adds few-shot examples in table format → Enters test input → model generates based on pattern →
+  Can add system instructions for additional guidance → Export as API code or save to Library
+```
+
 
 ### Model Tuning
-1. User navigates to Tuned Models → "Create Tuned Model"
-2. Selects base model (Gemini Flash)
-3. Uploads training data (JSONL format with input/output pairs)
-4. Configures hyperparameters (epochs, learning rate, batch size)
-5. Starts tuning job → monitors progress (loss curves, metrics)
-6. Tuned model available for use in prompts and via API
+
+```
+User navigates to Tuned Models → "Create Tuned Model" → Selects base model (Gemini Flash) →
+  Uploads training data (JSONL format with input/output pairs) →
+  Configures hyperparameters (epochs, learning rate, batch size) →
+  Starts tuning job → monitors progress (loss curves, metrics) →
+  Tuned model available for use in prompts and via API
+```
+
 
 ### Multi-Modal Input
-1. User opens Freeform prompt
-2. Clicks attachment → uploads image, video, or audio file
-3. Types prompt referencing the uploaded media
-4. Gemini analyzes the media and responds (e.g., "describe this image", "transcribe this audio")
-5. Can combine multiple modalities in a single prompt
+
+```
+User opens Freeform prompt → Clicks attachment → uploads image, video, or audio file →
+  Types prompt referencing the uploaded media →
+  Gemini analyzes the media and responds (e.g., "describe this image",... →
+  Can combine multiple modalities in a single prompt
+```
+
+
+
+### Chat Prompt Prototyping
+
+```
+Select Chat mode → Set system instruction → Begin conversation → Test multi-turn interaction → Adjust parameters → Export as API code → Integrate into application
+```
+
+### API Key Management
+
+```
+Navigate to API Keys → Create new key → Link to Google Cloud project → Copy key → Use in application code → Monitor usage in Plan tab
+```
 
 ## URL / Route Structure
 
-| Pattern | Description |
-|---|---|
-| `/` | Home dashboard |
-| `/prompts/new` | New prompt editor |
-| `/prompts/{uuid}` | Saved prompt |
-| `/library` | User's saved prompts |
-| `/gallery` | Prompt template gallery |
-| `/tuning` | Tuned models list |
-| `/tuning/{uuid}` | Tuning job detail |
-| `/apikey` | API key management |
-| `/plan` | Usage and billing |
-| `/settings` | Account settings |
+
+```
+/                                             # Home dashboard
+/prompts/new                                  # New prompt editor
+/prompts/{uuid}                               # Saved prompt
+/library                                      # User's saved prompts
+/gallery                                      # Prompt template gallery
+/tuning                                       # Tuned models list
+/tuning/{uuid}                                # Tuning job detail
+/apikey                                       # API key management
+/plan                                         # Usage and billing
+/settings                                     # Account settings
+/prompts/new/freeform                     # New freeform prompt
+/prompts/new/structured                   # New structured prompt
+/prompts/new/chat                         # New chat prompt
+/library                                  # Saved prompts library
+/gallery                                  # Prompt template gallery
+/gallery/{category}                       # Gallery category filter
+/tuning/new                               # New tuning job
+/tuning/{uuid}/metrics                    # Tuning metrics
+/apikey/create                            # Create API key
+/plan/usage                               # Usage details
+/settings/profile                         # Profile settings
+/settings/preferences                     # Preferences
+```
 
 Simple flat route structure. UUIDs for user content. SPA with Google account integration.
 
@@ -109,6 +146,9 @@ Simple flat route structure. UUIDs for user content. SPA with Google account int
 - **Tuned model filtering**: Filter by base model, creation date, status
 - **Model selector**: Not a search, but a dropdown filtering available models by capability
 
+- **Prompt content search**: Search prompts by content within saved library
+- **Tuning job filtering**: Filter by status (running, completed, failed), base model, date
+- **Gallery category browsing**: Browse templates by Code, Creative, Data, Extract, Summarize, Transform
 ## Responsive Behavior
 
 | Breakpoint | Behavior |
@@ -123,6 +163,52 @@ Simple flat route structure. UUIDs for user content. SPA with Google account int
 - Parameter panel collapses to a floating button on small screens
 - Gallery cards reflow from grid to single column
 - File upload/media preview adapts to available width
+
+
+### Platform-Specific UX
+- Three prompt modes serve different use cases: Freeform (single-turn), Chat (multi-turn), Structured (few-shot)
+- Multi-modal input supports text, images, video, audio, and code files in a single prompt
+- Right-side parameter panel provides real-time control over temperature, top-p, top-k, and safety settings
+- "Get Code" button generates implementation code in Python, JavaScript, Kotlin, Swift, and curl
+- Model selector dropdown shows all available Gemini models with capability indicators
+- Safety settings are configurable per-prompt across 4 harm categories with adjustable thresholds
+- Structured prompts use a spreadsheet-like input/output table for few-shot example definition
+- Prompt versioning in the Library allows iterating on prompts while preserving history
+- One-click export to Google Colab enables immediate experimentation in notebook environments
+- Token count visualization shows input/output tokens in real-time during prompt editing
+- Gallery templates provide starting points organized by use case (Code, Creative, Data, Extract, Summarize)
+- Free tier includes generous API quotas — rate-limited but not usage-capped for most models
+
+### Integration Points
+- Direct path from AI Studio to Vertex AI for production deployment
+- API keys are linked to Google Cloud projects for billing and quota management
+- Gemini API supports streaming responses for real-time generation
+
+
+### Model Selection Guide
+```
+Gemini 2.5 Pro:    Best quality, slowest, highest cost — complex reasoning tasks
+Gemini 2.5 Flash:  Fast, efficient — most everyday tasks and chat applications
+Gemini 2.0 Flash:  Previous generation fast model — proven stability
+```
+
+### Safety Settings Matrix
+```
+Category              Threshold Options
+─────────────────────────────────────────
+Harassment            Block None / Few / Some / Most
+Hate Speech           Block None / Few / Some / Most
+Sexually Explicit     Block None / Few / Some / Most
+Dangerous Content     Block None / Few / Some / Most
+```
+
+### Prompt Export Targets
+- Python (google-generativeai SDK)
+- JavaScript (Google AI SDK)
+- Kotlin (Android)
+- Swift (iOS)
+- curl (REST API)
+- Google Colab notebook
 
 ## Access Control
 

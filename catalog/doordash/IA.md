@@ -206,6 +206,11 @@ Restaurant page → [Group Order] → Get sharable link → Send to friends → 
 Checkout → See delivery fee ($4.99) → DashPass saves this ($0 delivery) → Service fee reduced → Total savings shown → CTA: "Get DashPass and save"
 ```
 
+### New User Onboarding
+```
+Visit DoorDash → Sign Up (email/Google/SSO) → Complete profile → Guided setup wizard → Configure preferences → Explore key features → Start using the product
+                                                                                                                         ↘ Skip wizard → Land on dashboard
+```
 ## URL / Route Structure
 
 ```
@@ -228,6 +233,8 @@ Checkout → See delivery fee ($4.99) → DashPass saves this ($0 delivery) → 
 /grocery                       → Grocery
 /help                          → Help Center
 /help/order/:id                → Order-specific Help
+settings  → Settings
+/account/addresses                → Saved addresses
 ```
 
 ## Search & Filter

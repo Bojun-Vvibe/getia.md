@@ -60,8 +60,8 @@ Retool is a low-code platform for building internal tools — admin panels, dash
 
 ## Content Model
 
-| Content Type | Structure | Ownership |
-|---|---|---|
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
 | App | Name, pages, components, queries, event handlers, JS/CSS, version history | Org-owned |
 | Component | Type (Table, Form, TextInput, Button, Chart, etc.), properties, event handlers, data bindings | Part of app |
 | Query | Type (SQL, REST API, GraphQL, JS transformer), data source, configuration, caching | Part of app |
@@ -74,37 +74,24 @@ Retool is a low-code platform for building internal tools — admin panels, dash
 ## User Flows
 
 ### Building a CRUD App
-1. Developer creates new app → blank canvas opens
-2. Creates Resource: connects to PostgreSQL database (host, credentials)
-3. Adds a SQL query: `SELECT * FROM users WHERE active = true`
-4. Drags Table component onto canvas → binds `data` property to query results
-5. Enables inline editing on table → adds "Save Changes" button
-6. Button triggers an update query: `UPDATE users SET name = {{table1.changesetObject.name}} WHERE id = {{table1.selectedRow.id}}`
-7. Adds Form component for creating new users → connected to INSERT query
-8. Deploys app → shares URL with team
+```
+Developer creates new app → blank canvas opens → Creates Resource: connects to PostgreSQL database (host, credentials) → Adds a SQL query: `SELECT * FROM users WHERE active = true` → Drags Table component onto canvas → binds `data` property to query results → Enables inline editing on table → adds "Save Changes" button → Button triggers an update query: `UPDATE users SET name = {{table1.changesetObject.name}} WHERE id = {{table1.selectedRow.id}}` → Adds Form component for creating new users → connected to INSERT query → Deploys app → shares URL with team
+```
 
 ### Connecting to Data Sources
-1. Admin navigates to Resources → "Create New"
-2. Selects resource type from 60+ integrations (PostgreSQL, MySQL, MongoDB, REST API, Stripe, Snowflake, etc.)
-3. Enters connection details (host, port, credentials, SSL)
-4. Tests connection → saves
-5. Resource available to all apps in the organization
-6. Permissions: restrict which groups can use which resources
+```
+Admin navigates to Resources → "Create New" → Selects resource type from 60+ integrations (PostgreSQL, MySQL, MongoDB, REST API, Stripe, Snowflake, etc.) → Enters connection details (host, port, credentials, SSL) → Tests connection → saves → Resource available to all apps in the organization → Permissions: restrict which groups can use which resources
+```
 
 ### Workflow Automation
-1. Developer creates Workflow → selects trigger (schedule: every hour, or webhook)
-2. Adds steps: Query (fetch data) → JS Transform (process) → Condition (if/else) → Query (write result)
-3. Each step can use different data sources
-4. Tests workflow with sample data
-5. Deploys → workflow runs automatically on trigger
-6. Monitors execution history for failures
+```
+Developer creates Workflow → selects trigger (schedule: every hour, or webhook) → Adds steps: Query (fetch data) → JS Transform (process) → Condition (if/else) → Query (write result) → Each step can use different data sources → Tests workflow with sample data → Deploys → workflow runs automatically on trigger → Monitors execution history for failures
+```
 
 ### Version Control & Deployment
-1. Developer edits app in edit mode → changes are auto-saved as draft
-2. Clicks "Deploy" → creates a new version (snapshot)
-3. End-users see the deployed version (not the draft)
-4. Can roll back to any previous version
-5. Git sync: optionally sync app JSON to GitHub for version control
+```
+Developer edits app in edit mode → changes are auto-saved as draft → Clicks "Deploy" → creates a new version (snapshot) → End-users see the deployed version (not the draft) → Can roll back to any previous version → Git sync: optionally sync app JSON to GitHub for version control
+```
 
 ## URL / Route Structure
 
@@ -166,3 +153,76 @@ Org-scoped subdomain. UUIDs for apps, workflows, and resources. Builder vs. pres
 - Environment variables: Secret values stored as Retool-managed environment variables
 - Self-hosted option: Run Retool on your own infrastructure for full data control
 - SOC 2 Type II, HIPAA compliant (Enterprise)
+
+## Component Library
+
+| Category | Components |
+|----------|-----------|
+| Layout | Container, Tabs, Modal, Drawer, Columns, Form |
+| Input | Text Input, Number, Date, Select, Multiselect, Checkbox, Radio, Slider, File Upload |
+| Display | Table, Text, Stat, JSON Viewer, Image, PDF Viewer, Map, Chart |
+| Action | Button, Form, Wizard (multi-step), Link |
+| Data | Table (with inline editing, sorting, filtering, pagination), List View, JSON Explorer |
+| Charts | Line, Bar, Pie, Scatter, Area (Plotly-based) |
+| Advanced | Code Editor, Rich Text Editor, Timer, iFrame, Custom Component |
+
+## Data Source Integrations
+
+| Category | Sources |
+|----------|---------|
+| Databases | PostgreSQL, MySQL, MongoDB, Redis, Snowflake, BigQuery, DynamoDB, Elasticsearch |
+| APIs | REST, GraphQL, gRPC, SOAP |
+| SaaS | Stripe, Twilio, SendGrid, Slack, GitHub, Salesforce, HubSpot |
+| Cloud | AWS S3, Google Cloud Storage, Azure Blob |
+| Auth | LDAP, SAML SSO, Google OAuth, Okta |
+
+## Query Types
+
+| Type | Description |
+|------|-------------|
+| SQL | Write raw SQL against connected databases |
+| REST API | Configure HTTP requests with method, URL, headers, body |
+| GraphQL | Write GraphQL queries and mutations |
+| JavaScript | Custom logic, data transformation, API orchestration |
+| Retool Database | Built-in PostgreSQL database (no external setup needed) |
+| Workflow | Multi-step automation triggered by events |
+
+## App Building Flow
+
+```
+Create App → Drag Components onto Canvas → Connect Data Source → Write Query → Bind Query Results to Table → Add Event Handlers → Test → Deploy → Share with Team
+```
+
+## Permission Model
+
+| Role | Build Apps | View Apps | Manage Resources | Admin |
+|------|-----------|-----------|-----------------|-------|
+| Admin | ✅ | ✅ | ✅ | ✅ |
+| Editor | ✅ | ✅ | Own resources | — |
+| User | — | ✅ (assigned apps) | — | — |
+| Viewer | — | ✅ (read-only) | — | — |
+
+## Workflows (Automation)
+
+- **Trigger types:** Webhook, cron schedule, manual, resource query
+- **Blocks:** Query, JavaScript, conditional, loop, response
+- **Error handling:** Try-catch blocks with retry logic
+- **Scheduling:** Cron expressions for recurring automation
+- **Monitoring:** Execution logs with input/output for each run
+
+## Retool Database
+
+- **Built-in PostgreSQL:** No external database setup needed for simple apps
+- **Schema editor:** Visual table creation and column management
+- **GUI editor:** Spreadsheet-like data editing directly in Retool
+- **API access:** Query Retool Database from external applications
+- **Import/Export:** CSV import for bulk data loading
+- **Relationships:** Foreign keys and joins between tables
+- **Permissions:** Row-level security policies
+
+## Mobile Apps
+
+- **Retool Mobile:** Build native iOS/Android apps with the same drag-and-drop builder
+- **Native components:** Camera, barcode scanner, GPS, push notifications
+- **Offline support:** Cache data and queue writes when offline
+- **App Store distribution:** Wrap in Retool Mobile container or build standalone

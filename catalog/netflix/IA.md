@@ -160,6 +160,8 @@ Title (Miniseries / Limited Series) → Episode 1, 2, 3...
 
 ## User Flows
 
+
+
 ### Browse and Watch
 ```
 Profile Select → Home → Scroll Rows → Hover Card (preview plays) → Click → Title Modal → Play → Auto-play Next Episode
@@ -194,6 +196,7 @@ Watch Title → Thumbs Up/Down/Love → Recommendation engine adjusts → Home r
 ```
 Profile Selector → Manage Profiles → Edit (name, avatar, maturity, language, autoplay) → Done → Profile Selector
 ```
+
 
 ## URL / Route Structure
 

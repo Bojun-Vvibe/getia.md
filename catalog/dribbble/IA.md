@@ -7,11 +7,11 @@ website: https://dribbble.com
 
 # Information Architecture — Dribbble
 
-## 1. Overview
+## Overview
 
 Dribbble is a design community and portfolio platform where designers share "shots" — small screenshots of their work — to showcase skills, find inspiration, and get hired. The IA is centered on a visual grid of shots with filtering by category, color, and tag, supported by a robust hiring marketplace connecting designers with teams. The platform serves as both a creative social network and a professional career platform.
 
-## 2. Site Map
+## Site Map
 
 ```
 Dribbble
@@ -75,7 +75,7 @@ Dribbble
     └── Overtime (podcast)
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 - **Type**: Top nav bar with mega dropdown
 - **Desktop Top Bar**: Logo (home), Explore, Hire Designers, Find Jobs, Blog | Search, Notifications, Upload, Profile
@@ -84,10 +84,10 @@ Dribbble
 - **Category Tabs**: Horizontal scrollable category chips on Explore
 - **Filtering**: Color picker, category dropdown, timeframe selector
 
-## 4. Content Model
+## Content Model
 
-| Content Type | Attributes | Relationships |
-|---|---|---|
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
 | Shot | image(s)/video/GIF, title, description, tags, category, color palette, views, likes, saves, comments, attachments | → Designer, → Collection, → Rebounds |
 | Rebound | inherits Shot + reference to parent shot (creative response) | → Parent Shot |
 | Collection | name, description, shots list, curator | → Shots, → User |
@@ -97,27 +97,33 @@ Dribbble
 | Comment | text, author, timestamp, likes | → Shot |
 | Tag | name | → Shots |
 
-## 5. User Flows
+## User Flows
 
 ### Showcasing Work
-1. Click "Upload" → Drag images/video → Add title, description, tags
-2. Select category → System extracts color palette automatically
-3. Publish → Shot appears in followers' feeds and category pages
-4. Community members like, comment, or create rebounds
+```
+Click "Upload" → Drag images/video → Add title, description, tags → Select category → System extracts color palette automatically → Publish → Shot appears in followers' feeds and category pages → Community members like, comment, or create rebounds
+```
 
 ### Finding Design Inspiration
-1. Browse Explore → Filter by category (e.g., "Mobile") + color (#FF5733)
-2. Scroll masonry grid → Hover to preview; click for full detail
-3. Save to Collection for future reference
-4. Follow designer for more of their work
+```
+Browse Explore → Filter by category (e.g., "Mobile") + color (#FF5733) → Scroll masonry grid → Hover to preview; click for full detail → Save to Collection for future reference → Follow designer for more of their work
+```
 
 ### Hiring a Designer
-1. Company visits "Hire Designers" → Search by specialty, location, availability
-2. Browse designer profiles → Review shots portfolio
-3. Click "Hire Me" → Send project brief through Dribbble
-4. Or post job on Jobs Board → Designers apply
+```
+Company visits "Hire Designers" → Search by specialty, location, availability → Browse designer profiles → Review shots portfolio → Click "Hire Me" → Send project brief through Dribbble → Or post job on Jobs Board → Designers apply
+```
 
-## 6. URL / Route Structure
+### Manage Notifications
+```
+Settings → Notifications → Toggle email/push/in-app per category → Set frequency (instant/daily digest/weekly) → Save preferences
+```
+### Share and Collaborate
+```
+Select item → Share → Enter email or copy link → Set permissions (view/edit/admin) → Send invitation → Collaborator receives notification → Opens shared item
+                                                                                                                                           ↘ Link expires or access revoked
+```
+## URL / Route Structure
 
 ```
 dribbble.com/                               # Home / explore
@@ -134,9 +140,15 @@ dribbble.com/jobs/{id}-{slug}               # Job detail
 dribbble.com/pro                            # Pro subscription
 dribbble.com/tags/{tag}                     # Tag browse page
 dribbble.com/stories                        # Blog / Courtside
+dribbble.com/settings  # Settings
+dribbble.com/billing  # Billing & subscription
+dribbble.com/notifications  # Notification preferences
+dribbble.com/help  # Help center
+dribbble.com/help/{topic}  # Help article
+dribbble.com/api  # API documentation
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 - **Global Search**: Shots, designers, teams, tags
 - **Shot Filters**: Category, color (hex picker), timeframe (now, past week, past month), made with (tool: Figma, Sketch, etc.)
@@ -146,7 +158,9 @@ dribbble.com/stories                        # Blog / Courtside
 - **Color Search**: Pick a color → find shots using that color palette
 - **Tag Browse**: Click any tag to see all shots with that tag
 
-## 8. Responsive Behavior
+- **Autocomplete**: Type-ahead suggestions with recent searches and popular results
+- **Advanced search**: Boolean operators (AND, OR, NOT), field-specific filters, date ranges
+## Responsive Behavior
 
 | Breakpoint | Behavior |
 |---|---|
@@ -155,7 +169,37 @@ dribbble.com/stories                        # Blog / Courtside
 | Desktop (1024–1440px) | 4 column shot grid; full top nav bar; shot detail as modal with sidebar |
 | Large Desktop (> 1440px) | 5-6 column shot grid; expanded filtering panel; wider modal |
 
-## 9. Access Control
+
+### Platform-Specific Patterns
+- Touch targets: minimum 44x44pt on mobile for accessibility
+- Swipe gestures: swipe to delete, archive, or perform quick actions
+- Pull-to-refresh: standard refresh pattern on feeds and lists
+- Keyboard shortcuts: comprehensive shortcuts on desktop for power users
+- Dark mode: system-preference detection with manual override
+- Offline support: cached data available without network connectivity
+- Progressive loading: skeleton screens while content loads
+
+### Dribbble-Specific UX Patterns
+- **Progressive disclosure**: Complex features hidden behind expandable sections
+- **Contextual actions**: Right-click menus and hover-revealed action buttons
+- **Inline editing**: Click-to-edit fields without navigating to a separate page
+- **Batch operations**: Multi-select with bulk actions (delete, move, archive, tag)
+- **Undo support**: Non-destructive actions with undo toast notifications
+- **Loading states**: Skeleton screens and progress indicators during async operations
+- **Empty states**: Helpful illustrations and CTAs when sections have no content
+- **Onboarding tooltips**: First-time user guidance highlighting key features
+
+### Accessibility
+- WCAG 2.1 AA compliance across all interactive elements
+- Semantic HTML with proper ARIA labels and landmarks
+- Keyboard navigation support for all core workflows
+- Screen reader compatibility tested with VoiceOver, NVDA, and JAWS
+- Color contrast ratios meeting minimum 4.5:1 for body text
+- Focus indicators visible on all interactive elements
+- Reduced motion option respecting `prefers-reduced-motion`
+- Resizable text up to 200% without content loss
+
+## Access Control
 
 | Role | Capabilities |
 |---|---|
@@ -165,3 +209,13 @@ dribbble.com/stories                        # Blog / Courtside
 | Team Account | Team profile, shared portfolio, member management, team shots |
 | Employer | Post jobs, search designer marketplace, contact designers |
 | Admin/Staff | Feature shots, curate "Popular" feed, moderate content |
+
+
+### Security Features
+- Single Sign-On (SSO) support via SAML 2.0 and OIDC (Team/Enterprise)
+- Two-factor authentication (TOTP, SMS, hardware keys)
+- API token management with scoped permissions
+- Session management: configurable timeout, forced logout
+- Audit logging for security-sensitive actions
+- Data encryption at rest (AES-256) and in transit (TLS 1.3)
+- SOC 2 Type II compliance

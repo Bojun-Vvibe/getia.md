@@ -83,17 +83,26 @@ make.com
 
 ## User Flows
 
-### 1. Build a Scenario
-`Scenarios → + New → Canvas → Add trigger module (e.g., Watch Gmail) → Connect → Add action module (e.g., Create Trello Card) → Map fields → Add filter/router if needed → Run Once to test → Turn On`
 
-### 2. Handle Errors
-`Module → Add Error Handler route → Choose strategy (Resume, Commit, Rollback, Ignore, Break) → Configure fallback action`
+### Build a Scenario
+```
+Scenarios → + New → Canvas → Add trigger module (e.g., Watch Gmail) → Connect → Add action module (e.g., Create Trello Card) → Map fields → Add filter/router if needed → Run Once to test → Turn On
+```
 
-### 3. Use Data Stores
-`Data Stores → + New → Define structure (fields) → In scenario, add "Search/Add/Update/Delete Data Store Record" modules`
+### Handle Errors
+```
+Module → Add Error Handler route → Choose strategy (Resume, Commit, Rollback, Ignore, Break) → Configure fallback action
+```
 
-### 4. Debug a Failed Run
-`Scenario → History → Click failed run → Inspect each module's input/output bubbles → Identify error → Fix mapping → Re-run`
+### Use Data Stores
+```
+Data Stores → + New → Define structure (fields) → In scenario, add "Search/Add/Update/Delete Data Store Record" modules
+```
+
+### Debug a Failed Run
+```
+Scenario → History → Click failed run → Inspect each module's input/output bubbles → Identify error → Fix mapping → Re-run
+```
 
 ## URL / Route Structure
 
@@ -107,6 +116,17 @@ make.com/{org}/datastores/{id}              # Data store records
 make.com/{org}/templates                    # Templates
 make.com/{org}/custom-apps                  # Custom apps
 make.com/{org}/organization/members         # Team members
+make.com/{org}/scenarios/{id}/log                   # Execution log
+make.com/{org}/scenarios/{id}/blueprint              # Scenario blueprint (JSON)
+make.com/{org}/keys                                  # API keys
+make.com/{org}/webhooks                              # Webhooks
+make.com/{org}/devices                               # Devices
+make.com/{org}/organization/billing                  # Billing
+make.com/{org}/organization/security                 # Security settings
+make.com/en/apps                                     # App directory
+make.com/en/templates/{category}                     # Template categories
+make.com/en/academy                                  # Make Academy
+make.com/en/integrations/{app}                       # App integration page
 ```
 
 ## Search & Filter
@@ -136,3 +156,68 @@ make.com/{org}/organization/members         # Team members
 | Team Member | Create/edit scenarios within team, use shared connections |
 | Team Monitor | View scenarios and history, cannot edit |
 | Custom Role | Granular permissions per resource type (Enterprise) |
+
+## Module Types
+
+| Type | Purpose | Example |
+|------|---------|---------|
+| Trigger | Starts scenario execution | Watch new emails in Gmail |
+| Action | Performs an operation | Create a row in Google Sheets |
+| Search | Finds existing records | Search contacts in HubSpot |
+| Aggregator | Combines multiple items into one | Merge array into CSV |
+| Iterator | Splits an array into individual items | Process each line item |
+| Router | Branches execution into multiple paths | Route based on status field |
+| Filter | Controls which items continue | Only process priority: high |
+| Error Handler | Catches and handles errors | Retry, ignore, or notify on failure |
+| Transformer | Modifies data format | Parse JSON, format dates, math |
+
+## Scenario Scheduling
+
+- **Interval:** Every 1-60 minutes (or longer)
+- **Cron expression:** Fine-grained scheduling (Enterprise)
+- **Webhook-triggered:** Instant execution on incoming HTTP request
+- **On-demand:** Manual run only
+- **Sequential:** Wait for previous run to complete before starting next
+- **Operations quota:** Each action consumes one operation; tracked per billing cycle
+
+## Data Mapping
+
+- **Formula editor:** Built-in functions (text, math, date, array, crypto)
+- **Variable picker:** Click to insert output from any previous module
+- **Iterator index:** Access current item index in loops
+- **Error variables:** Access error details in error handler routes
+- **Custom variables:** Store and reuse values across module chain
+
+## Execution Model
+
+- **Real-time processing:** Webhook-triggered scenarios execute immediately
+- **Polling:** Scheduled scenarios check for new data at set intervals
+- **Parallel execution:** Multiple scenarios can run simultaneously
+- **Sequential guarantee:** Individual scenario runs are sequential within that scenario
+- **Rate limiting:** Respects target app API limits with automatic retry
+- **Data size limits:** 50MB per execution; larger files handled via URL references
+- **Execution timeout:** 40 minutes max per single run
+
+## Pricing Model
+
+| Plan | Operations/mo | Active Scenarios | Price |
+|------|--------------|-----------------|-------|
+| Free | 1,000 | 2 | $0 |
+| Core | 10,000 | Unlimited | $9/mo |
+| Pro | 10,000+ | Unlimited | $16/mo |
+| Teams | Custom | Unlimited | $29/mo |
+| Enterprise | Custom | Unlimited | Custom |
+
+## Error Handling Strategies
+
+- **Resume:** Skip the failed bundle, continue with next
+- **Commit:** Process all successful bundles, stop on error
+- **Rollback:** Revert all changes if any bundle fails
+- **Ignore:** Suppress error, continue execution
+- **Break:** Pause scenario, allow manual resolution
+
+## Integration Count
+
+- **1,800+ apps** available as modules
+- **Categories:** CRM, Marketing, E-commerce, Project Management, Finance, DevOps, Communication, AI/ML
+- **Custom apps:** Build private modules using Make SDK

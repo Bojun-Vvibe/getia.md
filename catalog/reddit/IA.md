@@ -234,40 +234,43 @@ Q&A (OP replies and highly scored answers)
 
 ## User Flows
 
-### Browse and Read
+
+
+### Browse and Engage
 ```
 Home → Feed (Hot) → Scroll → Click Post → Read → Expand Comment Thread → Upvote Helpful Comment → Back to Feed
 ```
 
-### Post and Discuss
+### Post to Subreddit
 ```
 Subreddit → Create Post → Select Type (Text) → Write Title + Body → Add Flair → Post → Others Comment → Reply to Comments
 ```
 
-### Discover Communities
+### Join a Community
 ```
 Popular → See Trending Post → Check Subreddit → Read Rules + Top Posts → Join → Subreddit Appears in Home Feed
 ```
 
-### Deep Comment Dive
+### Deep-Thread Discussion
 ```
 Post → Comment Section → Expand Thread → Read Nested Replies → "Continue This Thread →" → Deeper Discussion
 ```
 
-### Cross-Post
+### Crosspost Content
 ```
 See Great Post → Share → Crosspost to Another Subreddit → Add Title → Post → Credits Original
 ```
 
-### Moderation
+### Moderate Content
 ```
 Mod Queue → Review Reported Post → Check Against Rules → Remove (with reason) / Approve → Mod Log Updated
 ```
 
-### AMA (Ask Me Anything)
+### AMA Participation
 ```
 r/IAmA or r/AMA → Celebrity/Expert Posts AMA → Community Asks Questions → OP Answers (distinguished) → Best Q&As Voted Up
 ```
+
 
 ## URL / Route Structure
 

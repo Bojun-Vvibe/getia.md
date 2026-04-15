@@ -97,17 +97,26 @@ mailchimp.com
 
 ## User Flows
 
-### 1. Send an Email Campaign
-`Campaigns → + Create → Email → Select Audience/Segment → Design email (drag-and-drop) → Add subject & preview text → Test send → Schedule or Send Now`
 
-### 2. Build a Customer Journey
-`Automations → + Create Journey → Choose starting point (e.g., "Signed up") → Add delay → Add email → Add if/else condition → Add another email → Activate`
+### Send an Email Campaign
+```
+Campaigns → + Create → Email → Select Audience/Segment → Design email (drag-and-drop) → Add subject & preview text → Test send → Schedule or Send Now
+```
 
-### 3. Grow Audience
-`Audience → Signup Forms → Customize embedded form or pop-up → Copy embed code → Place on website → New signups flow into audience → Auto-tagged`
+### Build a Customer Journey
+```
+Automations → + Create Journey → Choose starting point (e.g., "Signed up") → Add delay → Add email → Add if/else condition → Add another email → Activate
+```
 
-### 4. Analyze Campaign Performance
-`Analytics → Select campaign → View opens, clicks, click map (heatmap on email), revenue → Compare against industry benchmarks → Export report`
+### Grow Audience
+```
+Audience → Signup Forms → Customize embedded form or pop-up → Copy embed code → Place on website → New signups flow into audience → Auto-tagged
+```
+
+### Analyze Campaign Performance
+```
+Analytics → Select campaign → View opens, clicks, click map (heatmap on email), revenue → Compare against industry benchmarks → Export report
+```
 
 ## URL / Route Structure
 
@@ -121,6 +130,17 @@ us{dc}.admin.mailchimp.com/lists/segments?id={audience_id} # Segments
 us{dc}.admin.mailchimp.com/reports/                       # Reports
 us{dc}.admin.mailchimp.com/landing-pages/                 # Landing pages
 {audience_slug}.mailchimpsites.com/                       # Published landing page
+us{dc}.admin.mailchimp.com/account/                       # Account settings
+us{dc}.admin.mailchimp.com/account/billing/                # Billing
+us{dc}.admin.mailchimp.com/account/users/                  # Users management
+us{dc}.admin.mailchimp.com/audience/                       # Audience dashboard
+us{dc}.admin.mailchimp.com/audience/contacts/              # All contacts
+us{dc}.admin.mailchimp.com/lists/signup-forms/             # Signup forms
+us{dc}.admin.mailchimp.com/content/                        # Content studio
+us{dc}.admin.mailchimp.com/integrations/                   # Integrations
+us{dc}.admin.mailchimp.com/website/                        # Website builder
+us{dc}.admin.mailchimp.com/automations/                    # Automations
+mailchimp.com/pricing/                                     # Pricing page
 ```
 
 ## Search & Filter
@@ -150,3 +170,57 @@ us{dc}.admin.mailchimp.com/landing-pages/                 # Landing pages
 | Author | Create campaigns (cannot send), manage content |
 | Viewer | Read-only access to reports and campaigns |
 | API Key | Programmatic access with full or limited scope |
+
+## Automation Triggers
+
+| Trigger | Example Use Case |
+|---------|-----------------|
+| Signup | Welcome email series for new subscribers |
+| Purchase | Post-purchase follow-up and cross-sell |
+| Abandoned cart | Remind shoppers to complete checkout |
+| Date-based | Birthday or anniversary campaigns |
+| Tag applied | Segment-specific drip sequences |
+| API event | Custom triggers from application events |
+
+## Email Builder Components
+
+- **Content blocks:** Text, image, button, divider, social links, video, product
+- **Layout blocks:** 1-column, 2-column, 3-column, full-width
+- **Dynamic content:** Show/hide blocks based on audience segment or merge tag
+- **Code editor:** Direct HTML/CSS editing for custom designs
+- **Template library:** 100+ pre-designed templates by category
+- **A/B testing:** Subject line, sender name, content, send time variants
+- **Preview:** Desktop, mobile, and dark mode previews; inbox rendering test
+
+## Deliverability & Compliance
+
+- **SPF/DKIM/DMARC:** Domain authentication required for sending
+- **Engagement tracking:** Opens, clicks, bounces, unsubscribes per campaign
+- **List hygiene:** Automatic cleaning of hard bounces and repeated soft bounces
+- **CAN-SPAM compliance:** Unsubscribe link mandatory in all campaigns
+- **GDPR tools:** Consent tracking, data export, right to deletion
+- **Abuse prevention:** Send rate limits, content scanning, account review for high complaint rates
+- **Deliverability score:** Inbox placement prediction before sending
+
+## Key Metrics Dashboard
+
+| Metric | Description |
+|--------|-------------|
+| Open Rate | % of delivered emails opened (affected by Apple MPP) |
+| Click Rate | % of delivered emails with at least one click |
+| Bounce Rate | % hard + soft bounces relative to sends |
+| Unsubscribe Rate | % unsubscribes per campaign |
+| Revenue Attribution | Revenue tracked via e-commerce integration |
+| List Growth Rate | New subscribers minus unsubscribes over time |
+
+## Integration Ecosystem
+
+| Category | Integrations |
+|----------|-------------|
+| E-commerce | Shopify, WooCommerce, Magento, BigCommerce, Squarespace |
+| CRM | Salesforce, HubSpot, Zoho, Pipedrive |
+| Social | Facebook, Instagram, Twitter, LinkedIn |
+| Analytics | Google Analytics, Facebook Pixel |
+| Forms | Typeform, Gravity Forms, WordPress |
+| Productivity | Zapier, Make, Slack, Microsoft 365 |
+| Development | REST API, Webhooks, OAuth 2.0 |

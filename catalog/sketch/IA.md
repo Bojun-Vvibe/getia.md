@@ -7,10 +7,10 @@ website: https://www.sketch.com
 
 # Information Architecture — Sketch
 
-## 1. Overview
+## Overview
 Sketch is a macOS-native vector design tool for UI/UX design, known for pioneering **Symbols** (reusable components), **Libraries** (shared design systems), and the artboard-based workflow that became the standard for digital design. The IA spans the **Mac app** (core design tool), **Sketch Cloud** (collaboration, prototyping, handoff), and the **marketing website**. Sketch differentiates from Figma by being Mac-native (faster performance) and offering a one-time license option alongside subscription.
 
-## 2. Site Map
+## Site Map
 
 ```
 sketch.com
@@ -105,7 +105,7 @@ Sketch Cloud (Web)
     └── Devices
 ```
 
-## 3. Navigation Model
+## Navigation Model
 
 | Level | Type | Details |
 |-------|------|---------|
@@ -117,52 +117,44 @@ Sketch Cloud (Web)
 
 **Key pattern**: Sketch's Mac app uses the classic "layers panel + canvas + inspector" three-pane layout that defined modern design tools. Sketch Cloud mirrors this layout for web-based viewing and handoff.
 
-## 4. Content Model
+## Content Model
 
-| Entity | Attributes |
-|--------|-----------|
-| Document | name, pages, artboards, Symbols, version history, shared flag, workspace |
-| Page | name, artboards, layers |
-| Artboard | name, size, layers, prototype links, export settings |
-| Symbol | name, overrides (text, image, nested), Smart Layout, library source |
-| Library | name, document source, Symbols, Color Variables, Text Styles, Layer Styles, consumers |
-| Color Variable | name, hex/RGBA, usage count |
-| Text Style | name, font, size, weight, line height, color |
-| Comment | author, artboard, position (x,y), text, resolved flag, timestamp |
-| Prototype Link | source artboard, target artboard, trigger (click/hover), animation |
-| Plugin | name, author, description, version, download URL |
+| Entity | Key Attributes | Relationships |
+|--------|---------------|---------------|
+| Document | name, pages, artboards, Symbols, version history, shared flag, workspace | — |
+| Page | name, artboards, layers | — |
+| Artboard | name, size, layers, prototype links, export settings | — |
+| Symbol | name, overrides (text, image, nested), Smart Layout, library source | — |
+| Library | name, document source, Symbols, Color Variables, Text Styles, Layer Styles, consumers | — |
+| Color Variable | name, hex/RGBA, usage count | — |
+| Text Style | name, font, size, weight, line height, color | — |
+| Comment | author, artboard, position (x,y), text, resolved flag, timestamp | — |
+| Prototype Link | source artboard, target artboard, trigger (click/hover), animation | — |
+| Plugin | name, author, description, version, download URL | — |
 
-## 5. User Flows
+## User Flows
 
-### 5a. Design a UI screen
-1. Open Sketch → new document → create artboard (iPhone 16, Desktop, etc.)
-2. Draw shapes, add text, insert images
-3. Use Symbols for reusable components (buttons, cards, nav bars)
-4. Apply Smart Layout → components resize responsively
-5. Organize layers → name artboards → save to Cloud
+### Design a UI screen
+```
+Open Sketch → new document → create artboard (iPhone 16, Desktop, etc.) → Draw shapes, add text, insert images → Use Symbols for reusable components (buttons, cards, nav bars) → Apply Smart Layout → components resize responsively → Organize layers → name artboards → save to Cloud
+```
 
-### 5b. Collaborate & review
-1. Upload document to Sketch Cloud (auto-save or manual)
-2. Share link with stakeholders → they view in browser
-3. Stakeholders add comments on specific artboards/positions
-4. Designer addresses feedback → update document
-5. Version history tracks all changes
+### Collaborate & review
+```
+Upload document to Sketch Cloud (auto-save or manual) → Share link with stakeholders → they view in browser → Stakeholders add comments on specific artboards/positions → Designer addresses feedback → update document → Version history tracks all changes
+```
 
-### 5c. Developer handoff
-1. Developer opens shared document in Sketch Cloud
-2. Switch to Inspect mode → click any element
-3. View properties (dimensions, spacing, colors, typography)
-4. Copy code snippets (CSS, Swift, React Native)
-5. Download assets (PNG, SVG, PDF) at 1x/2x/3x
+### Developer handoff
+```
+Developer opens shared document in Sketch Cloud → Switch to Inspect mode → click any element → View properties (dimensions, spacing, colors, typography) → Copy code snippets (CSS, Swift, React Native) → Download assets (PNG, SVG, PDF) at 1x/2x/3x
+```
 
-### 5d. Design system with Libraries
-1. Create a Library document (Symbols, Colors, Text Styles)
-2. Share Library across workspace
-3. Team members use Library Symbols in their documents
-4. Update Symbol in Library → consumers see "Library Update Available"
-5. Accept updates → changes propagate across all documents
+### Design system with Libraries
+```
+Create a Library document (Symbols, Colors, Text Styles) → Share Library across workspace → Team members use Library Symbols in their documents → Update Symbol in Library → consumers see "Library Update Available" → Accept updates → changes propagate across all documents
+```
 
-## 6. URL / Route Structure
+## URL / Route Structure
 
 ```
 # sketch.com (marketing)
@@ -188,7 +180,7 @@ Sketch Cloud (Web)
 /settings/                      → Workspace settings
 ```
 
-## 7. Search & Filter
+## Search & Filter
 
 | Feature | Behavior |
 |---------|----------|
@@ -200,7 +192,7 @@ Sketch Cloud (Web)
 | Symbol search | Find Symbols in Library by name |
 | Blog search | By keyword, release version |
 
-## 8. Responsive Behavior
+## Responsive Behavior
 
 | Breakpoint | Adaptation |
 |-----------|------------|
@@ -210,7 +202,7 @@ Sketch Cloud (Web)
 | Mac app | Fixed layout, responsive Inspector panel, resizable sidebars |
 | Sketch Cloud | Responsive viewer — adapts panel layout, but optimized for desktop |
 
-## 9. Access Control
+## Access Control
 
 | Role | Access |
 |------|--------|
@@ -223,3 +215,19 @@ Sketch Cloud (Web)
 | Plugin Developer | Plugin API, development tools, submission to directory |
 | Business Plan | SSO, advanced permissions, priority support |
 | Internal | Infrastructure, plugin review, community management |
+
+## Plugin Ecosystem
+
+- **1000+ plugins** available via Sketch plugin directory
+- **Popular plugins:** Stark (accessibility), Anima (export to code), Content Generator, Craft
+- **Plugin development:** JavaScript/CocoaScript API
+- **Plugin manager:** Install, update, and manage from Sketch Preferences
+
+## Version History
+
+| Version | Key Feature |
+|---------|-------------|
+| Sketch 100 (2024) | Variable fonts, enhanced prototyping |
+| Sketch 99 | AI-powered features, Smart Layout improvements |
+| Sketch 98 | Color variables, style overrides |
+| Sketch 97 | Real-time collaboration improvements |

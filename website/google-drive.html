@@ -238,6 +238,12 @@ application/vnd.google-apps.drawing     → Google Drawings
 <h3>Find Old File</h3>
 <pre><code>Search bar → Type query → Filter by type/date/owner → Click result → Preview or Open
 </code></pre>
+<h3>Share and Collaborate</h3>
+<pre><code>Right-click file → Share → Add people or groups → Set permission (Viewer/Commenter/Editor) → Send notification → Collaborators access file → Real-time co-editing
+</code></pre>
+<h3>Offline Access Setup</h3>
+<pre><code>Settings → Offline → Enable offline access → Select files to make available offline → Files sync locally → Edit offline → Changes sync when back online
+</code></pre>
 <h2>URL / Route Structure</h2>
 <pre><code>/drive/my-drive            → My Drive
 /drive/folders/:id         → Folder
@@ -252,6 +258,26 @@ application/vnd.google-apps.drawing     → Google Drawings
 /file/d/:fileId/view       → File preview
 /file/d/:fileId/edit       → Open in editor
 /drive/settings            → Settings
+/drive/my-drive                # My Drive root
+/drive/folders/{id}            # Folder view
+/drive/shared-drives           # Shared Drives list
+/drive/shared-drives/{id}      # Specific Shared Drive
+/drive/shared-with-me          # Shared with Me
+/drive/recent                  # Recent files
+/drive/starred                 # Starred files
+/drive/trash                   # Trash
+/drive/spam                    # Spam
+/drive/search?q={query}        # Search results
+/drive/quota                   # Storage usage
+/drive/settings                # Settings
+/drive/priority                # Priority/Home page
+/drive/computers               # Synced computers
+/drive/workspaces              # Workspaces
+/file/d/{fileId}/view          # File preview
+/file/d/{fileId}/edit          # Open in editor
+/file/d/{fileId}/revisions     # Version history
+/file/d/{fileId}/sharing       # Sharing settings
+/drive/u/{n}/                  # Multi-account switch
 </code></pre>
 <h2>Search &amp; Filter</h2>
 <table>
@@ -275,9 +301,18 @@ application/vnd.google-apps.drawing     → Google Drawings
 </tbody></table>
 <h3>Search Features</h3>
 <ul>
-<li>Full-text search inside documents</li>
-<li>OCR search (text in images)</li>
-<li>Natural language (&quot;my presentations from last week&quot;)</li>
+<li><p>Full-text search inside documents</p>
+</li>
+<li><p>OCR search (text in images)</p>
+</li>
+<li><p>Natural language (&quot;my presentations from last week&quot;)</p>
+</li>
+<li><p><strong>Natural Language Search</strong>: Google Drive supports queries like &#39;my presentations from last week&#39;</p>
+</li>
+<li><p><strong>Content Search</strong>: Full-text search inside documents, spreadsheets, and PDFs</p>
+</li>
+<li><p><strong>Image OCR Search</strong>: Text recognition within images for search indexing</p>
+</li>
 </ul>
 <h2>Responsive Behavior</h2>
 <table>
@@ -300,6 +335,33 @@ application/vnd.google-apps.drawing     → Google Drawings
 <td>Bottom tabs (Home, Starred, Shared, Files), list view</td>
 </tr>
 </tbody></table>
+<h3>Platform-Specific UX</h3>
+<ul>
+<li>Google-format files (Docs, Sheets, Slides, Forms) count zero storage against quota</li>
+<li>Priority/Home page uses AI to surface files you&#39;re likely to need based on activity patterns</li>
+<li>Shortcuts (symlinks) allow files to appear in multiple folders without duplication</li>
+<li>Version history with named versions enables tracking changes over time</li>
+<li>Shared Drives (team-owned) persist files even when members leave the organization</li>
+<li>OCR search finds text within images and scanned documents automatically</li>
+<li>Activity panel shows file activity history — edits, shares, views, and downloads</li>
+<li>Right-click context menu provides quick access to sharing, moving, and file management</li>
+<li>Storage breakdown shows usage across Drive, Gmail, and Google Photos</li>
+<li>Drive Desktop app offers both streaming (on-demand) and mirroring (full sync) modes</li>
+<li>Clean-up suggestions identify large files and orphaned content to free storage</li>
+<li>Multi-account support (personal + workspace) with easy switching via account avatar</li>
+</ul>
+<h3>File Actions (Context Menu)</h3>
+<pre><code>Share              → Set permissions and send notification
+Get Link           → Copy shareable link with access level
+Move to            → Relocate to different folder
+Add Shortcut       → Create shortcut in another folder
+Make a Copy        → Duplicate file
+Download           → Export file to local storage
+Rename             → Change file name
+Make Available Offline → Enable offline access
+Version History    → View and restore previous versions
+Open With          → Launch in connected apps
+</code></pre>
 <h2>Access Control</h2>
 <table>
 <thead>

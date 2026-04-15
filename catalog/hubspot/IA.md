@@ -116,6 +116,19 @@ hubspot.com
 ### 4. Build a Custom Report
 `Reporting → + Create Report → Choose data source (Contacts, Deals, etc.) → Add filters → Select chart type → Save to Dashboard`
 
+
+### Workflow Automation
+
+```
+Automation → Workflows → Create → Set enrollment trigger (form submission, property change) → Add actions (send email, update property, create task, delay) → Test → Activate
+```
+
+### Contact Record Deep Dive
+
+```
+CRM → Contact → Open record → View timeline (emails, calls, page views, form submissions) → See associated deals and tickets → Add note → Create task → Log call
+```
+
 ## URL / Route Structure
 
 ```
@@ -127,6 +140,21 @@ app.hubspot.com/workflows/{portal_id}/                    # Workflows
 app.hubspot.com/reports-dashboard/{portal_id}/{dash_id}   # Dashboard
 app.hubspot.com/knowledge/{portal_id}/                    # Knowledge base
 app.hubspot.com/settings/{portal_id}/                     # Settings
+app.hubspot.com/contacts/{portal_id}/objects/companies    # Companies list
+app.hubspot.com/contacts/{portal_id}/company/{id}         # Company record
+app.hubspot.com/contacts/{portal_id}/objects/tickets       # Tickets list
+app.hubspot.com/contacts/{portal_id}/ticket/{id}          # Ticket record
+app.hubspot.com/contacts/{portal_id}/lists                 # Lists
+app.hubspot.com/social/{portal_id}/                        # Social media
+app.hubspot.com/ads/{portal_id}/                           # Ads management
+app.hubspot.com/content/{portal_id}/blog                   # Blog editor
+app.hubspot.com/content/{portal_id}/landing-pages          # Landing pages
+app.hubspot.com/sequences/{portal_id}/                     # Sales sequences
+app.hubspot.com/meetings/{portal_id}/                      # Meeting links
+app.hubspot.com/quotes/{portal_id}/                        # Quotes
+app.hubspot.com/forecasts/{portal_id}/                     # Forecasting
+app.hubspot.com/academy/                                    # HubSpot Academy
+app.hubspot.com/ecosystem/{portal_id}/marketplace          # App Marketplace
 ```
 
 ## Search & Filter
@@ -137,6 +165,9 @@ app.hubspot.com/settings/{portal_id}/                     # Settings
 - **Report filters:** Cross-object filtering with date ranges, attribution models
 - **CRM record search:** Search within timeline activity for a specific contact/company
 
+- **Activity search**: Search within contact/company timeline for specific interactions
+- **Email search**: Search marketing emails by subject, campaign, status (sent/draft/scheduled)
+- **Template search**: Find email templates, landing page templates by name or category
 ## Responsive Behavior
 
 | Breakpoint | Behavior |
@@ -144,6 +175,41 @@ app.hubspot.com/settings/{portal_id}/                     # Settings
 | Desktop (1280px+) | Full Hub navigation + CRM record with timeline + sidebar properties |
 | Tablet (768–1279px) | Responsive layout; some tools require desktop for full functionality |
 | Mobile app (iOS/Android) | CRM access (contacts, deals, tasks), call/email logging, notifications; limited Marketing/CMS features |
+
+
+### Platform-Specific UX
+- Hub-and-spoke architecture: CRM is the center, each Hub adds domain-specific tools
+- Contact timeline aggregates all interactions (emails, calls, page views, form submissions, deals) in one view
+- Smart Lists dynamically update membership based on property-based filter criteria
+- Workflow automation supports complex IF/THEN branching with delays and conditional splits
+- Deal pipeline provides drag-and-drop Kanban board for sales stage management
+- Attribution reporting traces revenue back to specific marketing touchpoints
+- Meeting links generate shareable booking pages synced with calendar availability
+- Global search (Cmd+K) traverses all objects — contacts, companies, deals, tickets, content
+- Property system (custom fields) is configurable per object type with picklists, checkboxes, etc.
+- A/B testing for emails and landing pages with statistical significance calculation
+- Sequences automate personalized email cadences for sales outreach
+
+### Integration Points
+- App Marketplace with 1500+ integrations (Salesforce, Slack, Zoom, Mailchimp, etc.)
+- HubSpot API provides full CRUD operations across all CRM and marketing objects
+- Native Salesforce integration enables bi-directional CRM sync
+- Webhook-based automation connects with external systems for event-driven workflows
+
+
+### Deal Pipeline Stages (Default)
+```
+Appointment Scheduled → Qualified to Buy → Presentation Scheduled → Decision Maker Bought-In → Contract Sent → Closed Won / Closed Lost
+```
+
+### CRM Object Hierarchy
+```
+Company (1) → has many → Contacts (N)
+Contact (1) → has many → Deals (N)
+Deal    (1) → has many → Line Items (N)
+Contact (1) → has many → Tickets (N)
+Any object  → has many → Activities (calls, emails, meetings, notes)
+```
 
 ## Access Control
 
