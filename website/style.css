@@ -178,6 +178,7 @@ body.menu-open .mobile-nav {
   font-weight: 800;
   line-height: 1.05;
   letter-spacing: -2px;
+  margin-left: -3px;
   font-family: var(--font-mono);
   background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
   -webkit-background-clip: text;
@@ -667,6 +668,9 @@ body.menu-open .mobile-nav {
 .footer-inner {
   max-width: 600px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .footer-logo {
