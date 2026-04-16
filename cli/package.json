@@ -1,0 +1,28 @@
+{
+  "name": "getia",
+  "version": "1.0.0",
+  "description": "Download Information Architecture (IA.md) files for popular products",
+  "bin": {
+    "getia": "./bin/getia.js"
+  },
+  "keywords": [
+    "information-architecture",
+    "ia",
+    "design",
+    "ux",
+    "product-design",
+    "cli"
+  ],
+  "author": "Bojun Chai",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Bojun-Vvibe/getia.md"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "files": [
+    "bin/"
+  ]
+}
