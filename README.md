@@ -6,6 +6,8 @@
 
 Drop an `IA.md` into your project. Your AI agent builds with proven navigation, page hierarchy, content models, and user flows — instead of guessing.
 
+For AI-native builders, `IA.md` acts like a missing structural input layer: not just prompt text, but a reusable product map your agent can actually build from.
+
 Website: [getia-md.github.io](https://getia-md.github.io) | GitHub: [getia-md/getia-md.github.io](https://github.com/getia-md/getia-md.github.io)
 
 ---
@@ -13,6 +15,8 @@ Website: [getia-md.github.io](https://getia-md.github.io) | GitHub: [getia-md/ge
 ## What is IA.md?
 
 An `IA.md` file describes the **information architecture** of a real-world product — its sitemap, navigation model, content entities, user flows, routes, and more. It gives AI coding agents (Claude Code, Cursor, v0, Copilot) the structural context they need to scaffold apps that feel like real products, not generic templates.
+
+Think of it as a reusable product blueprint for agent-driven building: something between a sitemap, a product spec, and a scaffolding contract.
 
 Each file is reverse-engineered from a production app, distilled into a standardized 9-section format.
 
@@ -32,6 +36,16 @@ mv IA.md ./IA.md
 ```
 
 Or browse and copy from the [catalog](./catalog) directly.
+
+### Why this works better than prompting from scratch
+
+Without structure, AI coding agents usually improvise:
+- flat page hierarchies
+- weak navigation patterns
+- generic CRUD screens
+- missing user flows
+
+With `IA.md`, the agent starts from a stronger default: real route structure, real entities, real navigation, and real product shape.
 
 ---
 
